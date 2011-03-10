@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CTestViewController : UIViewController {
+@interface CModelViewController : UIViewController {
     
 }
 
