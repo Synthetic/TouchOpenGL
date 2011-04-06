@@ -146,7 +146,7 @@
     else if (inGestureRecognizer.state == UIGestureRecognizerStateChanged)
         {
         CGPoint center = self.arcBallCenter;
-        CGPoint relativePoint = CGPointMake(thePoint.x - center.x, thePoint.y - center.y);
+        CGPoint relativePoint = CGPointMake(center.x - thePoint.x, center.y - thePoint.y);
         [self.arcBall dragTo:relativePoint];
         
         self.gestureRotation = QuaternionMultiply(self.savedRotation, self.arcBall.rotation);
