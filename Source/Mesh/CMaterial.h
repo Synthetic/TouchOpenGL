@@ -12,7 +12,7 @@
 
 @class CTexture;
 
-@interface CMaterial : NSObject {
+@interface CMaterial : NSObject <NSCopying> {
     
 }
 

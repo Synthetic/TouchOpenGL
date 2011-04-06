@@ -24,9 +24,11 @@
 	{
 	if ((self = [super init]) != NULL)
 		{
-        ambientColor = (Color4f){ 0.5, 0.5, 0.5, 1.0 };
-        diffuseColor = (Color4f){ 0.5, 0.5, 0.5, 1.0 };
-        specularColor = (Color4f){ 0.5, 0.5, 0.5, 1.0 };
+        const GLfloat kRGB = 1.0;
+        
+        ambientColor = (Color4f){ kRGB, kRGB, kRGB, 1.0 };
+        diffuseColor = (Color4f){ kRGB, kRGB, kRGB, 1.0 };
+        specularColor = (Color4f){ kRGB, kRGB, kRGB, 1.0 };
         shininess = 1.0;
         alpha = 1.0;
 		}
@@ -47,6 +49,18 @@
 - (NSString *)description
     {
     return([NSString stringWithFormat:@"%@ (%@)", [super description], self.name]);
+    }
+
+- (id)copyWithZone:(NSZone *)zone;
+    {
+    CMaterial *theCopy = [[CMaterial alloc] init];
+    theCopy.name = self.name;
+    theCopy.ambientColor = self.ambientColor;
+    theCopy.diffuseColor = self.diffuseColor;
+    theCopy.specularColor = self.specularColor;
+    theCopy.shininess = self.shininess;
+    theCopy.alpha = self.alpha;
+    return(theCopy);
     }
 
 @end
