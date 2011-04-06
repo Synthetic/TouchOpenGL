@@ -22,10 +22,6 @@ logger = logging.getLogger()
 
 ########################################################################
 
-Vector3 = collections.namedtuple('Vector3', ['x', 'y', 'z'])
-
-########################################################################
-
 def grouper(n, iterable, padvalue=None):
     "grouper(3, 'abcdefg', 'x') --> ('a','b','c'), ('d','e','f'), ('g','x','x')"
     return izip_longest(*[iter(iterable)]*n, fillvalue=padvalue)
@@ -44,6 +40,8 @@ def iter_flatten(iterable):
 			yield e
 
 ########################################################################
+#### INPUT
+########################################################################
 
 class Material(object):
 	def __init__(self, name = None):
@@ -59,6 +57,11 @@ class Material(object):
 
 	def __repr__(self):
 		return('Material (%s)' % (self.name))
+
+########################################################################
+
+class Surface(object):
+	pass
 
 ########################################################################
 
@@ -150,13 +153,6 @@ class OBJParser(object):
 				raise Exception('Parse error')
 			theVerb, theParameters = theMatch.groups()[0], theMatch.groups()[2]
 
-
-# 			theMatch = re.match('^([a-z_]+) +(.*)$', theLine)
-# 			if not theMatch:
-# 				print theLine
-# 				raise Exception('Parse error')
-# 			theVerb, theParameters = theMatch.groups()
-
 			try:
 				if theVerb == 'mtllib':
 					thePath = os.path.join(os.path.split(self.inputFile.name)[0], theParameters)
@@ -166,9 +162,6 @@ class OBJParser(object):
 						theMaterialFile = file(thePath)
 						theParser = MTLParser(theMaterialFile)
 						theCurrentMaterialLibrary = theParser.materials
-				elif theVerb == 'g':
-# 					theCurrentGroups = theParameters.split(' ')
-					pass
 				elif theVerb == 'usemtl':
 					if theCurrentMaterialLibrary:
 						theCurrentMaterial = theCurrentMaterialLibrary[theParameters]
@@ -181,7 +174,7 @@ class OBJParser(object):
 				elif theVerb == 'f':
 					theVertices = []
 					theVertexIndices = re.split(' +', theParameters)
-					assert len(theVertexIndices) == 3
+					assert len(theVertexIndices) == 3 ### TODO this should be moved to output not input
 					for theVertex in theVertexIndices:
 						theIndices = tuple(theVertex.split('/'))
 						thePositionsIndex, theTexCoordIndex, theNormalsIndex = None, None, None
@@ -223,54 +216,20 @@ class OBJParser(object):
 		self.faces = theFaces
 
 ########################################################################
+#### OUTPUT
+########################################################################
 
-class Tool(object):
-	@property
-	def argparser(self):
-		if not hasattr(self, '_argparser'):
-			argparser = argparse.ArgumentParser()
-			argparser.add_argument('-i', '--input', action='store', dest='input', type=argparse.FileType(), default = None, metavar='INPUT',
-				help='The input file (type is inferred by file extension).')
-			argparser.add_argument('--input-type', action='store', dest='input_type', type=str, metavar='INPUT_TYPE',
-				help='The input file type (overides file extension if any).')
-			argparser.add_argument('-o', '--output', action='store', dest='output', type=argparse.FileType('w'), default = None, metavar='OUTPUT',
-				help='Output directory for generated files.')
-			argparser.add_argument('--output-type', action='store', dest='output_type', type=str, metavar='INPUT_TYPE',
-				help='The output file type (overides file extension if any).')
-			argparser.add_argument('--pretty', action='store_const', const=True, default=False, metavar='PRETTY',
-				help='Prettify the output (where possible).')
+class MeshWriter(object):
 
-			argparser.add_argument('-v', '--verbose', action='store_const', dest='loglevel', const=logging.INFO, default=logging.WARNING,
-				help='set the log level to INFO')
-			argparser.add_argument('--loglevel', action='store', dest='loglevel', type=int,
-				help='set the log level, 0 = no log, 10+ = level of logging')
-			argparser.add_argument('--logfile', dest='logstream', type = argparse.FileType('w'), default = sys.stderr, action="store", metavar='LOG_FILE',
-				help='File to log messages to. If - or not provided then stdout is used.')
+	def main(self, faces, input, output):
 
-			argparser.add_argument('args', nargs='*')
-			self._argparser = argparser
-		return self._argparser
+		self.faces = faces
 
-	def parse(self):
-		pass
+		self.input = input
+		self.output = output
 
-	def main(self, args):
-
-		self.options = self.argparser.parse_args(args = args)
-
-		for theHandler in logger.handlers:
-			logger.removeHandler(theHandler)
-
-		logger.setLevel(logging.DEBUG)
-
-		theHandler = logging.StreamHandler(self.options.logstream)
-		logger.addHandler(theHandler)
-
-		theParser = OBJParser(self.options.input)
-		theParser.main()
-
-		self.inputRoot = os.path.split(self.options.input.name)[0]
-		self.outputRoot = os.path.split(self.options.output.name)[0]
+		self.inputRoot = os.path.split(self.input.name)[0]
+		self.outputRoot = os.path.split(self.output.name)[0]
 
 		################################################################
 
@@ -283,13 +242,13 @@ class Tool(object):
 			'boundingbox': None,
 			}
 
-		theParser.faces.sort(key = lambda X:X.material)
+		self.faces.sort(key = lambda X:X.material)
 
-		print len(theParser.faces)
+		print len(self.faces)
 
 		#### Group Faces by material ################################
 		theFacesByMaterial = collections.defaultdict(list)
-		for p in theParser.faces:
+		for p in self.faces:
 			theFacesByMaterial[p.material].append(p)
 
 		#### Produce Bounding Box ######################################
@@ -369,7 +328,7 @@ class Tool(object):
 				theBuffer = list(iter_flatten(theVertices))
 				theBuffer = numpy.array(theBuffer, dtype=numpy.float32)
 				theBuffer = geometries.VBO(theBuffer)
-				theBuffer.write(os.path.split(self.options.output.name)[0])
+				theBuffer.write(os.path.split(self.output.name)[0])
 
 				d['buffers'][theBuffer.signature.hexdigest()] = dict(target = 'GL_ARRAY_BUFFER', usage = 'GL_STATIC_DRAW', href = '%s.vbo' % (theBuffer.signature.hexdigest()))
 
@@ -411,7 +370,7 @@ class Tool(object):
 
 				theBuffer = numpy.array(xrange(0,len(theVertices)), dtype=numpy.uint16)
 				theBuffer = geometries.VBO(theBuffer)
-				theBuffer.write(os.path.split(self.options.output.name)[0])
+				theBuffer.write(os.path.split(self.output.name)[0])
 
 				d['buffers'][theBuffer.signature.hexdigest()] = dict(target = 'GL_ELEMENT_ARRAY_BUFFER', usage = 'GL_STATIC_DRAW', href = '%s.vbo' % (theBuffer.signature.hexdigest()))
 
@@ -437,9 +396,60 @@ class Tool(object):
 
 				d['geometries'].append(theGeometry)
 
-		plistlib.writePlist(d, self.options.output)
+		plistlib.writePlist(d, self.output)
 
-		########################################################################
+
+########################################################################
+#### COMMAND LINE TOOL
+########################################################################
+
+class Tool(object):
+	@property
+	def argparser(self):
+		if not hasattr(self, '_argparser'):
+			argparser = argparse.ArgumentParser()
+			argparser.add_argument('-i', '--input', action='store', dest='input', type=argparse.FileType(), default = None, metavar='INPUT',
+				help='The input file (type is inferred by file extension).')
+			argparser.add_argument('--input-type', action='store', dest='input_type', type=str, metavar='INPUT_TYPE',
+				help='The input file type (overides file extension if any).')
+			argparser.add_argument('-o', '--output', action='store', dest='output', type=argparse.FileType('w'), default = None, metavar='OUTPUT',
+				help='Output directory for generated files.')
+			argparser.add_argument('--output-type', action='store', dest='output_type', type=str, metavar='INPUT_TYPE',
+				help='The output file type (overides file extension if any).')
+			argparser.add_argument('--pretty', action='store_const', const=True, default=False, metavar='PRETTY',
+				help='Prettify the output (where possible).')
+
+			argparser.add_argument('-v', '--verbose', action='store_const', dest='loglevel', const=logging.INFO, default=logging.WARNING,
+				help='set the log level to INFO')
+			argparser.add_argument('--loglevel', action='store', dest='loglevel', type=int,
+				help='set the log level, 0 = no log, 10+ = level of logging')
+			argparser.add_argument('--logfile', dest='logstream', type = argparse.FileType('w'), default = sys.stderr, action="store", metavar='LOG_FILE',
+				help='File to log messages to. If - or not provided then stdout is used.')
+
+			argparser.add_argument('args', nargs='*')
+			self._argparser = argparser
+		return self._argparser
+
+	def parse(self):
+		pass
+
+	def main(self, args):
+
+		self.options = self.argparser.parse_args(args = args)
+
+		for theHandler in logger.handlers:
+			logger.removeHandler(theHandler)
+
+		logger.setLevel(logging.DEBUG)
+
+		theHandler = logging.StreamHandler(self.options.logstream)
+		logger.addHandler(theHandler)
+
+		theParser = OBJParser(self.options.input)
+		theParser.main()
+
+		MeshWriter().main(theParser.faces, self.options.input, self.options.output)
+
 
 def main(args):
 	Tool().main(args)
@@ -451,4 +461,4 @@ if __name__ == '__main__':
 		os.chdir(theRootDir)
 
 #	Tool().main(shlex.split('tool --input Input/Skull.obj --output Output/Skull.model.plist'))
-	Tool().main(shlex.split('tool --input /Users/schwa/Dropbox/Projects/OpenGL/Samples/OBJ\\ Files/Untested/Liberty/Liberty.obj --output /Users/schwa/Desktop/Test/Test.model.plist'))
+	Tool().main(shlex.split('tool --input /Users/schwa/Dropbox/Projects/OpenGL/Samples/OBJ\\ Files/Untested/Liberty/Liberty.obj --output /Users/schwa/.Trash/Test.model.plist'))
