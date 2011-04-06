@@ -112,7 +112,7 @@ class MTLParser(object):
 			elif theVerb == 'map_Kd':
 				theCurrentMaterial.map_Kd = theParameters
 			else:
-				print 'Unknown verb: %s' % theVerb
+				print 'Unknown verb: %s' % theLine
 
 		self.materials = theMaterials
 
@@ -183,7 +183,14 @@ class OBJParser(object):
 					theVertexIndices = re.split(' +', theParameters)
 					assert len(theVertexIndices) == 3
 					for theVertex in theVertexIndices:
-						thePositionsIndex, theTexCoordIndex, theNormalsIndex = tuple(theVertex.split('/'))
+						theIndices = tuple(theVertex.split('/'))
+						thePositionsIndex, theTexCoordIndex, theNormalsIndex = None, None, None
+						if len(theIndices) == 1:
+							thePositionsIndex, = theIndices
+						elif len(theIndices) == 2:
+							thePositionsIndex, theTexCoordIndex, = theIndices
+						elif len(theIndices) == 3:
+							thePositionsIndex, theTexCoordIndex, theNormalsIndex = theIndices
 
 						thePositionsIndex = (int(thePositionsIndex) - 1) if thePositionsIndex else None
 						theTexCoordIndex = (int(theTexCoordIndex) - 1) if theTexCoordIndex else None
@@ -206,7 +213,8 @@ class OBJParser(object):
 
 					thePolygons.append(thePolygon)
 				else:
-					print 'Unknown verb: ', theVerb
+					print 'Unknown verb: ', theLine
+
 			except:
 				print 'Failed on line:'
 				print theLine
