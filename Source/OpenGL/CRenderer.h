@@ -26,5 +26,7 @@
 - (void)render;
 - (void)postrender;
 
+- (void)setNeedsSetup;
+
 @end
 

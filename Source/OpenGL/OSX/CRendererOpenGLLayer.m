@@ -11,7 +11,6 @@
 #import "CRenderer.h"
 
 @interface CRendererOpenGLLayer ()
-@property (readwrite, nonatomic, assign) BOOL setup;
 @end
 
 #pragma mark -
@@ -19,8 +18,6 @@
 @implementation CRendererOpenGLLayer
 
 @synthesize renderer;
-
-@synthesize setup;
 
 - (id)init
     {
@@ -75,11 +72,7 @@
     {
     CGLSetCurrentContext(ctx);
     
-    if (self.setup == NO)
-        {
-        [self.renderer setup];
-        self.setup = YES;
-        }
+    [self.renderer setup];
     
     self.renderer.size = (SIntSize){ .width = self.bounds.size.width, .height = self.bounds.size.height };
     

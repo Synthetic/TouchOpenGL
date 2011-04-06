@@ -11,6 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface CRenderer ()
+@property (readwrite, nonatomic, assign) BOOL needsSetup;
 @end
 
 #pragma mark -
@@ -20,11 +21,14 @@
 @synthesize size;
 @synthesize projectionTransform;
 
+@synthesize needsSetup;
+
 - (id)init
     {
     if ((self = [super init]))
         {
         projectionTransform = Matrix4Identity;
+        needsSetup = YES;
         }
 
     return self;
@@ -53,6 +57,8 @@
     glDepthFunc(GL_LEQUAL);
 
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+    
+    self.needsSetup = NO;
     }
 
 - (void)clear
@@ -62,6 +68,11 @@
 
 - (void)prerender
     {
+    if (self.needsSetup == NO)
+        {
+        [self setup];
+        }
+    
     [self clear];
     }
 
@@ -73,4 +84,10 @@
     {
     }
 
+
+- (void)setNeedsSetup
+    {
+    self.needsSetup = YES;
+    }
+    
 @end

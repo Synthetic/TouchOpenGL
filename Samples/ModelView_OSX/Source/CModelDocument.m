@@ -132,6 +132,10 @@
         self.lightX = self.renderer.light.position.x;
         self.lightY = self.renderer.light.position.y;
         self.lightZ = self.renderer.camera.position.z;
+        
+        [self addObserver:self forKeyPath:@"renderer.light.ambientColor" options:0 context:NULL];
+        [self addObserver:self forKeyPath:@"renderer.light.diffuseColor" options:0 context:NULL];
+        [self addObserver:self forKeyPath:@"renderer.light.specularColor" options:0 context:NULL];
         }
     return self;
     }
@@ -140,6 +144,10 @@
     {
     [mainView release];
     [renderer release];
+
+    [self removeObserver:self forKeyPath:@"renderer.light.ambientColor"];
+    [self removeObserver:self forKeyPath:@"renderer.light.diffuseColor"];
+    [self removeObserver:self forKeyPath:@"renderer.light.specularColor"];
     //
     [super dealloc];
     }
@@ -314,6 +322,11 @@
         Matrix4MakeScale(self.scale, self.scale, self.scale),
         Matrix4FromQuaternion(QuaternionSetEuler(DegreesToRadians(self.yaw), DegreesToRadians(self.pitch), DegreesToRadians(self.roll)))
         );
+    }
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
+    {
+    [self.renderer setNeedsSetup];
     }
 
 @end
