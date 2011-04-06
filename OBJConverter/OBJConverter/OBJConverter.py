@@ -62,7 +62,7 @@ class Material(object):
 
 ########################################################################
 
-class Polygon(object):
+class Face(object):
 	def __init__(self):
 		self.material = None
 		self.vertexIndices = [None, None, None]
@@ -70,7 +70,7 @@ class Polygon(object):
 		self.texCoordIndices = [None, None]
 
 	def __repr__(self):
-		return('Polygon (%s, %s, %s, %s)' % (self.material, self.vertexIndices, self.normalIndices, self.texCoordIndices))
+		return('Face (%s, %s, %s, %s)' % (self.material, self.vertexIndices, self.normalIndices, self.texCoordIndices))
 
 ########################################################################
 
@@ -133,7 +133,7 @@ class OBJParser(object):
 		self.texCoords = []
 		self.normals = []
 
-		thePolygons = []
+		theFaces = []
 
 		theLines = [theLine for theLine in self.inputFile.readlines()]
 		theLines = [theLine.strip() for theLine in theLines]
@@ -200,18 +200,18 @@ class OBJParser(object):
 
 						theVertices.append(theIndices)
 
-					thePolygon = Polygon()
-					thePolygon.material = theCurrentMaterial
-					thePolygon.vertexIndices = [x[0] for x in theVertices]
-					thePolygon.texCoordIndices = [x[1] for x in theVertices]
-					thePolygon.normalIndices = [x[2] for x in theVertices]
+					theFace = Face()
+					theFace.material = theCurrentMaterial
+					theFace.vertexIndices = [x[0] for x in theVertices]
+					theFace.texCoordIndices = [x[1] for x in theVertices]
+					theFace.normalIndices = [x[2] for x in theVertices]
 
-					thePolygon.positions = [self.positions[i] for i in thePolygon.vertexIndices]
-					thePolygon.texCoords = [self.texCoords[i] for i in thePolygon.texCoordIndices if i]
-					thePolygon.normals = [self.normals[i] for i in thePolygon.normalIndices if i]
+					theFace.positions = [self.positions[i] for i in theFace.vertexIndices]
+					theFace.texCoords = [self.texCoords[i] for i in theFace.texCoordIndices if i]
+					theFace.normals = [self.normals[i] for i in theFace.normalIndices if i]
 
 
-					thePolygons.append(thePolygon)
+					theFaces.append(theFace)
 				else:
 					print 'Unknown verb: ', theLine
 
@@ -220,7 +220,7 @@ class OBJParser(object):
 				print theLine
 				raise
 
-		self.polygons = thePolygons
+		self.faces = theFaces
 
 ########################################################################
 
@@ -283,19 +283,21 @@ class Tool(object):
 			'boundingbox': None,
 			}
 
-		theParser.polygons.sort(key = lambda X:X.material)
+		theParser.faces.sort(key = lambda X:X.material)
 
-		#### Group polygons by material ################################
-		thePolygonsByMaterial = collections.defaultdict(list)
-		for p in theParser.polygons:
-			thePolygonsByMaterial[p.material].append(p)
+		print len(theParser.faces)
+
+		#### Group Faces by material ################################
+		theFacesByMaterial = collections.defaultdict(list)
+		for p in theParser.faces:
+			theFacesByMaterial[p.material].append(p)
 
 		#### Produce Bounding Box ######################################
 		theMin = [None, None, None]
 		theMax = [None, None, None]
-		for theMaterial in thePolygonsByMaterial:
-			thePolygons = thePolygonsByMaterial[theMaterial]
-			for p in thePolygons:
+		for theMaterial in theFacesByMaterial:
+			theFaces = theFacesByMaterial[theMaterial]
+			for p in theFaces:
 				for v in p.positions:
 					for n in xrange(0,3):
 						if not theMin[n]:
@@ -321,7 +323,7 @@ class Tool(object):
 		d['transform'] = theTransform
 
 		#### Process materials #########################################
-		for theMaterial in thePolygonsByMaterial:
+		for theMaterial in theFacesByMaterial:
 			m = dict()
 			if theMaterial:
 				if theMaterial.ambientColor:
@@ -345,23 +347,23 @@ class Tool(object):
 				d['materials'][theMaterial.name] = m
 
 		#### Process meshes ############################################
-		for theMaterial, thePolygons in thePolygonsByMaterial.items():
+		for theMaterial, theFaces in theFacesByMaterial.items():
 
 			theHasTextureFlag = True if theMaterial.map_Kd else False
 
-			for theSubpolygons in grouper(10920, thePolygons):
+			for theSubFaces in grouper(10920, theFaces):
 				theVertices = []
 
-				theSubpolygons = [thePolygon for thePolygon in theSubpolygons if thePolygon]
+				theSubFaces = [theFace for theFace in theSubFaces if theFace]
 
-				for thePolygon in theSubpolygons:
+				for theFace in theSubFaces:
 					# TODO assumes triangles`
 					for N in xrange(0, 3):
 						theVertexBuffer = []
-						theVertexBuffer.append(list(thePolygon.positions[N]))
-						theVertexBuffer.append(list(thePolygon.normals[N] if N < len(thePolygon.normals) else (0.0, 0.0, 0.0)))
+						theVertexBuffer.append(list(theFace.positions[N]))
+						theVertexBuffer.append(list(theFace.normals[N] if N < len(theFace.normals) else (0.0, 0.0, 0.0)))
 						if theHasTextureFlag:
-							theVertexBuffer.append(list(thePolygon.texCoords[N] if N < len(thePolygon.texCoords) else (0.0,0.0)))
+							theVertexBuffer.append(list(theFace.texCoords[N] if N < len(theFace.texCoords) else (0.0,0.0)))
 						theVertices.append(theVertexBuffer)
 
 				theBuffer = list(iter_flatten(theVertices))
@@ -427,7 +429,7 @@ class Tool(object):
 					positions = thePositions,
 					normals = theNormals,
 					material = theMaterial.name,
-					triangle_count = len(theSubpolygons) / 3,
+					triangle_count = len(theSubFaces) / 3,
 					)
 
 				if theHasTextureFlag:
