@@ -10,11 +10,15 @@
 
 #import "Quaternion.h"
 
+#define ENABLE_MOTION_ROTATION 0
+
 @interface CInteractiveRendererView : CRendererView {
     
 }
 
+#if ENABLE_MOTION_ROTATION
 @property (readwrite, nonatomic, assign) Quaternion motionRotation;
+#endif
 @property (readwrite, nonatomic, assign) Quaternion gestureRotation;
 @property (readwrite, nonatomic, assign) Quaternion savedRotation;
 @property (readwrite, nonatomic, assign) CGFloat scale;

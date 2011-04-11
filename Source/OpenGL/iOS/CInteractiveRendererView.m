@@ -18,7 +18,9 @@
 @interface CInteractiveRendererView ()
 @property (readwrite, nonatomic, retain) CArcBall *arcBall;
 @property (readwrite, nonatomic, assign) CGPoint arcBallCenter;
+#if ENABLE_MOTION_ROTATION
 @property (readwrite, nonatomic, retain) CMMotionManager *motionManager;
+#endif
 
 - (void)pinch:(UIPinchGestureRecognizer *)inGestureRecognizer;
 - (void)pan:(UIPanGestureRecognizer *)inGestureRecognizer;
@@ -26,13 +28,15 @@
 
 @implementation CInteractiveRendererView
 
-@synthesize motionRotation;
 @synthesize gestureRotation;
 @synthesize savedRotation;
 @synthesize scale;
 @synthesize arcBall;
 @synthesize arcBallCenter;
+#if ENABLE_MOTION_ROTATION
+@synthesize motionRotation;
 @synthesize motionManager;
+#endif
 
 - (id)initWithFrame:(CGRect)inFrame;
     {    
@@ -48,9 +52,11 @@
 
         UIPanGestureRecognizer *thePanGestureRecognizer = [[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)] autorelease];
         [self addGestureRecognizer:thePanGestureRecognizer];
-        
+
+#if ENABLE_MOTION_ROTATION
         motionManager = [[CMMotionManager alloc] init];
         [motionManager startDeviceMotionUpdates];
+#endif
 
         savedRotation = QuaternionIdentity;
         }
@@ -72,9 +78,11 @@
 
         UIPanGestureRecognizer *thePanGestureRecognizer = [[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)] autorelease];
         [self addGestureRecognizer:thePanGestureRecognizer];
-        
+
+#if ENABLE_MOTION_ROTATION
         motionManager = [[CMMotionManager alloc] init];
         [motionManager startDeviceMotionUpdates];
+#endif
 
         savedRotation = QuaternionIdentity;
         }
@@ -86,24 +94,28 @@
     {
     [arcBall release];
     arcBall = NULL;
-    
+
+#if ENABLE_MOTION_ROTATION
     [motionManager release];
     motionManager = NULL;
+#endif
     //
     [super dealloc];
     }
 
 - (void)render
     {
-    CMDeviceMotion *theDeviceMotion = self.motionManager.deviceMotion;		
-
+#if ENABLE_MOTION_ROTATION
+    CMDeviceMotion *theDeviceMotion = self.motionManager.deviceMotion;
     CMQuaternion theCMRotation = theDeviceMotion.attitude.quaternion;
-    
     self.motionRotation = (Quaternion){ theCMRotation.x, theCMRotation.y, theCMRotation.z, theCMRotation.w };
+#endif
 
     Matrix4 theTransform = Matrix4MakeScale(self.scale, self.scale, self.scale);
 
+#if ENABLE_MOTION_ROTATION
     theTransform = Matrix4Concat(Matrix4FromQuaternion(self.motionRotation), theTransform);
+#endif
     theTransform = Matrix4Concat(Matrix4FromQuaternion(self.gestureRotation), theTransform);
     
     ((COBJRenderer *)self.renderer).modelTransform = theTransform;
