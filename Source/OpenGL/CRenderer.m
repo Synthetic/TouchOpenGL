@@ -68,7 +68,7 @@
 
 - (void)prerender
     {
-    if (self.needsSetup == NO)
+    if (self.needsSetup == YES)
         {
         [self setup];
         }
