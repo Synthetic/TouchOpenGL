@@ -23,6 +23,10 @@
 #import "CLight.h"
 #import "CCamera.h"
 
+#define USE_PERSPECTIVE 0
+#define DRAW_AXES 0
+#define DRAW_BOUNDING_BOX 0
+
 @interface COBJRenderer ()
 @property (readwrite, nonatomic, retain) CProgram *lightingProgram;
 @end
@@ -159,15 +163,18 @@
         self.light.position = (Vector4) { 0.0f, 0.0f, -10.0f, 0.0f };
     }
 
-    self.projectionTransform = Matrix4Identity;
-    Vector4 theCameraVector = self.camera.position;
-    
-    Matrix4 theCameraTransform = Matrix4MakeTranslation(theCameraVector.x, theCameraVector.y, theCameraVector.z);
-    
     GLfloat theAspectRatio = (GLfloat)self.size.width / (GLfloat)self.size.height;
-    
-    Matrix4 theOrthoTransform = Matrix4Perspective(90, theAspectRatio, 0.1, 100);
-    self.projectionTransform = Matrix4Concat(theCameraTransform, theOrthoTransform);
+
+#if USE_PERSPECTIVE
+    Vector4 theCameraVector = self.camera.position;
+    Matrix4 theCameraTransform = Matrix4MakeTranslation(theCameraVector.x, theCameraVector.y, theCameraVector.z);
+    Matrix4 theProjectionTransform = Matrix4Perspective(90, theAspectRatio, 0.1, 100);
+    self.projectionTransform = Matrix4Concat(theCameraTransform, theProjectionTransform);
+#else
+    const float radius = 8.0f;
+    const float X = radius * theAspectRatio;
+    self.projectionTransform = Matrix4Ortho(-X, X, -radius, radius, -radius, radius);
+#endif
     }
 
 - (void)render
@@ -177,15 +184,18 @@
     Matrix4 theModelTransform = modelTransform;
     Matrix4 theProjectionTransform = self.projectionTransform;
 
+#if DRAW_AXES
     [self drawAxes:theModelTransform];
+#endif
     
-	Vector3 P1 = self.mesh.p1;
-	Vector3 P2 = self.mesh.p2;
-
 	Vector3 theCenter = self.mesh.center;
 	theModelTransform = Matrix4Concat(Matrix4MakeTranslation(-theCenter.x, -theCenter.y, -theCenter.z), theModelTransform);
 
+#if DRAW_BOUNDING_BOX
+	Vector3 P1 = self.mesh.p1;
+	Vector3 P2 = self.mesh.p2;
     [self drawBoundingBox:theModelTransform v1:P1 v2:P2];
+#endif
 
 	// #### Use shader program
 	CProgram *theProgram = self.lightingProgram;
