@@ -117,7 +117,8 @@
         };
     
     // TODO conditionalize
-    theDesiredSize.width = theDesiredSize.height = MAX(theDesiredSize.width, theDesiredSize.height);
+
+    theDesiredSize.width = theDesiredSize.height = MIN(MAX(theDesiredSize.width, theDesiredSize.height), 2048.0);
     
     if (theModel == kCGColorSpaceModelRGB && theAlphaInfo == kCGImageAlphaLast && theBitsPerComponent == 8 && theSize.width == theDesiredSize.width && theSize.height == theDesiredSize.height)
         {
