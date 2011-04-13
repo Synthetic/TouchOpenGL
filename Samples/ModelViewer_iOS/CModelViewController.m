@@ -47,22 +47,40 @@
 
 - (IBAction)click:(id)inSender;
     {
-    UIActionSheet *theActionSheet = [[[UIActionSheet alloc] initWithTitle:NULL delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:NULL otherButtonTitles:@"Front", @"Back", @"Left", @"Right", @"Top", @"Bottom", NULL] autorelease];
+    UIActionSheet *theActionSheet = [[[UIActionSheet alloc] initWithTitle:NULL delegate:self cancelButtonTitle:NULL destructiveButtonTitle:NULL otherButtonTitles:NULL] autorelease];
+    
+    
+    
+    NSArray *theContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[NSBundle mainBundle] resourcePath] error:NULL];
+    for (NSString *thePath in theContents)
+        {
+        if ([thePath rangeOfString:@".model.plist"].location != NSNotFound)
+            {
+            NSLog(@"%@", thePath);
+            [theActionSheet addButtonWithTitle:thePath];
+            
+            }
+        }
+    
+    
     [theActionSheet showFromRect:[self.view convertRect:[inSender frame] toView:self.view] inView:self.view animated:YES];
     }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
     {
     #pragma unused (actionSheet)
-    NSLog(@"TEST: %d", buttonIndex);
-    if (buttonIndex == 0)
-        {
-//        self.rendererView.transform = Matrix4Identity;
-//        
-//        self.rendererView.motionRotation = QuaternionIdentity;
-//        self.rendererView.gestureRotation = QuaternionIdentity;
-//        self.rendererView.savedRotation = QuaternionIdentity;
-        }
+
+    NSString *theFilename = [actionSheet buttonTitleAtIndex:buttonIndex];
+
+    NSURL *theURL = [[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:theFilename];
+    
+    CMeshLoader *theLoader = [[[CMeshLoader alloc] init] autorelease];
+    CMesh *theMesh = [theLoader loadMeshWithURL:theURL error:NULL];
+    
+//    COBJRenderer *theRenderer = [[[COBJRenderer alloc] init] autorelease];
+//    theRenderer.mesh = theMesh;
+    
+    ((COBJRenderer *)self.rendererView.renderer).mesh = theMesh;
     }
 
 @end
