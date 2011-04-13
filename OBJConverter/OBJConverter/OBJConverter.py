@@ -180,15 +180,6 @@ class OBJParser(object):
                         theIndices = theVertex.split('/')
                         theIndices[len(theIndices):] = [None, None, None][:3 - len(theIndices)]
                         thePositionsIndex, theTexCoordIndex, theNormalsIndex = theIndices
-
-
-#                       if len(theIndices) == 1:
-#                           thePositionsIndex, = theIndices
-#                       elif len(theIndices) == 2:
-#                           thePositionsIndex, theTexCoordIndex, = theIndices
-#                       elif len(theIndices) == 3:
-#                           thePositionsIndex, theTexCoordIndex, theNormalsIndex = theIndices
-#
                         thePositionsIndex = (int(thePositionsIndex) - 1) if thePositionsIndex else None
                         theTexCoordIndex = (int(theTexCoordIndex) - 1) if theTexCoordIndex else None
                         theNormalsIndex = (int(theNormalsIndex) - 1) if theNormalsIndex else None
@@ -206,7 +197,6 @@ class OBJParser(object):
                     theFace.positions = [self.positions[i] for i in theFace.vertexIndices]
                     theFace.texCoords = [self.texCoords[i] for i in theFace.texCoordIndices if i]
                     theFace.normals = [self.normals[i] for i in theFace.normalIndices if i]
-
 
                     theFaces.append(theFace)
                 else:

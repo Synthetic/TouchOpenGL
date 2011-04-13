@@ -252,8 +252,7 @@
         theUniform = [theProgram uniformIndexForName:@"u_cameraPosition"];
         if (theUniform != 0)
             {
-            Vector4 theCameraPosition = self.camera.position;
-            
+            Vector4 theCameraPosition = self.camera.position;            
             glUniform4fv(theUniform, 1, &theCameraPosition.x);
             }
 
@@ -263,7 +262,6 @@
             if (theUniform != 0)
                 {
                 glActiveTexture(GL_TEXTURE0);
-                //                    NSAssert(theMaterial.texture.name != 0, @"No texture to bind");
                 glBindTexture(GL_TEXTURE_2D, theMaterial.texture.name);
                 glUniform1i(theUniform, 0);
                 }
