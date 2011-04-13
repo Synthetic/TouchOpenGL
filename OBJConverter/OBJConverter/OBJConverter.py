@@ -466,7 +466,6 @@ class Tool(object):
 
         theParser = OBJParser(self.options.input)
         theParser.main()
-
         MeshWriter().main(theParser.faces, self.options.input, self.options.output)
 
 def main(args):
