@@ -324,7 +324,10 @@ class MeshWriter(object):
                     theInputPath = os.path.join(self.inputRoot, theMaterial.texture)
                     theOutputPath = os.path.join(self.outputRoot, os.path.split(theMaterial.texture)[1])
 
-                    shutil.copyfile(theInputPath, theOutputPath)
+                    if os.path.exists(theOutputPath):
+                        print 'Warning: file might exist already at path: %s' % theOutputPath
+                    else:
+                        shutil.copyfile(theInputPath, theOutputPath)
 
                     m['texture'] = os.path.split(theMaterial.texture)[1]
 
