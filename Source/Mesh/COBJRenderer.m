@@ -268,6 +268,15 @@
                 glUniform1i(theUniform, 0);
                 }
             }
+        else
+            {
+            theUniform = [theProgram uniformIndexForName:@"s_texture0"];
+            if (theUniform != 0)
+                {
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, 0);
+                }
+            }
 
         // #### Vertices
         [theGeometry.vertexArrayBuffer bind];
