@@ -286,16 +286,16 @@ class MeshWriter(object):
                             theMax[n] = max(theMax[n], v[n])
             theCenter = [(theMin[N] + theMax[N]) * 0.5 for N in xrange(0, 3)]
 
-        theTransform = [
-            [1, 0, 0, theCenter[0]],
-            [0, 1, 0, theCenter[1]],
-            [0, 0, 1, theCenter[2]],
-            [0, 0, 0, 1],
-            ]
+#         theTransform = [
+#             [1, 0, 0, 0],
+#             [0, 1, 0, 0],
+#             [0, 0, 1, 0],
+#             [theCenter[0], theCenter[1], theCenter[2], 1],
+#             ]
+#         d['transform'] = theTransform
 
         d['center'] = theCenter
         d['boundingbox'] = [theMin, theMax]
-        d['transform'] = theTransform
 
         #### Process materials #########################################
         for theMaterial in theFacesByMaterial:
