@@ -16,6 +16,16 @@
 @synthesize p1, p2;
 @synthesize transform;
 
+- (id)init
+	{
+	if ((self = [super init]) != NULL)
+		{
+        transform = Matrix4Identity;
+		}
+	return(self);
+	}
+
+
 - (void)dealloc
     {
     [geometries release];
