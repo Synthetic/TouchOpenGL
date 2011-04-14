@@ -45,8 +45,6 @@
 		45991F5B13414E9B00604591 /* Quaternion.m in Sources */ = {isa = PBXBuildFile; fileRef = 45991F2B13414E9B00604591 /* Quaternion.m */; };
 		45991F5C13414E9B00604591 /* Flat.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 45991F2D13414E9B00604591 /* Flat.fsh */; };
 		45991F5D13414E9B00604591 /* Flat.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 45991F2E13414E9B00604591 /* Flat.vsh */; };
-		45991F5E13414E9B00604591 /* Flat2.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 45991F2F13414E9B00604591 /* Flat2.fsh */; };
-		45991F5F13414E9B00604591 /* Flat2.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 45991F3013414E9B00604591 /* Flat2.vsh */; };
 		45991F6013414E9B00604591 /* Lighting.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 45991F3113414E9B00604591 /* Lighting.fsh */; };
 		45991F6113414E9B00604591 /* Lighting.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 45991F3213414E9B00604591 /* Lighting.vsh */; };
 		45991F6213414E9B00604591 /* SimpleTexture.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 45991F3313414E9B00604591 /* SimpleTexture.fsh */; };
@@ -142,8 +140,6 @@
 		45991F2B13414E9B00604591 /* Quaternion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quaternion.m; sourceTree = "<group>"; };
 		45991F2D13414E9B00604591 /* Flat.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Flat.fsh; sourceTree = "<group>"; };
 		45991F2E13414E9B00604591 /* Flat.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Flat.vsh; sourceTree = "<group>"; };
-		45991F2F13414E9B00604591 /* Flat2.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Flat2.fsh; sourceTree = "<group>"; };
-		45991F3013414E9B00604591 /* Flat2.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Flat2.vsh; sourceTree = "<group>"; };
 		45991F3113414E9B00604591 /* Lighting.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Lighting.fsh; sourceTree = "<group>"; };
 		45991F3213414E9B00604591 /* Lighting.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Lighting.vsh; sourceTree = "<group>"; };
 		45991F3313414E9B00604591 /* SimpleTexture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SimpleTexture.fsh; sourceTree = "<group>"; };
@@ -336,8 +332,6 @@
 			children = (
 				45991F2D13414E9B00604591 /* Flat.fsh */,
 				45991F2E13414E9B00604591 /* Flat.vsh */,
-				45991F2F13414E9B00604591 /* Flat2.fsh */,
-				45991F3013414E9B00604591 /* Flat2.vsh */,
 				45991F3113414E9B00604591 /* Lighting.fsh */,
 				45991F3213414E9B00604591 /* Lighting.vsh */,
 				45991F3313414E9B00604591 /* SimpleTexture.fsh */,
@@ -447,8 +441,6 @@
 			files = (
 				45991F5C13414E9B00604591 /* Flat.fsh in Resources */,
 				45991F5D13414E9B00604591 /* Flat.vsh in Resources */,
-				45991F5E13414E9B00604591 /* Flat2.fsh in Resources */,
-				45991F5F13414E9B00604591 /* Flat2.vsh in Resources */,
 				45991F6013414E9B00604591 /* Lighting.fsh in Resources */,
 				45991F6113414E9B00604591 /* Lighting.vsh in Resources */,
 				45991F6213414E9B00604591 /* SimpleTexture.fsh in Resources */,

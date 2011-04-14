@@ -52,8 +52,6 @@
 		457C0330133D57A20001A967 /* Quaternion.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C02FE133D57A20001A967 /* Quaternion.m */; };
 		457C0331133D57A20001A967 /* Flat.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 457C0300133D57A20001A967 /* Flat.fsh */; };
 		457C0332133D57A20001A967 /* Flat.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 457C0301133D57A20001A967 /* Flat.vsh */; };
-		457C0333133D57A20001A967 /* Flat2.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 457C0302133D57A20001A967 /* Flat2.fsh */; };
-		457C0334133D57A20001A967 /* Flat2.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 457C0303133D57A20001A967 /* Flat2.vsh */; };
 		457C0335133D57A20001A967 /* Lighting.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 457C0304133D57A20001A967 /* Lighting.fsh */; };
 		457C0336133D57A20001A967 /* Lighting.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 457C0305133D57A20001A967 /* Lighting.vsh */; };
 		457C0337133D57A20001A967 /* SimpleTexture.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 457C0306133D57A20001A967 /* SimpleTexture.fsh */; };
@@ -151,8 +149,6 @@
 		457C02FE133D57A20001A967 /* Quaternion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quaternion.m; sourceTree = "<group>"; };
 		457C0300133D57A20001A967 /* Flat.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Flat.fsh; sourceTree = "<group>"; };
 		457C0301133D57A20001A967 /* Flat.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Flat.vsh; sourceTree = "<group>"; };
-		457C0302133D57A20001A967 /* Flat2.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Flat2.fsh; sourceTree = "<group>"; };
-		457C0303133D57A20001A967 /* Flat2.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Flat2.vsh; sourceTree = "<group>"; };
 		457C0304133D57A20001A967 /* Lighting.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Lighting.fsh; sourceTree = "<group>"; };
 		457C0305133D57A20001A967 /* Lighting.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Lighting.vsh; sourceTree = "<group>"; };
 		457C0306133D57A20001A967 /* SimpleTexture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SimpleTexture.fsh; sourceTree = "<group>"; };
@@ -366,8 +362,6 @@
 			children = (
 				457C0300133D57A20001A967 /* Flat.fsh */,
 				457C0301133D57A20001A967 /* Flat.vsh */,
-				457C0302133D57A20001A967 /* Flat2.fsh */,
-				457C0303133D57A20001A967 /* Flat2.vsh */,
 				457C0304133D57A20001A967 /* Lighting.fsh */,
 				457C0305133D57A20001A967 /* Lighting.vsh */,
 				457C0306133D57A20001A967 /* SimpleTexture.fsh */,
@@ -477,8 +471,6 @@
 			files = (
 				457C0331133D57A20001A967 /* Flat.fsh in Resources */,
 				457C0332133D57A20001A967 /* Flat.vsh in Resources */,
-				457C0333133D57A20001A967 /* Flat2.fsh in Resources */,
-				457C0334133D57A20001A967 /* Flat2.vsh in Resources */,
 				457C0335133D57A20001A967 /* Lighting.fsh in Resources */,
 				457C0336133D57A20001A967 /* Lighting.vsh in Resources */,
 				457C0337133D57A20001A967 /* SimpleTexture.fsh in Resources */,
