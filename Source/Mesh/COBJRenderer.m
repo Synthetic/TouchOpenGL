@@ -181,7 +181,7 @@
     {
     AssertOpenGLNoError_();
 
-    Matrix4 theModelTransform = modelTransform;
+    Matrix4 theModelTransform = Matrix4Concat(self.mesh.transform, self.modelTransform);
     Matrix4 theProjectionTransform = self.projectionTransform;
 
 #if DRAW_AXES
