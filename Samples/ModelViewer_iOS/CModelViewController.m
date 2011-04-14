@@ -51,7 +51,7 @@
     
     
     
-    NSArray *theContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[NSBundle mainBundle] resourcePath] error:NULL];
+    NSArray *theContents = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:[[NSBundle mainBundle] resourcePath] error:NULL];
     for (NSString *thePath in theContents)
         {
         if ([thePath rangeOfString:@".model.plist"].location != NSNotFound)

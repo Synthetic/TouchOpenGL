@@ -14,6 +14,7 @@
 		4529966F130B8D6A009FD0A3 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45299667130B8D6A009FD0A3 /* MainWindow.xib */; };
 		452C2C61134278AC0078B2BA /* CLight.m in Sources */ = {isa = PBXBuildFile; fileRef = 452C2C60134278AC0078B2BA /* CLight.m */; };
 		4541931C134BA38700B36C36 /* CLazyTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 4541931B134BA38700B36C36 /* CLazyTexture.m */; };
+		456369B51356741A00E5A1E9 /* Models in Resources */ = {isa = PBXBuildFile; fileRef = 456369B41356741A00E5A1E9 /* Models */; };
 		4578017B1342B95600ACEEE4 /* CCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 4578017A1342B95600ACEEE4 /* CCamera.m */; };
 		45781C59130AFE1E00B57285 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45781C58130AFE1E00B57285 /* UIKit.framework */; };
 		45781C5B130AFE1E00B57285 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45781C5A130AFE1E00B57285 /* Foundation.framework */; };
@@ -78,6 +79,7 @@
 		452C2C60134278AC0078B2BA /* CLight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLight.m; sourceTree = "<group>"; };
 		4541931A134BA38700B36C36 /* CLazyTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLazyTexture.h; sourceTree = "<group>"; };
 		4541931B134BA38700B36C36 /* CLazyTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLazyTexture.m; sourceTree = "<group>"; };
+		456369B41356741A00E5A1E9 /* Models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Models; sourceTree = "<group>"; };
 		457801791342B95600ACEEE4 /* CCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCamera.h; sourceTree = "<group>"; };
 		4578017A1342B95600ACEEE4 /* CCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCamera.m; sourceTree = "<group>"; };
 		45781C54130AFE1E00B57285 /* ModelViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ModelViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -205,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				45299662130B8D6A009FD0A3 /* SimpleTest */,
+				456369B41356741A00E5A1E9 /* Models */,
 				457C02AD133D57A20001A967 /* Source */,
 				457D9C8D133D23DB00F576A3 /* Unit Tests */,
 				45781C57130AFE1E00B57285 /* Frameworks */,
@@ -463,6 +466,7 @@
 				457C0337133D57A20001A967 /* SimpleTexture.fsh in Resources */,
 				457C0338133D57A20001A967 /* SimpleTexture.vsh in Resources */,
 				4529966F130B8D6A009FD0A3 /* MainWindow.xib in Resources */,
+				456369B51356741A00E5A1E9 /* Models in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
