@@ -253,9 +253,6 @@ class MeshWriter(object):
             'buffers': {},
             'geometries': [],
             'materials': {},
-            'center': None,
-            'transform': None,
-            'boundingbox': None,
             }
 
         self.faces.sort(key = lambda X:X.material)
@@ -408,6 +405,7 @@ class MeshWriter(object):
                     normals = theNormals,
                     material = theMaterial.name,
                     triangle_count = len(theSubFaces) / 3,
+                    shader = 'default',
                     )
 
                 if theHasTextureFlag:
