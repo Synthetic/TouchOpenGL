@@ -7,7 +7,7 @@ setup(
 	name = 'OBJConverter',
 	version = '0.1.0dev',
 
-	install_requires = ['argparse >= 1.1', 'numpy', 'biplist'],
+	install_requires = ['argparse >= 1.1', 'numpy', 'biplist', 'PIL'],
 	packages = find_packages(exclude = [ 'ez_setup', 'Input' ]),
 	include_package_data = True,
 	scripts = ['scripts/OBJConverter'],
