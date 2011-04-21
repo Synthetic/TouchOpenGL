@@ -15,8 +15,32 @@ import shlex
 import shutil
 import sys
 import types
+import os
+import Image
+import math
 
 from itertools import izip_longest
+
+########################################################################
+
+def convert_image(inputPath, outputDirectory, dimension = 2048):
+
+	theImage = Image.open(inputPath)
+
+	theNewSize = int(min(2 ** math.ceil(math.log(max(theImage.size), 2)), dimension))
+	theNewSize = (theNewSize, theNewSize)
+
+	if theImage.mode != 'RGB':
+		theImage = theImage.convert('RGBA')
+
+	if theImage.size != theNewSize:
+		theImage = theImage.resize(theNewSize, resample = Image.ANTIALIAS)
+
+	theName, e = os.path.splitext(os.path.split(inputPath)[1])
+	theName += '.png'
+	f = os.path.join(outputDirectory, theName)
+	theImage.save(f)
+	return theName
 
 ########################################################################
 
@@ -313,10 +337,11 @@ class MeshWriter(object):
 
                     if os.path.exists(theOutputPath):
                         print 'Warning: file might exist already at path: %s' % theOutputPath
+                        theName = os.path.split(theOutputPath)[1]
                     else:
-                        shutil.copyfile(theInputPath, theOutputPath)
+                        theName = convert_image(theInputPath, os.path.split(theOutputPath)[0])
 
-                    m['texture'] = os.path.split(theMaterial.texture)[1]
+                    m['texture'] = theName
 
 
                 d['materials'][theMaterial.name] = m
