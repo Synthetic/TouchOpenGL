@@ -23,29 +23,31 @@ from itertools import izip_longest
 
 ########################################################################
 
-def convert_image(inputPath, outputDirectory, dimension = 2048):
-
-	theImage = Image.open(inputPath)
-
-	theNewSize = int(min(2 ** math.ceil(math.log(max(theImage.size), 2)), dimension))
-	theNewSize = (theNewSize, theNewSize)
-
-	if theImage.mode != 'RGB':
-		theImage = theImage.convert('RGBA')
-
-	if theImage.size != theNewSize:
-		theImage = theImage.resize(theNewSize, resample = Image.ANTIALIAS)
-
-	theName, e = os.path.splitext(os.path.split(inputPath)[1])
-	theName += '.png'
-	f = os.path.join(outputDirectory, theName)
-	theImage.save(f)
-	return theName
+logging.basicConfig(level = logging.DEBUG, format = '%(message)s', stream = sys.stderr)
+logger = logging.getLogger()
 
 ########################################################################
 
-logging.basicConfig(level = logging.DEBUG, format = '%(message)s', stream = sys.stderr)
-logger = logging.getLogger()
+def convert_image(inputPath, outputDirectory, dimension = 2048):
+
+    theImage = Image.open(inputPath)
+
+    theNewSize = int(min(2 ** math.ceil(math.log(max(theImage.size), 2)), dimension))
+    theNewSize = (theNewSize, theNewSize)
+
+    if theImage.mode != 'RGB':
+        theImage = theImage.convert('RGBA')
+
+    if theImage.size != theNewSize:
+        theImage = theImage.resize(theNewSize, resample = Image.ANTIALIAS)
+
+    theName, e = os.path.splitext(os.path.split(inputPath)[1])
+    theName += '.png'
+    f = os.path.join(outputDirectory, theName)
+    theImage.save(f)
+    return theName
+
+########################################################################
 
 def grouper(n, iterable, padvalue=None):
     "grouper(3, 'abcdefg', 'x') --> ('a','b','c'), ('d','e','f'), ('g','x','x')"
@@ -117,7 +119,7 @@ class MTLParser(object):
         for theLine in theLines:
             theMatch = re.match('^([A-Za-z_]+)( +(.*))? *$', theLine)
             if not theMatch:
-                print 'Error line: \"%s\"' % theLine
+                logging.error('Error line: \"%s\"' % theLine)
                 raise Exception('Parse error')
             theVerb, theParameters = theMatch.groups()[0], theMatch.groups()[2]
             if theVerb == 'newmtl':
@@ -140,7 +142,7 @@ class MTLParser(object):
             elif theVerb == 'map_Kd':
                 theCurrentMaterial.texture = theParameters
             else:
-                print 'Unknown verb: %s' % theLine
+                logging.warning('Unknown verb: %s' % theLine)
 
         self.materials = theMaterials
 
@@ -148,22 +150,23 @@ class MTLParser(object):
 
 class OBJParser(object):
 
-    def __init__(self, inputFile):
-        self.inputFile = inputFile
+    class ParserState(object):
+        pass
 
-    def main(self):
+    def parse(self, inputFile):
+        theState = OBJParser.ParserState()
 
         theCurrentMaterialLibrary = None
         theCurrentGroups = None
         theCurrentMaterial = Material('default')
 
-        self.positions = []
-        self.texCoords = []
-        self.normals = []
+        theState.positions = []
+        theState.texCoords = []
+        theState.normals = []
 
         theFaces = []
 
-        theLines = [theLine for theLine in self.inputFile.readlines()]
+        theLines = [theLine for theLine in inputFile.readlines()]
         theLines = [theLine.strip() for theLine in theLines]
         theLines = [theLine for theLine in theLines if len(theLine) > 0]
 
@@ -174,15 +177,15 @@ class OBJParser(object):
 
             theMatch = re.match('^([A-Za-z_]+)( +(.*))? *$', theLine)
             if not theMatch:
-                print 'Error line: \"%s\"' % theLine
+                logging.error('Error line: \"%s\"' % theLine)
                 raise Exception('Parse error')
             theVerb, theParameters = theMatch.groups()[0], theMatch.groups()[2]
 
             try:
                 if theVerb == 'mtllib':
-                    thePath = os.path.join(os.path.split(self.inputFile.name)[0], theParameters)
+                    thePath = os.path.join(os.path.split(inputFile.name)[0], theParameters)
                     if not os.path.exists(thePath):
-                        print 'Warning: no MTL file'
+                        logging.warning('Warning: no MTL file')
                     else:
                         theMaterialFile = file(thePath)
                         theParser = MTLParser(theMaterialFile)
@@ -191,11 +194,11 @@ class OBJParser(object):
                     if theCurrentMaterialLibrary:
                         theCurrentMaterial = theCurrentMaterialLibrary[theParameters]
                 elif theVerb == 'v':
-                    self.positions.append(tuple([float(x) for x in re.split(' +', theParameters)]))
+                    theState.positions.append(tuple([float(x) for x in re.split(' +', theParameters)]))
                 elif theVerb == 'vt':
-                    self.texCoords.append(tuple([float(x) for x in re.split(' +', theParameters)]))
+                    theState.texCoords.append(tuple([float(x) for x in re.split(' +', theParameters)]))
                 elif theVerb == 'vn':
-                    self.normals.append(tuple([float(x) for x in re.split(' +', theParameters)]))
+                    theState.normals.append(tuple([float(x) for x in re.split(' +', theParameters)]))
                 elif theVerb == 'f':
                     theVertices = []
                     theVertexIndices = re.split(' +', theParameters)
@@ -218,20 +221,22 @@ class OBJParser(object):
                     theFace.texCoordIndices = [x[1] for x in theVertices]
                     theFace.normalIndices = [x[2] for x in theVertices]
 
-                    theFace.positions = [self.positions[i] for i in theFace.vertexIndices]
-                    theFace.texCoords = [self.texCoords[i] for i in theFace.texCoordIndices if i]
-                    theFace.normals = [self.normals[i] for i in theFace.normalIndices if i]
+                    theFace.positions = [theState.positions[i] for i in theFace.vertexIndices]
+                    theFace.texCoords = [theState.texCoords[i] for i in theFace.texCoordIndices if i]
+                    theFace.normals = [theState.normals[i] for i in theFace.normalIndices if i]
 
                     theFaces.append(theFace)
                 else:
-                    print 'Unknown verb: ', theLine
+                    logging.warning('Unknown verb: %s' % theLine)
 
             except:
-                print 'Failed on line:'
-                print theLine
+                logging.error('Failed on line:')
+                logging.error(theLine)
                 raise
 
-        self.faces = theFaces
+        theState.faces = theFaces
+
+        return theState
 
 ########################################################################
 #### OUTPUT
@@ -261,15 +266,9 @@ class VBO(object):
 
 class MeshWriter(object):
 
-    def main(self, faces, input, output):
+    def write(self, faces, input, outputDirectory):
 
-        self.faces = faces
-
-        self.input = input
-        self.output = output
-
-        self.inputRoot = os.path.split(self.input.name)[0]
-        self.outputRoot = os.path.split(self.output.name)[0]
+        inputRoot = os.path.split(input.name)[0]
 
         ################################################################
 
@@ -279,13 +278,13 @@ class MeshWriter(object):
             'materials': {},
             }
 
-        self.faces.sort(key = lambda X:X.material)
+        faces.sort(key = lambda X:X.material)
 
-        print len(self.faces)
+        logging.info('%d faces found' % len(faces))
 
         #### Group Faces by material ################################
         theFacesByMaterial = collections.defaultdict(list)
-        for p in self.faces:
+        for p in faces:
             theFacesByMaterial[p.material].append(p)
 
         #### Produce Bounding Box ######################################
@@ -332,11 +331,11 @@ class MeshWriter(object):
                     m['alpha'] = theMaterial.d if theMaterial.d else theMaterial.Tr
                 if theMaterial.texture:
 
-                    theInputPath = os.path.join(self.inputRoot, theMaterial.texture)
-                    theOutputPath = os.path.join(self.outputRoot, os.path.split(theMaterial.texture)[1])
+                    theInputPath = os.path.join(inputRoot, theMaterial.texture)
+                    theOutputPath = os.path.join(outputDirectory, os.path.split(theMaterial.texture)[1])
 
                     if os.path.exists(theOutputPath):
-                        print 'Warning: file might exist already at path: %s' % theOutputPath
+                        logging.warning('Warning: file might exist already at path: %s' % theOutputPath)
                         theName = os.path.split(theOutputPath)[1]
                     else:
                         theName = convert_image(theInputPath, os.path.split(theOutputPath)[0])
@@ -369,7 +368,7 @@ class MeshWriter(object):
                 theBuffer = list(iter_flatten(theVertices))
                 theBuffer = numpy.array(theBuffer, dtype=numpy.float32)
                 theBuffer = VBO(theBuffer)
-                theBuffer.write(os.path.split(self.output.name)[0])
+                theBuffer.write(outputDirectory)
 
                 d['buffers'][theBuffer.signature.hexdigest()] = dict(target = 'GL_ARRAY_BUFFER', usage = 'GL_STATIC_DRAW', href = '%s.vbo' % (theBuffer.signature.hexdigest()))
 
@@ -411,7 +410,7 @@ class MeshWriter(object):
 
                 theBuffer = numpy.array(xrange(0,len(theVertices)), dtype=numpy.uint16)
                 theBuffer = VBO(theBuffer)
-                theBuffer.write(os.path.split(self.output.name)[0])
+                theBuffer.write(outputDirectory)
 
                 d['buffers'][theBuffer.signature.hexdigest()] = dict(target = 'GL_ELEMENT_ARRAY_BUFFER', usage = 'GL_STATIC_DRAW', href = '%s.vbo' % (theBuffer.signature.hexdigest()))
 
@@ -438,7 +437,9 @@ class MeshWriter(object):
 
                 d['geometries'].append(theGeometry)
 
-        biplist.writePlist(d, self.output)
+        theName = os.path.splitext(os.path.split(input.name)[1])[0]
+
+        biplist.writePlist(d, os.path.join(outputDirectory, theName + '.model.plist'))
 
 
 ########################################################################
@@ -452,14 +453,10 @@ class Tool(object):
             argparser = argparse.ArgumentParser()
             argparser.add_argument('-i', '--input', action='store', dest='input', type=argparse.FileType(), default = None, metavar='INPUT',
                 help='The input file (type is inferred by file extension).')
-            argparser.add_argument('--input-type', action='store', dest='input_type', type=str, metavar='INPUT_TYPE',
-                help='The input file type (overides file extension if any).')
-            argparser.add_argument('-o', '--output', action='store', dest='output', type=argparse.FileType('w'), default = None, metavar='OUTPUT',
+            argparser.add_argument('-o', '--output', action='store', dest='output', type=unicode, default = None, metavar='OUTPUT',
                 help='Output directory for generated files.')
-            argparser.add_argument('--output-type', action='store', dest='output_type', type=str, metavar='INPUT_TYPE',
-                help='The output file type (overides file extension if any).')
-            argparser.add_argument('--pretty', action='store_const', const=True, default=False, metavar='PRETTY',
-                help='Prettify the output (where possible).')
+#             argparser.add_argument('--output-type', action='store', dest='output_type', type=str, metavar='INPUT_TYPE',
+#                 help='The output file type (overides file extension if any).')
 
             argparser.add_argument('-v', '--verbose', action='store_const', dest='loglevel', const=logging.INFO, default=logging.WARNING,
                 help='set the log level to INFO')
@@ -487,9 +484,11 @@ class Tool(object):
         theHandler = logging.StreamHandler(self.options.logstream)
         logger.addHandler(theHandler)
 
-        theParser = OBJParser(self.options.input)
-        theParser.main()
-        MeshWriter().main(theParser.faces, self.options.input, self.options.output)
+        theParser = OBJParser()
+        theState = theParser.parse(self.options.input)
+
+        theMeshWriter = MeshWriter()
+        theMeshWriter.write(theState.faces, self.options.input, self.options.output)
 
 def main(args):
     Tool().main(args)
