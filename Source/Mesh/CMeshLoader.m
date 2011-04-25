@@ -73,11 +73,12 @@
         }
 
 
-	theObject = [self.modelDictioary objectForKey:@"transform"];
-	if (theObject != NULL)
-		{
-		self.mesh.transform = Matrix4FromPropertyListRepresentation(theObject);
-		}
+//  TODO: Reenable model transforms when the model transforms aren't all broken!
+//	theObject = [self.modelDictioary objectForKey:@"transform"];
+//	if (theObject != NULL)
+//		{
+//		self.mesh.transform = Matrix4FromPropertyListRepresentation(theObject);
+//		}
 
 
     // #### Materials
