@@ -215,5 +215,35 @@
     AssertOpenGLNoError_();
     }
 
+- (void)drawBackgroundGradient
+{
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    CProgram *theProgram = [self.library programForName:@"Gradient" attributeNames:[NSArray arrayWithObjects:@"a_position", NULL] uniformNames:[NSArray arrayWithObjects:@"u_projectionMatrix", NULL] error:NULL];
+
+    const float kFarClippingPlane = -8.0f;
+    const float kGlowRadius = 10.0f;
+    Vector3 theVertices[] = {
+        { .x = -kGlowRadius, .y = -kGlowRadius, .z = kFarClippingPlane },
+        { .x = kGlowRadius, .y = -kGlowRadius, .z = kFarClippingPlane },
+        { .x = kGlowRadius, .y = kGlowRadius, .z = kFarClippingPlane },
+        { .x = -kGlowRadius, .y = kGlowRadius, .z = kFarClippingPlane }
+    };
+
+    // Use shader program
+    [theProgram use];
+
+    // Update position attribute
+    GLuint theVertexAttributeIndex = [theProgram attributeIndexForName:@"a_position"];
+    glVertexAttribPointer(theVertexAttributeIndex, 3, GL_FLOAT, GL_FALSE, 0, theVertices);
+    glEnableVertexAttribArray(theVertexAttributeIndex);
+
+    GLuint theProjectionMatrixUniform = [theProgram uniformIndexForName:@"u_projectionMatrix"];
+    Matrix4 theProjectionMatrix = self.projectionTransform;
+    glUniformMatrix4fv(theProjectionMatrixUniform, 1, NO, &theProjectionMatrix.m[0][0]);
+
+    glDrawArrays(GL_TRIANGLE_FAN, 0, sizeof(theVertices) / sizeof(theVertices[0]));
+}
 
 @end

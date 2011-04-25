@@ -197,6 +197,8 @@
     [self drawBoundingBox:theModelTransform v1:P1 v2:P2];
 #endif
 
+    [self drawBackgroundGradient];
+
 	// #### Use shader program
 	CProgram *theProgram = self.lightingProgram;
 	glUseProgram(theProgram.name);
