@@ -77,6 +77,7 @@
 //    theRenderer.mesh = theMesh;
     
     ((COBJRenderer *)self.rendererView.renderer).mesh = theMesh;
+    [self.rendererView.renderer setup];
     }
 
 @end

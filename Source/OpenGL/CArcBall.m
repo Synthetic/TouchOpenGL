@@ -54,6 +54,9 @@ static Vector3 MapToSphere(CGPoint inPoint);
     
 - (void)dragTo:(CGPoint)inPoint
     {
+    inPoint.x *= 2.0;
+    inPoint.y *= 2.0;
+    
     Quaternion theRotation;
 
     // Map the point to the sphere

@@ -83,7 +83,7 @@
     self.mesh.programName = [self.modelDictioary objectForKey:@"programName"];
     if (self.mesh.programName.length == 0)
         {
-        self.mesh.programName = @"Lighting_PerVertex";
+        self.mesh.programName = @"Lighting_PerPixel";
         }
 
     self.mesh.cullBackFaces = [[self.modelDictioary objectForKey:@"cullBackFaces"] boolValue];

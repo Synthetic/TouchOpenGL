@@ -78,7 +78,7 @@
     {
     [super setup];
     //
-     
+    NSLog(@"%@", self.mesh.programName);
     
     self.lightingProgram = [[[CProgram alloc] initWithName:self.mesh.programName attributeNames:[NSArray arrayWithObjects:@"a_position", @"a_normal", NULL] uniformNames:[NSArray arrayWithObjects:@"u_modelViewMatrix", @"u_projectionMatrix", @"u_lightSource", @"u_lightModel", @"u_cameraPosition", @"s_texture0", NULL]] autorelease];
 

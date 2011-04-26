@@ -256,7 +256,7 @@
         GLint theLocation = glGetUniformLocation(self.name, [inName UTF8String]);
         if (theLocation == -1)
             {
-            NSLog(@"Could not get uniform location for: %@", inName);
+//            NSLog(@"Could not get uniform location for: %@", inName);
             return(0);
             }
         
