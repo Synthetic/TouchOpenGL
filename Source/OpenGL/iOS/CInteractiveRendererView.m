@@ -120,9 +120,6 @@
     
     ((COBJRenderer *)self.renderer).modelTransform = theTransform;
     
-//    NSLog(@"%@", NSStringFromMatrix4(self.transform));
-//    NSLog(@"%@", NSStringFromQuaternion(self.motionRotation));
-
     [super render];
     }
 
@@ -130,16 +127,12 @@
 
 - (void)pinch:(UIPinchGestureRecognizer *)inGestureRecognizer
     {
-//    NSLog(@"PINCH");
-    
     self.scale += inGestureRecognizer.velocity / 10;
     self.scale = MAX(self.scale, 0.01);
     }
 
 - (void)pan:(UIPanGestureRecognizer *)inGestureRecognizer
     {
-//    NSLog(@"PAN: %d", inGestureRecognizer.state);
-    
     CGSize theSize = self.bounds.size;
     CGPoint theLocation = [inGestureRecognizer locationInView:self];
 

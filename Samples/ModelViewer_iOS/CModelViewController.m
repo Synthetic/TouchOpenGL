@@ -50,16 +50,12 @@
     {
     UIActionSheet *theActionSheet = [[[UIActionSheet alloc] initWithTitle:NULL delegate:self cancelButtonTitle:NULL destructiveButtonTitle:NULL otherButtonTitles:NULL] autorelease];
     
-    
-    
     NSArray *theContents = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:[[NSBundle mainBundle] resourcePath] error:NULL];
     for (NSString *thePath in theContents)
         {
         if ([thePath rangeOfString:@".model.plist"].location != NSNotFound)
             {
-            NSLog(@"%@", thePath);
             [theActionSheet addButtonWithTitle:thePath];
-            
             }
         }
     
