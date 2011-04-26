@@ -267,25 +267,26 @@
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError AVAILABLE_MAC_OS_X_VERSION_10_4_AND_LATER;
     {
-    NSLog(@"%@", typeName);
     if ([typeName isEqualToString:@"obj"])
         {
     //    NSString *theInputFile = [NSString stringWithFormat:@"'%@'", absoluteURL.path];
         char thePath[] = "/tmp/XXXXXXXX";
-        NSString *theOutputPath = [NSString stringWithFormat:@"%s/Test.model.plist", mkdtemp(thePath)];
+        NSString *theOutputPath = [NSString stringWithFormat:@"%s", mkdtemp(thePath)];
         NSString *theScript = [NSString stringWithFormat:@"OBJConverter --input '%@' --output '%@'", absoluteURL.path, theOutputPath];
 
         NSLog(@"Running script");
         NSTask *theTask = [[NSTask alloc] init];
         [theTask setLaunchPath:@"/bin/bash"];
         [theTask setArguments:[NSArray arrayWithObjects:@"--login", @"-c", theScript, NULL]];
-        [theTask setStandardOutput:[NSFileHandle fileHandleWithNullDevice]];
-        [theTask setStandardError:[NSFileHandle fileHandleWithNullDevice]];
+//        [theTask setStandardOutput:[NSFileHandle fileHandleWithNullDevice]];
+//        [theTask setStandardError:[NSFileHandle fileHandleWithNullDevice]];
         [theTask launch];
         [theTask waitUntilExit];
         NSLog(@"Script Returned: %d", [theTask terminationStatus]);
         
         [theTask release];
+        
+        theOutputPath = [theOutputPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.model.plist", [[absoluteURL.path stringByDeletingPathExtension] lastPathComponent]]];
         
         CMeshLoader *theLoader = [[[CMeshLoader alloc] init] autorelease];
         NSURL *theURL = [NSURL fileURLWithPath:theOutputPath];
