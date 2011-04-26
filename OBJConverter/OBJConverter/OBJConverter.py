@@ -458,7 +458,8 @@ class MeshWriter(object):
 
                 d['geometries'].append(theGeometry)
 
-        outputDictionary.cullBackFaces = True
+        d['cullBackFaces'] = True
+#        d['programName'] = ''
 
         theName = os.path.splitext(os.path.split(input.name)[1])[0]
 
