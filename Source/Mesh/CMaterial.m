@@ -53,6 +53,8 @@
 
 - (id)copyWithZone:(NSZone *)zone;
     {
+    #pragma unused (zone)
+    
     CMaterial *theCopy = [[CMaterial alloc] init];
     theCopy.name = self.name;
     theCopy.ambientColor = self.ambientColor;
