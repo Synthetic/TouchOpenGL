@@ -120,7 +120,7 @@
 
     theDesiredSize.width = theDesiredSize.height = MIN(MAX(theDesiredSize.width, theDesiredSize.height), 2048.0);
     
-    if (theModel == kCGColorSpaceModelRGB && theAlphaInfo == kCGImageAlphaLast && theBitsPerComponent == 8 && theSize.width == theDesiredSize.width && theSize.height == theDesiredSize.height)
+    if (theModel == kCGColorSpaceModelRGB && (theAlphaInfo == kCGImageAlphaLast || theAlphaInfo == kCGImageAlphaPremultipliedLast) && theBitsPerComponent == 8 && theSize.width == theDesiredSize.width && theSize.height == theDesiredSize.height)
         {
         theFormat = GL_RGBA;
         theType = GL_UNSIGNED_BYTE;
@@ -130,6 +130,7 @@
         {
         theFormat = GL_RGBA;
         theType = GL_UNSIGNED_BYTE;
+        
         
         NSLog(@"Warning, converting image. Unknown model (%d), alpha (%d) or bits per component (%ld)", theModel, theAlphaInfo, theBitsPerComponent);
         
