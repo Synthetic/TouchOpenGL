@@ -11,13 +11,11 @@
 #import "OpenGLIncludes.h"
 
 @interface CShader : NSObject {
-    NSString *path;
-    GLuint name;
 }
 
 @property (readonly, nonatomic, assign) GLuint name;
 
-- (id)initWithPath:(NSString *)inPath;
+- (id)initWithURL:(NSURL *)inURL;
 - (id)initWithName:(NSString *)inName;
 
 - (BOOL)compileShader:(NSError **)outError;

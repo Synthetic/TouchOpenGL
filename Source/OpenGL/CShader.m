@@ -11,7 +11,7 @@
 #import "OpenGLTypes.h"
 
 @interface CShader ()
-@property (readwrite, nonatomic, retain) NSString *path;
+@property (readwrite, nonatomic, retain) NSURL *URL;
 @property (readwrite, nonatomic, assign) GLuint name;
 @end
 
@@ -19,25 +19,36 @@
 
 @implementation CShader
 
-@synthesize path;
+@synthesize URL;
 @synthesize name;
 
-- (id)initWithPath:(NSString *)inPath
+- (id)initWithURL:(NSURL *)inURL
     {
+    if ([inURL isFileURL] == YES)
+        {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:inURL.path] == NO)
+            {
+            [self dealloc];
+            self = NULL;
+            return(NULL);
+            }
+        }
+
     if ((self = [super init]) != NULL)
         {
-        path = [inPath retain];
+        URL = [inURL retain];
         }
     return(self);
     }
 
 - (id)initWithName:(NSString *)inName
     {
-    NSString *thePath = [[NSBundle mainBundle] pathForResource:[inName stringByDeletingPathExtension] ofType:[inName pathExtension]];
-    NSAssert1(thePath, @"Nothing at path: %@", thePath);
-    
-
-    if ((self = [self initWithPath:thePath]) != NULL)
+    NSURL *theURL = [[NSBundle mainBundle] URLForResource:[inName stringByDeletingPathExtension] withExtension:[inName pathExtension]];
+    if (theURL == NULL)
+        {
+        theURL = [[[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:@"Shaders"] URLByAppendingPathComponent:inName];
+        }
+    if ((self = [self initWithURL:theURL]) != NULL)
         {
         }
     return(self);
@@ -45,8 +56,8 @@
 
 - (void)dealloc
     {
-    [path release];
-    path = NULL;
+    [URL release];
+    URL = NULL;
 
     if (name)
         {
@@ -76,7 +87,7 @@
     GLint theStatus;
     const GLchar *theSource;
 
-    theSource = (GLchar *)[[NSString stringWithContentsOfFile:self.path encoding:NSUTF8StringEncoding error:nil] UTF8String];
+    theSource = (GLchar *)[[NSString stringWithContentsOfURL:self.URL encoding:NSUTF8StringEncoding error:nil] UTF8String];
     if (!theSource)
         {
         NSLog(@"Failed to load vertex shader");
@@ -86,11 +97,11 @@
     AssertOpenGLNoError_();
         
     GLenum theType = 0;
-    if ([[self.path pathExtension] isEqualToString:@"fsh"])
+    if ([[self.URL pathExtension] isEqualToString:@"fsh"])
         {
         theType = GL_FRAGMENT_SHADER;
         }
-    else if ([[self.path pathExtension] isEqualToString:@"vsh"])
+    else if ([[self.URL pathExtension] isEqualToString:@"vsh"])
         {
         theType = GL_VERTEX_SHADER;
         }
@@ -114,7 +125,7 @@
         {
         GLchar *theLogBuffer = (GLchar *)malloc(logLength);
         glGetShaderInfoLog(theName, logLength, &logLength, theLogBuffer);
-        NSLog(@"Shader failed:\n%@", self.path);
+        NSLog(@"Shader failed:\n%@", self.URL);
         NSLog(@"Shader compile log:\n%s", theLogBuffer);
         free(theLogBuffer);
         }
