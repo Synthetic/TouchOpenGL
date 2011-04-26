@@ -150,93 +150,114 @@ class MTLParser(object):
 
 class OBJParser(object):
 
-    class ParserState(object):
-        pass
-
     def parse(self, inputFile):
-        theState = OBJParser.ParserState()
+        self.inputFile = inputFile
 
-        theCurrentMaterialLibrary = None
-        theCurrentGroups = None
-        theCurrentMaterial = Material('default')
+        self.currentMaterialLibrary = None
+        self.currentGroups = None
+        self.currentMaterial = Material('default')
 
-        theState.positions = []
-        theState.texCoords = []
-        theState.normals = []
+        self.positions = []
+        self.texCoords = []
+        self.normals = []
 
-        theFaces = []
+        self.faces = []
 
         theLines = [theLine for theLine in inputFile.readlines()]
         theLines = [theLine.strip() for theLine in theLines]
         theLines = [theLine for theLine in theLines if len(theLine) > 0]
 
         for theLine in theLines:
-            theMatch = re.match('^#.*$', theLine)
-            if theMatch:
-                continue
+            self.parseLine(theLine)
 
-            theMatch = re.match('^([A-Za-z_]+)( +(.*))? *$', theLine)
-            if not theMatch:
-                logging.error('Error line: \"%s\"' % theLine)
-                raise Exception('Parse error')
-            theVerb, theParameters = theMatch.groups()[0], theMatch.groups()[2]
+        return self
 
-            try:
-                if theVerb == 'mtllib':
-                    thePath = os.path.join(os.path.split(inputFile.name)[0], theParameters)
-                    if not os.path.exists(thePath):
-                        logging.warning('Warning: no MTL file')
-                    else:
-                        theMaterialFile = file(thePath)
-                        theParser = MTLParser(theMaterialFile)
-                        theCurrentMaterialLibrary = theParser.materials
-                elif theVerb == 'usemtl':
-                    if theCurrentMaterialLibrary:
-                        theCurrentMaterial = theCurrentMaterialLibrary[theParameters]
-                elif theVerb == 'v':
-                    theState.positions.append(tuple([float(x) for x in re.split(' +', theParameters)]))
-                elif theVerb == 'vt':
-                    theState.texCoords.append(tuple([float(x) for x in re.split(' +', theParameters)]))
-                elif theVerb == 'vn':
-                    theState.normals.append(tuple([float(x) for x in re.split(' +', theParameters)]))
-                elif theVerb == 'f':
-                    theVertices = []
-                    theVertexIndices = re.split(' +', theParameters)
-                    assert len(theVertexIndices) == 3 ### TODO this should be moved to output not input
-                    for theVertex in theVertexIndices:
-                        theIndices = theVertex.split('/')
-                        theIndices[len(theIndices):] = [None, None, None][:3 - len(theIndices)]
-                        thePositionsIndex, theTexCoordIndex, theNormalsIndex = theIndices
-                        thePositionsIndex = (int(thePositionsIndex) - 1) if thePositionsIndex else None
-                        theTexCoordIndex = (int(theTexCoordIndex) - 1) if theTexCoordIndex else None
-                        theNormalsIndex = (int(theNormalsIndex) - 1) if theNormalsIndex else None
+    def parseLine(self, line):
+        theMatch = re.match('^#.*$', line)
+        if theMatch:
+            return
 
-                        theIndices = (thePositionsIndex, theTexCoordIndex, theNormalsIndex)
+        theMatch = re.match('^([A-Za-z_]+)( +(.*))? *$', line)
+        if not theMatch:
+            logging.error('Error line: \"%s\"' % line)
+            raise Exception('Parse error')
+        theVerb, theParameters = theMatch.groups()[0], theMatch.groups()[2]
 
-                        theVertices.append(theIndices)
-
-                    theFace = Face()
-                    theFace.material = theCurrentMaterial
-                    theFace.vertexIndices = [x[0] for x in theVertices]
-                    theFace.texCoordIndices = [x[1] for x in theVertices]
-                    theFace.normalIndices = [x[2] for x in theVertices]
-
-                    theFace.positions = [theState.positions[i] for i in theFace.vertexIndices]
-                    theFace.texCoords = [theState.texCoords[i] for i in theFace.texCoordIndices if i]
-                    theFace.normals = [theState.normals[i] for i in theFace.normalIndices if i]
-
-                    theFaces.append(theFace)
+        try:
+            if theVerb == 'mtllib':
+                thePath = os.path.join(os.path.split(self.inputFile.name)[0], theParameters)
+                if not os.path.exists(thePath):
+                    logging.warning('Warning: no MTL file')
                 else:
-                    logging.warning('Unknown verb: %s' % theLine)
+                    theMaterialFile = file(thePath)
+                    theParser = MTLParser(theMaterialFile)
+                    self.currentMaterialLibrary = theParser.materials
+            elif theVerb == 'usemtl':
+                if self.currentMaterialLibrary:
+                    self.currentMaterial = self.currentMaterialLibrary[theParameters]
+            elif theVerb == 'v':
+                self.positions.append(tuple([float(x) for x in re.split(' +', theParameters)]))
+            elif theVerb == 'vt':
+                self.texCoords.append(tuple([float(x) for x in re.split(' +', theParameters)]))
+            elif theVerb == 'vn':
+                self.normals.append(tuple([float(x) for x in re.split(' +', theParameters)]))
+            elif theVerb == 'f':
+                theVertices = []
+                theVertexIndices = re.split(' +', theParameters)
 
-            except:
-                logging.error('Failed on line:')
-                logging.error(theLine)
-                raise
+                if len(theVertexIndices) == 4:
 
-        theState.faces = theFaces
+                    theVertices = self.parseVertices([theVertexIndices[0], theVertexIndices[1], theVertexIndices[2]])
+                    theFace = self.makeFace(theVertices)
+                    self.faces.append(theFace)
 
-        return theState
+                    theVertices = self.parseVertices([theVertexIndices[1], theVertexIndices[2], theVertexIndices[3]])
+                    theFace = self.makeFace(theVertices)
+                    self.faces.append(theFace)
+
+
+                elif len(theVertexIndices) == 3:
+                    theVertices = self.parseVertices(theVertexIndices)
+                    theFace = self.makeFace(theVertices)
+                    self.faces.append(theFace)
+
+                else:
+                    raise Exception('Wrong number (%d) of faces: %s' % (len(theVertexIndices), line))
+            else:
+                logging.warning('Unknown verb: %s' % line)
+
+        except:
+            logging.error('Failed on line:')
+            logging.error(line)
+            raise
+
+    def parseVertices(self, vertexIndices):
+        theVertices = []
+        for theVertex in vertexIndices:
+            theIndices = theVertex.split('/')
+            theIndices[len(theIndices):] = [None, None, None][:3 - len(theIndices)]
+            thePositionsIndex, theTexCoordIndex, theNormalsIndex = theIndices
+            thePositionsIndex = (int(thePositionsIndex) - 1) if thePositionsIndex else None
+            theTexCoordIndex = (int(theTexCoordIndex) - 1) if theTexCoordIndex else None
+            theNormalsIndex = (int(theNormalsIndex) - 1) if theNormalsIndex else None
+
+            theIndices = (thePositionsIndex, theTexCoordIndex, theNormalsIndex)
+
+            theVertices.append(theIndices)
+        return theVertices
+
+    def makeFace(self, vertices):
+        theFace = Face()
+        theFace.material = self.currentMaterial
+        theFace.vertexIndices = [x[0] for x in vertices]
+        theFace.texCoordIndices = [x[1] for x in vertices]
+        theFace.normalIndices = [x[2] for x in vertices]
+
+        theFace.positions = [self.positions[i] for i in theFace.vertexIndices]
+        theFace.texCoords = [self.texCoords[i] for i in theFace.texCoordIndices if i]
+        theFace.normals = [self.normals[i] for i in theFace.normalIndices if i]
+
+        return theFace
 
 ########################################################################
 #### OUTPUT
@@ -437,6 +458,8 @@ class MeshWriter(object):
 
                 d['geometries'].append(theGeometry)
 
+        outputDictionary.cullBackFaces = True
+
         theName = os.path.splitext(os.path.split(input.name)[1])[0]
 
         biplist.writePlist(d, os.path.join(outputDirectory, theName + '.model.plist'))
@@ -485,10 +508,10 @@ class Tool(object):
         logger.addHandler(theHandler)
 
         theParser = OBJParser()
-        theState = theParser.parse(self.options.input)
+        theParser.parse(self.options.input)
 
         theMeshWriter = MeshWriter()
-        theMeshWriter.write(theState.faces, self.options.input, self.options.output)
+        theMeshWriter.write(theParser.faces, self.options.input, self.options.output)
 
 def main(args):
     Tool().main(args)
