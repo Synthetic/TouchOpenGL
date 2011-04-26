@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		451846C7136776A3006296F2 /* Shaders in Resources */ = {isa = PBXBuildFile; fileRef = 451846C6136776A3006296F2 /* Shaders */; };
 		4527174A130B202F00529A0C /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45271749130B202F00529A0C /* OpenGLES.framework */; };
 		4527174C130B203700529A0C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4527174B130B203700529A0C /* QuartzCore.framework */; };
 		4529966C130B8D6A009FD0A3 /* CModelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45299664130B8D6A009FD0A3 /* CModelViewController.m */; };
@@ -50,10 +51,6 @@
 		457C032A133D57A20001A967 /* Matrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C02F0133D57A20001A967 /* Matrix.m */; };
 		457C032B133D57A20001A967 /* OpenGLTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C02F3133D57A20001A967 /* OpenGLTypes.m */; };
 		457C0330133D57A20001A967 /* Quaternion.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C02FE133D57A20001A967 /* Quaternion.m */; };
-		457C0331133D57A20001A967 /* Flat.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 457C0300133D57A20001A967 /* Flat.fsh */; };
-		457C0332133D57A20001A967 /* Flat.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 457C0301133D57A20001A967 /* Flat.vsh */; };
-		457C0337133D57A20001A967 /* SimpleTexture.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 457C0306133D57A20001A967 /* SimpleTexture.fsh */; };
-		457C0338133D57A20001A967 /* SimpleTexture.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 457C0307133D57A20001A967 /* SimpleTexture.vsh */; };
 		457C0339133D57A20001A967 /* NSData_NumberExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C030B133D57A20001A967 /* NSData_NumberExtensions.m */; };
 		457D9C8A133D23DB00F576A3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45781C58130AFE1E00B57285 /* UIKit.framework */; };
 		457D9C8B133D23DB00F576A3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45781C5A130AFE1E00B57285 /* Foundation.framework */; };
@@ -62,15 +59,10 @@
 		457D9C95133D23DB00F576A3 /* Unit_Tests.h in Resources */ = {isa = PBXBuildFile; fileRef = 457D9C94133D23DB00F576A3 /* Unit_Tests.h */; };
 		457D9C97133D23DB00F576A3 /* Unit_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 457D9C96133D23DB00F576A3 /* Unit_Tests.m */; };
 		459CFBA61332E48800B16315 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 459CFBA51332E48800B16315 /* CoreMotion.framework */; };
-		45F9110613675F01001F51ED /* Gradient.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 45F9110413675F01001F51ED /* Gradient.fsh */; };
-		45F9110713675F01001F51ED /* Gradient.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 45F9110513675F01001F51ED /* Gradient.vsh */; };
-		45F9110A1367644D001F51ED /* Lighting_PerPixel.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 45F911081367644C001F51ED /* Lighting_PerPixel.fsh */; };
-		45F9110B1367644D001F51ED /* Lighting_PerPixel.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 45F911091367644D001F51ED /* Lighting_PerPixel.vsh */; };
-		45F9110E13676455001F51ED /* Lighting_PerVertex.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 45F9110C13676455001F51ED /* Lighting_PerVertex.fsh */; };
-		45F9110F13676455001F51ED /* Lighting_PerVertex.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 45F9110D13676455001F51ED /* Lighting_PerVertex.vsh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		451846C6136776A3006296F2 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
 		45271749130B202F00529A0C /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		4527174B130B203700529A0C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4527175A130B247700529A0C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -151,10 +143,6 @@
 		457C02F3133D57A20001A967 /* OpenGLTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGLTypes.m; sourceTree = "<group>"; };
 		457C02FD133D57A20001A967 /* Quaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quaternion.h; sourceTree = "<group>"; };
 		457C02FE133D57A20001A967 /* Quaternion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quaternion.m; sourceTree = "<group>"; };
-		457C0300133D57A20001A967 /* Flat.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Flat.fsh; sourceTree = "<group>"; };
-		457C0301133D57A20001A967 /* Flat.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Flat.vsh; sourceTree = "<group>"; };
-		457C0306133D57A20001A967 /* SimpleTexture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SimpleTexture.fsh; sourceTree = "<group>"; };
-		457C0307133D57A20001A967 /* SimpleTexture.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SimpleTexture.vsh; sourceTree = "<group>"; };
 		457C0309133D57A20001A967 /* CPropertyListRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPropertyListRepresentation.h; sourceTree = "<group>"; };
 		457C030A133D57A20001A967 /* NSData_NumberExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSData_NumberExtensions.h; sourceTree = "<group>"; };
 		457C030B133D57A20001A967 /* NSData_NumberExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSData_NumberExtensions.m; sourceTree = "<group>"; };
@@ -165,12 +153,6 @@
 		457D9C94133D23DB00F576A3 /* Unit_Tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Unit_Tests.h; sourceTree = "<group>"; };
 		457D9C96133D23DB00F576A3 /* Unit_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Unit_Tests.m; sourceTree = "<group>"; };
 		459CFBA51332E48800B16315 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
-		45F9110413675F01001F51ED /* Gradient.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Gradient.fsh; sourceTree = "<group>"; };
-		45F9110513675F01001F51ED /* Gradient.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Gradient.vsh; sourceTree = "<group>"; };
-		45F911081367644C001F51ED /* Lighting_PerPixel.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Lighting_PerPixel.fsh; sourceTree = "<group>"; };
-		45F911091367644D001F51ED /* Lighting_PerPixel.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Lighting_PerPixel.vsh; sourceTree = "<group>"; };
-		45F9110C13676455001F51ED /* Lighting_PerVertex.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Lighting_PerVertex.fsh; sourceTree = "<group>"; };
-		45F9110D13676455001F51ED /* Lighting_PerVertex.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Lighting_PerVertex.vsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -265,7 +247,7 @@
 			children = (
 				457C02B1133D57A20001A967 /* Mesh */,
 				457C02BC133D57A20001A967 /* OpenGL */,
-				457C02FF133D57A20001A967 /* Shaders */,
+				451846C6136776A3006296F2 /* Shaders */,
 				457C0308133D57A20001A967 /* Support */,
 			);
 			name = Source;
@@ -363,23 +345,6 @@
 				457C02EE133D57A20001A967 /* CRendererView.m */,
 			);
 			path = iOS;
-			sourceTree = "<group>";
-		};
-		457C02FF133D57A20001A967 /* Shaders */ = {
-			isa = PBXGroup;
-			children = (
-				457C0300133D57A20001A967 /* Flat.fsh */,
-				457C0301133D57A20001A967 /* Flat.vsh */,
-				45F911081367644C001F51ED /* Lighting_PerPixel.fsh */,
-				45F911091367644D001F51ED /* Lighting_PerPixel.vsh */,
-				45F9110C13676455001F51ED /* Lighting_PerVertex.fsh */,
-				45F9110D13676455001F51ED /* Lighting_PerVertex.vsh */,
-				457C0306133D57A20001A967 /* SimpleTexture.fsh */,
-				457C0307133D57A20001A967 /* SimpleTexture.vsh */,
-				45F9110413675F01001F51ED /* Gradient.fsh */,
-				45F9110513675F01001F51ED /* Gradient.vsh */,
-			);
-			path = Shaders;
 			sourceTree = "<group>";
 		};
 		457C0308133D57A20001A967 /* Support */ = {
@@ -481,21 +446,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45F9110A1367644D001F51ED /* Lighting_PerPixel.fsh in Resources */,
-				45F9110B1367644D001F51ED /* Lighting_PerPixel.vsh in Resources */,
-				45F9110E13676455001F51ED /* Lighting_PerVertex.fsh in Resources */,
-				45F9110F13676455001F51ED /* Lighting_PerVertex.vsh in Resources */,
-				457C0331133D57A20001A967 /* Flat.fsh in Resources */,
-				45F9110613675F01001F51ED /* Gradient.fsh in Resources */,
-				45F9110713675F01001F51ED /* Gradient.vsh in Resources */,
-				457C0332133D57A20001A967 /* Flat.vsh in Resources */,
-				457C0337133D57A20001A967 /* SimpleTexture.fsh in Resources */,
-				457C0338133D57A20001A967 /* SimpleTexture.vsh in Resources */,
 				4529966F130B8D6A009FD0A3 /* MainWindow.xib in Resources */,
 				456369B51356741A00E5A1E9 /* Models in Resources */,
 				456369BC135676C500E5A1E9 /* 02edc2837b569ac33d0709b313061e04.vbo in Resources */,
 				456369BD135676C500E5A1E9 /* 85e7e43146bc76295d4a9b25ccef50d7.vbo in Resources */,
 				456369BE135676C500E5A1E9 /* teapot.model.plist in Resources */,
+				451846C7136776A3006296F2 /* Shaders in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
