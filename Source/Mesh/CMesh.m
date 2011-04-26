@@ -23,6 +23,8 @@
 	if ((self = [super init]) != NULL)
 		{
         transform = Matrix4Identity;
+        cullBackFaces = NO;
+        programName = [@"Lighting_PerVertex" retain];
 		}
 	return(self);
 	}
