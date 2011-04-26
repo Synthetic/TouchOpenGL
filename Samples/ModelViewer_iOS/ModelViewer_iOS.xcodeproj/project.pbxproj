@@ -64,6 +64,8 @@
 		457D9C95133D23DB00F576A3 /* Unit_Tests.h in Resources */ = {isa = PBXBuildFile; fileRef = 457D9C94133D23DB00F576A3 /* Unit_Tests.h */; };
 		457D9C97133D23DB00F576A3 /* Unit_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 457D9C96133D23DB00F576A3 /* Unit_Tests.m */; };
 		459CFBA61332E48800B16315 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 459CFBA51332E48800B16315 /* CoreMotion.framework */; };
+		45F9110613675F01001F51ED /* Gradient.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 45F9110413675F01001F51ED /* Gradient.fsh */; };
+		45F9110713675F01001F51ED /* Gradient.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 45F9110513675F01001F51ED /* Gradient.vsh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -163,6 +165,8 @@
 		457D9C94133D23DB00F576A3 /* Unit_Tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Unit_Tests.h; sourceTree = "<group>"; };
 		457D9C96133D23DB00F576A3 /* Unit_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Unit_Tests.m; sourceTree = "<group>"; };
 		459CFBA51332E48800B16315 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		45F9110413675F01001F51ED /* Gradient.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Gradient.fsh; sourceTree = "<group>"; };
+		45F9110513675F01001F51ED /* Gradient.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Gradient.vsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -366,6 +370,8 @@
 				457C0305133D57A20001A967 /* Lighting.vsh */,
 				457C0306133D57A20001A967 /* SimpleTexture.fsh */,
 				457C0307133D57A20001A967 /* SimpleTexture.vsh */,
+				45F9110413675F01001F51ED /* Gradient.fsh */,
+				45F9110513675F01001F51ED /* Gradient.vsh */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -470,6 +476,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				457C0331133D57A20001A967 /* Flat.fsh in Resources */,
+				45F9110613675F01001F51ED /* Gradient.fsh in Resources */,
+				45F9110713675F01001F51ED /* Gradient.vsh in Resources */,
 				457C0332133D57A20001A967 /* Flat.vsh in Resources */,
 				457C0335133D57A20001A967 /* Lighting.fsh in Resources */,
 				457C0336133D57A20001A967 /* Lighting.vsh in Resources */,
@@ -634,6 +642,7 @@
 				OTHER_CFLAGS = "-DDEBUG=1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -663,6 +672,7 @@
 				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

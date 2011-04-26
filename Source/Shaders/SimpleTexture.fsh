@@ -7,7 +7,7 @@
 //
 
 #ifdef GL_ES
-precision lowp float;
+precision mediump float;
 #endif
 
 varying vec2 v_texture0;
