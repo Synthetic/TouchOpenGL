@@ -152,6 +152,22 @@ GLenum GLenumFromString(NSString *inString)
         {
         return(GL_SHORT);
         }
+    else if ([inString isEqualToString:@"GL_BACK"])
+        {
+        return(GL_BACK);
+        }
+    else if ([inString isEqualToString:@"GL_FRONT"])
+        {
+        return(GL_FRONT);
+        }
+    else if ([inString isEqualToString:@"GL_FRONT_AND_BACK"])
+        {
+        return(GL_FRONT_AND_BACK);
+        }
+    else if ([inString isEqualToString:@"GL_CULL_FACE"])
+        {
+        return(GL_CULL_FACE);
+        }
     else
         {
         NSCAssert(NO, @"Unknown enum");
