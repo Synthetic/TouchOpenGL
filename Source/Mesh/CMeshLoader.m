@@ -80,6 +80,7 @@
 //		self.mesh.transform = Matrix4FromPropertyListRepresentation(theObject);
 //		}
 
+    self.mesh.cullBackFaces = [[self.modelDictioary objectForKey:@"cullBackFaces"] boolValue];
 
     // #### Materials
     self.materials = [NSMutableDictionary dictionary];

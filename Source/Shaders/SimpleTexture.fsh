@@ -6,7 +6,11 @@
 //  Copyright 2010 toxicsoftware.com. All rights reserved.
 //
 
-varying mediump vec2 v_texture0;
+#ifdef GL_ES
+precision lowp float;
+#endif
+
+varying vec2 v_texture0;
 
 uniform sampler2D s_texture0;
 

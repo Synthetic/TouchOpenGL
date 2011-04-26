@@ -15,6 +15,7 @@
 @synthesize center;
 @synthesize p1, p2;
 @synthesize transform;
+@synthesize cullBackFaces;
 
 - (id)init
 	{

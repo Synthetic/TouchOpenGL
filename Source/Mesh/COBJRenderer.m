@@ -181,6 +181,16 @@
     {
     AssertOpenGLNoError_();
 
+    if (self.mesh.cullBackFaces == YES)
+        {
+        glCullFace(GL_BACK);
+        glEnable(GL_CULL_FACE);
+        }
+    else
+        {
+        glDisable(GL_CULL_FACE);
+        }
+
     Matrix4 theModelTransform = Matrix4Concat(self.mesh.transform, self.modelTransform);
     Matrix4 theProjectionTransform = self.projectionTransform;
 
@@ -328,9 +338,6 @@
                 return;
                 }
         #endif
-
-        glCullFace(GL_BACK);
-        glEnable(GL_CULL_FACE);
 
         if (theGeometry.indices == NULL)
             {
