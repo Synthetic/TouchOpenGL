@@ -16,6 +16,7 @@
 @synthesize p1, p2;
 @synthesize transform;
 @synthesize cullBackFaces;
+@synthesize programName;
 
 - (id)init
 	{
@@ -31,6 +32,9 @@
     {
     [geometries release];
     geometries = NULL;
+    //
+    [programName release];
+    programName = NULL;
     //
     [super dealloc];
     }

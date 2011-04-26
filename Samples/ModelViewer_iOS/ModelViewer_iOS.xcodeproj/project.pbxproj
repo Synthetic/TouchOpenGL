@@ -52,8 +52,6 @@
 		457C0330133D57A20001A967 /* Quaternion.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C02FE133D57A20001A967 /* Quaternion.m */; };
 		457C0331133D57A20001A967 /* Flat.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 457C0300133D57A20001A967 /* Flat.fsh */; };
 		457C0332133D57A20001A967 /* Flat.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 457C0301133D57A20001A967 /* Flat.vsh */; };
-		457C0335133D57A20001A967 /* Lighting.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 457C0304133D57A20001A967 /* Lighting.fsh */; };
-		457C0336133D57A20001A967 /* Lighting.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 457C0305133D57A20001A967 /* Lighting.vsh */; };
 		457C0337133D57A20001A967 /* SimpleTexture.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 457C0306133D57A20001A967 /* SimpleTexture.fsh */; };
 		457C0338133D57A20001A967 /* SimpleTexture.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 457C0307133D57A20001A967 /* SimpleTexture.vsh */; };
 		457C0339133D57A20001A967 /* NSData_NumberExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C030B133D57A20001A967 /* NSData_NumberExtensions.m */; };
@@ -66,6 +64,10 @@
 		459CFBA61332E48800B16315 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 459CFBA51332E48800B16315 /* CoreMotion.framework */; };
 		45F9110613675F01001F51ED /* Gradient.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 45F9110413675F01001F51ED /* Gradient.fsh */; };
 		45F9110713675F01001F51ED /* Gradient.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 45F9110513675F01001F51ED /* Gradient.vsh */; };
+		45F9110A1367644D001F51ED /* Lighting_PerPixel.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 45F911081367644C001F51ED /* Lighting_PerPixel.fsh */; };
+		45F9110B1367644D001F51ED /* Lighting_PerPixel.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 45F911091367644D001F51ED /* Lighting_PerPixel.vsh */; };
+		45F9110E13676455001F51ED /* Lighting_PerVertex.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 45F9110C13676455001F51ED /* Lighting_PerVertex.fsh */; };
+		45F9110F13676455001F51ED /* Lighting_PerVertex.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 45F9110D13676455001F51ED /* Lighting_PerVertex.vsh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -151,8 +153,6 @@
 		457C02FE133D57A20001A967 /* Quaternion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quaternion.m; sourceTree = "<group>"; };
 		457C0300133D57A20001A967 /* Flat.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Flat.fsh; sourceTree = "<group>"; };
 		457C0301133D57A20001A967 /* Flat.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Flat.vsh; sourceTree = "<group>"; };
-		457C0304133D57A20001A967 /* Lighting.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Lighting.fsh; sourceTree = "<group>"; };
-		457C0305133D57A20001A967 /* Lighting.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Lighting.vsh; sourceTree = "<group>"; };
 		457C0306133D57A20001A967 /* SimpleTexture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SimpleTexture.fsh; sourceTree = "<group>"; };
 		457C0307133D57A20001A967 /* SimpleTexture.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SimpleTexture.vsh; sourceTree = "<group>"; };
 		457C0309133D57A20001A967 /* CPropertyListRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPropertyListRepresentation.h; sourceTree = "<group>"; };
@@ -167,6 +167,10 @@
 		459CFBA51332E48800B16315 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		45F9110413675F01001F51ED /* Gradient.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Gradient.fsh; sourceTree = "<group>"; };
 		45F9110513675F01001F51ED /* Gradient.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Gradient.vsh; sourceTree = "<group>"; };
+		45F911081367644C001F51ED /* Lighting_PerPixel.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Lighting_PerPixel.fsh; sourceTree = "<group>"; };
+		45F911091367644D001F51ED /* Lighting_PerPixel.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Lighting_PerPixel.vsh; sourceTree = "<group>"; };
+		45F9110C13676455001F51ED /* Lighting_PerVertex.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Lighting_PerVertex.fsh; sourceTree = "<group>"; };
+		45F9110D13676455001F51ED /* Lighting_PerVertex.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Lighting_PerVertex.vsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -366,8 +370,10 @@
 			children = (
 				457C0300133D57A20001A967 /* Flat.fsh */,
 				457C0301133D57A20001A967 /* Flat.vsh */,
-				457C0304133D57A20001A967 /* Lighting.fsh */,
-				457C0305133D57A20001A967 /* Lighting.vsh */,
+				45F911081367644C001F51ED /* Lighting_PerPixel.fsh */,
+				45F911091367644D001F51ED /* Lighting_PerPixel.vsh */,
+				45F9110C13676455001F51ED /* Lighting_PerVertex.fsh */,
+				45F9110D13676455001F51ED /* Lighting_PerVertex.vsh */,
 				457C0306133D57A20001A967 /* SimpleTexture.fsh */,
 				457C0307133D57A20001A967 /* SimpleTexture.vsh */,
 				45F9110413675F01001F51ED /* Gradient.fsh */,
@@ -475,12 +481,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45F9110A1367644D001F51ED /* Lighting_PerPixel.fsh in Resources */,
+				45F9110B1367644D001F51ED /* Lighting_PerPixel.vsh in Resources */,
+				45F9110E13676455001F51ED /* Lighting_PerVertex.fsh in Resources */,
+				45F9110F13676455001F51ED /* Lighting_PerVertex.vsh in Resources */,
 				457C0331133D57A20001A967 /* Flat.fsh in Resources */,
 				45F9110613675F01001F51ED /* Gradient.fsh in Resources */,
 				45F9110713675F01001F51ED /* Gradient.vsh in Resources */,
 				457C0332133D57A20001A967 /* Flat.vsh in Resources */,
-				457C0335133D57A20001A967 /* Lighting.fsh in Resources */,
-				457C0336133D57A20001A967 /* Lighting.vsh in Resources */,
 				457C0337133D57A20001A967 /* SimpleTexture.fsh in Resources */,
 				457C0338133D57A20001A967 /* SimpleTexture.vsh in Resources */,
 				4529966F130B8D6A009FD0A3 /* MainWindow.xib in Resources */,

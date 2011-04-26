@@ -80,6 +80,12 @@
 //		self.mesh.transform = Matrix4FromPropertyListRepresentation(theObject);
 //		}
 
+    self.mesh.programName = [self.modelDictioary objectForKey:@"programName"];
+    if (self.mesh.programName.length == 0)
+        {
+        self.mesh.programName = @"Lighting_PerVertex";
+        }
+
     self.mesh.cullBackFaces = [[self.modelDictioary objectForKey:@"cullBackFaces"] boolValue];
 
     // #### Materials

@@ -20,5 +20,7 @@
 @property (readwrite, nonatomic, assign) Vector3 p1, p2; // in model space
 @property (readwrite, nonatomic, assign) Matrix4 transform;
 @property (readwrite, nonatomic, assign) BOOL cullBackFaces;
+@property (readwrite, nonatomic, assign) NSString *programName;
+
 
 @end
