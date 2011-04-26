@@ -35,7 +35,7 @@ def convert_image(inputPath, outputDirectory, dimension = 2048):
     theNewSize = int(min(2 ** math.ceil(math.log(max(theImage.size), 2)), dimension))
     theNewSize = (theNewSize, theNewSize)
 
-    if theImage.mode != 'RGB':
+    if theImage.mode != 'RGBA':
         theImage = theImage.convert('RGBA')
 
     if theImage.size != theNewSize:
@@ -458,7 +458,7 @@ class MeshWriter(object):
 
                 d['geometries'].append(theGeometry)
 
-        d['cullBackFaces'] = True
+        d['cullBackFaces'] = False
 #        d['programName'] = ''
 
         theName = os.path.splitext(os.path.split(input.name)[1])[0]
