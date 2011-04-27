@@ -53,7 +53,7 @@
         light.position = camera.position;
         defaultMaterial = [[CMaterial alloc] init];
         modelTransform = Matrix4Identity;
-        defaultProgramName = [@"" retain];        
+        defaultProgramName = [@"Lighting_PerPixel" retain];        
 		}
 	return(self);
 	}
