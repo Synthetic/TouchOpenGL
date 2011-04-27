@@ -209,8 +209,6 @@
         [defaultProgram release];
         defaultProgram = [inDefaultProgram retain];
         
-        NSLog(@"%@", defaultProgram);
-        
         self.renderer.defaultProgramName = defaultProgram;
         
         [self.renderer setNeedsSetup];
