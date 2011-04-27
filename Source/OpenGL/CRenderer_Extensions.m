@@ -42,7 +42,13 @@
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-    CProgram *theProgram = [self.library programForName:@"Flat" attributeNames:[NSArray arrayWithObjects:@"a_position", @"a_color", NULL] uniformNames:[NSArray arrayWithObjects:@"u_modelViewMatrix", @"u_projectionMatrix", NULL] error:NULL];
+    NSError *theError = NULL;
+    CProgram *theProgram = [self.library programForName:@"Flat" attributeNames:[NSArray arrayWithObjects:@"a_position", @"a_color", NULL] uniformNames:[NSArray arrayWithObjects:@"u_modelViewMatrix", @"u_projectionMatrix", NULL] error:&theError];
+    if (theProgram == NULL)
+        {
+        NSLog(@"Error: %@", theError);
+        return;
+        }
 
     const GLfloat kLength = 10000.0;
 
@@ -92,7 +98,6 @@
 
     // Validate program before drawing. This is a good check, but only really necessary in a debug build. DEBUG macro must be defined in your debug configurations if that's not already the case.
 #if defined(DEBUG)
-    NSError *theError = NULL;
     if ([theProgram validate:&theError] == NO)
         {
         NSLog(@"Failed to validate program: %@", theError);
@@ -118,7 +123,13 @@
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-    CProgram *theProgram = [self.library programForName:@"Flat" attributeNames:[NSArray arrayWithObjects:@"a_position", @"a_color", NULL] uniformNames:[NSArray arrayWithObjects:@"u_modelViewMatrix", @"u_projectionMatrix", NULL] error:NULL];
+    NSError *theError = NULL;
+    CProgram *theProgram = [self.library programForName:@"Flat" attributeNames:[NSArray arrayWithObjects:@"a_position", @"a_color", NULL] uniformNames:[NSArray arrayWithObjects:@"u_modelViewMatrix", @"u_projectionMatrix", NULL] error:&theError];
+    if (theProgram == NULL)
+        {
+        NSLog(@"Error: %@", theError);
+        return;
+        }
 
     // TODO should just have a static unit cube and then scale it with a matrix...
     Vector3 theVertices[] = {
@@ -198,7 +209,6 @@
 
     // Validate program before drawing. This is a good check, but only really necessary in a debug build. DEBUG macro must be defined in your debug configurations if that's not already the case.
 #if defined(DEBUG)
-    NSError *theError = NULL;
     if ([theProgram validate:&theError] == NO)
         {
         NSLog(@"Failed to validate program: %@", theError);
@@ -220,7 +230,13 @@
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-    CProgram *theProgram = [self.library programForName:@"Gradient" attributeNames:[NSArray arrayWithObjects:@"a_position", NULL] uniformNames:[NSArray arrayWithObjects:@"u_projectionMatrix", NULL] error:NULL];
+    NSError *theError = NULL;
+    CProgram *theProgram = [self.library programForName:@"Gradient" attributeNames:[NSArray arrayWithObjects:@"a_position", NULL] uniformNames:[NSArray arrayWithObjects:@"u_projectionMatrix", NULL] error:&theError];
+    if (theProgram == NULL)
+        {
+        NSLog(@"Error: %@", theError);
+        return;
+        }
 
     const float kFarClippingPlane = -8.0f;
     const float kGlowRadius = 10.0f;

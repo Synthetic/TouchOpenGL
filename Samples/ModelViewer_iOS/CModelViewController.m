@@ -38,7 +38,12 @@
     
     NSURL *theURL = [[NSBundle mainBundle] URLForResource:@"teapot" withExtension:@"model.plist"];
     
-    CMesh *theMesh = [theLoader loadMeshWithURL:theURL error:NULL];
+    NSError *theError = NULL;
+    CMesh *theMesh = [theLoader loadMeshWithURL:theURL error:&theError];
+    if (theMesh == NULL)
+        {
+        NSLog(@"%@", theError);
+        }
     
     COBJRenderer *theRenderer = [[[COBJRenderer alloc] init] autorelease];
     theRenderer.mesh = theMesh;

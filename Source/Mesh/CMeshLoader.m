@@ -95,7 +95,11 @@
 		{
 		NSDictionary *theMaterialDictionary = [theMaterialsDictionary objectForKey:theName];
 		
-		CMaterial *theMaterial = [self materialWithPropertyListRepresentation:theMaterialDictionary error:NULL];
+		CMaterial *theMaterial = [self materialWithPropertyListRepresentation:theMaterialDictionary error:outError];
+        if (theMaterial == NULL)
+            {
+            return(NULL);
+            }
         theMaterial.name = theName;
 		
 		[self.materials setObject:theMaterial forKey:theName];
@@ -109,7 +113,11 @@
 		{
 		NSDictionary *theBufferDictionary = [theBuffersDictionary objectForKey:theBufferName];
 		
-		CVertexBuffer *theVertexBuffer = [self vertexBufferWithPropertyListRepresentation:theBufferDictionary error:NULL];
+		CVertexBuffer *theVertexBuffer = [self vertexBufferWithPropertyListRepresentation:theBufferDictionary error:outError];
+        if (theVertexBuffer == NULL)
+            {
+            return(NULL);
+            }
 		
 		[self.buffers setObject:theVertexBuffer forKey:theBufferName];
 		}
@@ -282,7 +290,11 @@
         NSURL *theURL = [[self.URL URLByDeletingLastPathComponent] URLByAppendingPathComponent:theObject];
         
         #if TARGET_OS_IPHONE
-        NSData *theData = [NSData dataWithContentsOfURL:theURL options:0 error:NULL];
+        NSData *theData = [NSData dataWithContentsOfURL:theURL options:0 error:outError];
+        if (theData == NULL)
+            {
+            return(NULL);
+            }
         UIImage *theImage = [UIImage imageWithData:theData];
         CGImageRef theImageRef = [theImage CGImage];
         #else
