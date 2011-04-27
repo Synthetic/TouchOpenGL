@@ -1,5 +1,5 @@
 #ifdef GL_ES
-precision lowp float;
+precision mediump float;
 #endif
 
 varying vec4 v_color;
