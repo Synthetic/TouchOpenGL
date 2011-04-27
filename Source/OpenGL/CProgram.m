@@ -89,7 +89,8 @@
     {
     if (name == 0)
         {
-        [self linkProgram:NULL];
+        NSError *theError = NULL;
+        [self linkProgram:&theError];
         }
     return(name);
     }
@@ -194,8 +195,21 @@
 - (BOOL)validate:(NSError **)outError
     {
     AssertOpenGLNoError_();
+    
+    if (name == 0)
+        {
+        NSError *theError = NULL;
+        if ([self linkProgram:&theError] == NO)
+            {
+            NSLog(@"%@", theError);
+            }
+        }
+    
+    NSAssert(glIsProgram(self.name), @"name is not a program");
 
     glValidateProgram(self.name);
+
+    AssertOpenGLNoError_();
 
     GLint theStatus = GL_FALSE;
     glGetProgramiv(self.name, GL_VALIDATE_STATUS, &theStatus);

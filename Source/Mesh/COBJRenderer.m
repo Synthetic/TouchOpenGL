@@ -88,7 +88,18 @@
 
     // #### Set up lighting
 	CProgram *theProgram = self.lightingProgram;
+
+    #if defined(DEBUG)
+        NSError *theError = NULL;
+        if ([theProgram validate:&theError] == NO)
+            {
+            NSLog(@"Failed to validate program: %@", theError);
+            return;
+            }
+    #endif
 	glUseProgram(theProgram.name);
+
+
 
     GLuint theUniform = 0;
 
