@@ -52,6 +52,7 @@
 		45991FB813424B3900604591 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 45991FB013424B3900604591 /* InfoPlist.strings */; };
 		45991FB913424B3900604591 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45991FB213424B3900604591 /* MainMenu.xib */; };
 		45991FBA13424B3900604591 /* CModelDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45991FB413424B3900604591 /* CModelDocument.xib */; };
+		45C7D800136799820034D19E /* ArcBallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C7D7FF136799820034D19E /* ArcBallView.m */; };
 		45D1E41E13564C510050AE9F /* 02edc2837b569ac33d0709b313061e04.vbo in Resources */ = {isa = PBXBuildFile; fileRef = 45D1E41B13564C510050AE9F /* 02edc2837b569ac33d0709b313061e04.vbo */; };
 		45D1E41F13564C510050AE9F /* 85e7e43146bc76295d4a9b25ccef50d7.vbo in Resources */ = {isa = PBXBuildFile; fileRef = 45D1E41C13564C510050AE9F /* 85e7e43146bc76295d4a9b25ccef50d7.vbo */; };
 		45D1E42013564C510050AE9F /* teapot.model.plist in Resources */ = {isa = PBXBuildFile; fileRef = 45D1E41D13564C510050AE9F /* teapot.model.plist */; };
@@ -148,6 +149,8 @@
 		45991FB313424B3900604591 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		45991FB513424B3900604591 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CModelDocument.xib; sourceTree = "<group>"; };
 		45991FB613424B3900604591 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		45C7D7FE136799820034D19E /* ArcBallView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArcBallView.h; sourceTree = "<group>"; };
+		45C7D7FF136799820034D19E /* ArcBallView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArcBallView.m; sourceTree = "<group>"; };
 		45D1E41B13564C510050AE9F /* 02edc2837b569ac33d0709b313061e04.vbo */ = {isa = PBXFileReference; lastKnownFileType = file; path = 02edc2837b569ac33d0709b313061e04.vbo; sourceTree = "<group>"; };
 		45D1E41C13564C510050AE9F /* 85e7e43146bc76295d4a9b25ccef50d7.vbo */ = {isa = PBXFileReference; lastKnownFileType = file; path = 85e7e43146bc76295d4a9b25ccef50d7.vbo; sourceTree = "<group>"; };
 		45D1E41D13564C510050AE9F /* teapot.model.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = teapot.model.plist; sourceTree = "<group>"; };
@@ -340,6 +343,8 @@
 				453F9AB713426889000EF0F5 /* Color4fValueTransformer.m */,
 				45D736A01342989200F70A45 /* CDictionaryToVectorValueTransformer.h */,
 				45D736A11342989200F70A45 /* CDictionaryToVectorValueTransformer.m */,
+				45C7D7FE136799820034D19E /* ArcBallView.h */,
+				45C7D7FF136799820034D19E /* ArcBallView.m */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -472,6 +477,7 @@
 				453F9AB813426889000EF0F5 /* Color4fValueTransformer.m in Sources */,
 				45D736A21342989200F70A45 /* CDictionaryToVectorValueTransformer.m in Sources */,
 				457711E7134A9E3C00AF6688 /* CLazyTexture.m in Sources */,
+				45C7D800136799820034D19E /* ArcBallView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
