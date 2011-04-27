@@ -21,7 +21,6 @@ struct MaterialParameters {
     };
 
 
-varying vec4 v_color;
 varying vec2 v_texture0;
 varying vec4 v_position;
 varying vec3 v_normal;
@@ -38,8 +37,6 @@ uniform mat4 u_projectionMatrix;
 
 void main()
     {
-    gl_FragColor = v_color;
-
     // Work around for no gl_NormalMatrix from http://glosx.blogspot.com/2008/03/glnormalmatrix.html
     vec3 theNormal = (u_modelViewMatrix * vec4(v_normal, 0.0)).xyz;
     vec3 thePosition = (u_modelViewMatrix * v_position).xyz;
