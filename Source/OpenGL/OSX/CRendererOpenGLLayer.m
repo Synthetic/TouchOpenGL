@@ -77,11 +77,7 @@
     
     if (self.setup == NO)
         {
-        [self.renderer setup];
-        
         self.renderer.size = (SIntSize){ .width = self.bounds.size.width, .height = self.bounds.size.height };
-        
-        [self.renderer clear];
 
         self.setup = YES;
         }
