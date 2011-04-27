@@ -60,11 +60,17 @@
 
 - (void)dealloc
     {
+    [camera release];
+    camera = NULL;
+    
     [light release];
     light = NULL;
     
     [defaultMaterial release];
     defaultMaterial = NULL;
+
+    [defaultProgramName release];
+    defaultProgramName = NULL;
     
     [mesh release];
     mesh = NULL;
@@ -320,7 +326,6 @@
                 theAttributesIndex = [theProgram attributeIndexForName:@"a_texCoord"];        
                 [theGeometry.texCoords use:theAttributesIndex];
                 glEnableVertexAttribArray(theAttributesIndex);
-                
                             
                 AssertOpenGLNoError_();
                 }

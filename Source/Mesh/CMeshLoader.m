@@ -43,6 +43,20 @@
 
 - (void)dealloc
     {
+    [URL release];
+    URL = NULL;
+    
+    [modelDictioary release];
+    modelDictioary = NULL;
+    
+    [mesh release];
+    mesh = NULL;
+    
+    [buffers release];
+    buffers = NULL;
+    
+    [materials release];
+    materials = NULL;
     //
     [super dealloc];
     }
