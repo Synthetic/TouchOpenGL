@@ -84,8 +84,6 @@
         {
         theProgramName = self.defaultProgramName;
         }
-    NSLog(@"SETUP: %@", theProgramName);
-    
     self.lightingProgram = [[[CProgram alloc] initWithName:theProgramName attributeNames:[NSArray arrayWithObjects:@"a_position", @"a_normal", NULL] uniformNames:[NSArray arrayWithObjects:@"u_modelViewMatrix", @"u_projectionMatrix", @"u_lightSource", @"u_lightModel", @"u_cameraPosition", @"s_texture0", NULL]] autorelease];
 
     // #### Set up lighting
