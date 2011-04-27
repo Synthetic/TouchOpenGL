@@ -282,7 +282,8 @@
         NSURL *theURL = [[self.URL URLByDeletingLastPathComponent] URLByAppendingPathComponent:theObject];
         
         #if TARGET_OS_IPHONE
-        UIImage *theImage = [UIImage imageWithContentsOfFile:theURL.path];
+        NSData *theData = [NSData dataWithContentsOfURL:theURL options:0 error:NULL];
+        UIImage *theImage = [UIImage imageWithData:theData];
         CGImageRef theImageRef = [theImage CGImage];
         #else
         NSImage *theImage = [[[NSImage alloc] initWithContentsOfURL:theURL] autorelease];
