@@ -283,8 +283,11 @@
         CGImageRef theImageRef = [theImage CGImageForProposedRect:NULL context:NULL hints:NULL];
         #endif
 
-        CLazyTexture *theTexture = [[[CLazyTexture alloc] initWIthImage:theImageRef] autorelease];
-        theMaterial.texture = theTexture;
+        if (theImageRef)
+            {
+            CLazyTexture *theTexture = [[[CLazyTexture alloc] initWIthImage:theImageRef] autorelease];
+            theMaterial.texture = theTexture;
+            }
         }
 
 
