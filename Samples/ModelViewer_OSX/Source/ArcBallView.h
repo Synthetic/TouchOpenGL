@@ -8,9 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+@class CArcBall;
+@class CModelDocument;
 
-@interface ArcBallView : NSView {
-    
-}
+#import "OpenGLTypes.h"
+#import "Quaternion.h"
 
+@interface ArcBallView : NSView
+@property (nonatomic, retain) CArcBall *arcBall;
+@property (nonatomic, assign) CGPoint startPoint;
+@property (nonatomic, assign) Quaternion startQuaternion;
+@property (nonatomic, assign) CModelDocument *document; // TODO -- hack!
 @end

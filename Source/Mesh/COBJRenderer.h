@@ -24,6 +24,6 @@
 @property (readwrite, nonatomic, retain) CLight *light;
 @property (readwrite, nonatomic, retain) CMaterial *defaultMaterial;
 @property (readwrite, nonatomic, assign) Matrix4 modelTransform;
-
+@property (readwrite, nonatomic, assign) NSString *defaultProgramName;
 
 @end

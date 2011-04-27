@@ -30,6 +30,7 @@
 @property (nonatomic, assign) GLfloat lightY;
 @property (nonatomic, assign) GLfloat lightZ;
 
-
+@property (nonatomic, retain) NSArray *programs;
+@property (nonatomic, retain) NSString *defaultProgram;
 
 @end

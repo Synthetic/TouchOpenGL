@@ -24,7 +24,7 @@
 		{
         transform = Matrix4Identity;
         cullBackFaces = NO;
-        programName = [@"Lighting_PerVertex" retain];
+//        programName = [@"Lighting_PerVertex" retain];
 		}
 	return(self);
 	}

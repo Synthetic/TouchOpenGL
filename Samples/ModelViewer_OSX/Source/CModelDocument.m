@@ -45,6 +45,8 @@
 @synthesize lightY;
 @synthesize lightZ;
 @synthesize arcBallView = _arcBallView;
+@synthesize programs;
+@synthesize defaultProgram;
 
 - (id)init
     {
@@ -69,6 +71,20 @@
         [self addObserver:self forKeyPath:@"renderer.light.ambientColor" options:0 context:NULL];
         [self addObserver:self forKeyPath:@"renderer.light.diffuseColor" options:0 context:NULL];
         [self addObserver:self forKeyPath:@"renderer.light.specularColor" options:0 context:NULL];
+        
+        NSMutableArray *thePrograms = [NSMutableArray array];
+        for (NSString *thePath in [[NSFileManager defaultManager] subpathsAtPath:[[NSBundle mainBundle] resourcePath]])
+            {
+            if ([[thePath pathExtension] isEqualToString:@"fsh"])
+                {
+                NSString *theName = [[[NSFileManager defaultManager] displayNameAtPath:thePath] stringByDeletingPathExtension];
+                [thePrograms addObject:theName];
+                }
+            }
+            
+        self.defaultProgram = @"Lighting_PerPixel";
+            
+        self.programs = thePrograms;
         }
     return self;
     }
@@ -186,6 +202,20 @@
     self.renderer.light.position = theLightPosition;
     }
 
+- (void)setDefaultProgram:(NSString *)inDefaultProgram
+    {
+    if (defaultProgram != inDefaultProgram)
+        {
+        [defaultProgram release];
+        defaultProgram = [inDefaultProgram retain];
+        
+        NSLog(@"%@", defaultProgram);
+        
+        self.renderer.defaultProgramName = defaultProgram;
+        
+        [self.renderer setNeedsSetup];
+        }
+    }
     
 #pragma mark -
 

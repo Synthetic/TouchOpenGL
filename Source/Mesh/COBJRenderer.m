@@ -37,6 +37,7 @@
 @synthesize light;
 @synthesize defaultMaterial;
 @synthesize modelTransform;
+@synthesize defaultProgramName;
 
 @synthesize mesh;
 @synthesize lightingProgram;
@@ -52,7 +53,7 @@
         light.position = camera.position;
         defaultMaterial = [[CMaterial alloc] init];
         modelTransform = Matrix4Identity;
-                
+        defaultProgramName = [@"" retain];        
 		}
 	return(self);
 	}
@@ -78,9 +79,14 @@
     {
     [super setup];
     //
-    NSLog(@"%@", self.mesh.programName);
+    NSString *theProgramName = self.mesh.programName;
+    if (theProgramName.length == 0)
+        {
+        theProgramName = self.defaultProgramName;
+        }
+    NSLog(@"SETUP: %@", theProgramName);
     
-    self.lightingProgram = [[[CProgram alloc] initWithName:self.mesh.programName attributeNames:[NSArray arrayWithObjects:@"a_position", @"a_normal", NULL] uniformNames:[NSArray arrayWithObjects:@"u_modelViewMatrix", @"u_projectionMatrix", @"u_lightSource", @"u_lightModel", @"u_cameraPosition", @"s_texture0", NULL]] autorelease];
+    self.lightingProgram = [[[CProgram alloc] initWithName:theProgramName attributeNames:[NSArray arrayWithObjects:@"a_position", @"a_normal", NULL] uniformNames:[NSArray arrayWithObjects:@"u_modelViewMatrix", @"u_projectionMatrix", @"u_lightSource", @"u_lightModel", @"u_cameraPosition", @"s_texture0", NULL]] autorelease];
 
     // #### Set up lighting
 	CProgram *theProgram = self.lightingProgram;
