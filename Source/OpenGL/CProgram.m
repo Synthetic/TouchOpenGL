@@ -89,7 +89,11 @@
     {
     if (name == 0)
         {
-        [self linkProgram:NULL];
+        NSError *theError = NULL;
+        if ([self linkProgram:&theError] == NO)
+            {
+            NSLog(@"linkProgram failed: %@", theError);
+            }
         }
     return(name);
     }
