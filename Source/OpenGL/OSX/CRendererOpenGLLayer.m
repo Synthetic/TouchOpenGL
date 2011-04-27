@@ -63,14 +63,6 @@
     return(thePixelFormatObject);
     }
 
-//- (CGLContextObj)copyCGLContextForPixelFormat:(CGLPixelFormatObj)pixelFormat
-//    {
-//    GLint depth = -14;
-//    CGLDescribePixelFormat(pixelFormat, 0, kCGLPFADepthSize, &depth);
-//    NSLog(@"> %d", depth);
-//	return([super copyCGLContextForPixelFormat:pixelFormat]);
-//    }
-
 - (void)drawInCGLContext:(CGLContextObj)ctx pixelFormat:(CGLPixelFormatObj)pf forLayerTime:(CFTimeInterval)t displayTime:(const CVTimeStamp *)ts
     {
     CGLSetCurrentContext(ctx);
@@ -88,6 +80,5 @@
 
     [super drawInCGLContext:ctx pixelFormat:pf forLayerTime:t displayTime:ts];
     }
-
 
 @end
