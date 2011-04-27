@@ -36,8 +36,6 @@ uniform LightModelParameters u_lightModel; // gl_LightModel
 uniform MaterialParameters u_frontMaterial; // gl_FrontMaterial
 uniform vec4 u_cameraPosition;
 
-uniform sampler2D s_texture0;
-
 void main()
 {
     // Work around for no gl_NormalMatrix from http://glosx.blogspot.com/2008/03/glnormalmatrix.html
@@ -51,7 +49,6 @@ void main()
 
     // Compute the diffuse term
     vec4 theDiffuseTerm = u_frontMaterial.diffuse * u_lightSource.diffuse;
-    //theDiffuseTerm = (u_frontMaterial.diffuse + texture2D(s_texture0, a_texCoord)) * u_lightSource.diffuse;
 
 	// Compute the ambient and globalAmbient terms.
 	vec4 ambient = u_frontMaterial.ambient * u_lightSource.ambient;
@@ -63,15 +60,15 @@ void main()
 
     v_color = NdotL * theDiffuseTerm + globalAmbient + ambient + specular;
     v_color.a = 1.0;
-    
+
     v_color = vec4(1.0, 0.0, 0.0, 1.0);
 
     mat4 theModelViewProjectionMatrix = u_projectionMatrix * u_modelViewMatrix;
     gl_Position = theModelViewProjectionMatrix * a_position;
-    v_position = a_position;
-    v_normal = a_normal;
 
     v_texture0 = a_texCoord;
+    v_position = a_position;
+    v_normal = a_normal;
 }
 
 
