@@ -74,7 +74,7 @@
     [uniformsByName release];
     uniformsByName = NULL;
     
-    if (name)
+    if (glIsProgram(name))
         {
         glDeleteProgram(name);
         name = 0;

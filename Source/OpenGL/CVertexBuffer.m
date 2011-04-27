@@ -43,7 +43,7 @@
     
 - (void)dealloc
     {
-    if (name != 0)
+    if (glIsBuffer(name))
         {
         glDeleteBuffers(1, &name);
         name = 0;

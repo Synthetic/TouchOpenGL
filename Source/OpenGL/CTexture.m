@@ -27,7 +27,7 @@
 
 - (void)dealloc
     {
-    if (name != 0)
+    if (glIsTexture(name))
         {
         glDeleteTextures(1, &name);
         name = 0;

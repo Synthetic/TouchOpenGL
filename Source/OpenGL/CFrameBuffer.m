@@ -29,20 +29,25 @@
 
 - (void)dealloc
     {
-    glDeleteFramebuffers(1, &name);
+    if (glIsFramebuffer(name))
+        {
+        NSLog(@"FOO");
+        glDeleteFramebuffers(1, &name);
+        name = 0;
+        }
     //
     [super dealloc];
     }
 
 - (BOOL)isComplete:(GLenum)inTarget
     {
+    NSAssert(glIsFramebuffer(name), @"name is not a framebuffer");
     GLenum theStatus = glCheckFramebufferStatus(inTarget);
     return(theStatus == GL_FRAMEBUFFER_COMPLETE);
     }
 
 - (void)bind:(GLenum)inTarget
     {
-    NSAssert(self.name != 0, @"No name to bind");
     glBindFramebuffer(inTarget, self.name);
     }
 

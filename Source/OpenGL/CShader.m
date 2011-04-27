@@ -59,7 +59,7 @@
     [URL release];
     URL = NULL;
 
-    if (name)
+    if (glIsShader(name))
         {
         glDeleteShader(name);
         name = 0;

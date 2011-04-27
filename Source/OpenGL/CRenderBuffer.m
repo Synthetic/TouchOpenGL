@@ -26,7 +26,11 @@
 
 - (void)dealloc
     {
-    glDeleteRenderbuffers(1, &name);
+    if (glIsRenderbuffer(name))
+        {
+        glDeleteRenderbuffers(1, &name);
+        name = 0;
+        }
     //
     [super dealloc];
     }
