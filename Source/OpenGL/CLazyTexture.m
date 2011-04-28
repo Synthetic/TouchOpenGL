@@ -36,7 +36,7 @@
 //@synthesize internalFormat;
 //@synthesize hasAlpha;
 
-- (id)initWIthImage:(CGImageRef)inImage;
+- (id)initWithImage:(CGImageRef)inImage;
 	{
 	if ((self = [super init]) != NULL)
 		{

@@ -304,7 +304,7 @@
 
         if (theImageRef)
             {
-            CLazyTexture *theTexture = [[[CLazyTexture alloc] initWIthImage:theImageRef] autorelease];
+            CLazyTexture *theTexture = [[(CLazyTexture *)[CLazyTexture alloc] initWithImage:theImageRef] autorelease];
             theMaterial.texture = theTexture;
             }
         }
