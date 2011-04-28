@@ -36,7 +36,14 @@
 
     CMeshLoader *theLoader = [[[CMeshLoader alloc] init] autorelease];
     
-    NSURL *theURL = [[NSBundle mainBundle] URLForResource:@"teapot" withExtension:@"model.plist"];
+    NSString *theDefaultMeshFilename = [[NSUserDefaults standardUserDefaults] objectForKey:@"MeshFilename"];
+    theDefaultMeshFilename = [theDefaultMeshFilename stringByDeletingPathExtension];
+    if (theDefaultMeshFilename.length == 0)
+        {
+        theDefaultMeshFilename = @"teapot";
+        }
+    
+    NSURL *theURL = [[NSBundle mainBundle] URLForResource:theDefaultMeshFilename withExtension:@"model.plist"];
     
     NSError *theError = NULL;
     CMesh *theMesh = [theLoader loadMeshWithURL:theURL error:&theError];
@@ -72,6 +79,9 @@
     #pragma unused (actionSheet)
 
     NSString *theFilename = [actionSheet buttonTitleAtIndex:buttonIndex];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[theFilename stringByDeletingPathExtension] forKey:@"MeshFilename"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 
     NSURL *theURL = [[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:theFilename];
     
