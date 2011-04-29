@@ -223,7 +223,7 @@ Matrix4 Matrix4Transpose(Matrix4 t)
     Matrix4 m;
     for (int X = 0; X != 4; ++X)
         {
-        for (int Y = 0; Y != 4; ++X)
+        for (int Y = 0; Y != 4; ++Y)
             {
             m.m[X][Y] = t.m[Y][X];
             }
