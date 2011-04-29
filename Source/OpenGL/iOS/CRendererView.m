@@ -152,7 +152,10 @@
     {
     [super willMoveToWindow:newWindow];
     //
-    [self stopAnimation];
+    if (newWindow == NULL)
+        {
+        [self stopAnimation];
+        }
     }
 
 #pragma mark -
