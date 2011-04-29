@@ -78,21 +78,24 @@
     {
     #pragma unused (actionSheet)
 
-    NSString *theFilename = [actionSheet buttonTitleAtIndex:buttonIndex];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:[theFilename stringByDeletingPathExtension] forKey:@"MeshFilename"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    if (buttonIndex >= 0)
+        {
+        NSString *theFilename = [actionSheet buttonTitleAtIndex:buttonIndex];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[theFilename stringByDeletingPathExtension] forKey:@"MeshFilename"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
 
-    NSURL *theURL = [[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:theFilename];
-    
-    CMeshLoader *theLoader = [[[CMeshLoader alloc] init] autorelease];
-    CMesh *theMesh = [theLoader loadMeshWithURL:theURL error:NULL];
-    
-//    COBJRenderer *theRenderer = [[[COBJRenderer alloc] init] autorelease];
-//    theRenderer.mesh = theMesh;
-    
-    ((COBJRenderer *)self.rendererView.renderer).mesh = theMesh;
-    [self.rendererView.renderer setup];
+        NSURL *theURL = [[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:theFilename];
+        
+        CMeshLoader *theLoader = [[[CMeshLoader alloc] init] autorelease];
+        CMesh *theMesh = [theLoader loadMeshWithURL:theURL error:NULL];
+        
+    //    COBJRenderer *theRenderer = [[[COBJRenderer alloc] init] autorelease];
+    //    theRenderer.mesh = theMesh;
+        
+        ((COBJRenderer *)self.rendererView.renderer).mesh = theMesh;
+        [self.rendererView.renderer setup];
+        }
     }
 
 @end
