@@ -191,6 +191,8 @@
 
 - (void)render
     {
+    AssertOpenGLValidContext_();
+    
     AssertOpenGLNoError_();
 
     if (self.mesh.cullBackFaces == YES)
