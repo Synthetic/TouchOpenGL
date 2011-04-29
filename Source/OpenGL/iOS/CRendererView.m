@@ -20,6 +20,8 @@
 
 - (void)setup;
 - (void)tick:(id)inSender;
+- (void)startAnimation:(id)inParameter;
+- (void)stopAnimation:(id)inParameter;
 @end
 
 #pragma mark -
@@ -52,7 +54,12 @@
     if ((self = [super initWithFrame:inFrame]))
         {
         animationFrameInterval = 1.0;
-        multisampleAntialiasing = YES;
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopAnimation:) name:UIApplicationWillTerminateNotification object:[UIApplication sharedApplication]];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopAnimation:) name:UIApplicationWillResignActiveNotification object:[UIApplication sharedApplication]];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopAnimation:) name:UIApplicationDidEnterBackgroundNotification object:[UIApplication sharedApplication]];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startAnimation:) name:UIApplicationWillEnterForegroundNotification object:[UIApplication sharedApplication]];
         }
 
     return self;
@@ -63,7 +70,12 @@
     if ((self = [super initWithCoder:inDecoder]) != NULL)
         {
         animationFrameInterval = 1.0;
-        multisampleAntialiasing = YES;
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopAnimation:) name:UIApplicationWillTerminateNotification object:[UIApplication sharedApplication]];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopAnimation:) name:UIApplicationWillResignActiveNotification object:[UIApplication sharedApplication]];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopAnimation:) name:UIApplicationDidEnterBackgroundNotification object:[UIApplication sharedApplication]];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startAnimation:) name:UIApplicationWillEnterForegroundNotification object:[UIApplication sharedApplication]];
         }
 
     return self;
@@ -71,6 +83,12 @@
 
 - (void)dealloc
     {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillTerminateNotification object:[UIApplication sharedApplication]];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:[UIApplication sharedApplication]];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:[UIApplication sharedApplication]];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:[UIApplication sharedApplication]];
+    
     if ([EAGLContext currentContext] == context)
         {
         [EAGLContext setCurrentContext:nil];
@@ -109,7 +127,6 @@
     {
     [super setBounds:inBounds];
     //
-    
     const SIntSize theSize = { .width = self.bounds.size.width, .height = self.bounds.size.height };
     self.renderer.size = theSize;
     }
@@ -122,6 +139,20 @@
     self.renderer.size = theSize;
 
     [self render];
+    }
+
+- (void)removeFromSuperview
+    {
+    [super removeFromSuperview];
+    //
+    [self stopAnimation];
+    }
+
+- (void)willMoveToWindow:(UIWindow *)newWindow
+    {
+    [super willMoveToWindow:newWindow];
+    //
+    [self stopAnimation];
     }
 
 #pragma mark -
@@ -163,7 +194,7 @@
     {
     if (!self.animating)
         {
-        self.animating = TRUE;
+        self.animating = YES;
 
         displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(tick:)];
         [displayLink setFrameInterval:self.animationFrameInterval];
@@ -175,10 +206,10 @@
     {
     if (self.animating)
         {
-        self.animating = FALSE;
+        self.animating = NO;
 
         [displayLink invalidate];
-        displayLink = nil;
+        displayLink = NULL;
         }
     }
     
@@ -220,9 +251,6 @@
         // Discard frame buffers for extra performance: see http://www.khronos.org/registry/gles/extensions/EXT/EXT_discard_framebuffer.txt
         GLenum theAttachments[] = { GL_COLOR_ATTACHMENT0, GL_DEPTH_ATTACHMENT };
         glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 2, theAttachments);
-    
-
-
 
         [self.context presentRenderbuffer:GL_RENDERBUFFER];
         }
@@ -234,19 +262,13 @@
         glResolveMultisampleFramebufferAPPLE();
         // Present final image to screen
 
-
-    // Discard frame buffers for extra performance: see http://www.khronos.org/registry/gles/extensions/EXT/EXT_discard_framebuffer.txt
-    GLenum theAttachments[] = { GL_COLOR_ATTACHMENT0, GL_DEPTH_ATTACHMENT };
-    glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 2, theAttachments);
-    
-
-
+        // Discard frame buffers for extra performance: see http://www.khronos.org/registry/gles/extensions/EXT/EXT_discard_framebuffer.txt
+        GLenum theAttachments[] = { GL_COLOR_ATTACHMENT0, GL_DEPTH_ATTACHMENT };
+        glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 2, theAttachments);
 
         glBindRenderbuffer(GL_RENDERBUFFER, self.colorRenderBuffer.name);
         [self.context presentRenderbuffer:GL_RENDERBUFFER];
         }
-
-
 
     AssertOpenGLNoError_();
     }
@@ -255,11 +277,11 @@
 
 - (void)setup
     {
-    // Get the layer
+    self.multisampleAntialiasing = NO;
     self.EAGLLayer.opaque = TRUE;
     self.EAGLLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithBool:FALSE], kEAGLDrawablePropertyRetainedBacking,
-        kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat,
+        kEAGLColorFormatRGB565, kEAGLDrawablePropertyColorFormat,
         nil];
 
     if (context == NULL)
@@ -332,6 +354,18 @@
         {
         [self render];
         }
+    }
+    
+- (void)startAnimation:(id)inParameter
+    {
+    #pragma unused (inParameter)
+    [self startAnimation];
+    }
+    
+- (void)stopAnimation:(id)inParameter
+    {
+    #pragma unused (inParameter)
+    [self stopAnimation];
     }
 
 @end
