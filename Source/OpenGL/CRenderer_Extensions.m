@@ -239,7 +239,7 @@
         }
 
     const float kFarClippingPlane = -8.0f;
-    const float kGlowRadius = 10.0f;
+    const float kGlowRadius = 15.0f;
     Vector3 theVertices[] = {
         { .x = -kGlowRadius, .y = -kGlowRadius, .z = kFarClippingPlane },
         { .x = kGlowRadius, .y = -kGlowRadius, .z = kFarClippingPlane },

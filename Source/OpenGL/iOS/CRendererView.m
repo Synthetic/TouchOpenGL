@@ -113,10 +113,14 @@
     const SIntSize theSize = { .width = self.bounds.size.width, .height = self.bounds.size.height };
     self.renderer.size = theSize;
     }
+
 - (void)layoutSubviews
     {
     [super layoutSubviews];
     //
+    const SIntSize theSize = { .width = self.bounds.size.width, .height = self.bounds.size.height };
+    self.renderer.size = theSize;
+
     [self render];
     }
 
@@ -203,7 +207,6 @@
         {
         [self.sampleFrameBuffer bind:GL_FRAMEBUFFER];
         }
-    
     
     [self.renderer prerender];
     [self.renderer render];
