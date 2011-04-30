@@ -21,7 +21,6 @@ GLfloat RadiansToDegrees(GLfloat inDegrees)
 	return(inDegrees * 180.0 / M_PI);
 	}
 
-
 GLfloat Vector3Length(Vector3 inVector)
     {
     return(sqrt(inVector.x * inVector.x + inVector.y * inVector.y + inVector.z * inVector.z));

@@ -59,6 +59,9 @@
 		457D9C95133D23DB00F576A3 /* Unit_Tests.h in Resources */ = {isa = PBXBuildFile; fileRef = 457D9C94133D23DB00F576A3 /* Unit_Tests.h */; };
 		457D9C97133D23DB00F576A3 /* Unit_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 457D9C96133D23DB00F576A3 /* Unit_Tests.m */; };
 		459CFBA61332E48800B16315 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 459CFBA51332E48800B16315 /* CoreMotion.framework */; };
+		45F972CF136B8E9700FF36E9 /* OpenGLTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C02F3133D57A20001A967 /* OpenGLTypes.m */; };
+		45F972D1136B8E9B00FF36E9 /* Quaternion.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C02FE133D57A20001A967 /* Quaternion.m */; };
+		45F972D2136B8EA000FF36E9 /* Matrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C02F0133D57A20001A967 /* Matrix.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -529,6 +532,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				457D9C97133D23DB00F576A3 /* Unit_Tests.m in Sources */,
+				45F972CF136B8E9700FF36E9 /* OpenGLTypes.m in Sources */,
+				45F972D1136B8E9B00FF36E9 /* Quaternion.m in Sources */,
+				45F972D2136B8EA000FF36E9 /* Matrix.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
