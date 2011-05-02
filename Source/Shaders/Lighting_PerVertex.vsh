@@ -37,13 +37,13 @@ uniform vec4 u_cameraPosition;
 void main()
 {
     // Work around for no gl_NormalMatrix from http://glosx.blogspot.com/2008/03/glnormalmatrix.html
-    vec3 theNormal = (u_modelViewMatrix * vec4(a_normal, 0.0)).xyz;
+    vec3 theNormal = normalize((u_modelViewMatrix * vec4(a_normal, 0.0))).xyz;
     vec3 thePosition = (u_modelViewMatrix * a_position).xyz;
     vec3 theLightDirection = normalize(thePosition - vec3(u_lightSource.position));
     vec3 theViewDirection = normalize(thePosition - vec3(u_cameraPosition));
 
     // Compute the cos of the angle between the normal and lights direction. The light is directional so the direction is constant for every vertex. Since these two are normalized the cosine is the dot product. We also need to clamp the result to the [0,1] range.
-    float NdotL = max(dot(normalize(theNormal), theLightDirection), 0.0);
+    float NdotL = max(dot(theNormal, theLightDirection), 0.0);
 
     // Compute the diffuse term
     vec4 theDiffuseTerm = u_frontMaterial.diffuse * u_lightSource.diffuse;
