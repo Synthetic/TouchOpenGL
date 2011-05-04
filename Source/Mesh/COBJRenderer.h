@@ -16,7 +16,7 @@
 @class CMesh;
 
 @interface COBJRenderer : CRenderer {
-    
+    GLfloat *_depthValues;
 }
 
 @property (readwrite, nonatomic, retain) CMesh *mesh;
@@ -25,5 +25,7 @@
 @property (readwrite, nonatomic, retain) CMaterial *defaultMaterial;
 @property (readwrite, nonatomic, assign) Matrix4 modelTransform;
 @property (readwrite, nonatomic, assign) NSString *defaultProgramName;
+
+- (float)depthAtPoint:(CGPoint)point;
 
 @end

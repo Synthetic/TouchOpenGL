@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06A3EA781370D23700709280 /* Globals.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A3EA761370D23700709280 /* Globals.m */; };
 		451846C7136776A3006296F2 /* Shaders in Resources */ = {isa = PBXBuildFile; fileRef = 451846C6136776A3006296F2 /* Shaders */; };
 		4527174A130B202F00529A0C /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45271749130B202F00529A0C /* OpenGLES.framework */; };
 		4527174C130B203700529A0C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4527174B130B203700529A0C /* QuartzCore.framework */; };
@@ -65,6 +66,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		06A3EA761370D23700709280 /* Globals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Globals.m; sourceTree = "<group>"; };
+		06A3EA771370D23700709280 /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
 		451846C6136776A3006296F2 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
 		45271749130B202F00529A0C /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		4527174B130B203700529A0C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -270,6 +273,8 @@
 				457C02B9133D57A20001A967 /* CMeshLoader.m */,
 				457C02BA133D57A20001A967 /* COBJRenderer.h */,
 				457C02BB133D57A20001A967 /* COBJRenderer.m */,
+				06A3EA761370D23700709280 /* Globals.m */,
+				06A3EA771370D23700709280 /* Globals.h */,
 			);
 			path = Mesh;
 			sourceTree = "<group>";
@@ -524,6 +529,7 @@
 				452C2C61134278AC0078B2BA /* CLight.m in Sources */,
 				4578017B1342B95600ACEEE4 /* CCamera.m in Sources */,
 				4541931C134BA38700B36C36 /* CLazyTexture.m in Sources */,
+				06A3EA781370D23700709280 /* Globals.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -18,7 +18,7 @@
 
 @implementation CRenderer
 
-@synthesize size;
+@synthesize size = _size;
 @synthesize projectionTransform;
 
 @synthesize needsSetup;

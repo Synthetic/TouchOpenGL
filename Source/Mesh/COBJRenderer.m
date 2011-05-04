@@ -22,6 +22,7 @@
 #import "CVertexArrayBuffer.h"
 #import "CLight.h"
 #import "CCamera.h"
+#import "Globals.h"
 
 #define USE_PERSPECTIVE 0
 #define DRAW_AXES 0
@@ -77,6 +78,10 @@
     
     [lightingProgram release];
     lightingProgram = NULL;
+
+    if (_depthValues) {
+        free(_depthValues);
+    }
     //
     [super dealloc];
     }
@@ -175,17 +180,13 @@
         self.light.position = (Vector4) { 0.0f, 0.0f, -10.0f, 0.0f };
     }
 
-    GLfloat theAspectRatio = (GLfloat)self.size.width / (GLfloat)self.size.height;
-
 #if USE_PERSPECTIVE
     Vector4 theCameraVector = self.camera.position;
     Matrix4 theCameraTransform = Matrix4MakeTranslation(theCameraVector.x, theCameraVector.y, theCameraVector.z);
     Matrix4 theProjectionTransform = Matrix4Perspective(90, theAspectRatio, 0.1, 100);
     self.projectionTransform = Matrix4Concat(theCameraTransform, theProjectionTransform);
 #else
-    const float radius = 8.0f;
-    const float X = radius * theAspectRatio;
-    self.projectionTransform = Matrix4Ortho(-X, X, -radius, radius, -radius, radius);
+    self.projectionTransform = Matrix4Ortho(-kXSize, kXSize, -kYSize, kYSize, -kZSize, kZSize);
 #endif
     }
 
@@ -365,7 +366,31 @@
     #if TARGET_OS_IPHONE
     glBindVertexArrayOES(0);
     #endif /* TARGET_OS_IPHONE */
+
+    SIntSize size = self.size;
+    glReadPixels(0, 0, size.width, size.height, GL_DEPTH_COMPONENT, GL_FLOAT, _depthValues);
     }
 
+- (void)setSize:(SIntSize)size
+{
+    [super setSize:size];
+
+    if (_depthValues) {
+        free(_depthValues);
+    }
+    _depthValues = (GLfloat *)malloc(sizeof(GLfloat) * size.width * size.height);
+}
+
+- (float)depthAtPoint:(CGPoint)point
+{
+    size_t x = (size_t)point.x;
+    size_t y = (size_t)point.y;
+    SIntSize size = self.size;
+    if (x >= size.width || y >= size.height) {
+        return 0.0f;
+    }
+    float rawDepth = _depthValues[x + size.width * y];
+    return -(rawDepth * kZSize * 2.0f - kZSize);
+}
 
 @end

@@ -10,6 +10,7 @@
 		0625B3E71337F377003641E3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0625B3E61337F377003641E3 /* Cocoa.framework */; };
 		0625B4571337FAAD003641E3 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0625B4561337FAAD003641E3 /* OpenGL.framework */; };
 		0625B45F1337FC20003641E3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0625B45E1337FC20003641E3 /* QuartzCore.framework */; };
+		06A3EA6C1370D21700709280 /* Globals.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A3EA6A1370D21600709280 /* Globals.m */; };
 		451846B4136770CB006296F2 /* Shaders in Resources */ = {isa = PBXBuildFile; fileRef = 451846B3136770CB006296F2 /* Shaders */; };
 		453F9AB113425BF5000EF0F5 /* CLight.m in Sources */ = {isa = PBXBuildFile; fileRef = 453F9AB013425BF5000EF0F5 /* CLight.m */; };
 		453F9AB513425C99000EF0F5 /* CCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 453F9AB413425C99000EF0F5 /* CCamera.m */; };
@@ -67,6 +68,8 @@
 		0625B3EB1337F377003641E3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0625B4561337FAAD003641E3 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		0625B45E1337FC20003641E3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		06A3EA6A1370D21600709280 /* Globals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Globals.m; sourceTree = "<group>"; };
+		06A3EA6B1370D21600709280 /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
 		451846B3136770CB006296F2 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
 		453F9AAF13425BF5000EF0F5 /* CLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLight.h; sourceTree = "<group>"; };
 		453F9AB013425BF5000EF0F5 /* CLight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLight.m; sourceTree = "<group>"; };
@@ -238,6 +241,8 @@
 				45991EE813414E9B00604591 /* CMeshLoader.m */,
 				45991EE913414E9B00604591 /* COBJRenderer.h */,
 				45991EEA13414E9B00604591 /* COBJRenderer.m */,
+				06A3EA6A1370D21600709280 /* Globals.m */,
+				06A3EA6B1370D21600709280 /* Globals.h */,
 			);
 			path = Mesh;
 			sourceTree = "<group>";
@@ -478,6 +483,7 @@
 				45D736A21342989200F70A45 /* CDictionaryToVectorValueTransformer.m in Sources */,
 				457711E7134A9E3C00AF6688 /* CLazyTexture.m in Sources */,
 				45C7D800136799820034D19E /* ArcBallView.m in Sources */,
+				06A3EA6C1370D21700709280 /* Globals.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
