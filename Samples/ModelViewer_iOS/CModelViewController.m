@@ -89,7 +89,8 @@
         NSURL *theURL = [[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:theFilename];
         
         CMeshLoader *theLoader = [[[CMeshLoader alloc] init] autorelease];
-        CMesh *theMesh = [theLoader loadMeshWithURL:theURL error:NULL];
+        [theLoader loadMeshWithURL:theURL error:NULL];
+        CMesh *theMesh = theLoader.mesh;
         
     //    COBJRenderer *theRenderer = [[[COBJRenderer alloc] init] autorelease];
     //    theRenderer.mesh = theMesh;
