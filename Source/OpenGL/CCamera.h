@@ -16,5 +16,9 @@
 }
 
 @property (readwrite, nonatomic, assign) Vector4 position;
+@property (readwrite, nonatomic, assign) GLfloat xSize;
+@property (readwrite, nonatomic, assign) GLfloat ySize;
+@property (readwrite, nonatomic, assign) GLfloat zSize;
+@property (readwrite, nonatomic, assign) Matrix4 transform;
 
 @end

@@ -22,7 +22,6 @@
 #import "CVertexArrayBuffer.h"
 #import "CLight.h"
 #import "CCamera.h"
-#import "Globals.h"
 
 #define USE_PERSPECTIVE 0
 #define DRAW_AXES 0
@@ -49,6 +48,9 @@
 		{
         camera = [[CCamera alloc] init];
         camera.position = (Vector4){ .x = 0, .y = 0, .z = -10 };
+        camera.xSize = 6.27450991f;
+        camera.ySize = 8;
+        camera.zSize = 8;
         
         light = [[CLight alloc] init];
         light.position = camera.position;
@@ -180,14 +182,7 @@
         self.light.position = (Vector4) { 0.0f, 0.0f, -10.0f, 0.0f };
     }
 
-#if USE_PERSPECTIVE
-    Vector4 theCameraVector = self.camera.position;
-    Matrix4 theCameraTransform = Matrix4MakeTranslation(theCameraVector.x, theCameraVector.y, theCameraVector.z);
-    Matrix4 theProjectionTransform = Matrix4Perspective(90, theAspectRatio, 0.1, 100);
-    self.projectionTransform = Matrix4Concat(theCameraTransform, theProjectionTransform);
-#else
-    self.projectionTransform = Matrix4Ortho(-kXSize, kXSize, -kYSize, kYSize, -kZSize, kZSize);
-#endif
+    self.projectionTransform = self.camera.transform;
     }
 
 - (void)render
@@ -385,14 +380,15 @@
 
 - (float)depthAtPoint:(CGPoint)point
 {
-    size_t x = (size_t)point.x;
-    size_t y = (size_t)point.y;
+    GLint x = (size_t)point.x;
+    GLint y = (size_t)point.y;
     SIntSize size = self.size;
     if (x >= size.width || y >= size.height) {
         return 0.0f;
     }
-    float rawDepth = _depthValues[x + size.width * y];
-    return -(rawDepth * kZSize * 2.0f - kZSize);
+    GLfloat theZSize = self.camera.zSize;
+    GLfloat rawDepth = _depthValues[x + size.width * y];
+    return -(rawDepth * theZSize * 2.0f - theZSize);
 }
 
 @end
