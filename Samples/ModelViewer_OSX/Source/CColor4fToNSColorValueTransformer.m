@@ -6,11 +6,11 @@
 //  Copyright 2011 Inkling. All rights reserved.
 //
 
-#import "Color4fValueTransformer.h"
+#import "CColor4fToNSColorValueTransformer.h"
 
 #import "Color_OpenGLExtensions.h"
 
-@implementation Color4fValueTransformer
+@implementation CColor4fToNSColorValueTransformer
 
 + (void)load
     {

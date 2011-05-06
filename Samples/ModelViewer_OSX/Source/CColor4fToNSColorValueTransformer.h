@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface Color4fValueTransformer : NSValueTransformer {
+@interface CColor4fToNSColorValueTransformer : NSValueTransformer {
     
 }
 
