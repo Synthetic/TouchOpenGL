@@ -10,11 +10,14 @@
 		0625B3E71337F377003641E3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0625B3E61337F377003641E3 /* Cocoa.framework */; };
 		0625B4571337FAAD003641E3 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0625B4561337FAAD003641E3 /* OpenGL.framework */; };
 		0625B45F1337FC20003641E3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0625B45E1337FC20003641E3 /* QuartzCore.framework */; };
+		4510337213708DEA00A455FD /* CColor4fToNSStringValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4510337113708DEA00A455FD /* CColor4fToNSStringValueTransformer.m */; };
 		06A3EA6C1370D21700709280 /* Globals.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A3EA6A1370D21600709280 /* Globals.m */; };
 		451846B4136770CB006296F2 /* Shaders in Resources */ = {isa = PBXBuildFile; fileRef = 451846B3136770CB006296F2 /* Shaders */; };
+		452B1BBE1371CEF10085B94D /* CMaterialsEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 452B1BBC1371CEF10085B94D /* CMaterialsEditorViewController.m */; };
+		452B1BBF1371CEF10085B94D /* CMaterialsEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 452B1BBD1371CEF10085B94D /* CMaterialsEditorViewController.xib */; };
 		453F9AB113425BF5000EF0F5 /* CLight.m in Sources */ = {isa = PBXBuildFile; fileRef = 453F9AB013425BF5000EF0F5 /* CLight.m */; };
 		453F9AB513425C99000EF0F5 /* CCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 453F9AB413425C99000EF0F5 /* CCamera.m */; };
-		453F9AB813426889000EF0F5 /* Color4fValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 453F9AB713426889000EF0F5 /* Color4fValueTransformer.m */; };
+		453F9AB813426889000EF0F5 /* CColor4fToNSColorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 453F9AB713426889000EF0F5 /* CColor4fToNSColorValueTransformer.m */; };
 		457711E7134A9E3C00AF6688 /* CLazyTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 457711E6134A9E3C00AF6688 /* CLazyTexture.m */; };
 		45991F3913414E9B00604591 /* CGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 45991EE213414E9B00604591 /* CGeometry.m */; };
 		45991F3A13414E9B00604591 /* CMaterial.m in Sources */ = {isa = PBXBuildFile; fileRef = 45991EE413414E9B00604591 /* CMaterial.m */; };
@@ -68,15 +71,20 @@
 		0625B3EB1337F377003641E3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0625B4561337FAAD003641E3 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		0625B45E1337FC20003641E3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		4510337013708DE900A455FD /* CColor4fToNSStringValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CColor4fToNSStringValueTransformer.h; sourceTree = "<group>"; };
+		4510337113708DEA00A455FD /* CColor4fToNSStringValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CColor4fToNSStringValueTransformer.m; sourceTree = "<group>"; };
 		06A3EA6A1370D21600709280 /* Globals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Globals.m; sourceTree = "<group>"; };
 		06A3EA6B1370D21600709280 /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
 		451846B3136770CB006296F2 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
+		452B1BBB1371CEF10085B94D /* CMaterialsEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMaterialsEditorViewController.h; sourceTree = "<group>"; };
+		452B1BBC1371CEF10085B94D /* CMaterialsEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMaterialsEditorViewController.m; sourceTree = "<group>"; };
+		452B1BBD1371CEF10085B94D /* CMaterialsEditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CMaterialsEditorViewController.xib; sourceTree = "<group>"; };
 		453F9AAF13425BF5000EF0F5 /* CLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLight.h; sourceTree = "<group>"; };
 		453F9AB013425BF5000EF0F5 /* CLight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLight.m; sourceTree = "<group>"; };
 		453F9AB313425C99000EF0F5 /* CCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCamera.h; sourceTree = "<group>"; };
 		453F9AB413425C99000EF0F5 /* CCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCamera.m; sourceTree = "<group>"; };
-		453F9AB613426889000EF0F5 /* Color4fValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color4fValueTransformer.h; sourceTree = "<group>"; };
-		453F9AB713426889000EF0F5 /* Color4fValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Color4fValueTransformer.m; sourceTree = "<group>"; };
+		453F9AB613426889000EF0F5 /* CColor4fToNSColorValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CColor4fToNSColorValueTransformer.h; sourceTree = "<group>"; };
+		453F9AB713426889000EF0F5 /* CColor4fToNSColorValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CColor4fToNSColorValueTransformer.m; sourceTree = "<group>"; };
 		457711E5134A9E3C00AF6688 /* CLazyTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLazyTexture.h; sourceTree = "<group>"; };
 		457711E6134A9E3C00AF6688 /* CLazyTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLazyTexture.m; sourceTree = "<group>"; };
 		45991EE113414E9B00604591 /* CGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGeometry.h; sourceTree = "<group>"; };
@@ -344,12 +352,17 @@
 				45991FA613424B3300604591 /* Color_OpenGLExtensions.m */,
 				45991FA713424B3300604591 /* main.m */,
 				45991FA813424B3300604591 /* ModelViewer-Prefix.pch */,
-				453F9AB613426889000EF0F5 /* Color4fValueTransformer.h */,
-				453F9AB713426889000EF0F5 /* Color4fValueTransformer.m */,
+				453F9AB613426889000EF0F5 /* CColor4fToNSColorValueTransformer.h */,
+				453F9AB713426889000EF0F5 /* CColor4fToNSColorValueTransformer.m */,
+				4510337013708DE900A455FD /* CColor4fToNSStringValueTransformer.h */,
+				4510337113708DEA00A455FD /* CColor4fToNSStringValueTransformer.m */,
 				45D736A01342989200F70A45 /* CDictionaryToVectorValueTransformer.h */,
 				45D736A11342989200F70A45 /* CDictionaryToVectorValueTransformer.m */,
 				45C7D7FE136799820034D19E /* ArcBallView.h */,
 				45C7D7FF136799820034D19E /* ArcBallView.m */,
+				452B1BBB1371CEF10085B94D /* CMaterialsEditorViewController.h */,
+				452B1BBC1371CEF10085B94D /* CMaterialsEditorViewController.m */,
+				452B1BBD1371CEF10085B94D /* CMaterialsEditorViewController.xib */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -434,6 +447,7 @@
 				45D1E41F13564C510050AE9F /* 85e7e43146bc76295d4a9b25ccef50d7.vbo in Resources */,
 				45D1E42013564C510050AE9F /* teapot.model.plist in Resources */,
 				451846B4136770CB006296F2 /* Shaders in Resources */,
+				452B1BBF1371CEF10085B94D /* CMaterialsEditorViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -479,10 +493,12 @@
 				45991FAB13424B3300604591 /* main.m in Sources */,
 				453F9AB113425BF5000EF0F5 /* CLight.m in Sources */,
 				453F9AB513425C99000EF0F5 /* CCamera.m in Sources */,
-				453F9AB813426889000EF0F5 /* Color4fValueTransformer.m in Sources */,
+				453F9AB813426889000EF0F5 /* CColor4fToNSColorValueTransformer.m in Sources */,
 				45D736A21342989200F70A45 /* CDictionaryToVectorValueTransformer.m in Sources */,
 				457711E7134A9E3C00AF6688 /* CLazyTexture.m in Sources */,
 				45C7D800136799820034D19E /* ArcBallView.m in Sources */,
+				4510337213708DEA00A455FD /* CColor4fToNSStringValueTransformer.m in Sources */,
+				452B1BBE1371CEF10085B94D /* CMaterialsEditorViewController.m in Sources */,
 				06A3EA6C1370D21700709280 /* Globals.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
