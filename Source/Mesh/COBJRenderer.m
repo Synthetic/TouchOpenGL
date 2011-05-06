@@ -367,8 +367,10 @@
     glBindVertexArrayOES(0);
     #endif /* TARGET_OS_IPHONE */
 
+    #if TARGET_OS_IPHONE == 0
     SIntSize size = self.size;
     glReadPixels(0, 0, size.width, size.height, GL_DEPTH_COMPONENT, GL_FLOAT, _depthValues);
+    #endif /* TARGET_OS_IPHONE */
     }
 
 - (void)setSize:(SIntSize)size
