@@ -16,7 +16,5 @@
 }
 
 @property (readwrite, nonatomic, assign) Vector4 position;
-@property (readwrite, nonatomic, assign) Matrix4 translation;;
-
 
 @end

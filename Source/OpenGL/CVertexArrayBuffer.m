@@ -29,7 +29,6 @@
 #endif
 	}
 
-
 - (void)dealloc
     {
     if (name != 0)

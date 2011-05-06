@@ -12,6 +12,5 @@
 @implementation CCamera
 
 @synthesize position;
-@synthesize translation;
 
 @end
