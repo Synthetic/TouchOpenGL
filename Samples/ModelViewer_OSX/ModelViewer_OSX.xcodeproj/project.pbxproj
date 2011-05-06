@@ -576,6 +576,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Source/ModelViewer-Prefix.pch";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = Resources/Info.plist;
 				PRODUCT_NAME = ModelViewer;
 				WRAPPER_EXTENSION = app;
@@ -591,6 +592,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Source/ModelViewer-Prefix.pch";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = Resources/Info.plist;
 				PRODUCT_NAME = ModelViewer;
 				WRAPPER_EXTENSION = app;

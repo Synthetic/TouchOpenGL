@@ -18,6 +18,7 @@
     {
     #pragma unused (outError)
     
+#if TARGET_OS_IPHONE
     CGFloat theAlpha = 1.0;
     
     NSArray *theComponents = NULL;
@@ -45,6 +46,9 @@
 	if ((self = [self initWithRed:theRed green:theGreen blue:theBlue alpha:theAlpha]) != NULL)
         {
 		}
+#elif TARGET_OS_MAC
+    NSAssert(NO, @"TODO fix me");
+#endif
 	return(self);
 	}
 

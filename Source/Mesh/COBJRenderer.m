@@ -380,8 +380,8 @@
 
 - (float)depthAtPoint:(CGPoint)point
 {
-    GLint x = (size_t)point.x;
-    GLint y = (size_t)point.y;
+    GLint x = (GLint)point.x;
+    GLint y = (GLint)point.y;
     SIntSize size = self.size;
     if (x >= size.width || y >= size.height) {
         return 0.0f;
