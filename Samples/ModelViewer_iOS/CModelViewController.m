@@ -46,7 +46,8 @@
     NSURL *theURL = [[NSBundle mainBundle] URLForResource:theDefaultMeshFilename withExtension:@"model.plist"];
     
     NSError *theError = NULL;
-    CMesh *theMesh = [theLoader loadMeshWithURL:theURL error:&theError];
+    [theLoader loadMeshWithURL:theURL error:&theError];
+    CMesh *theMesh = theLoader.mesh;
     if (theMesh == NULL)
         {
         NSLog(@"%@", theError);
