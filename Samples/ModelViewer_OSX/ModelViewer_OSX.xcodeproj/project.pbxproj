@@ -11,7 +11,6 @@
 		0625B4571337FAAD003641E3 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0625B4561337FAAD003641E3 /* OpenGL.framework */; };
 		0625B45F1337FC20003641E3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0625B45E1337FC20003641E3 /* QuartzCore.framework */; };
 		4510337213708DEA00A455FD /* CColor4fToNSStringValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4510337113708DEA00A455FD /* CColor4fToNSStringValueTransformer.m */; };
-		06A3EA6C1370D21700709280 /* Globals.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A3EA6A1370D21600709280 /* Globals.m */; };
 		451846B4136770CB006296F2 /* Shaders in Resources */ = {isa = PBXBuildFile; fileRef = 451846B3136770CB006296F2 /* Shaders */; };
 		452B1BBE1371CEF10085B94D /* CMaterialsEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 452B1BBC1371CEF10085B94D /* CMaterialsEditorViewController.m */; };
 		452B1BBF1371CEF10085B94D /* CMaterialsEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 452B1BBD1371CEF10085B94D /* CMaterialsEditorViewController.xib */; };
@@ -73,8 +72,6 @@
 		0625B45E1337FC20003641E3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4510337013708DE900A455FD /* CColor4fToNSStringValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CColor4fToNSStringValueTransformer.h; sourceTree = "<group>"; };
 		4510337113708DEA00A455FD /* CColor4fToNSStringValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CColor4fToNSStringValueTransformer.m; sourceTree = "<group>"; };
-		06A3EA6A1370D21600709280 /* Globals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Globals.m; sourceTree = "<group>"; };
-		06A3EA6B1370D21600709280 /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
 		451846B3136770CB006296F2 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
 		452B1BBB1371CEF10085B94D /* CMaterialsEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMaterialsEditorViewController.h; sourceTree = "<group>"; };
 		452B1BBC1371CEF10085B94D /* CMaterialsEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMaterialsEditorViewController.m; sourceTree = "<group>"; };
@@ -249,8 +246,6 @@
 				45991EE813414E9B00604591 /* CMeshLoader.m */,
 				45991EE913414E9B00604591 /* COBJRenderer.h */,
 				45991EEA13414E9B00604591 /* COBJRenderer.m */,
-				06A3EA6A1370D21600709280 /* Globals.m */,
-				06A3EA6B1370D21600709280 /* Globals.h */,
 			);
 			path = Mesh;
 			sourceTree = "<group>";
@@ -499,7 +494,6 @@
 				45C7D800136799820034D19E /* ArcBallView.m in Sources */,
 				4510337213708DEA00A455FD /* CColor4fToNSStringValueTransformer.m in Sources */,
 				452B1BBE1371CEF10085B94D /* CMaterialsEditorViewController.m in Sources */,
-				06A3EA6C1370D21700709280 /* Globals.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
