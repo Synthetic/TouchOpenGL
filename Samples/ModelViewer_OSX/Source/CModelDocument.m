@@ -47,6 +47,7 @@
 @synthesize arcBallView = _arcBallView;
 @synthesize programs;
 @synthesize defaultProgram;
+@synthesize materials;
 
 - (id)init
     {
@@ -58,7 +59,15 @@
         
         CMeshLoader *theLoader = [[[CMeshLoader alloc] init] autorelease];
 		NSURL *theURL = [[NSBundle mainBundle] URLForResource:@"teapot" withExtension:@"model.plist"];
-        self.renderer.mesh = [theLoader loadMeshWithURL:theURL error:NULL];
+        NSError *theError = NULL;
+        if ([theLoader loadMeshWithURL:theURL error:&theError] == NO)
+            {
+            NSLog(@"FAILURE: %@", theError);
+            }
+        self.renderer.mesh = theLoader.mesh;
+        self.materials = [theLoader.materials allValues];
+        
+        NSLog(@"%@", self.materials);
         
         self.cameraX = self.renderer.camera.position.x;
         self.cameraY = self.renderer.camera.position.y;
@@ -251,7 +260,9 @@
         
         CMeshLoader *theLoader = [[[CMeshLoader alloc] init] autorelease];
         NSURL *theURL = [NSURL fileURLWithPath:theOutputPath];
-        self.renderer.mesh = [theLoader loadMeshWithURL:theURL error:NULL];
+        [theLoader loadMeshWithURL:theURL error:NULL];
+        self.renderer.mesh = theLoader.mesh;
+        self.materials = [theLoader.materials allValues];
         
     //    if (outError)
     //        {
@@ -262,7 +273,9 @@
     else if ([typeName isEqualToString:@"plist"])
         {
         CMeshLoader *theLoader = [[[CMeshLoader alloc] init] autorelease];
-        self.renderer.mesh = [theLoader loadMeshWithURL:absoluteURL error:NULL];
+        [theLoader loadMeshWithURL:absoluteURL error:NULL];
+        self.renderer.mesh = theLoader.mesh;
+        self.materials = [theLoader.materials allValues];
         
     //    if (outError)
     //        {

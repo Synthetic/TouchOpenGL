@@ -27,7 +27,7 @@
 
 - (CVertexBufferReference *)vertexBufferReferenceWithDictionary:(NSDictionary *)inRepresentation error:(NSError **)outError;
 - (CVertexBuffer *)vertexBufferWithPropertyListRepresentation:(id)inRepresentation error:(NSError **)outError;
-- (CMaterial *)materialWithPropertyListRepresentation:(id)inRepresentation error:(NSError **)outError;
+- (CMutableMaterial *)materialWithPropertyListRepresentation:(id)inRepresentation error:(NSError **)outError;
 
 @end
 
@@ -61,29 +61,29 @@
     [super dealloc];
     }
 
-- (CMesh *)loadMeshWithURL:(NSURL *)inURL error:(NSError **)outError
+- (BOOL)loadMeshWithURL:(NSURL *)inURL error:(NSError **)outError
 	{
     self.URL = inURL;
     
 	self.modelDictioary = [NSDictionary dictionaryWithContentsOfURL:inURL];
     if (self.modelDictioary == NULL)
         {
-        return(NULL);
+        return(NO);
         }
     
-	self.mesh = [[[CMesh alloc] init] autorelease];
+	CMutableMesh *theMesh = [[[CMutableMesh alloc] init] autorelease];
 
     id theObject = [self.modelDictioary objectForKey:@"center"];
     if (theObject)
         {
-        self.mesh.center = Vector3FromPropertyListRepresentation(theObject);
+        theMesh.center = Vector3FromPropertyListRepresentation(theObject);
         }
 
     theObject = [self.modelDictioary objectForKey:@"boundingbox"];
     if (theObject)
         {
-        self.mesh.p1 = Vector3FromPropertyListRepresentation([theObject objectAtIndex:0]);
-        self.mesh.p2 = Vector3FromPropertyListRepresentation([theObject objectAtIndex:1]);
+        theMesh.p1 = Vector3FromPropertyListRepresentation([theObject objectAtIndex:0]);
+        theMesh.p2 = Vector3FromPropertyListRepresentation([theObject objectAtIndex:1]);
         }
 
 
@@ -91,16 +91,16 @@
 //	theObject = [self.modelDictioary objectForKey:@"transform"];
 //	if (theObject != NULL)
 //		{
-//		self.mesh.transform = Matrix4FromPropertyListRepresentation(theObject);
+//		theMesh.transform = Matrix4FromPropertyListRepresentation(theObject);
 //		}
 
-    self.mesh.programName = [self.modelDictioary objectForKey:@"programName"];
-//    if (self.mesh.programName.length == 0)
+    theMesh.programName = [self.modelDictioary objectForKey:@"programName"];
+//    if (theMesh.programName.length == 0)
 //        {
-//        self.mesh.programName = @"Lighting_PerPixel";
+//        theMesh.programName = @"Lighting_PerPixel";
 //        }
 
-    self.mesh.cullBackFaces = [[self.modelDictioary objectForKey:@"cullBackFaces"] boolValue];
+    theMesh.cullBackFaces = [[self.modelDictioary objectForKey:@"cullBackFaces"] boolValue];
 
     // #### Materials
     self.materials = [NSMutableDictionary dictionary];
@@ -109,10 +109,10 @@
 		{
 		NSDictionary *theMaterialDictionary = [theMaterialsDictionary objectForKey:theName];
 		
-		CMaterial *theMaterial = [self materialWithPropertyListRepresentation:theMaterialDictionary error:outError];
+		CMutableMaterial *theMaterial = [self materialWithPropertyListRepresentation:theMaterialDictionary error:outError];
         if (theMaterial == NULL)
             {
-            return(NULL);
+            return(NO);
             }
         theMaterial.name = theName;
 		
@@ -130,7 +130,7 @@
 		CVertexBuffer *theVertexBuffer = [self vertexBufferWithPropertyListRepresentation:theBufferDictionary error:outError];
         if (theVertexBuffer == NULL)
             {
-            return(NULL);
+            return(NO);
             }
 		
 		[self.buffers setObject:theVertexBuffer forKey:theBufferName];
@@ -154,7 +154,7 @@
 				CVertexBufferReference *theVertexBufferReference = [self vertexBufferReferenceWithDictionary:theVerticesDictionary error:outError];
 				if (theVertexBufferReference == NULL)
 					{
-					return(NULL);
+					return(NO);
 					}
 				[theGeometry setValue:theVertexBufferReference forKey:theKey];
 				}
@@ -163,10 +163,11 @@
 		[theGeometries addObject:theGeometry];
 		}
 
-	self.mesh.geometries = theGeometries;
+	theMesh.geometries = theGeometries;
 
+    self.mesh = theMesh;
 
-	return(self.mesh);
+	return(YES);
 	}
 
 - (CVertexBufferReference *)vertexBufferReferenceWithDictionary:(NSDictionary *)inRepresentation error:(NSError **)outError
@@ -267,11 +268,11 @@
 	return(theVertexBuffer);
 	}
 
-- (CMaterial *)materialWithPropertyListRepresentation:(id)inRepresentation error:(NSError **)outError
+- (CMutableMaterial *)materialWithPropertyListRepresentation:(id)inRepresentation error:(NSError **)outError
     {
     #pragma unused (outError)
     
-    CMaterial *theMaterial = [[[CMaterial alloc] init] autorelease];
+    CMutableMaterial *theMaterial = [[[CMutableMaterial alloc] init] autorelease];
 
 //    theMaterial.name = [inRepresentation objectForKey:@"name"];
     id theObject = [(NSDictionary *)inRepresentation objectForKey:@"ambientColor"];

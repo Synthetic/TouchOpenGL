@@ -16,6 +16,23 @@
     
 }
 
+@property (readonly, nonatomic, retain) NSString *name;
+@property (readonly, nonatomic, assign) Color4f ambientColor;
+@property (readonly, nonatomic, assign) Color4f diffuseColor;
+@property (readonly, nonatomic, assign) Color4f specularColor;
+@property (readonly, nonatomic, assign) GLfloat shininess;
+@property (readonly, nonatomic, assign) GLfloat alpha;
+
+@property (readonly, nonatomic, retain) CTexture *texture;
+
+@end
+
+#pragma mark -
+
+@interface CMutableMaterial : CMaterial <NSMutableCopying> {
+
+}
+
 @property (readwrite, nonatomic, retain) NSString *name;
 @property (readwrite, nonatomic, assign) Color4f ambientColor;
 @property (readwrite, nonatomic, assign) Color4f diffuseColor;
@@ -26,4 +43,3 @@
 @property (readwrite, nonatomic, retain) CTexture *texture;
 
 @end
-

@@ -10,6 +10,17 @@
 
 #import "COpenGLAssetLibrary.h"
 
+@interface CMaterial ()
+@property (readwrite, nonatomic, retain) NSString *name;
+@property (readwrite, nonatomic, assign) Color4f ambientColor;
+@property (readwrite, nonatomic, assign) Color4f diffuseColor;
+@property (readwrite, nonatomic, assign) Color4f specularColor;
+@property (readwrite, nonatomic, assign) GLfloat shininess;
+@property (readwrite, nonatomic, assign) GLfloat alpha;
+
+@property (readwrite, nonatomic, retain) CTexture *texture;
+@end
+
 @implementation CMaterial
 
 @synthesize name;
@@ -64,5 +75,34 @@
     theCopy.alpha = self.alpha;
     return(theCopy);
     }
+
+@end
+
+#pragma mark -
+
+@implementation CMutableMaterial
+
+@dynamic name;
+@dynamic ambientColor;
+@dynamic diffuseColor;
+@dynamic specularColor;
+@dynamic shininess;
+@dynamic alpha;
+@dynamic texture;
+
+- (id)mutableCopyWithZone:(NSZone *)zone;
+    {
+    #pragma unused (zone)
+    
+    CMutableMaterial *theCopy = [[CMutableMaterial alloc] init];
+    theCopy.name = self.name;
+    theCopy.ambientColor = self.ambientColor;
+    theCopy.diffuseColor = self.diffuseColor;
+    theCopy.specularColor = self.specularColor;
+    theCopy.shininess = self.shininess;
+    theCopy.alpha = self.alpha;
+    return(theCopy);
+    }
+
 
 @end

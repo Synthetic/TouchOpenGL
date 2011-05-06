@@ -14,6 +14,9 @@
     
 }
 
-- (CMesh *)loadMeshWithURL:(NSURL *)inURL error:(NSError **)outError;
+@property (readonly, nonatomic, retain) CMesh *mesh;
+@property (readonly, nonatomic, retain) NSMutableDictionary *materials;
+
+- (BOOL)loadMeshWithURL:(NSURL *)inURL error:(NSError **)outError;
 
 @end

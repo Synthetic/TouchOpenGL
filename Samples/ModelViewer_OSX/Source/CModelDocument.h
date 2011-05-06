@@ -33,4 +33,7 @@
 @property (nonatomic, retain) NSArray *programs;
 @property (nonatomic, retain) NSString *defaultProgram;
 
+@property (readwrite, nonatomic, retain) NSArray *materials;
+
+
 @end
