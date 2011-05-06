@@ -148,3 +148,28 @@ extern NSString *NSStringFromQuaternion(Quaternion q)
     {
     return([NSString stringWithFormat:@"(%g, %g, %g, %g)", q.x, q.y, q.z, q.w]);
     }
+
+extern Quaternion QuaternionConstrainedToAxis(Quaternion q, Vector3 axis)
+{
+    if ((axis.x == 0.0f && axis.y == 0.0f && axis.z == 0.0f) || (q.x == 0.0f && q.y == 0.0f && q.z == 0.0f)) {
+        return q;
+    }
+
+    Vector3 curl;
+    curl.x = q.x;
+    curl.y = q.y;
+    curl.z = q.z;
+    curl = Vector3Normalize(curl);
+
+    axis = Vector3Normalize(axis);
+    GLfloat dot = Vector3DotProduct(axis, curl);
+    Quaternion r;
+    if (dot != 0.0f) {
+        GLfloat angle = 2.0f * acosf(q.w);
+        r = QuaternionSetAxisAngle(axis, dot * angle);
+    } else {
+        r = QuaternionIdentity;
+    }
+
+    return r;
+}

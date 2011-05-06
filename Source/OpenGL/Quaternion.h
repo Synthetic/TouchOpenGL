@@ -33,3 +33,5 @@ extern Quaternion QuaternionMultiply(Quaternion inLHS, Quaternion inRHS);
 extern Matrix4 Matrix4FromQuaternion(Quaternion q);
 
 extern NSString *NSStringFromQuaternion(Quaternion q);
+
+extern Quaternion QuaternionConstrainedToAxis(Quaternion q, Vector3 axis);

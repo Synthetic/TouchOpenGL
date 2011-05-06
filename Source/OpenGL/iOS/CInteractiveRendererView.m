@@ -31,6 +31,7 @@
 @synthesize gestureRotation;
 @synthesize savedRotation;
 @synthesize scale;
+@synthesize rotationAxis;
 @synthesize arcBall;
 @synthesize arcBallCenter;
 #if ENABLE_MOTION_ROTATION
@@ -154,7 +155,7 @@
         CGPoint relativePoint = CGPointMake(center.x - thePoint.x, center.y - thePoint.y);
         [self.arcBall dragTo:relativePoint];
         
-        self.gestureRotation = QuaternionMultiply(self.savedRotation, self.arcBall.rotation);
+        self.gestureRotation = QuaternionConstrainedToAxis(QuaternionMultiply(self.savedRotation, self.arcBall.rotation), self.rotationAxis);
         }
     else if (inGestureRecognizer.state == UIGestureRecognizerStateEnded)
         {
