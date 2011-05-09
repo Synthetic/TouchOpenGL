@@ -43,7 +43,7 @@
         CFRetain(inImage);
         image = inImage;
         
-        flip = YES;
+        flip = NO;
         generateMipMap = NO;
 		}
 	return(self);

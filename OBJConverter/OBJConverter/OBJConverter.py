@@ -28,7 +28,7 @@ logger = logging.getLogger()
 
 ########################################################################
 
-def convert_image(inputPath, outputDirectory, dimension = 2048):
+def convert_image(inputPath, outputDirectory, dimension = 2048, flip = True):
 
     theImage = Image.open(inputPath)
 
@@ -40,6 +40,9 @@ def convert_image(inputPath, outputDirectory, dimension = 2048):
 
     if theImage.size != theNewSize:
         theImage = theImage.resize(theNewSize, resample = Image.ANTIALIAS)
+
+    if flip:
+        theImage = theImage.transpose(Image.FLIP_TOP_BOTTOM)
 
     theName, e = os.path.splitext(os.path.split(inputPath)[1])
     theName += '.png'
