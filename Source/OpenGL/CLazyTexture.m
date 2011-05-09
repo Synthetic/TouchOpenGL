@@ -120,7 +120,7 @@
 
     theDesiredSize.width = theDesiredSize.height = MIN(MAX(theDesiredSize.width, theDesiredSize.height), 2048.0);
     
-    if (theModel == kCGColorSpaceModelRGB && (theAlphaInfo == kCGImageAlphaLast || theAlphaInfo == kCGImageAlphaPremultipliedLast) && theBitsPerComponent == 8 && theSize.width == theDesiredSize.width && theSize.height == theDesiredSize.height)
+    if (theModel == kCGColorSpaceModelRGB && (theAlphaInfo == kCGImageAlphaLast || theAlphaInfo == kCGImageAlphaPremultipliedLast) && theBitsPerComponent == 8 && theSize.width == theDesiredSize.width && theSize.height == theDesiredSize.height && self.flip == NO)
         {
         theFormat = GL_RGBA;
         theType = GL_UNSIGNED_BYTE;
