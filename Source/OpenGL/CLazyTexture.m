@@ -18,7 +18,7 @@
 //@property (readwrite, nonatomic, assign) GLenum internalFormat;
 //@property (readwrite, nonatomic, assign) GLboolean hasAlpha;
 
-- (void)loadWithImage:(CGImageRef)inImage;
+- (BOOL)loadWithImage:(CGImageRef)inImage error:(NSError **)outError;
 @end
 
 #pragma mark -
@@ -61,7 +61,7 @@
     {
     if (self.loaded == NO)
         {
-        [self loadWithImage:self.image];
+        [self loadWithImage:self.image error:NULL];
         }
     return([super name]);
     }
@@ -70,7 +70,7 @@
     {
     if (self.loaded == NO)
         {
-        [self loadWithImage:self.image];
+        [self loadWithImage:self.image error:NULL];
         }
     return([super size]);
     }
@@ -79,7 +79,7 @@
     {
     if (self.loaded == NO)
         {
-        [self loadWithImage:self.image];
+        [self loadWithImage:self.image error:NULL];
         }
     return([super internalFormat]);
     }
@@ -88,12 +88,12 @@
     {
     if (self.loaded == NO)
         {
-        [self loadWithImage:self.image];
+        [self loadWithImage:self.image error:NULL];
         }
     return([super hasAlpha]);
     }
 
-- (void)loadWithImage:(CGImageRef)inImage
+- (BOOL)loadWithImage:(CGImageRef)inImage error:(NSError **)outError
     {
     NSAssert(inImage != NULL, @"Seriously, we need an image!");
     
@@ -120,19 +120,23 @@
 
     theDesiredSize.width = theDesiredSize.height = MIN(MAX(theDesiredSize.width, theDesiredSize.height), 2048.0);
     
-    if (theModel == kCGColorSpaceModelRGB && (theAlphaInfo == kCGImageAlphaLast || theAlphaInfo == kCGImageAlphaPremultipliedLast) && theBitsPerComponent == 8 && theSize.width == theDesiredSize.width && theSize.height == theDesiredSize.height && self.flip == NO)
+    
+    const BOOL theFastPathFlag = ((theModel == kCGColorSpaceModelRGB) && (theAlphaInfo == kCGImageAlphaLast || theAlphaInfo == kCGImageAlphaPremultipliedLast) && (theBitsPerComponent == 8) && (theSize.width == theDesiredSize.width) && (theSize.height == theDesiredSize.height) && self.flip == NO);
+    
+    if (theFastPathFlag == YES)
         {
         theFormat = GL_RGBA;
         theType = GL_UNSIGNED_BYTE;
         theData = [(NSData *)CGDataProviderCopyData(CGImageGetDataProvider(inImage)) autorelease];
         }
-    else
+
+
+    if (theData == NULL)
         {
         theFormat = GL_RGBA;
         theType = GL_UNSIGNED_BYTE;
         
-        
-        NSLog(@"Warning, converting image. Unknown model (%d), alpha (%d) or bits per component (%ld)", theModel, theAlphaInfo, theBitsPerComponent);
+        NSLog(@"Warning, converting texture.");
         
         NSMutableData *theMutableData = [NSMutableData dataWithLength:theDesiredSize.width * 4 * theDesiredSize.height];
         theData = theMutableData;
@@ -142,7 +146,7 @@
         CGContextRef theImageContext = CGBitmapContextCreate([theMutableData mutableBytes], theDesiredSize.width, theDesiredSize.height, 8, theDesiredSize.width * 4, theColorSpace, kCGImageAlphaPremultipliedLast);
         NSAssert(theImageContext != NULL, @"Should not have null context");
 
-        if (self.flip)
+        if (self.flip == YES)
             {
             CGContextTranslateCTM(theImageContext, 0, theDesiredSize.height);
             CGContextScaleCTM(theImageContext, 1, -1);
@@ -154,44 +158,65 @@
         CGColorSpaceRelease(theColorspace);
         }
 
-    if (theFormat != 0 && theType != 0)
+    if (theFormat == 0 || theType == 0)
         {
-        AssertOpenGLValidContext_();
+        NSLog(@"No format!");
+        return(NO);
+        }
+      
+    if (theData == NULL)
+        {
+        NSLog(@"No data!");
+        return(NO);
+        }
         
-        GLuint theName = 0;
+    if (theData.length != theDesiredSize.width * theDesiredSize.height * 4)
+        {
+        NSLog(@"Wrong data length");
+        return(NO);
+        }
+      
+    AssertOpenGLValidContext_();
+    
+    GLuint theName = 0;
 
-        glGenTextures(1, &theName);
-        
-        AssertOpenGLNoError_();
-        
-        glBindTexture(GL_TEXTURE_2D, theName);
+    glGenTextures(1, &theName);
+    
+    AssertOpenGLNoError_();
+    
+    glBindTexture(GL_TEXTURE_2D, theName);
 
-        // Configure texture...
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    // Configure texture...
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        // Update texture data...
-        glTexImage2D(GL_TEXTURE_2D, 0, theFormat, (GLsizei)theDesiredSize.width, (GLsizei)theDesiredSize.height, 0, theFormat, theType, theData.bytes);
+    // Update texture data...
+    glTexImage2D(GL_TEXTURE_2D, 0, theFormat, (GLsizei)theDesiredSize.width, (GLsizei)theDesiredSize.height, 0, theFormat, theType, theData.bytes);
 
-        if (self.generateMipMap == YES)
-            {
-            glGenerateMipmap(GL_TEXTURE_2D);
-            }
+    if (self.generateMipMap == YES)
+        {
+        glGenerateMipmap(GL_TEXTURE_2D);
+        }
 
+    if (glIsTexture(theName) == GL_FALSE)
+        {
+        NSLog(@"Texture error.");
+        }
 
-        AssertOpenGLNoError_();
+    AssertOpenGLNoError_();
 
-        self.name = theName;
-        self.size = theDesiredSize;
-        self.internalFormat = theFormat;
-        self.hasAlpha = YES;
+    self.name = theName;
+    self.size = theDesiredSize;
+    self.internalFormat = theFormat;
+    self.hasAlpha = YES;
 
-        glBindTexture(GL_TEXTURE_2D, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
 
-        AssertOpenGLNoError_();
-        } 
+    AssertOpenGLNoError_();
         
     self.loaded = YES;
+    
+    return(YES);
     }
 
 @end
