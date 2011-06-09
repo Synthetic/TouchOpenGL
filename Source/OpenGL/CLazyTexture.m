@@ -95,6 +95,8 @@
 
 - (BOOL)loadWithImage:(CGImageRef)inImage error:(NSError **)outError
     {
+    #pragma unused (outError)
+    
     NSAssert(inImage != NULL, @"Seriously, we need an image!");
     
     CGColorSpaceRef theColorSpace = CGImageGetColorSpace(inImage);

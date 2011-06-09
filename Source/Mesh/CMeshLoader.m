@@ -210,7 +210,7 @@
         theRowSize = sizeof(GLshort) * theSize;
         }
 
-    if (theVertexBuffer.data.length % theRowSize != 0)
+    if (theRowSize != 0 && theVertexBuffer.data.length % theRowSize != 0)
         {
         if (outError != NULL)
             {
@@ -219,8 +219,7 @@
         return(NULL);
         }
 
-    GLint theRowCount = (GLint)(theVertexBuffer.data.length / theRowSize);
-
+    GLint theRowCount = theRowSize != 0 ? (GLint)(theVertexBuffer.data.length / theRowSize) : 0;
 
 	CVertexBufferReference *theVertexBufferReference = [[[CVertexBufferReference alloc] initWithVertexBuffer:theVertexBuffer rowSize:theRowSize rowCount:theRowCount size:theSize type:theType normalized:theNormalized stride:theStride offset:theOffset] autorelease];
 	return(theVertexBufferReference);
