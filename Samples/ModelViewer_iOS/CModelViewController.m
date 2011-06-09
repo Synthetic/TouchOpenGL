@@ -30,10 +30,8 @@
     return(YES);
     }
     
-- (void)viewDidLoad
+- (void)awakeFromNib
     {
-    [super viewDidLoad];
-
     CMeshLoader *theLoader = [[[CMeshLoader alloc] init] autorelease];
     
     NSString *theDefaultMeshFilename = [[NSUserDefaults standardUserDefaults] objectForKey:@"MeshFilename"];
