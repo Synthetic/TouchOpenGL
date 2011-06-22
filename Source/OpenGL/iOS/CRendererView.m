@@ -289,7 +289,7 @@
 
     if (context == NULL)
         {
-        self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+        self.context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2] autorelease];
         }
 
     [EAGLContext setCurrentContext:self.context];
