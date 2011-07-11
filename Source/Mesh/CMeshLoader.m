@@ -209,6 +209,11 @@
         {
         theRowSize = sizeof(GLshort) * theSize;
         }
+    else
+        {
+        NSAssert(NO, @"Unknown GLType");
+        return(NULL);
+        }
 
     if (theRowSize != 0 && theVertexBuffer.data.length % theRowSize != 0)
         {
