@@ -1,6 +1,6 @@
 //
 //  COpenGLAssetLibrary.h
-//  ModelViewer
+//  TouchOpenGL
 //
 //  Created by Jonathan Wight on 03/14/11.
 //  Copyright 2011 toxicsoftware.com. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  CLazyTexture.m
-//  ModelViewer_OSX
+//  TouchOpenGL
 //
 //  Created by Jonathan Wight on 04/04/11.
 //  Copyright 2011 Inkling. All rights reserved.

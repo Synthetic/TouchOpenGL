@@ -1,6 +1,6 @@
 //
 //  COBJRenderer.m
-//  ModelViewer
+//  TouchOpenGL
 //
 //  Created by Jonathan Wight on 03/16/11.
 //  Copyright 2011 toxicsoftware.com. All rights reserved.

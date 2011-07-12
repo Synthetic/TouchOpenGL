@@ -1,11 +1,8 @@
 //
 //  Color_OpenGLExtensions.m
-//  PopTipEditor
+//  TouchOpenGL
 //
 //  Created by Aaron Golden on 3/21/11,
-//  based on UIColor_OpenGLExtensions
-//  created by Jonathan Wight on 02/15/11.
-//
 //  Copyright 2011 Inkling. All rights reserved.
 //
 

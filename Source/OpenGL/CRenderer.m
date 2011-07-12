@@ -1,6 +1,6 @@
 //
 //  ES2Renderer.m
-//  Racing Genes
+//  TouchOpenGL
 //
 //  Created by Jonathan Wight on 09/05/10.
 //  Copyright 2010 toxicsoftware.com. All rights reserved.
@@ -53,11 +53,11 @@
     #else
     glClearDepth(1.0f);
     #endif
-    
+
     glDepthFunc(GL_LEQUAL);
 
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-    
+
     self.needsSetup = NO;
     }
 
@@ -72,7 +72,7 @@
         {
         [self setup];
         }
-    
+
     [self clear];
     }
 
@@ -89,5 +89,5 @@
     {
     self.needsSetup = YES;
     }
-    
+
 @end

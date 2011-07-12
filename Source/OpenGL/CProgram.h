@@ -1,6 +1,6 @@
 //
 //  CProgram.h
-//  Racing Genes
+//  TouchOpenGL
 //
 //  Created by Jonathan Wight on 09/05/10.
 //  Copyright 2010 toxicsoftware.com. All rights reserved.

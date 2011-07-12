@@ -1,6 +1,6 @@
 //
 //  CVertexBuffer_PropertyListRepresentation.m
-//  ModelViewer
+//  TouchOpenGL
 //
 //  Created by Jonathan Wight on 03/21/11.
 //  Copyright 2011 toxicsoftware.com. All rights reserved.

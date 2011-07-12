@@ -1,6 +1,6 @@
 //
 //  Color4fValueTransformer.h
-//  ModelViewer
+//  TouchOpenGL
 //
 //  Created by Jonathan Wight on 03/29/11.
 //  Copyright 2011 Inkling. All rights reserved.

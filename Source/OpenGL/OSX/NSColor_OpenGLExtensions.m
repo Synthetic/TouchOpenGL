@@ -1,6 +1,6 @@
 //
 //  NSColor_OpenGLExtensions.m
-//  Racing Gene
+//  TouchOpenGL
 //
 //  Created by Jonathan Wight on 02/05/11.
 //  Copyright 2011 toxicsoftware.com. All rights reserved.

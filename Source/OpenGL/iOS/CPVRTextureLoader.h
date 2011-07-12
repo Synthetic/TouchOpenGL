@@ -1,3 +1,11 @@
+//
+//  CPVRTextureLoader.h
+//  TouchOpenGL
+//
+//  Created by Jonathan Wight on 1/1/2000.
+//  Copyright 2011 toxicsoftware.com. All rights reserved.
+//
+
 #import "CTextureLoader.h"
 
 #if TARGET_OS_IPHONE == 1

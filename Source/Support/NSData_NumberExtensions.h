@@ -1,6 +1,6 @@
 //
 //  NSData_NumberExtensions.h
-//  ModelViewer
+//  TouchOpenGL
 //
 //  Created by Jonathan Wight on 03/19/11.
 //  Copyright 2011 toxicsoftware.com. All rights reserved.

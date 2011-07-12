@@ -1,6 +1,6 @@
 //
 //  CMutableVertexBuffer.m
-//  Racing Genes
+//  TouchOpenGL
 //
 //  Created by Jonathan Wight on 09/08/10.
 //  Copyright 2010 toxicsoftware.com. All rights reserved.

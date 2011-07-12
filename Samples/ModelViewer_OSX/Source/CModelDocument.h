@@ -1,6 +1,6 @@
 //
 //  PopTipDocument.h
-//  PopTipEditor
+//  TouchOpenGL
 //
 //  Created by Aaron Golden on 3/21/11.
 //  Copyright 2011 Inkling. All rights reserved.

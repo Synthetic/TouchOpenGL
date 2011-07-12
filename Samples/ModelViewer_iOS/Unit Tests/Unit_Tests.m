@@ -1,6 +1,6 @@
 //
 //  Unit_Tests.m
-//  Unit Tests
+//  TouchOpenGL
 //
 //  Created by Jonathan Wight on 03/25/11.
 //  Copyright 2011 toxicsoftware.com. All rights reserved.

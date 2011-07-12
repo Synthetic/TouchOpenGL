@@ -1,12 +1,12 @@
-/*
- *  OpenGLTypes.h
- *  Racing Gene
- *
- *  Created by Jonathan Wight on 09/07/10.
- *  Copyright 2010 toxicsoftware.com. All rights reserved.
- *
- */
- 
+//
+//  OpenGLTypes.h
+//  TouchOpenGL
+//
+//  Created by Jonathan Wight on 9/7/2010.
+//  Copyright 2010 toxicsoftware.com. All rights reserved.
+//
+
+
 #import "OpenGLIncludes.h"
 
 typedef struct Matrix4 {

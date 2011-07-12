@@ -1,14 +1,13 @@
-/*
- *  OpenGLTypes.h
- *  Racing Gene
- *
- *  Created by Jonathan Wight on 09/07/10.
- *  Copyright 2010 toxicsoftware.com. All rights reserved.
- *
- */
+//
+//  Matrix.m
+//  TouchOpenGL
+//
+//  Created by Jonathan Wight on 1/1/2000.
+//  Copyright 2011 toxicsoftware.com. All rights reserved.
+//
 
 #import "Matrix.h"
- 
+
 #include <tgmath.h>
 
 #import "OpenGLTypes.h"
