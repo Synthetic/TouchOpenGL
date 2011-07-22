@@ -146,9 +146,9 @@
 
 - (void)removeFromSuperview
     {
-    [super removeFromSuperview];
-    //
     [self stopAnimation];
+
+    [super removeFromSuperview];
     }
 
 - (void)willMoveToWindow:(UIWindow *)newWindow
