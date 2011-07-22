@@ -139,6 +139,8 @@
         theType = GL_UNSIGNED_BYTE;
         
         NSLog(@"Warning, converting texture.");
+        NSLog(@"Color Model: %d, Alpha Info: %d, Bits Per Components: %lu, Width: %g, Height: %g", theModel, theAlphaInfo, theBitsPerComponent, theSize.width, theSize.height);
+        
         
         NSMutableData *theMutableData = [NSMutableData dataWithLength:theDesiredSize.width * 4 * theDesiredSize.height];
         theData = theMutableData;
