@@ -22,6 +22,8 @@
 @property (readwrite, nonatomic, assign) Quaternion gestureRotation;
 @property (readwrite, nonatomic, assign) Quaternion savedRotation;
 @property (readwrite, nonatomic, assign) CGFloat scale;
+@property (readwrite, nonatomic, assign) CGFloat scaleMin;
+@property (readwrite, nonatomic, assign) CGFloat scaleMax;
 @property (readwrite, nonatomic, assign) Vector3 rotationAxis; // If not set, rotation is free
 
 @end

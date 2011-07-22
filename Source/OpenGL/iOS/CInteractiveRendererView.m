@@ -31,6 +31,8 @@
 @synthesize gestureRotation;
 @synthesize savedRotation;
 @synthesize scale;
+@synthesize scaleMin;
+@synthesize scaleMax;
 @synthesize rotationAxis;
 @synthesize arcBall;
 @synthesize arcBallCenter;
@@ -46,7 +48,9 @@
         
         arcBall = [[CArcBall alloc] init];
         
-        scale = 1.0;
+        scale = 0.001;
+        scaleMin = CGFLOAT_MIN;
+        scaleMax = CGFLOAT_MAX;
         
         UIPinchGestureRecognizer *thePinchGestureRecognizer = [[[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)] autorelease];
         [self addGestureRecognizer:thePinchGestureRecognizer];
@@ -72,7 +76,9 @@
 
         arcBall = [[CArcBall alloc] init];
         
-        scale = 1.0;
+        scale = 0.001;
+        scaleMin = CGFLOAT_MIN;
+        scaleMax = CGFLOAT_MAX;
         
         UIPinchGestureRecognizer *thePinchGestureRecognizer = [[[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)] autorelease];
         [self addGestureRecognizer:thePinchGestureRecognizer];
@@ -129,7 +135,7 @@
 - (void)pinch:(UIPinchGestureRecognizer *)inGestureRecognizer
     {
     self.scale += inGestureRecognizer.velocity / 10;
-    self.scale = MAX(self.scale, 0.01);
+    self.scale = MIN(MAX(self.scale, self.scaleMin), self.scaleMax);
     }
 
 - (void)pan:(UIPanGestureRecognizer *)inGestureRecognizer
