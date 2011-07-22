@@ -265,8 +265,16 @@
         NSString *theHREF = [(NSDictionary *)inRepresentation objectForKey:@"href"];
         
         NSURL *theURL = [theDirectoryURL URLByAppendingPathComponent:theHREF];
-        theData = [NSData dataWithContentsOfURL:theURL];
+        NSError *theError = NULL;
+        theData = [NSData dataWithContentsOfURL:theURL options:0 error:&theError];
+
+        if (theData == NULL)
+            {
+            NSLog(@"Could not load data for %@ %@", theURL, theError);
+            return(NULL);
+            }
         }
+        
 
     CVertexBuffer *theVertexBuffer = [[[CVertexBuffer alloc] initWithTarget:theTarget usage:theUsage data:theData] autorelease];
 	return(theVertexBuffer);
