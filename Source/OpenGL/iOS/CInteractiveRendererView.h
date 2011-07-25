@@ -24,6 +24,13 @@
 @property (readwrite, nonatomic, assign) CGFloat scale;
 @property (readwrite, nonatomic, assign) CGFloat scaleMin;
 @property (readwrite, nonatomic, assign) CGFloat scaleMax;
+@property (readwrite, nonatomic, assign) CGFloat rollMin;
+@property (readwrite, nonatomic, assign) CGFloat rollMax;
+@property (readwrite, nonatomic, assign) CGFloat pitchMin;
+@property (readwrite, nonatomic, assign) CGFloat pitchMax;
+@property (readwrite, nonatomic, assign) CGFloat yawMin;
+@property (readwrite, nonatomic, assign) CGFloat yawMax;
+
 @property (readwrite, nonatomic, assign) Vector3 rotationAxis; // If not set, rotation is free
 
 @end

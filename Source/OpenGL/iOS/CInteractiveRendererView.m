@@ -33,6 +33,12 @@
 @synthesize scale;
 @synthesize scaleMin;
 @synthesize scaleMax;
+@synthesize rollMin;
+@synthesize rollMax;
+@synthesize pitchMin;
+@synthesize pitchMax;
+@synthesize yawMin;
+@synthesize yawMax;
 @synthesize rotationAxis;
 @synthesize arcBall;
 @synthesize arcBallCenter;
@@ -49,8 +55,14 @@
         arcBall = [[CArcBall alloc] init];
         
         scale = 0.001;
-        scaleMin = CGFLOAT_MIN;
+        scaleMin = -CGFLOAT_MIN;
         scaleMax = CGFLOAT_MAX;
+        rollMin = -CGFLOAT_MAX;
+        rollMax = CGFLOAT_MAX;
+        pitchMin = -CGFLOAT_MAX; // DegreesToRadians(-90);
+        pitchMax = CGFLOAT_MAX; // DegreesToRadians(0);
+        yawMin = -CGFLOAT_MAX;
+        yawMax = CGFLOAT_MAX;
         
         UIPinchGestureRecognizer *thePinchGestureRecognizer = [[[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)] autorelease];
         [self addGestureRecognizer:thePinchGestureRecognizer];
@@ -123,7 +135,22 @@
 #if ENABLE_MOTION_ROTATION
     theTransform = Matrix4Concat(Matrix4FromQuaternion(self.motionRotation), theTransform);
 #endif
-    theTransform = Matrix4Concat(Matrix4FromQuaternion(self.gestureRotation), theTransform);
+    Quaternion theRotation = self.gestureRotation;
+    
+    GLfloat theRoll, thePitch, theYaw;
+    
+    QuaternionGetEuler(theRotation, &theYaw, &thePitch, &theRoll);
+    theYaw = MIN(MAX(theYaw, yawMin), yawMax);
+    thePitch = MIN(MAX(thePitch, pitchMin), pitchMax);
+    theRoll = MIN(MAX(theRoll, rollMin), rollMax);
+    theRotation = QuaternionSetEuler(theYaw, thePitch, theRoll);
+    
+
+
+    theTransform = Matrix4Concat(Matrix4FromQuaternion(theRotation), theTransform);
+    
+
+    
     
     ((COBJRenderer *)self.renderer).modelTransform = theTransform;
     
