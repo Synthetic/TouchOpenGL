@@ -33,10 +33,13 @@
 @synthesize scale;
 @synthesize scaleMin;
 @synthesize scaleMax;
+@synthesize roll;
 @synthesize rollMin;
 @synthesize rollMax;
+@synthesize pitch;
 @synthesize pitchMin;
 @synthesize pitchMax;
+@synthesize yaw;
 @synthesize yawMin;
 @synthesize yawMax;
 @synthesize rotationAxis;
@@ -46,6 +49,7 @@
 @synthesize motionRotation;
 @synthesize motionManager;
 #endif
+@synthesize arcBallMode;
 
 - (id)initWithFrame:(CGRect)inFrame;
     {    
@@ -175,24 +179,34 @@
         .y = (theLocation.y / theSize.height - 0.5f) * -1.0,
         };
 
-    if (inGestureRecognizer.state == UIGestureRecognizerStateBegan)
+    if (self.arcBallMode == YES)
         {
-        self.arcBallCenter = thePoint;
-        [self.arcBall start:CGPointZero];
-        
-//        self,transgo
+        if (inGestureRecognizer.state == UIGestureRecognizerStateBegan)
+            {
+            self.arcBallCenter = thePoint;
+            [self.arcBall start:CGPointZero];
+            
+    //        self,transgo
+            }
+        else if (inGestureRecognizer.state == UIGestureRecognizerStateChanged)
+            {
+            CGPoint center = self.arcBallCenter;
+            CGPoint relativePoint = CGPointMake(center.x - thePoint.x, center.y - thePoint.y);
+            [self.arcBall dragTo:relativePoint];
+            
+            self.gestureRotation = QuaternionConstrainedToAxis(QuaternionMultiply(self.savedRotation, self.arcBall.rotation), self.rotationAxis);
+            }
+        else if (inGestureRecognizer.state == UIGestureRecognizerStateEnded)
+            {
+            self.savedRotation = self.gestureRotation;
+            }
         }
-    else if (inGestureRecognizer.state == UIGestureRecognizerStateChanged)
+    else
         {
-        CGPoint center = self.arcBallCenter;
-        CGPoint relativePoint = CGPointMake(center.x - thePoint.x, center.y - thePoint.y);
-        [self.arcBall dragTo:relativePoint];
+        self.pitch += thePoint.y;
+        self.yaw += thePoint.x;
         
-        self.gestureRotation = QuaternionConstrainedToAxis(QuaternionMultiply(self.savedRotation, self.arcBall.rotation), self.rotationAxis);
-        }
-    else if (inGestureRecognizer.state == UIGestureRecognizerStateEnded)
-        {
-        self.savedRotation = self.gestureRotation;
+        self.gestureRotation = QuaternionSetEuler(self.yaw, self.pitch, self.roll);
         }
     }
 
