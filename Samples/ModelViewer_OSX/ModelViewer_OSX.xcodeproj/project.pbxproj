@@ -410,6 +410,7 @@
 		0625B3D91337F377003641E3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = Inkling;
 			};
 			buildConfigurationList = 0625B3DC1337F377003641E3 /* Build configuration list for PBXProject "ModelViewer_OSX" */;

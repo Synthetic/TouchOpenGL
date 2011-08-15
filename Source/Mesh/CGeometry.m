@@ -9,6 +9,8 @@
 #import "CGeometry.h"
 
 #import "CVertexArrayBuffer.h"
+#import "CVertexBufferReference.h"
+#import "CMaterial.h"
 
 @implementation CGeometry
 

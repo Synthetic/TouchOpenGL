@@ -9,6 +9,7 @@
 #import "CMaterial.h"
 
 #import "COpenGLAssetLibrary.h"
+#import "CTexture.h"
 
 @interface CMaterial ()
 @property (readwrite, nonatomic, retain) NSString *name;
