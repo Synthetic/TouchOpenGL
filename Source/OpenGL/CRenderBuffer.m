@@ -31,8 +31,6 @@
         glDeleteRenderbuffers(1, &name);
         name = 0;
         }
-    //
-    [super dealloc];
     }
 
 - (SIntSize)size

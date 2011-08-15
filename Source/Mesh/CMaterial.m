@@ -12,14 +12,14 @@
 #import "CTexture.h"
 
 @interface CMaterial ()
-@property (readwrite, nonatomic, retain) NSString *name;
+@property (readwrite, nonatomic, strong) NSString *name;
 @property (readwrite, nonatomic, assign) Color4f ambientColor;
 @property (readwrite, nonatomic, assign) Color4f diffuseColor;
 @property (readwrite, nonatomic, assign) Color4f specularColor;
 @property (readwrite, nonatomic, assign) GLfloat shininess;
 @property (readwrite, nonatomic, assign) GLfloat alpha;
 
-@property (readwrite, nonatomic, retain) CTexture *texture;
+@property (readwrite, nonatomic, strong) CTexture *texture;
 @end
 
 @implementation CMaterial
@@ -47,16 +47,6 @@
 	return(self);
 	}
 
-- (void)dealloc
-    {
-    [name release];
-    name = NULL;
-    
-    [texture release];
-    texture = NULL;
-    //
-    [super dealloc];
-    }
 
 - (NSString *)description
     {
@@ -104,6 +94,5 @@
     theCopy.alpha = self.alpha;
     return(theCopy);
     }
-
 
 @end

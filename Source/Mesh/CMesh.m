@@ -9,12 +9,12 @@
 #import "CMesh.h"
 
 @interface CMesh ()
-@property (readwrite, nonatomic, retain) NSArray *geometries;
+@property (readwrite, nonatomic, strong) NSArray *geometries;
 @property (readwrite, nonatomic, assign) Vector3 center; // in model space
 @property (readwrite, nonatomic, assign) Vector3 p1, p2; // in model space
 @property (readwrite, nonatomic, assign) Matrix4 transform;
 @property (readwrite, nonatomic, assign) BOOL cullBackFaces;
-@property (readwrite, nonatomic, retain) NSString *programName;
+@property (readwrite, nonatomic, strong) NSString *programName;
 @end
 
 #pragma mark -
@@ -39,16 +39,6 @@
 	return(self);
 	}
 
-- (void)dealloc
-    {
-    [geometries release];
-    geometries = NULL;
-    //
-    [programName release];
-    programName = NULL;
-    //
-    [super dealloc];
-    }
 
 - (id)copyWithZone:(NSZone *)zone;
     {

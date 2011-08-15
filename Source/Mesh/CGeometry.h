@@ -16,13 +16,13 @@
     
 }
 
-@property (readwrite, nonatomic, retain) CVertexArrayBuffer *vertexArrayBuffer;
+@property (readwrite, nonatomic, strong) CVertexArrayBuffer *vertexArrayBuffer;
 
-@property (readwrite, nonatomic, retain) CVertexBufferReference *indices;
-@property (readwrite, nonatomic, retain) CVertexBufferReference *positions;
-@property (readwrite, nonatomic, retain) CVertexBufferReference *texCoords;
-@property (readwrite, nonatomic, retain) CVertexBufferReference *normals;
+@property (readwrite, nonatomic, strong) CVertexBufferReference *indices;
+@property (readwrite, nonatomic, strong) CVertexBufferReference *positions;
+@property (readwrite, nonatomic, strong) CVertexBufferReference *texCoords;
+@property (readwrite, nonatomic, strong) CVertexBufferReference *normals;
 
-@property (readwrite, nonatomic, retain) CMaterial *material;
+@property (readwrite, nonatomic, strong) CMaterial *material;
 
 @end

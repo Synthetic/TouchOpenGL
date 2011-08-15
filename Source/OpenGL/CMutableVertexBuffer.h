@@ -12,7 +12,7 @@
 
 }
 
-@property (readonly, nonatomic, retain) NSMutableData *mutableData;
+@property (readonly, nonatomic, strong) NSMutableData *mutableData;
 
 - (void)update:(NSRange)inRange;
 

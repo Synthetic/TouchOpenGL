@@ -26,11 +26,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [_arcBall release];
-    [super dealloc];
-}
 
 - (void)mouseDown:(NSEvent *)theEvent
 {

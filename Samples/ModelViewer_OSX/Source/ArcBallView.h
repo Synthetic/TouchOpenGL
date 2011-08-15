@@ -15,8 +15,8 @@
 #import "Quaternion.h"
 
 @interface ArcBallView : NSView
-@property (nonatomic, retain) CArcBall *arcBall;
+@property (nonatomic, strong) CArcBall *arcBall;
 @property (nonatomic, assign) CGPoint startPoint;
 @property (nonatomic, assign) Quaternion startQuaternion;
-@property (nonatomic, assign) CModelDocument *document; // TODO -- hack!
+@property (nonatomic, unsafe_unretained) CModelDocument *document; // TODO -- hack!
 @end

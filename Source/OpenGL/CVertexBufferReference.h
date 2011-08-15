@@ -15,7 +15,7 @@
 @interface CVertexBufferReference : NSObject {
 }
 
-@property (readonly, nonatomic, retain) CVertexBuffer *vertexBuffer;
+@property (readonly, nonatomic, strong) CVertexBuffer *vertexBuffer;
 
 @property (readonly, nonatomic, assign) GLint size;
 @property (readonly, nonatomic, assign) GLenum type;

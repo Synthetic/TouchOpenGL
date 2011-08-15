@@ -12,7 +12,7 @@
 #import "OpenGLTypes.h"
 
 @interface CVertexBufferReference ()
-@property (readwrite, nonatomic, retain) CVertexBuffer *vertexBuffer;
+@property (readwrite, nonatomic, strong) CVertexBuffer *vertexBuffer;
 
 @property (readwrite, nonatomic, assign) GLint size;
 @property (readwrite, nonatomic, assign) GLenum type;
@@ -50,7 +50,7 @@
         NSAssert(inStride == 0 || inStride <= inRowSize, @"Stride should be either 0 or row size");
         NSAssert(inOffset == 0 || inOffset < inStride, @"Offset should be 0 or less then stride");
 
-        vertexBuffer = [inVertexBuffer retain];
+        vertexBuffer = inVertexBuffer;
 
         rowSize = inRowSize;
         rowCount = inRowCount;
@@ -71,14 +71,6 @@
     return(self);
     }
     
-- (void)dealloc
-    {
-    [vertexBuffer release];
-    vertexBuffer = NULL;
-    
-    [super dealloc];
-    }
-
 - (NSString *)description
     {
     return([NSString stringWithFormat:@"%@ (VBO:%@, rowSize:%d, rowCount:%d, size:%d, type:%@, normalized:%d, stride:%d, offset:%d", [super description], self.vertexBuffer, self.rowSize, self.rowCount, self.size, NSStringFromGLenum(self.type), self.normalized, self.stride, self.offset]);

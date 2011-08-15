@@ -22,7 +22,7 @@
 
 @interface CModelDocument ()
 
-@property (nonatomic, retain) ArcBallView *arcBallView;
+@property (nonatomic, strong) ArcBallView *arcBallView;
 
 - (void)updateMatrix;
 
@@ -57,7 +57,7 @@
         
         scale = 1.0;
         
-        CMeshLoader *theLoader = [[[CMeshLoader alloc] init] autorelease];
+        CMeshLoader *theLoader = [[CMeshLoader alloc] init];
 		NSURL *theURL = [[NSBundle mainBundle] URLForResource:@"teapot" withExtension:@"model.plist"];
         NSError *theError = NULL;
         if ([theLoader loadMeshWithURL:theURL error:&theError] == NO)
@@ -100,14 +100,9 @@
 
 - (void)dealloc
     {
-    [mainView release];
-    [renderer release];
-
     [self removeObserver:self forKeyPath:@"renderer.light.ambientColor"];
     [self removeObserver:self forKeyPath:@"renderer.light.diffuseColor"];
     [self removeObserver:self forKeyPath:@"renderer.light.specularColor"];
-    //
-    [super dealloc];
     }
 
 - (NSString *)windowNibName
@@ -122,7 +117,7 @@
     [self.mainView setWantsLayer:YES];
     self.mainView.rendererLayer.renderer = self.renderer;
 
-    self.arcBallView = [[[ArcBallView alloc] initWithFrame:self.mainView.bounds] autorelease];
+    self.arcBallView = [[ArcBallView alloc] initWithFrame:self.mainView.bounds];
     self.arcBallView.document = self;
     [self.mainView addSubview:self.arcBallView];
     }
@@ -215,8 +210,7 @@
     {
     if (defaultProgram != inDefaultProgram)
         {
-        [defaultProgram release];
-        defaultProgram = [inDefaultProgram retain];
+        defaultProgram = inDefaultProgram;
         
         self.renderer.defaultProgramName = defaultProgram;
         
@@ -254,11 +248,10 @@
         [theTask waitUntilExit];
         NSLog(@"Script Returned: %d", [theTask terminationStatus]);
         
-        [theTask release];
         
         theOutputPath = [theOutputPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.model.plist", [[absoluteURL.path stringByDeletingPathExtension] lastPathComponent]]];
         
-        CMeshLoader *theLoader = [[[CMeshLoader alloc] init] autorelease];
+        CMeshLoader *theLoader = [[CMeshLoader alloc] init];
         NSURL *theURL = [NSURL fileURLWithPath:theOutputPath];
         [theLoader loadMeshWithURL:theURL error:NULL];
         self.renderer.mesh = theLoader.mesh;
@@ -272,7 +265,7 @@
         }
     else if ([typeName isEqualToString:@"plist"])
         {
-        CMeshLoader *theLoader = [[[CMeshLoader alloc] init] autorelease];
+        CMeshLoader *theLoader = [[CMeshLoader alloc] init];
         [theLoader loadMeshWithURL:absoluteURL error:NULL];
         self.renderer.mesh = theLoader.mesh;
         self.materials = [theLoader.materials allValues];

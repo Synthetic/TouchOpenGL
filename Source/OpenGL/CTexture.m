@@ -32,8 +32,6 @@
         glDeleteTextures(1, &name);
         name = 0;
         }
-    //
-    [super dealloc];
     }
 
 - (BOOL)isValid

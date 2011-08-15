@@ -21,29 +21,6 @@
 @synthesize normals;
 @synthesize material;
 
-- (void)dealloc
-    {
-    [vertexArrayBuffer release];
-    vertexArrayBuffer = NULL;
-    
-    [indices release];
-	indices = NULL;
-	//
-	[positions release];
-	positions = NULL;
-	//
-	[texCoords release];
-	texCoords = NULL;
-	//
-	[normals release];
-	normals = NULL;
-    //
-    [material release];
-    material = NULL;
-    //
-    [super dealloc];
-    }
-
 - (CVertexArrayBuffer *)vertexArrayBuffer
     {
     #if TARGET_OS_IPHONE
@@ -56,6 +33,5 @@
     return(NULL);
     #endif /* TARGET_OS_IPHONE */
     }
-
 
 @end

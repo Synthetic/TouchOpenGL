@@ -14,11 +14,10 @@
 
 + (void)load
     {
-    NSAutoreleasePool *thePool = [[NSAutoreleasePool alloc] init];
-    //
-    [self setValueTransformer:[[[self alloc] init] autorelease] forName:@"Color4fValueTransformer"];
-    //
-    [thePool drain];
+    @autoreleasepool
+        {
+        [self setValueTransformer:[[self alloc] init] forName:@"Color4fValueTransformer"];
+        }
     }
 
 - (id)transformedValue:(id)value

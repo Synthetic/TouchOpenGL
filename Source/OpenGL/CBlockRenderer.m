@@ -23,20 +23,6 @@
 	return(self);
 	}
 
-- (void)dealloc
-    {
- 	[prerenderBlock release];
-	prerenderBlock = NULL;
-
-    [renderBlock release];
-    renderBlock = NULL;
-
-    [postrenderBlock release];
-    postrenderBlock = NULL;
-
-    [super dealloc];
-    }
-
 - (void)prerender
     {
     [super prerender];

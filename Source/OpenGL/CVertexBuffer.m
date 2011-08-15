@@ -28,7 +28,7 @@
         {
         target = inTarget;
         usage = inUsage;
-        data = [inData retain];
+        data = inData;
         }
     return(self);
     }
@@ -48,11 +48,6 @@
         glDeleteBuffers(1, &name);
         name = 0;
         }
-    
-    [data release];
-    data = NULL;
-    //
-    [super dealloc];
     }
     
 - (NSString *)description

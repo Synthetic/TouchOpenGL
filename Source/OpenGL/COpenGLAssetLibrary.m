@@ -14,9 +14,9 @@
 #import "CProgram.h"
 
 @interface COpenGLAssetLibrary ()
-@property (readwrite, nonatomic, retain) NSCache *vertexBufferCache;
-@property (readwrite, nonatomic, retain) NSCache *textureCache;
-@property (readwrite, nonatomic, retain) NSCache *programCache;
+@property (readwrite, nonatomic, strong) NSCache *vertexBufferCache;
+@property (readwrite, nonatomic, strong) NSCache *textureCache;
+@property (readwrite, nonatomic, strong) NSCache *programCache;
 @end
 
 @implementation COpenGLAssetLibrary
@@ -29,7 +29,7 @@
     {
     // TODO at some point this will be a singleton - maybe - but not today.
     // (We really need one per OGL context anyway singleton = bad here)
-    return([[[self alloc] init] autorelease]);
+    return([[self alloc] init]);
     }
 
 - (id)init
@@ -43,19 +43,6 @@
 	return(self);
 	}
 
-- (void)dealloc
-    {
-    [vertexBufferCache release];
-    vertexBufferCache = NULL;
-
-    [textureCache release];
-    textureCache = NULL;
-
-    [programCache release];
-    programCache = NULL;
-    //
-    [super dealloc];
-    }
 
 - (CVertexBuffer *)vertexBufferForName:(NSString *)inName target:(GLenum)inTarget usage:(GLenum)inUsage
     {
@@ -64,7 +51,7 @@
         {
         NSURL *theVBOURL = [[NSBundle mainBundle] URLForResource:[inName stringByDeletingPathExtension] withExtension:[inName pathExtension]];
         NSData *theVBOData = [NSData dataWithContentsOfURL:theVBOURL options:0 error:NULL];
-        theObject = [[[CVertexBuffer alloc] initWithTarget:inTarget usage:inUsage data:theVBOData] autorelease];
+        theObject = [[CVertexBuffer alloc] initWithTarget:inTarget usage:inUsage data:theVBOData];
         
         [self.vertexBufferCache setObject:theObject forKey:inName cost:theVBOData.length];
         }
@@ -79,7 +66,7 @@
     CProgram *theProgram = [self.programCache objectForKey:inName];
     if (theProgram == NULL)
         {
-        theProgram = [[[CProgram alloc] initWithName:inName attributeNames:inAttributeNames uniformNames:inUniformNames] autorelease];
+        theProgram = [[CProgram alloc] initWithName:inName attributeNames:inAttributeNames uniformNames:inUniformNames];
         [self.programCache setObject:theProgram forKey:inName];
         }
     return(theProgram);

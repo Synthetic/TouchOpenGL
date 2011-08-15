@@ -31,12 +31,10 @@
     {
     if (glIsFramebuffer(name))
         {
-        NSLog(@"FOO");
         glDeleteFramebuffers(1, &name);
         name = 0;
         }
     //
-    [super dealloc];
     }
 
 - (BOOL)isComplete:(GLenum)inTarget

@@ -14,8 +14,8 @@
 @interface CModelDocument : NSDocument {
 }
 
-@property (nonatomic, retain) COBJRenderer *renderer;
-@property (nonatomic, retain) IBOutlet CRendererView *mainView;
+@property (nonatomic, strong) COBJRenderer *renderer;
+@property (nonatomic, strong) IBOutlet CRendererView *mainView;
 
 @property (nonatomic, assign) GLfloat roll;
 @property (nonatomic, assign) GLfloat pitch;
@@ -30,10 +30,10 @@
 @property (nonatomic, assign) GLfloat lightY;
 @property (nonatomic, assign) GLfloat lightZ;
 
-@property (nonatomic, retain) NSArray *programs;
-@property (nonatomic, retain) NSString *defaultProgram;
+@property (nonatomic, strong) NSArray *programs;
+@property (nonatomic, strong) NSString *defaultProgram;
 
-@property (readwrite, nonatomic, retain) NSArray *materials;
+@property (readwrite, nonatomic, strong) NSArray *materials;
 
 
 @end

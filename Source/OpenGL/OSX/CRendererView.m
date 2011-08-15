@@ -38,16 +38,12 @@
     return self;
     }
     
-- (void)dealloc
-    {
-    [super dealloc];
-    }
 
 #pragma mark -
 
 - (void)setup
     {
-    self.layer = [[[CRendererOpenGLLayer alloc] init] autorelease];
+    self.layer = [[CRendererOpenGLLayer alloc] init];
     }
 
 #pragma mark -

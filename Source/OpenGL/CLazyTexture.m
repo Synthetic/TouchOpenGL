@@ -53,8 +53,6 @@
     {
     CFRelease(image);
     image = NULL;
-    //
-    [super dealloc];
     }
 
 - (GLuint)name
@@ -129,7 +127,7 @@
         {
         theFormat = GL_RGBA;
         theType = GL_UNSIGNED_BYTE;
-        theData = [(NSData *)CGDataProviderCopyData(CGImageGetDataProvider(inImage)) autorelease];
+        theData = (__bridge_transfer NSData *)CGDataProviderCopyData(CGImageGetDataProvider(inImage));
         }
 
 

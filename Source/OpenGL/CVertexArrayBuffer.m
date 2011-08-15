@@ -23,7 +23,6 @@
 		}
 	return(self);
 #else
-    [self dealloc];
     self = NULL;
     return(self);
 #endif
@@ -40,7 +39,6 @@
         #endif /* TARGET_OS_IPHONE */
         name = 0;
         }
-    [super dealloc];
     }
 
 - (GLuint)name

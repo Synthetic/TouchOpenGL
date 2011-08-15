@@ -31,14 +31,6 @@
     return(self);
     }
 
-- (void)dealloc
-    {
-    [renderer release];
-    renderer = NULL;
-    //
-    [super dealloc];
-    }
-
 - (CGLPixelFormatObj)copyCGLPixelFormatForDisplayMask:(uint32_t)mask
     {
     CGLPixelFormatAttribute thePixelFormatAttributes[] = {

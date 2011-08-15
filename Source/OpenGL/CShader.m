@@ -11,7 +11,7 @@
 #import "OpenGLTypes.h"
 
 @interface CShader ()
-@property (readwrite, nonatomic, retain) NSURL *URL;
+@property (readwrite, nonatomic, strong) NSURL *URL;
 @property (readwrite, nonatomic, assign) GLuint name;
 @end
 
@@ -28,7 +28,6 @@
         {
         if ([[NSFileManager defaultManager] fileExistsAtPath:inURL.path] == NO)
             {
-            [self dealloc];
             self = NULL;
             return(NULL);
             }
@@ -36,7 +35,7 @@
 
     if ((self = [super init]) != NULL)
         {
-        URL = [inURL retain];
+        URL = inURL;
         }
     return(self);
     }
@@ -56,8 +55,6 @@
 
 - (void)dealloc
     {
-    [URL release];
-    URL = NULL;
 
     if (glIsShader(name))
         {
@@ -65,7 +62,6 @@
         name = 0;
         }
     //
-    [super dealloc];
     }
 
 - (GLuint)name

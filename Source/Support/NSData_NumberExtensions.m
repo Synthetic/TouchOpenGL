@@ -175,7 +175,7 @@
 
         }
 
-    return([[theData copy] autorelease]);
+    return([theData copy]);
     }
 
 @end

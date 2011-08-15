@@ -15,12 +15,12 @@
     
 }
 
-@property (readonly, nonatomic, retain) NSArray *geometries;
+@property (readonly, nonatomic, strong) NSArray *geometries;
 @property (readonly, nonatomic, assign) Vector3 center; // in model space
 @property (readonly, nonatomic, assign) Vector3 p1, p2; // in model space
 @property (readonly, nonatomic, assign) Matrix4 transform;
 @property (readonly, nonatomic, assign) BOOL cullBackFaces;
-@property (readonly, nonatomic, retain) NSString *programName;
+@property (readonly, nonatomic, strong) NSString *programName;
 
 @end
 
@@ -30,11 +30,11 @@
     
 }
 
-@property (readwrite, nonatomic, retain) NSArray *geometries;
+@property (readwrite, nonatomic, strong) NSArray *geometries;
 @property (readwrite, nonatomic, assign) Vector3 center; // in model space
 @property (readwrite, nonatomic, assign) Vector3 p1, p2; // in model space
 @property (readwrite, nonatomic, assign) Matrix4 transform;
 @property (readwrite, nonatomic, assign) BOOL cullBackFaces;
-@property (readwrite, nonatomic, retain) NSString *programName;
+@property (readwrite, nonatomic, strong) NSString *programName;
 
 @end

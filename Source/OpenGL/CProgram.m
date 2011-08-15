@@ -53,8 +53,8 @@
 - (id)initWithName:(NSString *)inName attributeNames:(NSArray *)inAttributeNames uniformNames:(NSArray *)inUniformNames
     {
     NSArray *theShaders = [NSArray arrayWithObjects:
-        [[[CShader alloc] initWithName:[NSString stringWithFormat:@"%@.fsh", inName]] autorelease],
-        [[[CShader alloc] initWithName:[NSString stringWithFormat:@"%@.vsh", inName]] autorelease],
+        [[CShader alloc] initWithName:[NSString stringWithFormat:@"%@.fsh", inName]],
+        [[CShader alloc] initWithName:[NSString stringWithFormat:@"%@.vsh", inName]],
         NULL];
     
     if ((self = [self initWithFiles:theShaders attributeNames:inAttributeNames uniformNames:inUniformNames]) != NULL)
@@ -65,22 +65,11 @@
 
 - (void)dealloc
     {
-    [shaders release];
-    shaders = NULL;
-    
-    [attributesByName release];
-    attributesByName = NULL;
-    
-    [uniformsByName release];
-    uniformsByName = NULL;
-    
     if (glIsProgram(name))
         {
         glDeleteProgram(name);
         name = 0;
         }
-        
-    [super dealloc];
     }
 
 #pragma mark -

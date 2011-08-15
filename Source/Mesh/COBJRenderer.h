@@ -19,12 +19,12 @@
     GLfloat *_depthValues;
 }
 
-@property (readwrite, nonatomic, retain) CMesh *mesh;
-@property (readwrite, nonatomic, retain) CCamera *camera;
-@property (readwrite, nonatomic, retain) CLight *light;
-@property (readwrite, nonatomic, retain) CMaterial *defaultMaterial;
+@property (readwrite, nonatomic, strong) CMesh *mesh;
+@property (readwrite, nonatomic, strong) CCamera *camera;
+@property (readwrite, nonatomic, strong) CLight *light;
+@property (readwrite, nonatomic, strong) CMaterial *defaultMaterial;
 @property (readwrite, nonatomic, assign) Matrix4 modelTransform;
-@property (readwrite, nonatomic, retain) NSString *defaultProgramName;
+@property (readwrite, nonatomic, strong) NSString *defaultProgramName;
 
 - (float)depthAtPoint:(CGPoint)point;
 

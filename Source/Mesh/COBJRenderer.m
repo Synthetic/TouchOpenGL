@@ -28,7 +28,7 @@
 #define DRAW_BOUNDING_BOX 0
 
 @interface COBJRenderer ()
-@property (readwrite, nonatomic, retain) CProgram *lightingProgram;
+@property (readwrite, nonatomic, strong) CProgram *lightingProgram;
 @end
 
 @implementation COBJRenderer
@@ -56,36 +56,17 @@
         light.position = camera.position;
         defaultMaterial = [[CMaterial alloc] init];
         modelTransform = Matrix4Identity;
-        defaultProgramName = [@"Lighting_PerPixel" retain];        
+        defaultProgramName = @"Lighting_PerPixel";        
 		}
 	return(self);
 	}
 
 - (void)dealloc
     {
-    [camera release];
-    camera = NULL;
-    
-    [light release];
-    light = NULL;
-    
-    [defaultMaterial release];
-    defaultMaterial = NULL;
-
-    [defaultProgramName release];
-    defaultProgramName = NULL;
-    
-    [mesh release];
-    mesh = NULL;
-    
-    [lightingProgram release];
-    lightingProgram = NULL;
-
-    if (_depthValues) {
+    if (_depthValues)
+        {
         free(_depthValues);
-    }
-    //
-    [super dealloc];
+        }
     }
 
 - (void)setup
@@ -97,7 +78,7 @@
         {
         theProgramName = self.defaultProgramName;
         }
-    self.lightingProgram = [[[CProgram alloc] initWithName:theProgramName attributeNames:[NSArray arrayWithObjects:@"a_position", @"a_normal", NULL] uniformNames:[NSArray arrayWithObjects:@"u_modelViewMatrix", @"u_projectionMatrix", @"u_lightSource", @"u_lightModel", @"u_cameraPosition", @"s_texture0", NULL]] autorelease];
+    self.lightingProgram = [[CProgram alloc] initWithName:theProgramName attributeNames:[NSArray arrayWithObjects:@"a_position", @"a_normal", NULL] uniformNames:[NSArray arrayWithObjects:@"u_modelViewMatrix", @"u_projectionMatrix", @"u_lightSource", @"u_lightModel", @"u_cameraPosition", @"s_texture0", NULL]];
 
     // #### Set up lighting
 	CProgram *theProgram = self.lightingProgram;

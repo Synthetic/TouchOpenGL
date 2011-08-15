@@ -19,11 +19,11 @@
 #define NO_DEFAULTS 1
 
 @interface CMeshLoader ()
-@property (readwrite, nonatomic, retain) NSURL *URL;
-@property (readwrite, nonatomic, retain) NSDictionary *modelDictioary;
-@property (readwrite, nonatomic, retain) CMesh *mesh;
-@property (readwrite, nonatomic, retain) NSMutableDictionary *buffers;
-@property (readwrite, nonatomic, retain) NSMutableDictionary *materials;
+@property (readwrite, nonatomic, strong) NSURL *URL;
+@property (readwrite, nonatomic, strong) NSDictionary *modelDictioary;
+@property (readwrite, nonatomic, strong) CMesh *mesh;
+@property (readwrite, nonatomic, strong) NSMutableDictionary *buffers;
+@property (readwrite, nonatomic, strong) NSMutableDictionary *materials;
 
 - (CVertexBufferReference *)vertexBufferReferenceWithDictionary:(NSDictionary *)inRepresentation error:(NSError **)outError;
 - (CVertexBuffer *)vertexBufferWithPropertyListRepresentation:(id)inRepresentation error:(NSError **)outError;
@@ -41,26 +41,6 @@
 @synthesize buffers;
 @synthesize materials;
 
-- (void)dealloc
-    {
-    [URL release];
-    URL = NULL;
-    
-    [modelDictioary release];
-    modelDictioary = NULL;
-    
-    [mesh release];
-    mesh = NULL;
-    
-    [buffers release];
-    buffers = NULL;
-    
-    [materials release];
-    materials = NULL;
-    //
-    [super dealloc];
-    }
-
 - (BOOL)loadMeshWithURL:(NSURL *)inURL error:(NSError **)outError
 	{
     self.URL = inURL;
@@ -71,7 +51,7 @@
         return(NO);
         }
     
-	CMutableMesh *theMesh = [[[CMutableMesh alloc] init] autorelease];
+	CMutableMesh *theMesh = [[CMutableMesh alloc] init];
 
     id theObject = [self.modelDictioary objectForKey:@"center"];
     if (theObject)
@@ -119,7 +99,6 @@
 		[self.materials setObject:theMaterial forKey:theName];
 		}
 
-
 	// #### Buffers
 	self.buffers = [NSMutableDictionary dictionary];
 	NSDictionary *theBuffersDictionary = [self.modelDictioary objectForKey:@"buffers"];
@@ -140,7 +119,7 @@
 	NSMutableArray *theGeometries = [NSMutableArray array];
 	for (NSDictionary *theGeometryDictionary in [self.modelDictioary objectForKey:@"geometries"])
 		{
-		CGeometry *theGeometry = [[[CGeometry alloc] init] autorelease];
+		CGeometry *theGeometry = [[CGeometry alloc] init];
 		
         NSString *theMaterialName = [theGeometryDictionary objectForKey:@"material"];
         CMaterial *theMaterial = [self.materials objectForKey:theMaterialName];
@@ -226,7 +205,7 @@
 
     GLint theRowCount = theRowSize != 0 ? (GLint)(theVertexBuffer.data.length / theRowSize) : 0;
 
-	CVertexBufferReference *theVertexBufferReference = [[[CVertexBufferReference alloc] initWithVertexBuffer:theVertexBuffer rowSize:theRowSize rowCount:theRowCount size:theSize type:theType normalized:theNormalized stride:theStride offset:theOffset] autorelease];
+	CVertexBufferReference *theVertexBufferReference = [[CVertexBufferReference alloc] initWithVertexBuffer:theVertexBuffer rowSize:theRowSize rowCount:theRowCount size:theSize type:theType normalized:theNormalized stride:theStride offset:theOffset];
 	return(theVertexBufferReference);
 	}
 
@@ -276,7 +255,7 @@
         }
         
 
-    CVertexBuffer *theVertexBuffer = [[[CVertexBuffer alloc] initWithTarget:theTarget usage:theUsage data:theData] autorelease];
+    CVertexBuffer *theVertexBuffer = [[CVertexBuffer alloc] initWithTarget:theTarget usage:theUsage data:theData];
 	return(theVertexBuffer);
 	}
 
@@ -284,7 +263,7 @@
     {
     #pragma unused (outError)
     
-    CMutableMaterial *theMaterial = [[[CMutableMaterial alloc] init] autorelease];
+    CMutableMaterial *theMaterial = [[CMutableMaterial alloc] init];
 
 //    theMaterial.name = [inRepresentation objectForKey:@"name"];
     id theObject = [(NSDictionary *)inRepresentation objectForKey:@"ambientColor"];
@@ -325,13 +304,13 @@
         UIImage *theImage = [UIImage imageWithData:theData];
         CGImageRef theImageRef = [theImage CGImage];
         #else
-        NSImage *theImage = [[[NSImage alloc] initWithContentsOfURL:theURL] autorelease];
+        NSImage *theImage = [[NSImage alloc] initWithContentsOfURL:theURL];
         CGImageRef theImageRef = [theImage CGImageForProposedRect:NULL context:NULL hints:NULL];
         #endif
 
         if (theImageRef)
             {
-            CLazyTexture *theTexture = [[(CLazyTexture *)[CLazyTexture alloc] initWithImage:theImageRef] autorelease];
+            CLazyTexture *theTexture = [(CLazyTexture *)[CLazyTexture alloc] initWithImage:theImageRef];
             theMaterial.texture = theTexture;
             }
         }

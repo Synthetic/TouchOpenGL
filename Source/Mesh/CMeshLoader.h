@@ -14,8 +14,8 @@
     
 }
 
-@property (readonly, nonatomic, retain) CMesh *mesh;
-@property (readonly, nonatomic, retain) NSMutableDictionary *materials;
+@property (readonly, nonatomic, strong) CMesh *mesh;
+@property (readonly, nonatomic, strong) NSMutableDictionary *materials;
 
 - (BOOL)loadMeshWithURL:(NSURL *)inURL error:(NSError **)outError;
 

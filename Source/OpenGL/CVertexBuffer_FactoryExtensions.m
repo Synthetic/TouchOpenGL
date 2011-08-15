@@ -23,7 +23,7 @@
         };
 
     NSData *theData = [NSData dataWithBytes:theVertices length:sizeof(theVertices)];
-    CVertexBuffer *theVertexBuffer = [[[CVertexBuffer alloc] initWithTarget:GL_ARRAY_BUFFER usage:GL_STATIC_DRAW data:theData] autorelease];
+    CVertexBuffer *theVertexBuffer = [[CVertexBuffer alloc] initWithTarget:GL_ARRAY_BUFFER usage:GL_STATIC_DRAW data:theData];
     
     return(theVertexBuffer);
     }
@@ -39,7 +39,7 @@
         *V++ = [theColor color4ub];
         }
     
-    CVertexBuffer *theVertexBuffer = [[[CVertexBuffer alloc] initWithTarget:GL_ARRAY_BUFFER usage:GL_STATIC_DRAW data:theData] autorelease];
+    CVertexBuffer *theVertexBuffer = [[CVertexBuffer alloc] initWithTarget:GL_ARRAY_BUFFER usage:GL_STATIC_DRAW data:theData];
     return(theVertexBuffer);
     }
 
@@ -58,7 +58,7 @@
         *V++ = (Vector2){ cos(theta) * inRadius, sin(theta) * inRadius };
         }
 
-    CVertexBuffer *theVertexBuffer = [[[CVertexBuffer alloc] initWithTarget:GL_ARRAY_BUFFER usage:GL_STATIC_DRAW data:theData] autorelease];
+    CVertexBuffer *theVertexBuffer = [[CVertexBuffer alloc] initWithTarget:GL_ARRAY_BUFFER usage:GL_STATIC_DRAW data:theData];
     
     return(theVertexBuffer);
     }

@@ -15,7 +15,7 @@
 
 @property (readonly, nonatomic, assign) GLenum target; // GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER
 @property (readonly, nonatomic, assign) GLenum usage; // GL_STREAM_DRAW, GL_STATIC_DRAW, GL_DYNAMIC_DRAW
-@property (readonly, nonatomic, retain) NSData *data;
+@property (readonly, nonatomic, strong) NSData *data;
 @property (readonly, nonatomic, assign) GLuint name;
 
 - (id)initWithTarget:(GLenum)inTarget usage:(GLenum)inUsage data:(NSData *)inData;

@@ -14,6 +14,6 @@
 
 }
 
-@property (readwrite, nonatomic, retain) CRenderer *renderer;
+@property (readwrite, nonatomic, strong) CRenderer *renderer;
 
 @end

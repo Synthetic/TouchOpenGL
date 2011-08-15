@@ -28,7 +28,7 @@
     COpenGLAssetLibrary *theLibrary = objc_getAssociatedObject(self, &kKey);
     if (theLibrary == NULL)
         {
-        theLibrary = [[[COpenGLAssetLibrary  alloc] init] autorelease];
+        theLibrary = [[COpenGLAssetLibrary  alloc] init];
         objc_setAssociatedObject(self, &kKey, theLibrary, OBJC_ASSOCIATION_RETAIN);
         }
     return(theLibrary);

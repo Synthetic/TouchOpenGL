@@ -14,6 +14,6 @@
 
 }
 
-@property (readonly, nonatomic, retain) CRendererOpenGLLayer *rendererLayer;
+@property (readonly, nonatomic, strong) CRendererOpenGLLayer *rendererLayer;
 
 @end

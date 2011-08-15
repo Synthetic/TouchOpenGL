@@ -14,11 +14,10 @@
 
 + (void)load
     {
-    NSAutoreleasePool *thePool = [[NSAutoreleasePool alloc] init];
-    //
-    [self setValueTransformer:[[[self alloc] init] autorelease] forName:@"DictionaryToVectorValueTransformer"];
-    //
-    [thePool drain];
+    @autoreleasepool
+        {
+        [self setValueTransformer:[[self alloc] init] forName:@"DictionaryToVectorValueTransformer"];
+        }
     }
 
 - (id)transformedValue:(id)value
