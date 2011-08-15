@@ -12,5 +12,6 @@
 #import <QuartzCore/QuartzCore.h>
 #else
 #import <OpenGL/OpenGL.h>
+#include <OpenGL/gl.h>
 #include <OpenGL/glext.h>
 #endif
