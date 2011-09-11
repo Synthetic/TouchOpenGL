@@ -10,7 +10,7 @@
 
 #import "CInteractiveRendererView.h"
 #import "CMeshLoader.h"
-#import "COBJRenderer.h"
+#import "CGeometryRenderer.h"
 #import "CMesh.h"
 
 @interface CModelViewController () <UIActionSheetDelegate>
@@ -51,7 +51,7 @@
         NSLog(@"%@", theError);
         }
     
-    COBJRenderer *theRenderer = [[[COBJRenderer alloc] init] autorelease];
+    CGeometryRenderer *theRenderer = [[[CGeometryRenderer alloc] init] autorelease];
     theRenderer.mesh = theMesh;
     
     self.rendererView.renderer = theRenderer;
@@ -90,10 +90,10 @@
         [theLoader loadMeshWithURL:theURL error:NULL];
         CMesh *theMesh = theLoader.mesh;
         
-    //    COBJRenderer *theRenderer = [[[COBJRenderer alloc] init] autorelease];
+    //    CGeometryRenderer *theRenderer = [[[CGeometryRenderer alloc] init] autorelease];
     //    theRenderer.mesh = theMesh;
         
-        ((COBJRenderer *)self.rendererView.renderer).mesh = theMesh;
+        ((CGeometryRenderer *)self.rendererView.renderer).mesh = theMesh;
         [self.rendererView.renderer setup];
         }
     }

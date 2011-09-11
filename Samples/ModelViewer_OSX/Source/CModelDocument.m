@@ -8,9 +8,9 @@
 
 #import "CModelDocument.h"
 
-#import "CRendererView.h"
-#import "CRendererOpenGLLayer.h"
-#import "COBJRenderer.h"
+#import "CSceneRendererView.h"
+#import "CSceneRendererOpenGLLayer.h"
+#import "CGeometryRenderer.h"
 #import "Matrix.h"
 #import "Quaternion.h"
 #import "CLight.h"
@@ -19,6 +19,8 @@
 #import "CMeshLoader.h"
 #import "CArcBall.h"
 #import "ArcBallView.h"
+#import "COBJParser.h"
+#import "CMesh.h"
 
 @interface CModelDocument ()
 
@@ -53,7 +55,7 @@
     {
     if ((self = [super init]) != NULL)
         {
-        renderer = [[COBJRenderer alloc] init];
+        renderer = [[CGeometryRenderer alloc] init];
         
         scale = 1.0;
         
@@ -232,6 +234,17 @@
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError AVAILABLE_MAC_OS_X_VERSION_10_4_AND_LATER;
     {
     if ([typeName isEqualToString:@"obj"])
+        {
+        COBJParser *theParser = [[COBJParser alloc] initWithURL:absoluteURL];
+        NSError *theError = NULL;
+        [theParser parse:&theError];
+
+        self.renderer.mesh = theParser.mesh;
+        self.materials = [theParser.mesh.geometries valueForKeyPath:@"material"];
+
+        return(YES);
+        }
+    else if ([typeName isEqualToString:@"obj"] && NO)
         {
     //    NSString *theInputFile = [NSString stringWithFormat:@"'%@'", absoluteURL.path];
         char thePath[] = "/tmp/XXXXXXXX";

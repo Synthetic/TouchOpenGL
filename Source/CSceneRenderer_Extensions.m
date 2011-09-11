@@ -1,0 +1,313 @@
+//
+//  CSceneRenderer_Extensions.m
+//  TouchOpenGL
+//
+//  Created by Jonathan Wight on 03/17/11.
+//  Copyright 2011 toxicsoftware.com. All rights reserved.
+//
+
+#import "CSceneRenderer_Extensions.h"
+
+#import <QuartzCore/QuartzCore.h>
+#import <objc/runtime.h>
+
+#import "CProgram.h"
+#import "COpenGLAssetLibrary.h"
+
+#import "CRenderBuffer.h"
+#import "CFrameBuffer.h"
+
+@implementation CSceneRenderer (CSceneRenderer_Extensions)
+
+- (COpenGLAssetLibrary *)library
+    {
+    #if TARGET_OS_IPHONE
+    return([EAGLContext currentContext].library);
+    #else
+    
+    static char kKey[] = "[CRenderer library]";
+    
+    COpenGLAssetLibrary *theLibrary = objc_getAssociatedObject(self, &kKey);
+    if (theLibrary == NULL)
+        {
+        theLibrary = [[COpenGLAssetLibrary  alloc] init];
+        objc_setAssociatedObject(self, &kKey, theLibrary, OBJC_ASSOCIATION_RETAIN);
+        }
+    return(theLibrary);
+    #endif
+    }
+
+- (void)drawAxes:(Matrix4)inModelTransform length:(GLfloat)inLength
+    {
+    AssertOpenGLNoError_();
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    NSError *theError = NULL;
+    CProgram *theProgram = [self.library programForName:@"Flat" attributeNames:[NSArray arrayWithObjects:@"a_position", @"a_color", NULL] uniformNames:[NSArray arrayWithObjects:@"u_modelViewMatrix", @"u_projectionMatrix", NULL] error:&theError];
+    if (theProgram == NULL)
+        {
+        NSLog(@"Error: %@", theError);
+        return;
+        }
+
+    Vector3 theVertices[] = {
+        { .x = +inLength, .y = 0, .z = 0 },
+        { .x = -inLength, .y = 0, .z = 0 },
+        { .x = 0.0, .y = inLength, .z = 0 },
+        { .x = 0.0, .y = -inLength, .z = 0 },
+        { .x = 0.0, .y = 0, .z = inLength },
+        { .x = 0.0, .y = 0, .z = -inLength },
+        };
+
+    Color4ub theColors[] = { 
+        { 0xFF, 0, 0, 0xFF, },
+        { 0xFF, 0, 0, 0xFF, },
+        { 0, 0xFF, 0, 0xFF, },
+        { 0, 0xFF, 0, 0xFF, },
+        { 0, 0, 0xFF, 0xFF, },
+        { 0, 0, 0xFF, 0xFF, },
+        };
+
+    // Use shader program
+    [theProgram use];
+    
+    // Update position attribute
+    GLuint theVertexAttributeIndex = [theProgram attributeIndexForName:@"a_position"];        
+    glVertexAttribPointer(theVertexAttributeIndex, 3, GL_FLOAT, GL_FALSE, 0, theVertices);
+    glEnableVertexAttribArray(theVertexAttributeIndex);
+
+    AssertOpenGLNoError_();
+
+    // Update color attribute
+    GLuint theColorsAttributeIndex = [theProgram attributeIndexForName:@"a_color"];        
+    glEnableVertexAttribArray(theColorsAttributeIndex);
+    glVertexAttribPointer(theColorsAttributeIndex, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, theColors);
+
+    AssertOpenGLNoError_();
+
+    // Update transform uniform
+    GLuint theModelViewMatrixUniform = [theProgram uniformIndexForName:@"u_modelViewMatrix"];
+    glUniformMatrix4fv(theModelViewMatrixUniform, 1, NO, &inModelTransform.m[0][0]);
+
+    GLuint theProjectionMatrixUniform = [theProgram uniformIndexForName:@"u_projectionMatrix"];
+    Matrix4 theProjectionMatrix = self.projectionTransform;
+    glUniformMatrix4fv(theProjectionMatrixUniform, 1, NO, &theProjectionMatrix.m[0][0]);
+
+
+    // Validate program before drawing. This is a good check, but only really necessary in a debug build. DEBUG macro must be defined in your debug configurations if that's not already the case.
+#if defined(DEBUG)
+    if ([theProgram validate:&theError] == NO)
+        {
+        NSLog(@"Failed to validate program: %@", theError);
+        return;
+        }
+#endif
+
+    AssertOpenGLNoError_();
+
+    glLineWidth(1);
+
+    glDrawArrays(GL_LINES, 0, 6);
+
+    AssertOpenGLNoError_();
+    }
+
+- (void)drawBoundingBox:(Matrix4)inModelTransform v1:(Vector3)v1 v2:(Vector3)v2;
+    {
+    AssertOpenGLNoError_();
+
+//    inModelTransform = Matrix4Identity;
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    NSError *theError = NULL;
+    CProgram *theProgram = [self.library programForName:@"Flat" attributeNames:[NSArray arrayWithObjects:@"a_position", @"a_color", NULL] uniformNames:[NSArray arrayWithObjects:@"u_modelViewMatrix", @"u_projectionMatrix", NULL] error:&theError];
+    if (theProgram == NULL)
+        {
+        NSLog(@"Error: %@", theError);
+        return;
+        }
+
+    // TODO should just have a static unit cube and then scale it with a matrix...
+    Vector3 theVertices[] = {
+        { .x = v1.x, .y = v1.y, .z = v1.z }, { .x = v2.x, .y = v1.y, .z = v1.z },
+        { .x = v1.x, .y = v2.y, .z = v1.z }, { .x = v2.x, .y = v2.y, .z = v1.z },
+        { .x = v1.x, .y = v1.y, .z = v1.z }, { .x = v1.x, .y = v2.y, .z = v1.z },
+        { .x = v2.x, .y = v1.y, .z = v1.z }, { .x = v2.x, .y = v2.y, .z = v1.z },
+
+        { .x = v1.x, .y = v1.y, .z = v2.z }, { .x = v2.x, .y = v1.y, .z = v2.z },
+        { .x = v1.x, .y = v2.y, .z = v2.z }, { .x = v2.x, .y = v2.y, .z = v2.z },
+        { .x = v1.x, .y = v1.y, .z = v2.z }, { .x = v1.x, .y = v2.y, .z = v2.z },
+        { .x = v2.x, .y = v1.y, .z = v2.z }, { .x = v2.x, .y = v2.y, .z = v2.z },
+
+        { .x = v1.x, .y = v1.y, .z = v1.z }, { .x = v1.x, .y = v1.y, .z = v2.z },
+        { .x = v2.x, .y = v1.y, .z = v1.z }, { .x = v2.x, .y = v1.y, .z = v2.z },
+
+        { .x = v1.x, .y = v2.y, .z = v1.z }, { .x = v1.x, .y = v2.y, .z = v2.z },
+        { .x = v2.x, .y = v2.y, .z = v1.z }, { .x = v2.x, .y = v2.y, .z = v2.z },
+
+        };
+
+    // TODO - can't get glVertexAttrib4f to work.
+    Color4ub theColors[] = { 
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        { 0xFF, 0xFF, 0xFF, 0xFF, },
+        };
+
+    // Use shader program
+    [theProgram use];
+    
+    // Update position attribute
+    GLuint theVertexAttributeIndex = [theProgram attributeIndexForName:@"a_position"];        
+    glVertexAttribPointer(theVertexAttributeIndex, 3, GL_FLOAT, GL_FALSE, 0, theVertices);
+    glEnableVertexAttribArray(theVertexAttributeIndex);
+
+    AssertOpenGLNoError_();
+
+    // Update color attribute
+    GLuint theColorsAttributeIndex = [theProgram attributeIndexForName:@"a_color"];        
+    glEnableVertexAttribArray(theColorsAttributeIndex);
+    glVertexAttribPointer(theColorsAttributeIndex, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, theColors);
+//    glVertexAttrib4f(theColorsAttributeIndex, 1.0, 1.0, 1.0, 1.0);
+
+    AssertOpenGLNoError_();
+
+
+    // Update transform uniform
+    GLuint theModelViewMatrixUniform = [theProgram uniformIndexForName:@"u_modelViewMatrix"];
+    glUniformMatrix4fv(theModelViewMatrixUniform, 1, NO, &inModelTransform.m[0][0]);
+
+    GLuint theProjectionMatrixUniform = [theProgram uniformIndexForName:@"u_projectionMatrix"];
+    Matrix4 theProjectionMatrix = self.projectionTransform;
+    glUniformMatrix4fv(theProjectionMatrixUniform, 1, NO, &theProjectionMatrix.m[0][0]);
+
+
+    // Validate program before drawing. This is a good check, but only really necessary in a debug build. DEBUG macro must be defined in your debug configurations if that's not already the case.
+#if defined(DEBUG)
+    if ([theProgram validate:&theError] == NO)
+        {
+        NSLog(@"Failed to validate program: %@", theError);
+        return;
+        }
+#endif
+
+    AssertOpenGLNoError_();
+
+    glLineWidth(1);
+
+    glDrawArrays(GL_LINES, 0, sizeof(theVertices) / sizeof(theVertices[0]));
+
+    AssertOpenGLNoError_();
+    }
+
+- (void)drawBackgroundGradient
+{
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    NSError *theError = NULL;
+    CProgram *theProgram = [self.library programForName:@"Gradient" attributeNames:[NSArray arrayWithObjects:@"a_position", NULL] uniformNames:[NSArray arrayWithObjects:@"u_projectionMatrix", NULL] error:&theError];
+    if (theProgram == NULL)
+        {
+        NSLog(@"Error: %@", theError);
+        return;
+        }
+
+    const float kFarClippingPlane = -8.0f;
+    const float kGlowRadius = 15.0f;
+    Vector3 theVertices[] = {
+        { .x = -kGlowRadius, .y = -kGlowRadius, .z = kFarClippingPlane },
+        { .x = kGlowRadius, .y = -kGlowRadius, .z = kFarClippingPlane },
+        { .x = kGlowRadius, .y = kGlowRadius, .z = kFarClippingPlane },
+        { .x = -kGlowRadius, .y = kGlowRadius, .z = kFarClippingPlane }
+    };
+
+    // Use shader program
+    [theProgram use];
+
+    // Update position attribute
+    GLuint theVertexAttributeIndex = [theProgram attributeIndexForName:@"a_position"];
+    glVertexAttribPointer(theVertexAttributeIndex, 3, GL_FLOAT, GL_FALSE, 0, theVertices);
+    glEnableVertexAttribArray(theVertexAttributeIndex);
+
+    GLuint theProjectionMatrixUniform = [theProgram uniformIndexForName:@"u_projectionMatrix"];
+    Matrix4 theProjectionMatrix = self.projectionTransform;
+    glUniformMatrix4fv(theProjectionMatrixUniform, 1, NO, &theProjectionMatrix.m[0][0]);
+
+    glDrawArrays(GL_TRIANGLE_FAN, 0, sizeof(theVertices) / sizeof(theVertices[0]));
+}
+
+- (CGImageRef)renderIntoImage:(SIntSize)inSize
+    {
+//    CFrameBuffer *theFrameBuffer = [[CFrameBuffer alloc] init];
+//    [theFrameBuffer bind:GL_FRAMEBUFFER_EXT];
+//    CRenderBuffer *theRenderBuffer = [[CRenderBuffer alloc] init];
+//    [theRenderBuffer bind];
+//    [theRenderBuffer storage:GL_RGBA8 size:inSize];
+//    [theFrameBuffer attachRenderBuffer:theRenderBuffer attachment:GL_COLOR_ATTACHMENT0_EXT];
+//    if ([theFrameBuffer isComplete:GL_FRAMEBUFFER_EXT] == NO)
+//        {
+//        NSLog(@"not completE");
+//        return(NULL);
+//        }
+//
+//    [self prerender];
+//    [self render];
+//    [self postrender];
+//
+//    glFinish();
+//
+//    NSMutableData *theData = [NSMutableData dataWithLength:inSize.width * inSize.height * 4];
+//
+//    glReadPixels(0, 0, inSize.width, inSize.height, GL_RGBA, GL_UNSIGNED_BYTE, theData.mutableBytes);
+//
+////    [theData writeToFile:@"/Users/schwa/Desktop/test.dat" atomically:NO];
+//
+//    CGColorSpaceRef theColorSpace = CGColorSpaceCreateDeviceRGB();
+//
+//    CGDataProviderRef theDataProvider = CGDataProviderCreateWithCFData((__bridge CFDataRef)theData);
+//
+//    CGImageRef theImage = CGImageCreate(inSize.width, inSize.height, 8, 32, inSize.height * 4, theColorSpace, kCGImageAlphaLast, theDataProvider, NULL, NO, kCGRenderingIntentDefault);
+//
+//    CFRelease(theDataProvider);
+//    CFRelease(theColorSpace);
+//
+//    if (1)
+//        {
+//        NSURL *theURL = [NSURL fileURLWithPath:@"/Users/schwa/Desktop/test.png"];
+//        CGImageDestinationRef theImageDestination = CGImageDestinationCreateWithURL((__bridge CFURLRef)theURL, kUTTypePNG, 1, NULL);
+//        CGImageDestinationAddImage(theImageDestination, theImage, NULL);
+//        CGImageDestinationFinalize(theImageDestination);
+//        CFRelease(theImageDestination);
+//        }
+//
+//    return(theImage);
+    }
+
+
+@end

@@ -8,14 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class COBJRenderer;
-@class CRendererView;
+@class CGeometryRenderer;
+@class CSceneRendererView;
 
 @interface CModelDocument : NSDocument {
 }
 
-@property (nonatomic, strong) COBJRenderer *renderer;
-@property (nonatomic, strong) IBOutlet CRendererView *mainView;
+@property (nonatomic, strong) CGeometryRenderer *renderer;
+@property (nonatomic, strong) IBOutlet CSceneRendererView *mainView;
 
 @property (nonatomic, assign) GLfloat roll;
 @property (nonatomic, assign) GLfloat pitch;

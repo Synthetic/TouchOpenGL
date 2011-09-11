@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>fragmentShader</key>
+	<string>SimpleTexture.fsh</string>
+	<key>vertexShader</key>
+	<string>SimpleTexture.vsh</string>
+	<key>attributes</key>
+	<array>
+		<dict>
+			<key>name</key>
+			<string>a_position</string>
+			<key>type</key>
+			<string>vec4</string>
+			<key>publicName</key>
+			<string>positions</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>a_texCoord</string>
+			<key>type</key>
+			<string>vec4</string>
+			<key>publicName</key>
+			<string>texCoords</string>
+		</dict>
+	</array>
+	<key>uniforms</key>
+	<array>
+		<dict>
+			<key>name</key>
+			<string>u_modelViewMatrix</string>
+			<key>type</key>
+			<string>mat4</string>
+			<key>publicName</key>
+			<string>modelViewMatrix</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>u_projectionMatrix</string>
+			<key>type</key>
+			<string>mat4</string>
+			<key>publicName</key>
+			<string>projectionMatrix</string>
+		</dict>
+	</array>
+</dict>
+</plist>
