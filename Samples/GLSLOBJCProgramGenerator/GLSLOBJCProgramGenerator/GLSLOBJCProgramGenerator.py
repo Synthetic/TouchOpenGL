@@ -8,7 +8,7 @@ class MyString(str):
     @property
     def u(self):
         return self[0].upper() + self[1:]
-
+        
 theTypeTable = {
     'mat4': {
         'propertyType': 'Matrix4',
