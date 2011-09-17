@@ -38,8 +38,9 @@
 
     AssertOpenGLValidContext_();
 
-    NSURL *theURL = [[NSBundle mainBundle] URLForResource:@"Flat.program" withExtension:@"plist"];
+    NSURL *theURL = [[NSBundle mainBundle].resourceURL URLByAppendingPathComponent:@"Shaders/Flat.program.plist"];
     self.program = [[CFlatProgram alloc] initWithURL:theURL];
+    NSParameterAssert(self.program);
 
     // ####################################################  #####################
 
