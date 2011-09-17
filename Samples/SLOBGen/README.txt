@@ -1,4 +1,4 @@
-GLSLOBJCProgramGenerator
+
 ========================
 
 :author: Jonathan Wight <jwight@mac.com>
@@ -14,7 +14,7 @@ Install
 
 With setuptools_::
 
-  $ easy_install -U GLSLOBJCProgramGenerator
+  $ easy_install -U 
 
 .. _setuptools: http://peak.telecommunity.com/DevCenter/setuptools
 
