@@ -11,16 +11,12 @@
 		<dict>
 			<key>name</key>
 			<string>a_position</string>
-			<key>type</key>
-			<string>vec4</string>
 			<key>publicName</key>
 			<string>positions</string>
 		</dict>
 		<dict>
 			<key>name</key>
 			<string>a_color</string>
-			<key>type</key>
-			<string>vec4</string>
 			<key>publicName</key>
 			<string>colors</string>
 		</dict>
@@ -32,7 +28,7 @@
 			<string>u_modelViewMatrix</string>
 			<key>type</key>
 			<string>mat4</string>
-			<key>publicName</key>
+			<key>propertyName</key>
 			<string>modelViewMatrix</string>
 		</dict>
 		<dict>
@@ -40,7 +36,7 @@
 			<string>u_projectionMatrix</string>
 			<key>type</key>
 			<string>mat4</string>
-			<key>publicName</key>
+			<key>propertyName</key>
 			<string>projectionMatrix</string>
 		</dict>
 	</array>

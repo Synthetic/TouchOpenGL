@@ -1,0 +1,127 @@
+//
+//  ${klass.name}.m
+//  Dwarf
+//
+//  Created by Jonathan Wight on 9/10/11.
+//  Copyright (c) 2011 toxicsoftware.com. All rights reserved.
+//
+
+#import "${klass.name}.h"
+
+#import "OpenGLTypes.h"
+#import "OpenGLIncludes.h"
+
+#import "CVertexBufferReference.h"
+
+@interface ${klass.name} ()
+
+// Uniforms
+{% for uniform in uniforms %}\
+@property (readwrite, nonatomic, assign) GLint ${uniform.propertyName}Uniform; 
+@property (readwrite, nonatomic, assign) BOOL ${uniform.propertyName}Changed; 
+
+{% end %}\
+// Attributes
+{% for attribute in attributes %}\
+@property (readwrite, nonatomic, assign) GLint ${attribute.propertyName}Attribute; 
+@property (readwrite, nonatomic, assign) BOOL ${attribute.propertyName}Changed; 
+
+{% end %}\
+@end
+
+@implementation ${klass.name}
+
+// Uniforms
+{% for uniform in uniforms %}\
+@synthesize ${uniform.propertyName};
+@synthesize ${uniform.propertyName}Uniform;
+@synthesize ${uniform.propertyName}Changed;
+
+{% end %}\
+// Attributes
+{% for attribute in attributes %}\
+@synthesize ${attribute.propertyName};
+@synthesize ${attribute.propertyName}Attribute;
+@synthesize ${attribute.propertyName}Changed;
+
+{% end %}\
+- (id)init
+    {
+    if ((self = [super init]) != NULL)
+        {
+{% for uniform in uniforms %}\
+        ${uniform.propertyName} = ${uniform.initialValue};
+        ${uniform.propertyName}Uniform = -1;
+        ${uniform.propertyName}Changed = YES;
+
+{% end %}\
+        GLint theIndex = 0
+        
+{% for attribute in attributes %}\
+        ${attribute.propertyName}Attribute = theIndex++;
+        ${attribute.propertyName}Changed = YES;
+
+{% end %}\
+        }
+    return self;
+    }
+
+- (void)use
+    {
+    [super use];
+    //
+    AssertOpenGLNoError_();
+
+{% for uniform in uniforms %}\
+    if (${uniform.propertyName}Changed == YES)
+        {
+        if (${uniform.propertyName}Uniform == -1)
+            {
+            ${uniform.propertyName}Uniform = glGetUniformLocation(self.name, "${uniform.GLSLName}");
+            }
+
+        ${uniform.setter};
+        ${uniform.propertyName}Changed = NO;
+        AssertOpenGLNoError_();
+        }
+
+{% end %}\
+
+{% for attribute in attributes %}\
+    if (${attribute.propertyName}Changed == YES)
+        {
+        if (${attribute.propertyName})
+            {
+            [${attribute.propertyName} use:${attribute.propertyName}Attribute];
+            glEnableVertexAttribArray(${attribute.propertyName}Attribute);
+            
+            ${attribute.propertyName}Changed = NO;
+            AssertOpenGLNoError_();
+            }
+        }
+
+{% end %}\
+    }
+
+{% for uniform in uniforms %}\
+- (void)set${uniform.propertyName.u}:(Matrix4)in${uniform.propertyName.u}
+    {
+    ${uniform.propertyName} = in${uniform.propertyName.u};
+    ${uniform.propertyName}Changed = YES;
+    }
+
+{% end %}\
+
+{% for attribute in attributes %}\
+- (void)set${attribute.propertyName.u}:(CVertexBufferReference *)in${attribute.propertyName.u}
+    {
+    if (${attribute.propertyName} != in${attribute.propertyName.u})
+        {
+        ${attribute.propertyName} = in${attribute.propertyName.u};
+        ${attribute.propertyName}Changed = YES;
+        }
+    }
+
+{% end %}\
+
+@end

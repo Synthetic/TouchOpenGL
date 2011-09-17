@@ -1,0 +1,27 @@
+//
+//  ${klass.name}.h
+//  <#some project>
+//
+//  Created by Jonathan Wight on 9/10/11.
+//  Copyright (c) 2011 toxicsoftware.com. All rights reserved.
+//
+
+#import "CProgram.h"
+
+#import "Matrix.h"
+
+@class CVertexBufferReference;
+
+@interface ${klass.name} : CProgram
+
+// Uniforms
+{% for uniform in uniforms %}\
+@property (readwrite, nonatomic, assign) ${uniform.propertyType} ${uniform.propertyName};
+{% end %}\
+
+// Attributes
+{% for attribute in attributes %}\
+@property (readwrite, nonatomic, retain) CVertexBufferReference *${attribute.propertyName};
+{% end %}\
+
+@end
