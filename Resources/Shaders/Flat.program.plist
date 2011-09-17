@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>fragmentShader</key>
-	<string>Flat.fsh</string>
-	<key>vertexShader</key>
-	<string>Flat.vsh</string>
 	<key>attributes</key>
 	<array>
 		<dict>
@@ -21,24 +17,30 @@
 			<string>colors</string>
 		</dict>
 	</array>
+	<key>fragmentShader</key>
+	<string>Flat.fsh</string>
+	<key>name</key>
+	<string>Flat</string>
 	<key>uniforms</key>
 	<array>
 		<dict>
 			<key>name</key>
 			<string>u_modelViewMatrix</string>
-			<key>type</key>
-			<string>mat4</string>
 			<key>propertyName</key>
 			<string>modelViewMatrix</string>
+			<key>type</key>
+			<string>mat4</string>
 		</dict>
 		<dict>
 			<key>name</key>
 			<string>u_projectionMatrix</string>
-			<key>type</key>
-			<string>mat4</string>
 			<key>propertyName</key>
 			<string>projectionMatrix</string>
+			<key>type</key>
+			<string>mat4</string>
 		</dict>
 	</array>
+	<key>vertexShader</key>
+	<string>Flat.vsh</string>
 </dict>
 </plist>
