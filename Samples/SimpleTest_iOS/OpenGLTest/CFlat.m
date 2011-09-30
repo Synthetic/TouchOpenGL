@@ -1,45 +1,54 @@
 //
-//  CFlatProgram.m
+//  CFlat.m
 //  Dwarf
 //
 //  Created by Jonathan Wight on 9/10/11.
 //  Copyright (c) 2011 toxicsoftware.com. All rights reserved.
 //
 
-#import "CFlatProgram.h"
+#import "CFlat.h"
 
 #import "OpenGLTypes.h"
 #import "OpenGLIncludes.h"
 
 #import "CVertexBufferReference.h"
 
-@interface CFlatProgram ()
-@property (readwrite, nonatomic, assign) GLint modelViewMatrixUniform; 
-@property (readwrite, nonatomic, assign) GLint projectionMatrixUniform; 
-@property (readwrite, nonatomic, assign) GLint positionsAttribute;
-@property (readwrite, nonatomic, assign) GLint colorsAttribute;
+@interface CFlat ()
 
+// Uniforms
+@property (readwrite, nonatomic, assign) GLint modelViewMatrixUniform; 
 @property (readwrite, nonatomic, assign) BOOL modelViewMatrixChanged; 
+
+@property (readwrite, nonatomic, assign) GLint projectionMatrixUniform; 
 @property (readwrite, nonatomic, assign) BOOL projectionMatrixChanged; 
-@property (readwrite, nonatomic, assign) BOOL positionsChanged;
-@property (readwrite, nonatomic, assign) BOOL colorsChanged;
+
+// Attributes
+@property (readwrite, nonatomic, assign) GLint positionsAttribute; 
+@property (readwrite, nonatomic, assign) BOOL positionsChanged; 
+
+@property (readwrite, nonatomic, assign) GLint colorsAttribute; 
+@property (readwrite, nonatomic, assign) BOOL colorsChanged; 
+
 @end
 
-@implementation CFlatProgram
+@implementation CFlat
 
+// Uniforms
 @synthesize modelViewMatrix;
+@synthesize modelViewMatrixUniform;
+@synthesize modelViewMatrixChanged;
+
 @synthesize projectionMatrix;
+@synthesize projectionMatrixUniform;
+@synthesize projectionMatrixChanged;
+
+// Attributes
 @synthesize positions;
-@synthesize colors;
-
-@synthesize modelViewMatrixUniform; 
-@synthesize projectionMatrixUniform; 
 @synthesize positionsAttribute;
-@synthesize colorsAttribute;
-
-@synthesize modelViewMatrixChanged; 
-@synthesize projectionMatrixChanged; 
 @synthesize positionsChanged;
+
+@synthesize colors;
+@synthesize colorsAttribute;
 @synthesize colorsChanged;
 
 - (id)init
@@ -47,17 +56,21 @@
     if ((self = [super init]) != NULL)
         {
         modelViewMatrix = Matrix4Identity;
-        projectionMatrix = Matrix4Identity;
-        
         modelViewMatrixUniform = -1;
-        projectionMatrixUniform = -1;
-        positionsAttribute = 0;
-        colorsAttribute = 1;
-        
         modelViewMatrixChanged = YES;
+
+        projectionMatrix = Matrix4Identity;
+        projectionMatrixUniform = -1;
         projectionMatrixChanged = YES;
+
+        GLint theIndex = 0;
+        
+        positionsAttribute = theIndex++;
         positionsChanged = YES;
+
+        colorsAttribute = theIndex++;
         colorsChanged = YES;
+
         }
     return self;
     }
@@ -74,12 +87,11 @@
             {
             modelViewMatrixUniform = glGetUniformLocation(self.name, "u_modelViewMatrix");
             }
-        glUniformMatrix4fv(modelViewMatrixUniform, 1, NO, &modelViewMatrix.m[0][0]);
-        
-        modelViewMatrixChanged = NO;
-        }
 
-    AssertOpenGLNoError_();
+        glUniformMatrix4fv(modelViewMatrixUniform, 1, NO, &modelViewMatrix.m[0][0]);;
+        modelViewMatrixChanged = NO;
+        AssertOpenGLNoError_();
+        }
 
     if (projectionMatrixChanged == YES)
         {
@@ -87,38 +99,37 @@
             {
             projectionMatrixUniform = glGetUniformLocation(self.name, "u_projectionMatrix");
             }
-        glUniformMatrix4fv(projectionMatrixUniform, 1, NO, &projectionMatrix.m[0][0]);
-        
+
+        glUniformMatrix4fv(projectionMatrixUniform, 1, NO, &projectionMatrix.m[0][0]);;
         projectionMatrixChanged = NO;
+        AssertOpenGLNoError_();
         }
 
-    AssertOpenGLNoError_();
 
     if (positionsChanged == YES)
         {
-        if (self.positions)
+        if (positions)
             {
-            [self.positions use:positionsAttribute];
+            [positions use:positionsAttribute];
             glEnableVertexAttribArray(positionsAttribute);
             
             positionsChanged = NO;
+            AssertOpenGLNoError_();
             }
         }
-
-    AssertOpenGLNoError_();
 
     if (colorsChanged == YES)
         {
-        if (self.colors)
+        if (colors)
             {
-            [self.colors use:colorsAttribute];
+            [colors use:colorsAttribute];
             glEnableVertexAttribArray(colorsAttribute);
             
             colorsChanged = NO;
+            AssertOpenGLNoError_();
             }
         }
 
-    AssertOpenGLNoError_();
     }
 
 - (void)setModelViewMatrix:(Matrix4)inModelViewMatrix
@@ -127,12 +138,12 @@
     modelViewMatrixChanged = YES;
     }
 
-
 - (void)setProjectionMatrix:(Matrix4)inProjectionMatrix
     {
     projectionMatrix = inProjectionMatrix;
     projectionMatrixChanged = YES;
     }
+
 
 - (void)setPositions:(CVertexBufferReference *)inPositions
     {
@@ -151,5 +162,6 @@
         colorsChanged = YES;
         }
     }
+
 
 @end

@@ -12,7 +12,7 @@
 #import "CVertexBufferReference_FactoryExtensions.h"
 #import "CVertexBufferReference.h"
 #import "CProgram.h"
-#import "CFlatProgram.h"
+#import "CFlat.h"
 #import "CSceneRenderer_Extensions.h"
 #import "COpenGLAssetLibrary.h"
 #import "CProgram_Extensions.h"
@@ -38,7 +38,7 @@
     AssertOpenGLValidContext_();
 
     NSURL *theURL = [[NSBundle mainBundle].resourceURL URLByAppendingPathComponent:@"Shaders/Flat.program.plist"];
-    self.program = [[CFlatProgram alloc] initWithURL:theURL];
+    self.program = [[CFlat alloc] initWithURL:theURL];
     NSParameterAssert(self.program);
 
     // ####################################################  #####################

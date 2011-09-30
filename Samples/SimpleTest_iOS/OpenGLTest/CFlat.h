@@ -1,6 +1,6 @@
 //
-//  CFlatProgram.h
-//  Dwarf
+//  CFlat.h
+//  <#some project>
 //
 //  Created by Jonathan Wight on 9/10/11.
 //  Copyright (c) 2011 toxicsoftware.com. All rights reserved.
@@ -12,12 +12,14 @@
 
 @class CVertexBufferReference;
 
-@interface CFlatProgram : CProgram
+@interface CFlat : CProgram
 
-@property (readwrite, nonatomic, assign) Matrix4 modelViewMatrix; 
+// Uniforms
+@property (readwrite, nonatomic, assign) Matrix4 modelViewMatrix;
 @property (readwrite, nonatomic, assign) Matrix4 projectionMatrix;
+
+// Attributes
 @property (readwrite, nonatomic, retain) CVertexBufferReference *positions;
 @property (readwrite, nonatomic, retain) CVertexBufferReference *colors;
-
 
 @end
