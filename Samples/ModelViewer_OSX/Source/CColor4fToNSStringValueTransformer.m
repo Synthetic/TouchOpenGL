@@ -3,7 +3,7 @@
 //  TouchOpenGL
 //
 //  Created by Jonathan Wight on 05/03/11.
-//  Copyright 2011 Inkling. All rights reserved.
+//  Copyright 2011 Jonathan Wight. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without modification, are
 //  permitted provided that the following conditions are met:
@@ -27,7 +27,7 @@
 //
 //  The views and conclusions contained in the software and documentation are those of the
 //  authors and should not be interpreted as representing official policies, either expressed
-//  or implied, of Inkling.
+//  or implied, of Jonathan Wight.
 
 #import "CColor4fToNSStringValueTransformer.h"
 
@@ -55,12 +55,12 @@
     {
     NSArray *theComponents = [value componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     Color4f theColor = {
-        .r = [[theComponents objectAtIndex:0] doubleValue], 
-        .g = [[theComponents objectAtIndex:1] doubleValue], 
-        .b = [[theComponents objectAtIndex:2] doubleValue], 
-        .a = [[theComponents objectAtIndex:3] doubleValue], 
+        .r = [[theComponents objectAtIndex:0] doubleValue],
+        .g = [[theComponents objectAtIndex:1] doubleValue],
+        .b = [[theComponents objectAtIndex:2] doubleValue],
+        .a = [[theComponents objectAtIndex:3] doubleValue],
         };
-    
+
     NSValue *theValue = [NSValue valueWithBytes:&theColor objCType:@encode(Color4f)];
     return(theValue);
     }

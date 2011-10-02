@@ -3,7 +3,7 @@
 //  ModelViewer_OSX
 //
 //  Created by Jonathan Wight on 8/30/11.
-//  Copyright (c) 2011 Inkling. All rights reserved.
+//  Copyright (c) 2011 Jonathan Wight. All rights reserved.
 //
 
 #import "CGeometry.h"

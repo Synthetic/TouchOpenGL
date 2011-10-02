@@ -3,7 +3,7 @@
 //  TouchOpenGL
 //
 //  Created by Jonathan Wight on 03/29/11.
-//  Copyright 2011 Inkling. All rights reserved.
+//  Copyright 2011 Jonathan Wight. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without modification, are
 //  permitted provided that the following conditions are met:
@@ -27,7 +27,7 @@
 //
 //  The views and conclusions contained in the software and documentation are those of the
 //  authors and should not be interpreted as representing official policies, either expressed
-//  or implied, of Inkling.
+//  or implied, of Jonathan Wight.
 
 #import "CDictionaryToVectorValueTransformer.h"
 
@@ -58,7 +58,7 @@
 
 - (id)reverseTransformedValue:(id)value
     {
-    Vector4 theVector = { 
+    Vector4 theVector = {
         .x = [[value valueForKey:@"x"] doubleValue],
         .y = [[value valueForKey:@"y"] doubleValue],
         .z = [[value valueForKey:@"z"] doubleValue],

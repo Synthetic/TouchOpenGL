@@ -3,7 +3,7 @@
 //  TouchOpenGL
 //
 //  Created by Aaron Golden on 3/21/11.
-//  Copyright 2011 Inkling. All rights reserved.
+//  Copyright 2011 Aaron Golden. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without modification, are
 //  permitted provided that the following conditions are met:
@@ -15,9 +15,9 @@
 //        of conditions and the following disclaimer in the documentation and/or other materials
 //        provided with the distribution.
 //
-//  THIS SOFTWARE IS PROVIDED BY JONATHAN WIGHT ``AS IS'' AND ANY EXPRESS OR IMPLIED
+//  THIS SOFTWARE IS PROVIDED BY AARON GOLDEN ``AS IS'' AND ANY EXPRESS OR IMPLIED
 //  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-//  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL JONATHAN WIGHT OR
+//  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL AARON GOLDEN OR
 //  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
 //  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
 //  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
@@ -27,7 +27,7 @@
 //
 //  The views and conclusions contained in the software and documentation are those of the
 //  authors and should not be interpreted as representing official policies, either expressed
-//  or implied, of Inkling.
+//  or implied, of Aaron Golden.
 
 #import "CModelDocument.h"
 
@@ -79,9 +79,9 @@
     if ((self = [super init]) != NULL)
         {
         renderer = [[CGeometryRenderer alloc] init];
-        
+
         scale = 1.0;
-        
+
         CMeshLoader *theLoader = [[CMeshLoader alloc] init];
 		NSURL *theURL = [[NSBundle mainBundle] URLForResource:@"teapot" withExtension:@"model.plist"];
         NSError *theError = NULL;
@@ -91,9 +91,9 @@
             }
         self.renderer.mesh = theLoader.mesh;
         self.materials = [theLoader.materials allValues];
-        
+
         NSLog(@"%@", self.materials);
-        
+
         self.cameraX = self.renderer.camera.position.x;
         self.cameraY = self.renderer.camera.position.y;
         self.cameraZ = self.renderer.camera.position.z;
@@ -101,11 +101,11 @@
         self.lightX = self.renderer.light.position.x;
         self.lightY = self.renderer.light.position.y;
         self.lightZ = self.renderer.camera.position.z;
-        
+
         [self addObserver:self forKeyPath:@"renderer.light.ambientColor" options:0 context:NULL];
         [self addObserver:self forKeyPath:@"renderer.light.diffuseColor" options:0 context:NULL];
         [self addObserver:self forKeyPath:@"renderer.light.specularColor" options:0 context:NULL];
-        
+
         NSMutableArray *thePrograms = [NSMutableArray array];
         for (NSString *thePath in [[NSFileManager defaultManager] subpathsAtPath:[[NSBundle mainBundle] resourcePath]])
             {
@@ -115,9 +115,9 @@
                 [thePrograms addObject:theName];
                 }
             }
-            
+
         self.defaultProgram = @"Lighting_PerPixel";
-            
+
         self.programs = thePrograms;
         }
     return self;
@@ -152,21 +152,21 @@
 - (void)setRoll:(GLfloat)inRoll
     {
     roll = inRoll;
-    
+
     [self updateMatrix];
     }
 
 - (void)setPitch:(GLfloat)inPitch
     {
     pitch = inPitch;
-    
+
     [self updateMatrix];
     }
 
 - (void)setYaw:(GLfloat)inYaw
     {
     yaw = inYaw;
-    
+
     [self updateMatrix];
     }
 
@@ -180,7 +180,7 @@
 - (void)setCameraX:(GLfloat)inCameraX
     {
     cameraX = inCameraX;
-    
+
     Vector4 theCameraPosition = self.renderer.camera.position;
     theCameraPosition.x = inCameraX;
     self.renderer.camera.position = theCameraPosition;
@@ -189,7 +189,7 @@
 - (void)setCameraY:(GLfloat)inCameraY
     {
     cameraY = inCameraY;
-    
+
     Vector4 theCameraPosition = self.renderer.camera.position;
     theCameraPosition.y = inCameraY;
     self.renderer.camera.position = theCameraPosition;
@@ -198,7 +198,7 @@
 - (void)setCameraZ:(GLfloat)inCameraZ
     {
     cameraZ = inCameraZ;
-    
+
     Vector4 theCameraPosition = self.renderer.camera.position;
     theCameraPosition.z = inCameraZ;
     self.renderer.camera.position = theCameraPosition;
@@ -207,7 +207,7 @@
 - (void)setLightX:(GLfloat)inLightX
     {
     lightX = inLightX;
-    
+
     Vector4 theLightPosition = self.renderer.light.position;
     theLightPosition.x = inLightX;
     self.renderer.light.position = theLightPosition;
@@ -216,7 +216,7 @@
 - (void)setLightY:(GLfloat)inLightY
     {
     lightY = inLightY;
-    
+
     Vector4 theLightPosition = self.renderer.light.position;
     theLightPosition.y = inLightY;
     self.renderer.light.position = theLightPosition;
@@ -225,7 +225,7 @@
 - (void)setLightZ:(GLfloat)inLightZ
     {
     lightZ = inLightZ;
-    
+
     Vector4 theLightPosition = self.renderer.light.position;
     theLightPosition.z = inLightZ;
     self.renderer.light.position = theLightPosition;
@@ -236,13 +236,13 @@
     if (defaultProgram != inDefaultProgram)
         {
         defaultProgram = inDefaultProgram;
-        
+
         self.renderer.defaultProgramName = defaultProgram;
-        
+
         [self.renderer setNeedsSetup];
         }
     }
-    
+
 #pragma mark -
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
@@ -283,16 +283,16 @@
         [theTask launch];
         [theTask waitUntilExit];
         NSLog(@"Script Returned: %d", [theTask terminationStatus]);
-        
-        
+
+
         theOutputPath = [theOutputPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.model.plist", [[absoluteURL.path stringByDeletingPathExtension] lastPathComponent]]];
-        
+
         CMeshLoader *theLoader = [[CMeshLoader alloc] init];
         NSURL *theURL = [NSURL fileURLWithPath:theOutputPath];
         [theLoader loadMeshWithURL:theURL error:NULL];
         self.renderer.mesh = theLoader.mesh;
         self.materials = [theLoader.materials allValues];
-        
+
     //    if (outError)
     //        {
     //        *outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
@@ -305,7 +305,7 @@
         [theLoader loadMeshWithURL:absoluteURL error:NULL];
         self.renderer.mesh = theLoader.mesh;
         self.materials = [theLoader.materials allValues];
-        
+
     //    if (outError)
     //        {
     //        *outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
