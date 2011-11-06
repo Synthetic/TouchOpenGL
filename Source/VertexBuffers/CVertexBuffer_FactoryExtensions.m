@@ -34,15 +34,6 @@
 
 + (id)vertexBufferWithRect:(CGRect)inRect
     {
-//    CGFloat inLength = 1;
-//    Vector3 theVertices[] = {
-//        { .x = -inLength, .y = -inLength, .z = 0 },
-//        { .x = +inLength, .y = -inLength, .z = 0 },
-//        { .x = -inLength, .y = +inLength, .z = 0 },
-//        { .x = +inLength, .y = +inLength, .z = 0 },
-//        };
-
-
     const Vector3 theVertices[] = {
         { CGRectGetMinX(inRect), CGRectGetMinY(inRect), 0 },
         { CGRectGetMaxX(inRect), CGRectGetMinY(inRect), 0 },
