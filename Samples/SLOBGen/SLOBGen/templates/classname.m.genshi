@@ -55,8 +55,8 @@
         ${uniform.propertyName}Changed = YES;
 
 {% end %}\
-        GLint theIndex = 0
-        
+        GLint theIndex = 0;
+
 {% for attribute in attributes %}\
         ${attribute.propertyName}Attribute = theIndex++;
         ${attribute.propertyName}Changed = YES;
