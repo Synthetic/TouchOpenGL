@@ -16,18 +16,21 @@
 @interface CFlat ()
 
 // Uniforms
-@property (readwrite, nonatomic, assign) GLint modelViewMatrixUniform; 
-@property (readwrite, nonatomic, assign) BOOL modelViewMatrixChanged; 
+@property (readwrite, nonatomic, assign) GLint modelViewMatrixUniform;
+@property (readwrite, nonatomic, assign) BOOL modelViewMatrixChanged;
 
-@property (readwrite, nonatomic, assign) GLint projectionMatrixUniform; 
-@property (readwrite, nonatomic, assign) BOOL projectionMatrixChanged; 
+@property (readwrite, nonatomic, assign) GLint projectionMatrixUniform;
+@property (readwrite, nonatomic, assign) BOOL projectionMatrixChanged;
+
+@property (readwrite, nonatomic, assign) GLint colorUniform;
+@property (readwrite, nonatomic, assign) BOOL colorChanged;
 
 // Attributes
-@property (readwrite, nonatomic, assign) GLint positionsAttribute; 
-@property (readwrite, nonatomic, assign) BOOL positionsChanged; 
+@property (readwrite, nonatomic, assign) GLint positionsAttribute;
+@property (readwrite, nonatomic, assign) BOOL positionsChanged;
 
-@property (readwrite, nonatomic, assign) GLint colorsAttribute; 
-@property (readwrite, nonatomic, assign) BOOL colorsChanged; 
+@property (readwrite, nonatomic, assign) GLint colorsAttribute;
+@property (readwrite, nonatomic, assign) BOOL colorsChanged;
 
 @end
 
@@ -41,6 +44,10 @@
 @synthesize projectionMatrix;
 @synthesize projectionMatrixUniform;
 @synthesize projectionMatrixChanged;
+
+@synthesize color;
+@synthesize colorUniform;
+@synthesize colorChanged;
 
 // Attributes
 @synthesize positions;
@@ -63,8 +70,12 @@
         projectionMatrixUniform = -1;
         projectionMatrixChanged = YES;
 
+        color = (Color4f){ 1.0, 1.0, 1.0, 1.0 };
+        colorUniform = -1;
+        colorChanged = YES;
+
         GLint theIndex = 0;
-        
+
         positionsAttribute = theIndex++;
         positionsChanged = YES;
 
@@ -105,6 +116,18 @@
         AssertOpenGLNoError_();
         }
 
+    if (colorChanged == YES)
+        {
+        if (colorUniform == -1)
+            {
+            colorUniform = glGetUniformLocation(self.name, "u_color");
+            }
+
+        glUniform4fv(colorUniform, 1, &color.r);;
+        colorChanged = NO;
+        AssertOpenGLNoError_();
+        }
+
 
     if (positionsChanged == YES)
         {
@@ -112,7 +135,7 @@
             {
             [positions use:positionsAttribute];
             glEnableVertexAttribArray(positionsAttribute);
-            
+
             positionsChanged = NO;
             AssertOpenGLNoError_();
             }
@@ -124,7 +147,7 @@
             {
             [colors use:colorsAttribute];
             glEnableVertexAttribArray(colorsAttribute);
-            
+
             colorsChanged = NO;
             AssertOpenGLNoError_();
             }
@@ -142,6 +165,12 @@
     {
     projectionMatrix = inProjectionMatrix;
     projectionMatrixChanged = YES;
+    }
+
+- (void)setColor:(Color4f)inColor
+    {
+    color = inColor;
+    colorChanged = YES;
     }
 
 

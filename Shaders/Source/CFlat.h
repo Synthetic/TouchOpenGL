@@ -17,6 +17,7 @@
 // Uniforms
 @property (readwrite, nonatomic, assign) Matrix4 modelViewMatrix;
 @property (readwrite, nonatomic, assign) Matrix4 projectionMatrix;
+@property (readwrite, nonatomic, assign) Color4f color;
 
 // Attributes
 @property (readwrite, nonatomic, retain) CVertexBufferReference *positions;

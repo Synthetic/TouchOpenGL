@@ -42,7 +42,6 @@
 		450FF0B8141D391200542B3B /* CVertexBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 450FEFF9141D391100542B3B /* CVertexBuffer.m */; };
 		450FF0BA141D391200542B3B /* CVertexBufferReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 450FEFFD141D391100542B3B /* CVertexBufferReference.m */; };
 		450FF0C8141D393000542B3B /* Shaders in Resources */ = {isa = PBXBuildFile; fileRef = 450FF0C7141D393000542B3B /* Shaders */; };
-		4511707014251F3F002F9293 /* CFlat.m in Sources */ = {isa = PBXBuildFile; fileRef = 4511706F14251F3F002F9293 /* CFlat.m */; };
 		4565D5EF141C0FD400A511AD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4565D5EE141C0FD400A511AD /* UIKit.framework */; };
 		4565D5F1141C0FD400A511AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4565D5F0141C0FD400A511AD /* Foundation.framework */; };
 		4565D5F3141C0FD400A511AD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4565D5F2141C0FD400A511AD /* CoreGraphics.framework */; };
@@ -54,6 +53,7 @@
 		4565D7EB141C101200A511AD /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4565D7EA141C101200A511AD /* OpenGLES.framework */; };
 		4565D7ED141C108C00A511AD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4565D7EC141C108C00A511AD /* QuartzCore.framework */; };
 		4565D7F3141C138800A511AD /* CTestSceneRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4565D7F2141C138800A511AD /* CTestSceneRenderer.m */; };
+		4576D69C146726150057CC72 /* CFlat.m in Sources */ = {isa = PBXBuildFile; fileRef = 4576D69B146726150057CC72 /* CFlat.m */; };
 		45F108B9146720DC00F8DB00 /* CVertexBufferReference_FactoryExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 45F108B7146720DC00F8DB00 /* CVertexBufferReference_FactoryExtensions.m */; };
 /* End PBXBuildFile section */
 
@@ -129,8 +129,6 @@
 		450FEFFC141D391100542B3B /* CVertexBufferReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVertexBufferReference.h; sourceTree = "<group>"; };
 		450FEFFD141D391100542B3B /* CVertexBufferReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CVertexBufferReference.m; sourceTree = "<group>"; };
 		450FF0C7141D393000542B3B /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
-		4511706E14251F3F002F9293 /* CFlat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFlat.h; sourceTree = "<group>"; };
-		4511706F14251F3F002F9293 /* CFlat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CFlat.m; sourceTree = "<group>"; };
 		4565D5EA141C0FD400A511AD /* OpenGLTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenGLTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4565D5EE141C0FD400A511AD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4565D5F0141C0FD400A511AD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -148,6 +146,8 @@
 		4565D7EC141C108C00A511AD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4565D7F1141C138800A511AD /* CTestSceneRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTestSceneRenderer.h; sourceTree = "<group>"; };
 		4565D7F2141C138800A511AD /* CTestSceneRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTestSceneRenderer.m; sourceTree = "<group>"; };
+		4576D69A146726150057CC72 /* CFlat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFlat.h; sourceTree = "<group>"; };
+		4576D69B146726150057CC72 /* CFlat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CFlat.m; sourceTree = "<group>"; };
 		45F108B7146720DC00F8DB00 /* CVertexBufferReference_FactoryExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CVertexBufferReference_FactoryExtensions.m; path = ../VertexBuffers/CVertexBufferReference_FactoryExtensions.m; sourceTree = "<group>"; };
 		45F108B8146720DC00F8DB00 /* CVertexBufferReference_FactoryExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CVertexBufferReference_FactoryExtensions.h; path = ../VertexBuffers/CVertexBufferReference_FactoryExtensions.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -173,6 +173,7 @@
 			children = (
 				450FEEF6141D391100542B3B /* Resources */,
 				450FEFA3141D391100542B3B /* Source */,
+				4576D698146726150057CC72 /* Shaders */,
 			);
 			name = TouchOpenGL;
 			path = ../..;
@@ -393,8 +394,6 @@
 				4565D603141C0FD400A511AD /* CViewController.xib */,
 				4565D7F1141C138800A511AD /* CTestSceneRenderer.h */,
 				4565D7F2141C138800A511AD /* CTestSceneRenderer.m */,
-				4511706E14251F3F002F9293 /* CFlat.h */,
-				4511706F14251F3F002F9293 /* CFlat.m */,
 				4565D5F5141C0FD400A511AD /* Supporting Files */,
 			);
 			path = OpenGLTest;
@@ -409,6 +408,23 @@
 				4565D5FC141C0FD400A511AD /* OpenGLTest-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4576D698146726150057CC72 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				4576D699146726150057CC72 /* Source */,
+			);
+			path = Shaders;
+			sourceTree = "<group>";
+		};
+		4576D699146726150057CC72 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				4576D69A146726150057CC72 /* CFlat.h */,
+				4576D69B146726150057CC72 /* CFlat.m */,
+			);
+			path = Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -513,9 +529,8 @@
 				450FF0B7141D391200542B3B /* CMutableVertexBuffer.m in Sources */,
 				450FF0B8141D391200542B3B /* CVertexBuffer.m in Sources */,
 				450FF0BA141D391200542B3B /* CVertexBufferReference.m in Sources */,
-				4511707014251F3F002F9293 /* CFlat.m in Sources */,
-				450FF0CB141D395500542B3B /* CFlatProgram.m in Sources */,
 				45F108B9146720DC00F8DB00 /* CVertexBufferReference_FactoryExtensions.m in Sources */,
+				4576D69C146726150057CC72 /* CFlat.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
