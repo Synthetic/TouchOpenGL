@@ -330,6 +330,7 @@
 //        }
 //
 //    return(theImage);
+    return(NULL);
     }
 
 
