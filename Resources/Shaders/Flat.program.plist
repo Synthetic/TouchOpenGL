@@ -39,6 +39,14 @@
 			<key>type</key>
 			<string>mat4</string>
 		</dict>
+		<dict>
+			<key>name</key>
+			<string>u_color</string>
+			<key>propertyName</key>
+			<string>color</string>
+			<key>type</key>
+			<string>vec4</string>
+		</dict>
 	</array>
 	<key>vertexShader</key>
 	<string>Flat.vsh</string>
