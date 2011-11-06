@@ -17,14 +17,14 @@
 
 // Uniforms
 {% for uniform in uniforms %}\
-@property (readwrite, nonatomic, assign) GLint ${uniform.propertyName}Uniform; 
-@property (readwrite, nonatomic, assign) BOOL ${uniform.propertyName}Changed; 
+@property (readwrite, nonatomic, assign) GLint ${uniform.propertyName}Uniform;
+@property (readwrite, nonatomic, assign) BOOL ${uniform.propertyName}Changed;
 
 {% end %}\
 // Attributes
 {% for attribute in attributes %}\
-@property (readwrite, nonatomic, assign) GLint ${attribute.propertyName}Attribute; 
-@property (readwrite, nonatomic, assign) BOOL ${attribute.propertyName}Changed; 
+@property (readwrite, nonatomic, assign) GLint ${attribute.propertyName}Attribute;
+@property (readwrite, nonatomic, assign) BOOL ${attribute.propertyName}Changed;
 
 {% end %}\
 @end
@@ -94,7 +94,7 @@
             {
             [${attribute.propertyName} use:${attribute.propertyName}Attribute];
             glEnableVertexAttribArray(${attribute.propertyName}Attribute);
-            
+
             ${attribute.propertyName}Changed = NO;
             AssertOpenGLNoError_();
             }
@@ -104,7 +104,7 @@
     }
 
 {% for uniform in uniforms %}\
-- (void)set${uniform.propertyName.u}:(Matrix4)in${uniform.propertyName.u}
+- (void)set${uniform.propertyName.u}:(${uniform.propertyType})in${uniform.propertyName.u}
     {
     ${uniform.propertyName} = in${uniform.propertyName.u};
     ${uniform.propertyName}Changed = YES;

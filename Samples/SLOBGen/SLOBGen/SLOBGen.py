@@ -43,7 +43,7 @@ def merge(inTemplate, inOriginal, inDelimiters):
     return inOriginal
 
 ##########################################################################################
-    
+
 class Generator(object):
 
     def __init__(self):
@@ -61,51 +61,62 @@ class Generator(object):
                 self.input = files[0]
         if self.input == None:
             raise Exception('Could not find any input files.')
-    
+
         # If we still don't have an input file we need to bail.
         if not os.path.exists(self.input):
             raise Exception('Input file doesnt exist at %s' % self.input)
-    
+
         self.input_type = os.path.splitext(self.input)[1][1:]
         if self.input_type not in ['plist']:
             raise Exception('Input file is not a .plist. Why are you trying to trick me?')
-        
+
         # No? Ok, let's fall back to the cwd
         if self.template == None:
             self.template = 'templates'
-    
+
 #         self.logger.info('Using input file \'%s\'', self.input)
 #         self.logger.info('Using output directory \'%s\'', self.output)
 #         self.logger.info('Using template directory \'%s\'', self.template)
-    
+
         # Start up genshi..
         theLoader = genshi.template.TemplateLoader(self.template)
 
         theTypeTable = {
-            'mat4': {
+            ('mat4',None): {
                 'propertyType': 'Matrix4',
                 'setter': 'glUniformMatrix4fv(${uniform.propertyName}Uniform, 1, NO, &${uniform.propertyName}.m[0][0]);',
                 'initialValue': 'Matrix4Identity'
                 },
+            ('vec4',None): {
+                'propertyType': 'Vector4',
+                'setter': 'glUniform4fv(${uniform.propertyName}Uniform, 1, &${uniform.propertyName}.x);',
+                'initialValue': '{}'
+                },
+            ('vec4','Color'): {
+                'propertyType': 'Color4f',
+                'setter': 'glUniform4fv(${uniform.propertyName}Uniform, 1, &${uniform.propertyName}.r);',
+                'initialValue': '(Color4f){ 1.0, 1.0, 1.0, 1.0 }'
+                },
             }
 
         uniforms = []
-        
+
         theProgramSpecification = plistlib.readPlist(self.input)
-        
+
         theKlassName = self.classPrefix + theProgramSpecification['name']
-        
+
         for theUniform in theProgramSpecification['uniforms']:
             d = dict()
-            d.update(theTypeTable[theUniform['type']])
+            theUniform['intent'] = theUniform['intent'] if 'intent' in theUniform else None
+            d.update(theTypeTable[(theUniform['type'], theUniform['intent'])])
             d['GLSLName'] = theUniform['name']
             d['propertyName'] = MyString(theUniform['propertyName'])
-        
+
             # this is a bit of a hack
             d['setter'] = d['setter'].replace('${uniform.propertyName}', theUniform['propertyName'])
-        
+
             uniforms.append(d)
-        
+
         attributes = [
             {'propertyName': MyString('positions')},
             {'propertyName': MyString('colors')},
@@ -115,22 +126,22 @@ class Generator(object):
             'uniforms': uniforms,
             'attributes': attributes,
             }
-    
+
         theTemplateNames = ['classname.h.genshi', 'classname.m.genshi']
         for theTemplateName in theTemplateNames:
             theTemplate = theLoader.load(theTemplateName, cls=genshi.template.NewTextTemplate)
-    
+
             theTemplate = theLoader.load(theTemplateName, cls=genshi.template.NewTextTemplate)
-        
+
             theStream = theTemplate.generate(**theContext)
             theNewContent = theStream.render()
 
             theFilename = theKlassName + '.' + re.match(r'.+\.(.+)\.genshi', theTemplateName).group(1)
-    
+
             theOutputPath = os.path.join(self.output, theFilename)
 
             file(theOutputPath, 'w').write(theNewContent)
-    
+
 #             if os.path.exists(theOutputPath) == False:
 #                 file(theOutputPath, 'w').write(theNewContent)
 #             else:
