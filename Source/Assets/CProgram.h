@@ -32,6 +32,7 @@
 #import <Foundation/Foundation.h>
 
 #import "OpenGLIncludes.h"
+#import "OpenGLTypes.h"
 
 @interface CProgram : NSObject
 
@@ -47,5 +48,7 @@
 
 - (GLuint)attributeIndexForName:(NSString *)inName;
 - (GLuint)uniformIndexForName:(NSString *)inName;
+
+- (void)setColor4f:(Color4f)inColor4f forUniformNamed:(NSString *)inName;
 
 @end

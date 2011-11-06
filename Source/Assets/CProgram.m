@@ -244,6 +244,16 @@
         return([[self.uniformsByName objectForKey:inName] unsignedIntValue]);
         }
     }
+
+#pragma mark -
+
+- (void)setColor4f:(Color4f)inColor4f forUniformNamed:(NSString *)inName;
+    {
+    GLuint theUniform = [self uniformIndexForName:inName];
+    glUniform4fv(theUniform, 1, &inColor4f.r);
+    }
+
+#pragma mark -
     
 - (void)dump
     {
