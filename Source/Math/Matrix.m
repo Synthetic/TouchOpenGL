@@ -400,3 +400,10 @@ Matrix3 Matrix3FromMatrix4Lossy(Matrix4 a)
         };
     return(theMatrix);
     }
+    
+#pragma mark -
+
+NSValue *NSValueWithMatrix4(Matrix4 inM4)
+    {
+    return([NSValue valueWithBytes:&inM4 objCType:@encode(Matrix4)]);
+    }
