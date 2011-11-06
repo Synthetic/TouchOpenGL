@@ -158,6 +158,7 @@
     if (renderer != inRenderer)
         {
         renderer = inRenderer;
+        renderer.clearColor = [self.backgroundColor color4f];
         //
         if (renderer != NULL)
             {
