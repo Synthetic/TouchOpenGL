@@ -22,7 +22,7 @@
 #define RANDOM() ((float)arc4random() / (float)UINT32_MAX)
 
 @interface CTestSceneRenderer ()
-@property (readwrite, nonatomic, retain) CFlatProgram *program;
+@property (readwrite, nonatomic, retain) CFlat *program;
 @end
 
 #pragma mark -
@@ -52,7 +52,7 @@
     {
     [self.program use];
     
-    [self.program setColor4f:[UIColor colorWithHue:RANDOM() saturation:1.0 brightness:1.0 alpha:1.0].color4f forUniformNamed:@"u_color"];
+    self.program.color = [UIColor colorWithHue:RANDOM() saturation:1.0 brightness:1.0 alpha:1.0].color4f;
 
     AssertOpenGLNoError_();
 
