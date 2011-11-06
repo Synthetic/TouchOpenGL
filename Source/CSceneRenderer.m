@@ -41,6 +41,7 @@
 
 @implementation CSceneRenderer
 
+@synthesize clearColor;
 @synthesize projectionTransform;
 
 @synthesize needsSetup;
@@ -49,6 +50,7 @@
     {
     if ((self = [super init]))
         {
+        clearColor = (Color4f){ 0.5f, 0.5f, 0.5f, 1.0f };
         projectionTransform = Matrix4Identity;
         needsSetup = YES;
         }
@@ -71,7 +73,7 @@
 
     glDepthFunc(GL_LEQUAL);
 
-    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+    glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 
     self.needsSetup = NO;
     }
