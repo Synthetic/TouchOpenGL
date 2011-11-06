@@ -93,6 +93,9 @@ extern Vector3 Vector3FromVector4(Vector4 inVector);
 extern NSString *NSStringFromVector3(Vector3 inVector);
 extern NSString *NSStringFromVector4(Vector4 inVector);
 
+extern NSString *NSStringFromColor4f(Color4f inColor);
+
+
 extern Color4f Color4fFromPropertyListRepresentation(id inPropertyListRepresentation);
 
 extern Vector3 Vector3FromPropertyListRepresentation(id inPropertyListRepresentation);
