@@ -34,6 +34,7 @@
 #import "CSceneRenderer.h"
 #import "CFrameBuffer.h"
 #import "CRenderBuffer.h"
+#import "UIColor_OpenGLExtensions.h"
 
 @interface CRendererView ()
 @property (readonly, nonatomic, assign) CADisplayLink *displayLink;
@@ -83,8 +84,6 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopAnimation:) name:UIApplicationDidEnterBackgroundNotification object:[UIApplication sharedApplication]];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startAnimation:) name:UIApplicationWillEnterForegroundNotification object:[UIApplication sharedApplication]];
-        
-        self.renderer = [[CSceneRenderer alloc] init];
         }
 
     return self;
@@ -101,8 +100,6 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopAnimation:) name:UIApplicationDidEnterBackgroundNotification object:[UIApplication sharedApplication]];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startAnimation:) name:UIApplicationWillEnterForegroundNotification object:[UIApplication sharedApplication]];
-
-        self.renderer = [[CSceneRenderer alloc] init];
         }
 
     return self;
@@ -152,6 +149,17 @@
     }
 
 #pragma mark -
+
+- (CSceneRenderer *)renderer
+    {
+    if (renderer == NULL)
+        {
+        NSLog(@"No renderer assigned. Making default renderer.");
+        renderer = [[CSceneRenderer alloc] init];
+        }
+    return(renderer);
+    }
+    
 
 - (void)setRenderer:(CSceneRenderer *)inRenderer;
     {
