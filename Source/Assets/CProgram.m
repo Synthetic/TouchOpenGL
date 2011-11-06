@@ -244,5 +244,23 @@
         return([[self.uniformsByName objectForKey:inName] unsignedIntValue]);
         }
     }
+    
+- (void)dump
+    {
+    NSLog(@"%@", [NSString stringWithFormat:@"%@", [super description]]);
+    NSLog(@"Name: %d", self.name);
+    for (id theShader in self.shaders)
+        {
+        NSLog(@"\t%@", theShader);
+        }
+    NSLog(@"Attributes:");
+    [self.attributesByName enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSLog(@"\t%@: %@", key, obj);
+        }];
+    NSLog(@"Uniforms:");
+    [self.uniformsByName enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSLog(@"\t%@: %@", key, obj);
+        }];
+    }
 
 @end
