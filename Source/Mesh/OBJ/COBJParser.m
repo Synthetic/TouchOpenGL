@@ -13,7 +13,7 @@
 #import "CGeometry.h"
 #import "CMesh.h"
 #import "CVertexBuffer.h"
-#import "CVertexBuffer_FactoryExtensions.h"
+#import "CVertexBufferReference_FactoryExtensions.h"
 #import "CVertexBufferReference.h"
 
 @interface COBJParser ()
@@ -91,10 +91,10 @@
 
                 NSLog(@"%@ %@", theCurrentMaterial.name, theCurrentIndices);
 
-                CVertexBuffer *theIndicesBuffer = [CVertexBuffer vertexBufferWithIndices:theCurrentIndices];
+                CVertexBufferReference *theIndicesBuffer = [CVertexBufferReference vertexBufferReferenceWithIndices:theCurrentIndices];
 
                 theGeometry.material = theCurrentMaterial;
-                theGeometry.indices = [[CVertexBufferReference alloc] initWithVertexBuffer:theIndicesBuffer cellEncoding:@encode(GLushort) normalized:YES];
+                theGeometry.indices = theIndicesBuffer;
                 
                 [theGeometries addObject:theGeometry];
                 }
