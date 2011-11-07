@@ -92,7 +92,7 @@
     //
     AssertOpenGLNoError_();
 
-    if (modelViewMatrixChanged == YES)
+    if (modelViewMatrixChanged == YES || YES)
         {
         if (modelViewMatrixUniform == -1)
             {
@@ -104,7 +104,7 @@
         AssertOpenGLNoError_();
         }
 
-    if (projectionMatrixChanged == YES)
+    if (projectionMatrixChanged == YES || YES)
         {
         if (projectionMatrixUniform == -1)
             {
@@ -116,7 +116,7 @@
         AssertOpenGLNoError_();
         }
 
-    if (colorChanged == YES)
+    if (colorChanged == YES || YES)
         {
         if (colorUniform == -1)
             {
@@ -129,7 +129,7 @@
         }
 
 
-    if (positionsChanged == YES)
+    if (positionsChanged == YES || YES)
         {
         if (positions)
             {
@@ -141,7 +141,7 @@
             }
         }
 
-    if (colorsChanged == YES)
+    if (colorsChanged == YES || YES)
         {
         if (colors)
             {
