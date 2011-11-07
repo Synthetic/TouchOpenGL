@@ -339,7 +339,7 @@
             NSError *theError = NULL;
             if ([theProgram validate:&theError] == NO)
                 {
-                NSLog(@"Failed to validate program: %@", theError);
+                NSLog(@"Failed to validate program (1): %@", theError);
                 return;
                 }
         #endif
