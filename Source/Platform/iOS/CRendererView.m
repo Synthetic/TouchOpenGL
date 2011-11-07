@@ -174,6 +174,7 @@
         {
         renderer = inRenderer;
         renderer.clearColor = [self.backgroundColor color4f];
+        renderer.size = self.frame.size;
         //
         if (renderer != NULL)
             {
