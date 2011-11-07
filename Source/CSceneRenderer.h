@@ -39,6 +39,7 @@
 
 @interface CSceneRenderer : NSObject
 
+@property (readwrite, nonatomic, assign) CGSize size;
 @property (readwrite, nonatomic, assign) Color4f clearColor;
 @property (readwrite, nonatomic, assign) Matrix4 projectionTransform;
 

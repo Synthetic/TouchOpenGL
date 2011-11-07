@@ -41,6 +41,7 @@
 
 @implementation CSceneRenderer
 
+@synthesize size;
 @synthesize clearColor;
 @synthesize projectionTransform;
 

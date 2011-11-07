@@ -148,6 +148,13 @@
         }
     }
 
+- (void)setFrame:(CGRect)inFrame
+    {
+    [super setFrame:inFrame];
+    
+    self.renderer.size = inFrame.size;
+    }
+
 #pragma mark -
 
 - (CSceneRenderer *)renderer
