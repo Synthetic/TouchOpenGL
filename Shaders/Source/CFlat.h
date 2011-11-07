@@ -20,7 +20,7 @@
 @property (readwrite, nonatomic, assign) Color4f color;
 
 // Attributes
-@property (readwrite, nonatomic, retain) CVertexBufferReference *positions;
-@property (readwrite, nonatomic, retain) CVertexBufferReference *colors;
+@property (readwrite, nonatomic, strong) CVertexBufferReference *positions;
+@property (readwrite, nonatomic, strong) CVertexBufferReference *colors;
 
 @end
