@@ -45,20 +45,20 @@
 }
 
 @property (readwrite, nonatomic, assign) SIntSize backingSize;
-@property (readwrite, nonatomic, retain) EAGLContext *context;
+@property (readwrite, nonatomic, strong) EAGLContext *context;
 @property (readwrite, nonatomic, assign) NSInteger animationFrameInterval;
-@property (readwrite, nonatomic, retain) CSceneRenderer *renderer;
+@property (readwrite, nonatomic, strong) CSceneRenderer *renderer;
 @property (readwrite, nonatomic, assign) BOOL multisampleAntialiasing;
 
 @property (readonly, nonatomic, assign) BOOL animating;
 
-@property (readwrite, nonatomic, retain) CFrameBuffer *frameBuffer;
-@property (readwrite, nonatomic, retain) CRenderBuffer *colorRenderBuffer;
-@property (readwrite, nonatomic, retain) CRenderBuffer *depthRenderBuffer;
+@property (readwrite, nonatomic, strong) CFrameBuffer *frameBuffer;
+@property (readwrite, nonatomic, strong) CRenderBuffer *colorRenderBuffer;
+@property (readwrite, nonatomic, strong) CRenderBuffer *depthRenderBuffer;
 
-@property (readwrite, nonatomic, retain) CFrameBuffer *sampleFrameBuffer;
-@property (readwrite, nonatomic, retain) CRenderBuffer *sampleColorRenderBuffer;
-@property (readwrite, nonatomic, retain) CRenderBuffer *sampleDepthRenderBuffer;
+@property (readwrite, nonatomic, strong) CFrameBuffer *sampleFrameBuffer;
+@property (readwrite, nonatomic, strong) CRenderBuffer *sampleColorRenderBuffer;
+@property (readwrite, nonatomic, strong) CRenderBuffer *sampleDepthRenderBuffer;
 
 
 

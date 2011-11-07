@@ -18,7 +18,7 @@
 
 @interface COBJParser ()
 
-@property (readwrite, nonatomic, retain) CMesh *mesh;
+@property (readwrite, nonatomic, strong) CMesh *mesh;
 
 @end
 

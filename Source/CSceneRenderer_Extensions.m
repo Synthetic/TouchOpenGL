@@ -123,7 +123,7 @@
 #if defined(DEBUG)
     if ([theProgram validate:&theError] == NO)
         {
-        NSLog(@"Failed to validate program: %@", theError);
+        NSLog(@"Failed to validate program (3): %@", theError);
         return;
         }
 #endif
@@ -234,7 +234,7 @@
 #if defined(DEBUG)
     if ([theProgram validate:&theError] == NO)
         {
-        NSLog(@"Failed to validate program: %@", theError);
+        NSLog(@"Failed to validate program (4): %@", theError);
         return;
         }
 #endif

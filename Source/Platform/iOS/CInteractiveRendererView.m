@@ -39,10 +39,10 @@
 #import "CGeometryRenderer.h"
 
 @interface CInteractiveRendererView ()
-@property (readwrite, nonatomic, retain) CArcBall *arcBall;
+@property (readwrite, nonatomic, strong) CArcBall *arcBall;
 @property (readwrite, nonatomic, assign) CGPoint arcBallCenter;
 #if ENABLE_MOTION_ROTATION
-@property (readwrite, nonatomic, retain) CMMotionManager *motionManager;
+@property (readwrite, nonatomic, strong) CMMotionManager *motionManager;
 #endif
 
 - (void)pinch:(UIPinchGestureRecognizer *)inGestureRecognizer;

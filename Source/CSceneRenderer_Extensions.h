@@ -37,7 +37,7 @@
 
 @interface CSceneRenderer (CSceneRenderer_Extensions)
 
-@property (readonly, nonatomic, retain) COpenGLAssetLibrary *library;
+@property (readonly, nonatomic, strong) COpenGLAssetLibrary *library;
 
 - (void)drawAxes:(Matrix4)inModelTransform length:(GLfloat)inLength;
 - (void)drawBoundingBox:(Matrix4)inModelTransform v1:(Vector3)inV1 v2:(Vector3)inV2;

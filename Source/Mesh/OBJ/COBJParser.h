@@ -12,8 +12,8 @@
 
 @interface COBJParser : NSObject
 
-@property (readonly, nonatomic, retain) NSURL *URL;
-@property (readonly, nonatomic, retain) CMesh *mesh;
+@property (readonly, nonatomic, strong) NSURL *URL;
+@property (readonly, nonatomic, strong) CMesh *mesh;
 
 - (id)initWithURL:(NSURL *)inURL;
 

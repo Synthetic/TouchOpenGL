@@ -56,7 +56,7 @@
 
 @interface EAGLContext (EAGLContext_LibraryExtensions)
 
-@property (readonly, nonatomic, retain) COpenGLAssetLibrary *library;
+@property (readonly, nonatomic, strong) COpenGLAssetLibrary *library;
 
 @end
 

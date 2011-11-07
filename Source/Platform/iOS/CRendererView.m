@@ -40,7 +40,7 @@
 @property (readonly, nonatomic, assign) CADisplayLink *displayLink;
 
 @property (readwrite, nonatomic, assign) BOOL animating;
-@property (readonly, nonatomic, retain) CAEAGLLayer *EAGLLayer;
+@property (readonly, nonatomic, strong) CAEAGLLayer *EAGLLayer;
 
 - (void)setup;
 - (void)tick:(id)inSender;

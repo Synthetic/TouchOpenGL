@@ -10,8 +10,8 @@
 
 @interface CMTLParser : NSObject
 
-@property (readonly, nonatomic, retain) NSURL *URL;
-@property (readonly, nonatomic, retain) NSDictionary *materials;
+@property (readonly, nonatomic, strong) NSURL *URL;
+@property (readonly, nonatomic, strong) NSDictionary *materials;
 
 - (id)initWithURL:(NSURL *)inURL;
 

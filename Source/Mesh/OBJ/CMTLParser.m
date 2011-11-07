@@ -12,7 +12,7 @@
 #import "CLazyTexture.h"
 
 @interface CMTLParser ()
-@property (readwrite, nonatomic, retain) NSDictionary *materials;
+@property (readwrite, nonatomic, strong) NSDictionary *materials;
 @end
 
 @implementation CMTLParser
