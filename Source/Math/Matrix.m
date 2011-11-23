@@ -377,7 +377,7 @@ Matrix4 Matrix4Ortho(float left, float right, float bottom, float top, float nea
     if ( (deltaX == 0.0f) || (deltaY == 0.0f) || (deltaZ == 0.0f) )
         return(ortho);
 
-        ortho.m[0][0] = 2.0f / deltaX;
+    ortho.m[0][0] = 2.0f / deltaX;
     ortho.m[3][0] = -(right + left) / deltaX;
     ortho.m[1][1] = 2.0f / deltaY;
     ortho.m[3][1] = -(top + bottom) / deltaY;
@@ -390,20 +390,29 @@ Matrix4 Matrix4Ortho(float left, float right, float bottom, float top, float nea
 
 #pragma mark -
 
-Matrix3 Matrix3FromMatrix4Lossy(Matrix4 a)
-    {
-    Matrix3 theMatrix = { .m = {
-        { a.m[0][0], a.m[0][1], a.m[0][2], },
-        { a.m[1][0], a.m[1][1], a.m[1][2], },
-        { a.m[2][0], a.m[2][1], a.m[2][2], },
-        }
-        };
-    return(theMatrix);
-    }
-    
-#pragma mark -
-
 NSValue *NSValueWithMatrix4(Matrix4 inM4)
     {
     return([NSValue valueWithBytes:&inM4 objCType:@encode(Matrix4)]);
     }
+
+Matrix4 Matrix4WithNSValue(NSValue *inValue)
+    {
+    Matrix4 theMatrix;
+    [inValue getValue:&theMatrix];
+    return(theMatrix);
+    }
+
+extern CGAffineTransform CGAffineTransformFromMatrix4(Matrix4 inMatrix)
+    {
+    CGAffineTransform theTransform = {
+        .a = inMatrix.m[0][0],
+        .b = inMatrix.m[1][0],
+        .c = inMatrix.m[0][1],
+        .d = inMatrix.m[1][1],
+        .tx = inMatrix.m[3][0],
+        .ty = inMatrix.m[3][1],
+        };
+    return(theTransform);
+    }
+
+

@@ -62,6 +62,7 @@ extern Matrix4 Matrix4FromPropertyListRepresentation(id inPropertyListRepresenta
 extern Matrix4 Matrix4Perspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat zFar);
 extern Matrix4 Matrix4Ortho(float left, float right, float bottom, float top, float nearZ, float farZ);
 
-extern Matrix3 Matrix3FromMatrix4Lossy(Matrix4 inM4);
-
 extern NSValue *NSValueWithMatrix4(Matrix4 inM4);
+Matrix4 Matrix4WithNSValue(NSValue *inValue);
+
+extern CGAffineTransform CGAffineTransformFromMatrix4(Matrix4 inMatrix);
