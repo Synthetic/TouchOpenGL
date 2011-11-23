@@ -65,19 +65,19 @@
     return(theReference);
     }
 
-+ (CVertexBufferReference *)vertexBufferReferenceWithCircleWithRadius:(GLfloat)inRadius points:(NSInteger)inPoints
++ (CVertexBufferReference *)vertexBufferReferenceWithCircleWithRadius:(GLfloat)inRadius center:(CGPoint)inCenter points:(NSInteger)inPoints
     {
     NSMutableData *theData = [NSMutableData dataWithLength:sizeof(Vector2) * (inPoints + 2)];
 
     Vector2 *V = theData.mutableBytes;
     
-    *V++ = (Vector2){ 0.0, 0.0 };
+    *V++ = (Vector2){ inCenter.x, inCenter.y };
 
     for (NSInteger N = 0; N != inPoints + 1; ++N)
         {
         double theta = (double)N / (double)inPoints * 2 * M_PI;
         
-        *V++ = (Vector2){ cos(theta) * inRadius, sin(theta) * inRadius };
+        *V++ = (Vector2){ cos(theta) * inRadius + inCenter.x, sin(theta) * inRadius + inCenter.y };
         }
 
     CVertexBuffer *theBuffer = [[CVertexBuffer alloc] initWithTarget:GL_ARRAY_BUFFER usage:GL_STATIC_DRAW data:theData];

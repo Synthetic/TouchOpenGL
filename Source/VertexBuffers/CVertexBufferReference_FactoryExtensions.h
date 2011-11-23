@@ -13,6 +13,6 @@
 + (CVertexBufferReference *)vertexBufferReferenceWithIndices:(NSArray *)inIndices;
 + (CVertexBufferReference *)vertexBufferReferenceWithRect:(CGRect)inRect;
 + (CVertexBufferReference *)vertexBufferReferenceWithColors:(NSArray *)inColors;
-+ (CVertexBufferReference *)vertexBufferReferenceWithCircleWithRadius:(GLfloat)inRadius points:(NSInteger)inPoints;
++ (CVertexBufferReference *)vertexBufferReferenceWithCircleWithRadius:(GLfloat)inRadius center:(CGPoint)inCenter points:(NSInteger)inPoints;
 
 @end
