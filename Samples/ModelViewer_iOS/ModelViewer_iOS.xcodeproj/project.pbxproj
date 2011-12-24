@@ -12,6 +12,7 @@
 		4529966C130B8D6A009FD0A3 /* CModelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45299664130B8D6A009FD0A3 /* CModelViewController.m */; };
 		4529966E130B8D6A009FD0A3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 45299666130B8D6A009FD0A3 /* main.m */; };
 		4529966F130B8D6A009FD0A3 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45299667130B8D6A009FD0A3 /* MainWindow.xib */; };
+		45342E2414A63E2E00350450 /* CVertexBufferReference_FactoryExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 45342E2314A63E2E00350450 /* CVertexBufferReference_FactoryExtensions.m */; };
 		456369B51356741A00E5A1E9 /* Models in Resources */ = {isa = PBXBuildFile; fileRef = 456369B41356741A00E5A1E9 /* Models */; };
 		456369BC135676C500E5A1E9 /* 02edc2837b569ac33d0709b313061e04.vbo in Resources */ = {isa = PBXBuildFile; fileRef = 456369B9135676C500E5A1E9 /* 02edc2837b569ac33d0709b313061e04.vbo */; };
 		456369BD135676C500E5A1E9 /* 85e7e43146bc76295d4a9b25ccef50d7.vbo in Resources */ = {isa = PBXBuildFile; fileRef = 456369BA135676C500E5A1E9 /* 85e7e43146bc76295d4a9b25ccef50d7.vbo */; };
@@ -59,7 +60,6 @@
 		459DEC6E141D359300C62479 /* NSData_NumberExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 459DEBB7141D359300C62479 /* NSData_NumberExtensions.m */; };
 		459DEC6F141D359300C62479 /* CMutableVertexBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 459DEBBA141D359300C62479 /* CMutableVertexBuffer.m */; };
 		459DEC70141D359300C62479 /* CVertexBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 459DEBBC141D359300C62479 /* CVertexBuffer.m */; };
-		459DEC71141D359300C62479 /* CVertexBuffer_FactoryExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 459DEBBE141D359300C62479 /* CVertexBuffer_FactoryExtensions.m */; };
 		459DEC72141D359300C62479 /* CVertexBufferReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 459DEBC0141D359300C62479 /* CVertexBufferReference.m */; };
 		459DEC7A141D35B100C62479 /* Shaders in Resources */ = {isa = PBXBuildFile; fileRef = 459DEC79141D35B100C62479 /* Shaders */; };
 /* End PBXBuildFile section */
@@ -74,6 +74,8 @@
 		45299666130B8D6A009FD0A3 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		45299667130B8D6A009FD0A3 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		45299668130B8D6A009FD0A3 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
+		45342E2214A63E2E00350450 /* CVertexBufferReference_FactoryExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVertexBufferReference_FactoryExtensions.h; sourceTree = "<group>"; };
+		45342E2314A63E2E00350450 /* CVertexBufferReference_FactoryExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CVertexBufferReference_FactoryExtensions.m; sourceTree = "<group>"; };
 		456369B41356741A00E5A1E9 /* Models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Models; sourceTree = "<group>"; };
 		456369B9135676C500E5A1E9 /* 02edc2837b569ac33d0709b313061e04.vbo */ = {isa = PBXFileReference; lastKnownFileType = file; path = 02edc2837b569ac33d0709b313061e04.vbo; sourceTree = "<group>"; };
 		456369BA135676C500E5A1E9 /* 85e7e43146bc76295d4a9b25ccef50d7.vbo */ = {isa = PBXFileReference; lastKnownFileType = file; path = 85e7e43146bc76295d4a9b25ccef50d7.vbo; sourceTree = "<group>"; };
@@ -157,8 +159,6 @@
 		459DEBBA141D359300C62479 /* CMutableVertexBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMutableVertexBuffer.m; sourceTree = "<group>"; };
 		459DEBBB141D359300C62479 /* CVertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVertexBuffer.h; sourceTree = "<group>"; };
 		459DEBBC141D359300C62479 /* CVertexBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CVertexBuffer.m; sourceTree = "<group>"; };
-		459DEBBD141D359300C62479 /* CVertexBuffer_FactoryExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVertexBuffer_FactoryExtensions.h; sourceTree = "<group>"; };
-		459DEBBE141D359300C62479 /* CVertexBuffer_FactoryExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CVertexBuffer_FactoryExtensions.m; sourceTree = "<group>"; };
 		459DEBBF141D359300C62479 /* CVertexBufferReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVertexBufferReference.h; sourceTree = "<group>"; };
 		459DEBC0141D359300C62479 /* CVertexBufferReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CVertexBufferReference.m; sourceTree = "<group>"; };
 		459DEC79141D35B100C62479 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
@@ -448,8 +448,8 @@
 				459DEBBA141D359300C62479 /* CMutableVertexBuffer.m */,
 				459DEBBB141D359300C62479 /* CVertexBuffer.h */,
 				459DEBBC141D359300C62479 /* CVertexBuffer.m */,
-				459DEBBD141D359300C62479 /* CVertexBuffer_FactoryExtensions.h */,
-				459DEBBE141D359300C62479 /* CVertexBuffer_FactoryExtensions.m */,
+				45342E2214A63E2E00350450 /* CVertexBufferReference_FactoryExtensions.h */,
+				45342E2314A63E2E00350450 /* CVertexBufferReference_FactoryExtensions.m */,
 				459DEBBF141D359300C62479 /* CVertexBufferReference.h */,
 				459DEBC0141D359300C62479 /* CVertexBufferReference.m */,
 			);
@@ -602,8 +602,8 @@
 				459DEC6E141D359300C62479 /* NSData_NumberExtensions.m in Sources */,
 				459DEC6F141D359300C62479 /* CMutableVertexBuffer.m in Sources */,
 				459DEC70141D359300C62479 /* CVertexBuffer.m in Sources */,
-				459DEC71141D359300C62479 /* CVertexBuffer_FactoryExtensions.m in Sources */,
 				459DEC72141D359300C62479 /* CVertexBufferReference.m in Sources */,
+				45342E2414A63E2E00350450 /* CVertexBufferReference_FactoryExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
