@@ -35,10 +35,9 @@
 #import "CProgram.h"
 #import "CShader.h"
 #import "CVertexBuffer.h"
-#import "CVertexBuffer_FactoryExtensions.h"
-#import "CImageTextureLoader.h"
+//#import "CVertexBuffer_FactoryExtensions.h"
+//#import "CImageTextureLoader.h"
 #import "CTexture.h"
-
 
 @interface CSketchRenderer ()
 @property (readwrite, nonatomic, assign) BOOL setupDone;
@@ -62,7 +61,7 @@
     return(self);
     }
     
-- (void)render:(Matrix4)inTransform
+- (void)render
     {
     if (self.setupDone == NO)
         {
@@ -70,17 +69,17 @@
         self.setupDone = YES;
         }
         
-    [super render:inTransform];
+    [super render];
     }
 
 - (void)setup
     {
     NSArray *theShaders = [NSArray arrayWithObjects:   
-        [[[CShader alloc] initWithName:@"SimpleTexture.fsh"] autorelease],
-        [[[CShader alloc] initWithName:@"SimpleTexture.vsh"] autorelease],
+        [[CShader alloc] initWithName:@"SimpleTexture.fsh"],
+        [[CShader alloc] initWithName:@"SimpleTexture.vsh"],
         NULL];
     
-    CProgram *theProgram = [[[CProgram alloc] initWithFiles:theShaders] autorelease];
+    CProgram *theProgram = [[CProgram alloc] initWithFiles:theShaders];
 
     // Geometry Vertices
     CVertexBuffer *theVertices = [CVertexBuffer vertexBufferWithRect:(CGRect){ -1, -1, 2, 2 }];

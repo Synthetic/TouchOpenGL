@@ -29,11 +29,11 @@
 //  authors and should not be interpreted as representing official policies, either expressed
 //  or implied, of toxicsoftware.com.
 
-#import "CBlockRenderer.h"
+#import "CSceneRenderer.h"
 
 @class CTexture;
 
-@interface CSketchRenderer : CBlockRenderer {
+@interface CSketchRenderer : CSceneRenderer {
     
 }
 

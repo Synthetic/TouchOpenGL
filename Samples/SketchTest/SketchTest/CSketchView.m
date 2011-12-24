@@ -55,7 +55,7 @@
 
         canvas = [[CSketchCanvas alloc] init];
 
-        CSketchRenderer *theRenderer = [[[CSketchRenderer alloc] init] autorelease];
+        CSketchRenderer *theRenderer = [[CSketchRenderer alloc] init];
         theRenderer.texture = canvas.imageRenderer.texture;
                 
         self.renderer = theRenderer;

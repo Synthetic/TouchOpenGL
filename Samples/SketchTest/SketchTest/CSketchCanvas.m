@@ -36,9 +36,9 @@
 #import "CShader.h"
 #import "CImageRenderer.h"
 #import "CVertexBuffer.h"
-#import "CVertexBuffer_FactoryExtensions.h"
 #import "UIColor_OpenGLExtensions.h"
 #import "CVertexBufferReference.h"
+#import "CVertexBufferReference_FactoryExtensions.h"
 
 @interface CSketchCanvas ()
 @property (readwrite, nonatomic, retain) CProgram *program;
@@ -65,22 +65,9 @@
         
         imageRenderer = [[CImageRenderer alloc] initWithSize:(SIntSize){ 512, 512 }];
 
-        imageRenderer.prerenderBlock = ^(void) {
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-            glEnable(GL_DEPTH_TEST);
-
-            glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-            glClearDepthf(1.0f);
-
-            glClear(GL_DEPTH_BUFFER_BIT);
-            };
-
-        
         NSArray *theShaders = [NSArray arrayWithObjects:   
-            [[[CShader alloc] initWithName:@"Brush.fsh"] autorelease],
-            [[[CShader alloc] initWithName:@"Brush.vsh"] autorelease],
+            [[CShader alloc] initWithName:@"Brush.fsh"],
+            [[CShader alloc] initWithName:@"Brush.vsh"],
             NULL];
         
         program = [[CProgram alloc] initWithFiles:theShaders];
@@ -96,7 +83,7 @@
         
 //        self.geometryCoordinates = [CVertexBuffer vertexBufferWithRect:(CGRect){ -1.0 * F, -1.0 * F, 2.0 * F, 2.0 * F }];
         self.geometryCoordinates = [CVertexBuffer vertexBufferWithCircleWithRadius:F points:32];
-        self.geometryCoordinatesReference = [[[CVertexBufferReference alloc] initWithVertexBuffer:self.geometryCoordinates cellEncoding:@encode(Vector2) normalized:NO stride:0] autorelease];
+        self.geometryCoordinatesReference = [[CVertexBufferReference alloc] initWithVertexBuffer:self.geometryCoordinates cellEncoding:@encode(Vector2) normalized:NO stride:0];
 		}
 	return(self);
 	}

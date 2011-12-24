@@ -34,7 +34,7 @@
 #import "CFrameBuffer.h"
 #import "CRenderBuffer.h"
 #import "CTexture.h"
-#import "CImageTextureLoader.h"
+//#import "CImageTextureLoader.h"
 
 @implementation CImageRenderer
 
@@ -55,11 +55,26 @@
         [depthBuffer storage:GL_DEPTH_COMPONENT16 size:inSize];
         [frameBuffer attachRenderBuffer:depthBuffer attachment:GL_DEPTH_ATTACHMENT];
 
+        #warning TODO - no texture
         self.texture = [[CImageTextureLoader textureLoader] textureWithImageNamed:@"Brick" error:NULL];
         [frameBuffer attachTexture:texture attachment:GL_COLOR_ATTACHMENT0];
 		}
 	return(self);
 	}
+
+
+- (void)prerender
+    {
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glEnable(GL_DEPTH_TEST);
+
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearDepthf(1.0f);
+
+    glClear(GL_DEPTH_BUFFER_BIT);
+    }
 
 - (void)render
     {
