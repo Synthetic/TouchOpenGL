@@ -31,7 +31,9 @@
 
 #import "CLazyTexture.h"
 
+#if TARGET_OS_IPHONE == 1
 #import <ImageIO/ImageIO.h>
+#endif /* TARGET_OS_IPHONE == 1 */
 
 #import "OpenGLTypes.h"
 
