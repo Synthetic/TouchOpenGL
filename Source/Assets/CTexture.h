@@ -42,6 +42,7 @@
 @property (readwrite, nonatomic, assign) SIntSize size;
 @property (readwrite, nonatomic, assign) GLenum internalFormat;
 @property (readwrite, nonatomic, assign) GLboolean hasAlpha;
+@property (readwrite, nonatomic, assign) GLuint textureUnit;
 
 - (id)initWithName:(GLuint)inName size:(SIntSize)inSize;
 

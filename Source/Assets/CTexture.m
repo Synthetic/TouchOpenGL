@@ -41,6 +41,7 @@
 @synthesize size;
 @synthesize internalFormat;
 @synthesize hasAlpha;
+@synthesize textureUnit;
 
 @synthesize named;
 
@@ -51,9 +52,16 @@
         name = inName;
         size = inSize;
         named = YES;
+        textureUnit = GL_TEXTURE0;
         }
     return(self);
     }
+
+- (NSString *)description
+    {
+    return([NSString stringWithFormat:@"%@ (%d, %d, %d, %d)", [super description], self.name, self.size.width, self.size.height, self.textureUnit]);
+    }
+
 
 - (void)dealloc
     {
@@ -71,9 +79,20 @@
 
 - (void)use:(GLuint)inUniform
 	{
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(self.textureUnit);
 	glBindTexture(GL_TEXTURE_2D, self.name);
-	glUniform1i(inUniform, 0);
+    GLuint theTextureUnitIndex = 0;
+    switch (self.textureUnit)
+        {
+        case GL_TEXTURE0:
+            theTextureUnitIndex = 0;
+            break;
+        case GL_TEXTURE1:
+            theTextureUnitIndex = 1;
+            break;
+        }
+    
+    glUniform1i(inUniform, theTextureUnitIndex);
 	}
     
 @end
