@@ -31,6 +31,8 @@
 
 #import "CLazyTexture.h"
 
+#import <ImageIO/ImageIO.h>
+
 #import "OpenGLTypes.h"
 
 @interface CLazyTexture ()
@@ -72,11 +74,10 @@
 	return(self);
 	}
 
-- (id)initWithURL:(NSURL *)inURL;
+- (id)initWithURL:(NSURL *)inURL flip:(BOOL)inFlip generateMipMap:(BOOL)inGenerateMipMap
     {
     CGImageRef theImage = NULL;
     
-#if TARGET_OS_IPHONE ==0
     NSMutableDictionary *theCreationOptions = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithBool:NO], kCGImageSourceShouldCache,
         NULL];
@@ -84,7 +85,6 @@
     CGImageSourceRef theSourceRef = CGImageSourceCreateWithURL((__bridge CFURLRef)inURL, (__bridge CFDictionaryRef)theCreationOptions);
     theImage = CGImageSourceCreateImageAtIndex(theSourceRef, 0, (__bridge CFDictionaryRef)theCreationOptions);
     CFRelease(theSourceRef);
-#endif    
 
     if (theImage == NULL)
         {
@@ -94,6 +94,8 @@
     
     if ((self = [self initWithImage:theImage]) != NULL)
         {
+        flip = inFlip;
+        generateMipMap = inGenerateMipMap;
         }
     return self;
     }
@@ -103,6 +105,12 @@
     CFRelease(image);
     image = NULL;
     }
+
+- (NSString *)description
+    {
+    return([NSString stringWithFormat:@"%@ (%@)", [super description], self.image]);
+    }
+
 
 - (GLuint)name
     {
@@ -144,6 +152,9 @@
     {
     #pragma unused (outError)
     
+    NSLog(@"%@", self);
+
+
     NSAssert(inImage != NULL, @"Seriously, we need an image!");
     
     CGColorSpaceRef theColorSpace = CGImageGetColorSpace(inImage);

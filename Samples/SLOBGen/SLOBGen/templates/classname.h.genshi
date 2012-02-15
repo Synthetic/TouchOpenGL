@@ -10,13 +10,15 @@
 
 #import "Matrix.h"
 
+@class CTexture;
+
 @class CVertexBufferReference;
 
 @interface ${klass.name} : CProgram
 
 // Uniforms
 {% for uniform in uniforms %}\
-@property (readwrite, nonatomic, assign) ${uniform.propertyType} ${uniform.propertyName};
+@property (readwrite, nonatomic, ${uniform.ownership}) ${uniform.propertyType} ${uniform.propertyName};
 {% end %}\
 
 // Attributes

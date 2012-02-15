@@ -68,5 +68,12 @@
     {
     return(glIsTexture(self.name));
     }
+
+- (void)use:(GLuint)inUniform
+	{
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, self.name);
+	glUniform1i(inUniform, 0);
+	}
     
 @end

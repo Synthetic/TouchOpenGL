@@ -101,7 +101,7 @@
             
             NSURL *theURL = [[self.URL URLByDeletingLastPathComponent] URLByAppendingPathComponent:theName];
             
-            CLazyTexture *theTexture = [[CLazyTexture alloc] initWithURL:theURL];
+            CLazyTexture *theTexture = [[CLazyTexture alloc] initWithURL:theURL flip:NO generateMipMap:NO];
             theCurrentMaterial.texture = theTexture;
             }
         

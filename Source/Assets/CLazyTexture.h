@@ -42,6 +42,6 @@
 @property (readonly, nonatomic, assign) BOOL generateMipMap;
 
 - (id)initWithImage:(CGImageRef)inImage;
-- (id)initWithURL:(NSURL *)inURL;
+- (id)initWithURL:(NSURL *)inURL flip:(BOOL)inFlip generateMipMap:(BOOL)inGenerateMipMap;
 
 @end

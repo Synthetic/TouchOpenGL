@@ -1,5 +1,5 @@
 //
-//  CFlat.h
+//  CSimpleTexture.h
 //  <#some project>
 //
 //  Created by Jonathan Wight on 9/10/11.
@@ -10,17 +10,19 @@
 
 #import "Matrix.h"
 
+@class CTexture;
+
 @class CVertexBufferReference;
 
-@interface CFlat : CProgram
+@interface CSimpleTexture : CProgram
 
 // Uniforms
 @property (readwrite, nonatomic, assign) Matrix4 modelViewMatrix;
 @property (readwrite, nonatomic, assign) Matrix4 projectionMatrix;
-@property (readwrite, nonatomic, assign) Color4f color;
+@property (readwrite, nonatomic, strong) CTexture * texture0;
 
 // Attributes
 @property (readwrite, nonatomic, retain) CVertexBufferReference *positions;
-@property (readwrite, nonatomic, retain) CVertexBufferReference *colors;
+@property (readwrite, nonatomic, retain) CVertexBufferReference *texCoords;
 
 @end

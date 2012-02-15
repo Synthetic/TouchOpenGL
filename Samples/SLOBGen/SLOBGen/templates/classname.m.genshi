@@ -10,7 +10,7 @@
 
 #import "OpenGLTypes.h"
 #import "OpenGLIncludes.h"
-
+#import "CTexture.h"
 #import "CVertexBufferReference.h"
 
 @interface ${klass.name} ()

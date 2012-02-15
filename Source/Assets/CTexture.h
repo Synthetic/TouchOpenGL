@@ -47,4 +47,6 @@
 
 - (BOOL)isValid;
 
+- (void)use:(GLuint)inUniform;
+
 @end

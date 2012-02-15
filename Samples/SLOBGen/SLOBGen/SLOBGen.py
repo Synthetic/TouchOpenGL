@@ -85,17 +85,26 @@ class Generator(object):
             ('mat4',None): {
                 'propertyType': 'Matrix4',
                 'setter': 'glUniformMatrix4fv(${uniform.propertyName}Uniform, 1, NO, &${uniform.propertyName}.m[0][0]);',
-                'initialValue': 'Matrix4Identity'
+                'initialValue': 'Matrix4Identity',
+                'ownership': 'assign',
                 },
             ('vec4',None): {
                 'propertyType': 'Vector4',
                 'setter': 'glUniform4fv(${uniform.propertyName}Uniform, 1, &${uniform.propertyName}.x);',
-                'initialValue': '{}'
+                'initialValue': '{}',
+                'ownership': 'assign',
                 },
             ('vec4','Color'): {
                 'propertyType': 'Color4f',
                 'setter': 'glUniform4fv(${uniform.propertyName}Uniform, 1, &${uniform.propertyName}.r);',
-                'initialValue': '(Color4f){ 1.0, 1.0, 1.0, 1.0 }'
+                'initialValue': '(Color4f){ 1.0, 1.0, 1.0, 1.0 }',
+                'ownership': 'assign',
+                },
+            ('sampler2D',None): {
+                'propertyType': 'CTexture *',
+                'setter': '[${uniform.propertyName} use:${uniform.propertyName}Uniform]',
+                'initialValue': 'NULL',
+                'ownership': 'strong',
                 },
             }
 
@@ -117,10 +126,21 @@ class Generator(object):
 
             uniforms.append(d)
 
-        attributes = [
-            {'propertyName': MyString('positions')},
-            {'propertyName': MyString('colors')},
-            ]
+        attributes = []
+        for theAttribute in theProgramSpecification['attributes']:
+            d = dict()
+            d['propertyName'] = MyString(theAttribute['propertyName'])
+
+            attributes.append(d)
+
+
+
+#        print attributes
+#
+#         attributes = [
+#             {'propertyName': MyString('positions')},
+#             {'propertyName': MyString('colors')},
+#             ]
         theContext = {
             'klass': { 'name': theKlassName },
             'uniforms': uniforms,
