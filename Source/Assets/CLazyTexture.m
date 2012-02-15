@@ -152,9 +152,6 @@
     {
     #pragma unused (outError)
     
-    NSLog(@"%@", self);
-
-
     NSAssert(inImage != NULL, @"Seriously, we need an image!");
     
     CGColorSpaceRef theColorSpace = CGImageGetColorSpace(inImage);
