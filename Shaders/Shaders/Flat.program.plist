@@ -7,13 +7,13 @@
 		<dict>
 			<key>name</key>
 			<string>a_position</string>
-			<key>publicName</key>
+			<key>propertyName</key>
 			<string>positions</string>
 		</dict>
 		<dict>
 			<key>name</key>
 			<string>a_color</string>
-			<key>publicName</key>
+			<key>propertyName</key>
 			<string>colors</string>
 		</dict>
 	</array>

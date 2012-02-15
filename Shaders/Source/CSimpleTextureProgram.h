@@ -1,5 +1,5 @@
 //
-//  CSimpleTexture.h
+//  CSimpleTextureProgram.h
 //  <#some project>
 //
 //  Created by Jonathan Wight on 9/10/11.
@@ -14,7 +14,7 @@
 
 @class CVertexBufferReference;
 
-@interface CSimpleTexture : CProgram
+@interface CSimpleTextureProgram : CProgram
 
 // Uniforms
 @property (readwrite, nonatomic, assign) Matrix4 modelViewMatrix;

@@ -1,19 +1,19 @@
 //
-//  CCompositeTexture.m
+//  CCompositeTextureProgram.m
 //  Dwarf
 //
 //  Created by Jonathan Wight on 9/10/11.
 //  Copyright (c) 2011 toxicsoftware.com. All rights reserved.
 //
 
-#import "CCompositeTexture.h"
+#import "CCompositeTextureProgram.h"
 
 #import "OpenGLTypes.h"
 #import "OpenGLIncludes.h"
 #import "CTexture.h"
 #import "CVertexBufferReference.h"
 
-@interface CCompositeTexture ()
+@interface CCompositeTextureProgram ()
 
 // Uniforms
 @property (readwrite, nonatomic, assign) GLint modelViewMatrixUniform;
@@ -37,7 +37,7 @@
 
 @end
 
-@implementation CCompositeTexture
+@implementation CCompositeTextureProgram
 
 // Uniforms
 @synthesize modelViewMatrix;
@@ -127,7 +127,7 @@
         AssertOpenGLNoError_();
         }
 
-    if (texture0Changed == YES || YES)
+    if (texture0Changed == YES)
         {
         if (texture0Uniform == -1)
             {
@@ -139,7 +139,7 @@
         AssertOpenGLNoError_();
         }
 
-    if (texture1Changed == YES|| YES)
+    if (texture1Changed == YES)
         {
         if (texture1Uniform == -1)
             {

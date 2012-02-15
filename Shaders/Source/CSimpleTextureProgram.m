@@ -1,19 +1,19 @@
 //
-//  CFlat.m
+//  CSimpleTextureProgram.m
 //  Dwarf
 //
 //  Created by Jonathan Wight on 9/10/11.
 //  Copyright (c) 2011 toxicsoftware.com. All rights reserved.
 //
 
-#import "CFlat.h"
+#import "CSimpleTextureProgram.h"
 
 #import "OpenGLTypes.h"
 #import "OpenGLIncludes.h"
-
+#import "CTexture.h"
 #import "CVertexBufferReference.h"
 
-@interface CFlat ()
+@interface CSimpleTextureProgram ()
 
 // Uniforms
 @property (readwrite, nonatomic, assign) GLint modelViewMatrixUniform;
@@ -22,19 +22,19 @@
 @property (readwrite, nonatomic, assign) GLint projectionMatrixUniform;
 @property (readwrite, nonatomic, assign) BOOL projectionMatrixChanged;
 
-@property (readwrite, nonatomic, assign) GLint colorUniform;
-@property (readwrite, nonatomic, assign) BOOL colorChanged;
+@property (readwrite, nonatomic, assign) GLint texture0Uniform;
+@property (readwrite, nonatomic, assign) BOOL texture0Changed;
 
 // Attributes
 @property (readwrite, nonatomic, assign) GLint positionsAttribute;
 @property (readwrite, nonatomic, assign) BOOL positionsChanged;
 
-@property (readwrite, nonatomic, assign) GLint colorsAttribute;
-@property (readwrite, nonatomic, assign) BOOL colorsChanged;
+@property (readwrite, nonatomic, assign) GLint texCoordsAttribute;
+@property (readwrite, nonatomic, assign) BOOL texCoordsChanged;
 
 @end
 
-@implementation CFlat
+@implementation CSimpleTextureProgram
 
 // Uniforms
 @synthesize modelViewMatrix;
@@ -45,18 +45,18 @@
 @synthesize projectionMatrixUniform;
 @synthesize projectionMatrixChanged;
 
-@synthesize color;
-@synthesize colorUniform;
-@synthesize colorChanged;
+@synthesize texture0;
+@synthesize texture0Uniform;
+@synthesize texture0Changed;
 
 // Attributes
 @synthesize positions;
 @synthesize positionsAttribute;
 @synthesize positionsChanged;
 
-@synthesize colors;
-@synthesize colorsAttribute;
-@synthesize colorsChanged;
+@synthesize texCoords;
+@synthesize texCoordsAttribute;
+@synthesize texCoordsChanged;
 
 - (id)init
     {
@@ -70,17 +70,17 @@
         projectionMatrixUniform = -1;
         projectionMatrixChanged = YES;
 
-        color = (Color4f){ 1.0, 1.0, 1.0, 1.0 };
-        colorUniform = -1;
-        colorChanged = YES;
+        texture0 = NULL;
+        texture0Uniform = -1;
+        texture0Changed = YES;
 
         GLint theIndex = 0;
 
         positionsAttribute = theIndex++;
         positionsChanged = YES;
 
-        colorsAttribute = theIndex++;
-        colorsChanged = YES;
+        texCoordsAttribute = theIndex++;
+        texCoordsChanged = YES;
 
         }
     return self;
@@ -116,15 +116,15 @@
         AssertOpenGLNoError_();
         }
 
-    if (colorChanged == YES)
+    if (texture0Changed == YES)
         {
-        if (colorUniform == -1)
+        if (texture0Uniform == -1)
             {
-            colorUniform = glGetUniformLocation(self.name, "u_color");
+            texture0Uniform = glGetUniformLocation(self.name, "u_texture0");
             }
 
-        glUniform4fv(colorUniform, 1, &color.r);;
-        colorChanged = NO;
+        [texture0 use:texture0Uniform];
+        texture0Changed = NO;
         AssertOpenGLNoError_();
         }
 
@@ -141,14 +141,14 @@
             }
         }
 
-    if (colorsChanged == YES)
+    if (texCoordsChanged == YES)
         {
-        if (colors)
+        if (texCoords)
             {
-            [colors use:colorsAttribute];
-            glEnableVertexAttribArray(colorsAttribute);
+            [texCoords use:texCoordsAttribute];
+            glEnableVertexAttribArray(texCoordsAttribute);
 
-            colorsChanged = NO;
+            texCoordsChanged = NO;
             AssertOpenGLNoError_();
             }
         }
@@ -167,10 +167,10 @@
     projectionMatrixChanged = YES;
     }
 
-- (void)setColor:(Color4f)inColor
+- (void)setTexture0:(CTexture *)inTexture0
     {
-    color = inColor;
-    colorChanged = YES;
+    texture0 = inTexture0;
+    texture0Changed = YES;
     }
 
 
@@ -183,12 +183,12 @@
         }
     }
 
-- (void)setColors:(CVertexBufferReference *)inColors
+- (void)setTexCoords:(CVertexBufferReference *)inTexCoords
     {
-    if (colors != inColors)
+    if (texCoords != inTexCoords)
         {
-        colors = inColors;
-        colorsChanged = YES;
+        texCoords = inTexCoords;
+        texCoordsChanged = YES;
         }
     }
 
