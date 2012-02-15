@@ -17,6 +17,8 @@ class MyString(str):
     def u(self):
         return self[0].upper() + self[1:]
 
+##########################################################################################
+
 def merge(inTemplate, inOriginal, inDelimiters):
     theComponents = []
     for theDelimiter in inDelimiters:
@@ -51,6 +53,7 @@ class Generator(object):
         self.template = None
         self.output = None
         self.classPrefix = 'C'
+        self.classSuffix = 'Program'
         self.logger = logging.getLogger()
 
     def generate(self):
@@ -112,7 +115,7 @@ class Generator(object):
 
         theProgramSpecification = plistlib.readPlist(self.input)
 
-        theKlassName = self.classPrefix + theProgramSpecification['name']
+        theKlassName = self.classPrefix + theProgramSpecification['name'] + self.classSuffix
 
         for theUniform in theProgramSpecification['uniforms']:
             d = dict()
@@ -133,14 +136,6 @@ class Generator(object):
 
             attributes.append(d)
 
-
-
-#        print attributes
-#
-#         attributes = [
-#             {'propertyName': MyString('positions')},
-#             {'propertyName': MyString('colors')},
-#             ]
         theContext = {
             'klass': { 'name': theKlassName },
             'uniforms': uniforms,
