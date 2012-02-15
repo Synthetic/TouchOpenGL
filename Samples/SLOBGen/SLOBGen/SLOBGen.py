@@ -103,6 +103,12 @@ class Generator(object):
                 'initialValue': '(Color4f){ 1.0, 1.0, 1.0, 1.0 }',
                 'ownership': 'assign',
                 },
+            ('int',None): {
+                'propertyType': 'int',
+                'setter': 'glUniform1i(${uniform.propertyName}Uniform, ${uniform.propertyName});',
+                'initialValue': '0',
+                'ownership': 'assign',
+                },
             ('sampler2D',None): {
                 'propertyType': 'CTexture *',
                 'setter': '[${uniform.propertyName} use:${uniform.propertyName}Uniform]',

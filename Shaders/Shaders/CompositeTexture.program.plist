@@ -55,6 +55,14 @@
 			<key>type</key>
 			<string>sampler2D</string>
 		</dict>
+		<dict>
+			<key>name</key>
+			<string>u_blendMode</string>
+			<key>propertyName</key>
+			<string>blendMode</string>
+			<key>type</key>
+			<string>int</string>
+		</dict>
 	</array>
 	<key>vertexShader</key>
 	<string>CompositeTexture.vsh</string>

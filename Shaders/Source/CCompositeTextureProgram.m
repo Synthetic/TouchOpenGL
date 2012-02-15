@@ -28,6 +28,9 @@
 @property (readwrite, nonatomic, assign) GLint texture1Uniform;
 @property (readwrite, nonatomic, assign) BOOL texture1Changed;
 
+@property (readwrite, nonatomic, assign) GLint blendModeUniform;
+@property (readwrite, nonatomic, assign) BOOL blendModeChanged;
+
 // Attributes
 @property (readwrite, nonatomic, assign) GLint positionsAttribute;
 @property (readwrite, nonatomic, assign) BOOL positionsChanged;
@@ -55,6 +58,10 @@
 @synthesize texture1;
 @synthesize texture1Uniform;
 @synthesize texture1Changed;
+
+@synthesize blendMode;
+@synthesize blendModeUniform;
+@synthesize blendModeChanged;
 
 // Attributes
 @synthesize positions;
@@ -84,6 +91,10 @@
         texture1 = NULL;
         texture1Uniform = -1;
         texture1Changed = YES;
+
+        blendMode = 0;
+        blendModeUniform = -1;
+        blendModeChanged = YES;
 
         GLint theIndex = 0;
 
@@ -151,6 +162,18 @@
         AssertOpenGLNoError_();
         }
 
+    if (blendModeChanged == YES)
+        {
+        if (blendModeUniform == -1)
+            {
+            blendModeUniform = glGetUniformLocation(self.name, "u_blendMode");
+            }
+
+        glUniform1i(blendModeUniform, blendMode);
+        blendModeChanged = NO;
+        AssertOpenGLNoError_();
+        }
+
 
     if (positionsChanged == YES)
         {
@@ -200,6 +223,12 @@
     {
     texture1 = inTexture1;
     texture1Changed = YES;
+    }
+
+- (void)setBlendMode:(int)inBlendMode
+    {
+    blendMode = inBlendMode;
+    blendModeChanged = YES;
     }
 
 

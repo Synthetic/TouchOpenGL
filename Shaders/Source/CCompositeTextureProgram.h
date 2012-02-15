@@ -21,6 +21,7 @@
 @property (readwrite, nonatomic, assign) Matrix4 projectionMatrix;
 @property (readwrite, nonatomic, strong) CTexture * texture0;
 @property (readwrite, nonatomic, strong) CTexture * texture1;
+@property (readwrite, nonatomic, assign) int blendMode;
 
 // Attributes
 @property (readwrite, nonatomic, retain) CVertexBufferReference *positions;
