@@ -63,6 +63,22 @@
 			<key>type</key>
 			<string>int</string>
 		</dict>
+		<dict>
+			<key>name</key>
+			<string>u_gamma</string>
+			<key>propertyName</key>
+			<string>gamma</string>
+			<key>type</key>
+			<string>float</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>u_alpha</string>
+			<key>propertyName</key>
+			<string>alpha</string>
+			<key>type</key>
+			<string>float</string>
+		</dict>
 	</array>
 	<key>vertexShader</key>
 	<string>CompositeTexture.vsh</string>

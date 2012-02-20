@@ -31,6 +31,12 @@
 @property (readwrite, nonatomic, assign) GLint blendModeUniform;
 @property (readwrite, nonatomic, assign) BOOL blendModeChanged;
 
+@property (readwrite, nonatomic, assign) GLint gammaUniform;
+@property (readwrite, nonatomic, assign) BOOL gammaChanged;
+
+@property (readwrite, nonatomic, assign) GLint alphaUniform;
+@property (readwrite, nonatomic, assign) BOOL alphaChanged;
+
 // Attributes
 @property (readwrite, nonatomic, assign) GLint positionsAttribute;
 @property (readwrite, nonatomic, assign) BOOL positionsChanged;
@@ -62,6 +68,14 @@
 @synthesize blendMode;
 @synthesize blendModeUniform;
 @synthesize blendModeChanged;
+
+@synthesize gamma;
+@synthesize gammaUniform;
+@synthesize gammaChanged;
+
+@synthesize alpha;
+@synthesize alphaUniform;
+@synthesize alphaChanged;
 
 // Attributes
 @synthesize positions;
@@ -95,6 +109,14 @@
         blendMode = 0;
         blendModeUniform = -1;
         blendModeChanged = YES;
+
+        gamma = 0.0;
+        gammaUniform = -1;
+        gammaChanged = YES;
+
+        alpha = 0.0;
+        alphaUniform = -1;
+        alphaChanged = YES;
 
         GLint theIndex = 0;
 
@@ -169,8 +191,32 @@
             blendModeUniform = glGetUniformLocation(self.name, "u_blendMode");
             }
 
-        glUniform1i(blendModeUniform, blendMode);
+        glUniform1i(blendModeUniform, blendMode);;
         blendModeChanged = NO;
+        AssertOpenGLNoError_();
+        }
+
+    if (gammaChanged == YES)
+        {
+        if (gammaUniform == -1)
+            {
+            gammaUniform = glGetUniformLocation(self.name, "u_gamma");
+            }
+
+        glUniform1f(gammaUniform, gamma);;
+        gammaChanged = NO;
+        AssertOpenGLNoError_();
+        }
+
+    if (alphaChanged == YES)
+        {
+        if (alphaUniform == -1)
+            {
+            alphaUniform = glGetUniformLocation(self.name, "u_alpha");
+            }
+
+        glUniform1f(alphaUniform, alpha);;
+        alphaChanged = NO;
         AssertOpenGLNoError_();
         }
 
@@ -225,10 +271,22 @@
     texture1Changed = YES;
     }
 
-- (void)setBlendMode:(int)inBlendMode
+- (void)setBlendMode:(GLint)inBlendMode
     {
     blendMode = inBlendMode;
     blendModeChanged = YES;
+    }
+
+- (void)setGamma:(GLfloat)inGamma
+    {
+    gamma = inGamma;
+    gammaChanged = YES;
+    }
+
+- (void)setAlpha:(GLfloat)inAlpha
+    {
+    alpha = inAlpha;
+    alphaChanged = YES;
     }
 
 

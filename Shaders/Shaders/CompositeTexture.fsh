@@ -281,6 +281,13 @@ uniform sampler2D u_texture0;
 uniform sampler2D u_texture1;
 
 uniform int u_blendMode;
+uniform float u_alpha;
+uniform float u_gamma;
+
+vec4 gamma_correct(vec4 C)
+	{
+	return pow(C, vec4(u_gamma)); // desiredGamma / currentGamma
+	}
 
 vec4 premultiply(vec4 v)
 	{
@@ -338,141 +345,155 @@ void main()
 //	S = premultiply(S);
 //	D = premultiply(D);
 
-	gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
+	vec4 OUT;
 
 	// The big uber IF statement is inefficient. Better to use multiple shaders for this...
 	
 	if (u_blendMode == kCGBlendModeNormal)
 		{
-		gl_FragColor = D * (1.0 - S.a) + S * S.a;
+		OUT = D * (1.0 - S.a) + S * S.a;
 		}
 	else if (u_blendMode == kCGBlendModeMultiply)
 		{
-		gl_FragColor = D * S;
+		OUT = D * S;
 		}
 	else if (u_blendMode == kCGBlendModeScreen)
 		{
-		gl_FragColor.r = 1.0 - ((1.0 - S.r) * (1.0 - D.r));
-		gl_FragColor.g = 1.0 - ((1.0 - S.g) * (1.0 - D.g));
-		gl_FragColor.b = 1.0 - ((1.0 - S.b) * (1.0 - D.b));
-		gl_FragColor.a = 1.0 - ((1.0 - S.a) * (1.0 - D.a));
+		OUT.r = 1.0 - ((1.0 - S.r) * (1.0 - D.r));
+		OUT.g = 1.0 - ((1.0 - S.g) * (1.0 - D.g));
+		OUT.b = 1.0 - ((1.0 - S.b) * (1.0 - D.b));
+		OUT.a = 1.0 - ((1.0 - S.a) * (1.0 - D.a));
 		}
 	else if (u_blendMode == kCGBlendModeOverlay)
 		{
-		gl_FragColor.rgb = BlendOverlay(S.rgb, D.rgb);
-		gl_FragColor.a = 1.0;
+		OUT.rgb = BlendOverlay(S.rgb, D.rgb);
+		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeDarken)
 		{
-		gl_FragColor = BlendDarken(S, D);
+		OUT = BlendDarken(S, D);
 		}
 	else if (u_blendMode == kCGBlendModeLighten)
 		{
-		gl_FragColor = BlendLighten(S, D);
+		OUT = BlendLighten(S, D);
 		}
 	else if (u_blendMode == kCGBlendModeColorDodge)
 		{
-		gl_FragColor.rgb = BlendColorDodge(S.rgb, D.rgb);
-		gl_FragColor.a = 1.0;
+		OUT.rgb = BlendColorDodge(S.rgb, D.rgb);
+		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeColorBurn)
 		{
-		gl_FragColor.rgb = BlendColorBurn(S.rgb, D.rgb);
-		gl_FragColor.a = 1.0;
+		OUT.rgb = BlendColorBurn(S.rgb, D.rgb);
+		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeSoftLight)
 		{
-		gl_FragColor.rgb = BlendSoftLight(S.rgb, D.rgb);
-		gl_FragColor.a = 1.0;
+		OUT.rgb = BlendSoftLight(S.rgb, D.rgb);
+		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeHardLight)
 		{
-		gl_FragColor.rgb = BlendHardLight(S.rgb, D.rgb);
-		gl_FragColor.a = 1.0;
+		OUT.rgb = BlendHardLight(S.rgb, D.rgb);
+		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeDifference)
 		{
-		gl_FragColor.rgb = BlendDifference(S.rgb, D.rgb);
-		gl_FragColor.a = 1.0;
+		OUT.rgb = BlendDifference(S.rgb, D.rgb);
+		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeExclusion)
 		{
-		gl_FragColor.rgb = BlendExclusion(S.rgb, D.rgb);
-		gl_FragColor.a = 1.0;
+		OUT.rgb = BlendExclusion(S.rgb, D.rgb);
+		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeHue)
 		{
 		// TODO
-		gl_FragColor.rgb = BlendHue(S.rgb, D.rbg);
-		gl_FragColor.a = 1.0;
+		OUT.rgb = BlendHue(D.rgb, S.rbg);
+		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeSaturation)
 		{
-		gl_FragColor.rgb = BlendSaturation(S.rgb, D.rbg);
-		gl_FragColor.a = 1.0;
+		OUT.rgb = BlendSaturation(S.rgb, D.rbg);
+		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeColor)
 		{
-		gl_FragColor.rgb = BlendColor(S.rgb, D.rbg);
-		gl_FragColor.a = 1.0;
+		OUT.rgb = BlendColor(S.rgb, D.rbg);
+		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeLuminosity)
 		{
-		gl_FragColor.rgb = BlendLuminosity(S.rgb, D.rbg);
-		gl_FragColor.a = 1.0;
+		OUT.rgb = BlendLuminosity(S.rgb, D.rbg);
+		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeClear)
 		{
-		gl_FragColor = vec4(1.0, 1.0, 1.0, 0.0);
+		OUT = vec4(1.0, 1.0, 1.0, 0.0);
 		}
 	else if (u_blendMode == kCGBlendModeCopy)
 		{
-		gl_FragColor = S;
+		OUT = S;
 		}
 	else if (u_blendMode == kCGBlendModeSourceIn)
 		{
-		gl_FragColor = S * D.a;
+		OUT = S * D.a;
 		}
 	else if (u_blendMode == kCGBlendModeSourceOut)
 		{
-		gl_FragColor = S * (1.0 - D.a);
+		OUT = S * (1.0 - D.a);
 		}
 	else if (u_blendMode == kCGBlendModeSourceAtop)
 		{
-		gl_FragColor = S * D.a + D * (1.0 - S.a);
+		OUT = S * D.a + D * (1.0 - S.a);
 		}
 	else if (u_blendMode == kCGBlendModeDestinationOver)
 		{
-		gl_FragColor = S * (1.0 - D.a) + D;
+		OUT = S * (1.0 - D.a) + D;
 		}
 	else if (u_blendMode == kCGBlendModeDestinationIn)
 		{
-		gl_FragColor = D * S.a;
+		OUT = D * S.a;
 		}
 	else if (u_blendMode == kCGBlendModeDestinationOut)
 		{
-		gl_FragColor = D * (1.0 - S.a);
+		OUT = D * (1.0 - S.a);
 		}
 	else if (u_blendMode == kCGBlendModeDestinationAtop)
 		{
-		gl_FragColor = S * (1.0 - D.a) + D * S.a;
+		OUT = S * (1.0 - D.a) + D * S.a;
 		}
 	else if (u_blendMode == kCGBlendModeXOR)
 		{
-		gl_FragColor = S * (1.0 - D.a) + D * (1.0 - S.a);
+		OUT = S * (1.0 - D.a) + D * (1.0 - S.a);
 		}
 	else if (u_blendMode == kCGBlendModePlusDarker)
 		{
-		gl_FragColor.r = max(0.0, (1.0 - D.r) + (1.0 - S.r));
-		gl_FragColor.g = max(0.0, (1.0 - D.g) + (1.0 - S.g));
-		gl_FragColor.b = max(0.0, (1.0 - D.b) + (1.0 - S.b));
-		gl_FragColor.a = max(0.0, (1.0 - D.a) + (1.0 - S.a));
+		OUT.r = max(0.0, (1.0 - D.r) + (1.0 - S.r));
+		OUT.g = max(0.0, (1.0 - D.g) + (1.0 - S.g));
+		OUT.b = max(0.0, (1.0 - D.b) + (1.0 - S.b));
+		OUT.a = max(0.0, (1.0 - D.a) + (1.0 - S.a));
 		}
 	else if (u_blendMode == kCGBlendModePlusLighter)
 		{
-		gl_FragColor.r = min(1.0, S.r + D.r);
-		gl_FragColor.g = min(1.0, S.g + D.g);
-		gl_FragColor.b = min(1.0, S.b + D.b);
-		gl_FragColor.a = min(1.0, S.a + D.a);
+		OUT.r = min(1.0, S.r + D.r);
+		OUT.g = min(1.0, S.g + D.g);
+		OUT.b = min(1.0, S.b + D.b);
+		OUT.a = min(1.0, S.a + D.a);
 		}
+	else
+		{
+		OUT = vec4(1.0, 0.0, 1.0, 1.0);
+		}
+		
+	if (u_gamma != 0.0)
+		{
+		gl_FragColor = gamma_correct(OUT) * u_alpha;
+		}
+	else
+		{
+		gl_FragColor = OUT * u_alpha;
+		}
+		
     }
