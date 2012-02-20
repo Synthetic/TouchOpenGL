@@ -59,6 +59,11 @@
 
 - (id)initWithSize:(SIntSize)inSize
 	{
+	if (inSize.width != inSize.height)
+		{
+		NSLog(@"WARNING: Texture request isn't square.");
+		}
+	
 	GLuint theTextureName;
 	glGenTextures(1, &theTextureName);
 	glBindTexture(GL_TEXTURE_2D, theTextureName);
