@@ -59,9 +59,8 @@
 
 - (NSString *)description
     {
-    return([NSString stringWithFormat:@"%@ (%d, %d, %d, %d)", [super description], self.name, self.size.width, self.size.height, self.textureUnit]);
+    return([NSString stringWithFormat:@"%@ (name: %d (named: %d), %d x %d, texture unit: %d)", [super description], self.name, self.named, self.size.width, self.size.height, self.textureUnit]);
     }
-
 
 - (void)dealloc
     {
@@ -69,8 +68,18 @@
         {
         glDeleteTextures(1, &name);
         name = 0;
+		named = NO;
         }
     }
+
+- (void)setName:(GLuint)inName
+	{
+	if (name != inName)
+		{
+		name = inName;
+		self.named = YES;
+		}
+	}
 
 - (BOOL)isValid
     {
