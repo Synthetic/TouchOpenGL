@@ -58,6 +58,14 @@
     return self;
     }
 
+- (id)copyWithZone:(NSZone *)zone;
+	{
+	CSceneRenderer *theCopy = [[[self class] alloc] init];
+	theCopy.clearColor = self.clearColor;
+	theCopy.projectionTransform = self.projectionTransform;
+	return(theCopy);
+	}
+
 #pragma mark -
 
 - (void)setup

@@ -37,7 +37,7 @@
 
 @class CFrameBuffer;
 
-@interface CSceneRenderer : NSObject
+@interface CSceneRenderer : NSObject <NSCopying>
 
 @property (readwrite, nonatomic, assign) CGSize size;
 @property (readwrite, nonatomic, assign) Color4f clearColor;
