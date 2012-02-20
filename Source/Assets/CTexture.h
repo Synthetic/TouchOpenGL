@@ -47,6 +47,7 @@
 @property (readwrite, nonatomic, assign) GLuint textureUnit;
 
 - (id)initWithName:(GLuint)inName size:(SIntSize)inSize;
+- (id)initWithSize:(SIntSize)inSize;
 
 - (BOOL)isValid;
 

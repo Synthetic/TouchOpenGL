@@ -57,6 +57,21 @@
     return(self);
     }
 
+- (id)initWithSize:(SIntSize)inSize
+	{
+	GLuint theTextureName;
+	glGenTextures(1, &theTextureName);
+	glBindTexture(GL_TEXTURE_2D, theTextureName);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, inSize.width, inSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL); 
+
+	AssertOpenGLNoError_();
+
+    if ((self = [self initWithName:theTextureName size:inSize]) != NULL)
+        {
+        }
+    return(self);
+	}
+
 - (NSString *)description
     {
     return([NSString stringWithFormat:@"%@ (name: %d (named: %d), %d x %d, texture unit: %d)", [super description], self.name, self.named, self.size.width, self.size.height, self.textureUnit]);
