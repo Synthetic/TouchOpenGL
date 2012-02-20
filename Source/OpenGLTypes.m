@@ -225,11 +225,6 @@ NSString *NSStringFromGLenum(GLenum inEnum)
             return(@"GL_FLOAT");
         case GL_SHORT:
             return(@"GL_SHORT");
-        default:
-            {
-            NSCAssert(NO, @"Unknown enum");
-            }
-            break;
         }
     return(NULL);
     }
