@@ -104,7 +104,7 @@ class Generator(object):
                 'ownership': 'assign',
                 },
             ('int',None): {
-                'propertyType': 'int',
+                'propertyType': 'GLint',
                 'setter': 'glUniform1i(${uniform.propertyName}Uniform, ${uniform.propertyName});',
                 'initialValue': '0',
                 'ownership': 'assign',
@@ -114,6 +114,12 @@ class Generator(object):
                 'setter': '[${uniform.propertyName} use:${uniform.propertyName}Uniform]',
                 'initialValue': 'NULL',
                 'ownership': 'strong',
+                },
+            ('float',None): {
+                'propertyType': 'GLfloat',
+                'setter': 'glUniform1f(${uniform.propertyName}Uniform, ${uniform.propertyName});',
+                'initialValue': '0.0',
+                'ownership': 'assign',
                 },
             }
 
