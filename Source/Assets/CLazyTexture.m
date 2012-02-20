@@ -63,15 +63,15 @@
 //@synthesize internalFormat;
 //@synthesize hasAlpha;
 
-- (id)initWithImage:(CGImageRef)inImage;
+- (id)initWithImage:(CGImageRef)inImage flip:(BOOL)inFlip generateMipMap:(BOOL)inGenerateMipMap;
 	{
 	if ((self = [super init]) != NULL)
 		{
         CFRetain(inImage);
         image = inImage;
         
-        flip = NO;
-        generateMipMap = NO;
+        flip = inFlip;
+        generateMipMap = inGenerateMipMap;
 		}
 	return(self);
 	}
@@ -94,10 +94,8 @@
         return(NULL);
         }
     
-    if ((self = [self initWithImage:theImage]) != NULL)
+    if ((self = [self initWithImage:theImage flip:inFlip generateMipMap:inGenerateMipMap]) != NULL)
         {
-        flip = inFlip;
-        generateMipMap = inGenerateMipMap;
         }
     return self;
     }

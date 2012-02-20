@@ -32,16 +32,13 @@
 #import "CTexture.h"
 
 
-@interface CLazyTexture : CTexture {
-    
-}
-
+@interface CLazyTexture : CTexture 
 
 @property (readonly, nonatomic, assign) CGImageRef image;
 @property (readonly, nonatomic, assign) BOOL flip;
 @property (readonly, nonatomic, assign) BOOL generateMipMap;
 
-- (id)initWithImage:(CGImageRef)inImage;
+- (id)initWithImage:(CGImageRef)inImage flip:(BOOL)inFlip generateMipMap:(BOOL)inGenerateMipMap;
 - (id)initWithURL:(NSURL *)inURL flip:(BOOL)inFlip generateMipMap:(BOOL)inGenerateMipMap;
 
 @end

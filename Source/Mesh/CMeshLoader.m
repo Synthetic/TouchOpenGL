@@ -333,7 +333,7 @@
 
         if (theImageRef)
             {
-            CLazyTexture *theTexture = [(CLazyTexture *)[CLazyTexture alloc] initWithImage:theImageRef];
+            CLazyTexture *theTexture = [(CLazyTexture *)[CLazyTexture alloc] initWithImage:theImageRef flip:NO generateMipMap:NO];
             theMaterial.texture = theTexture;
             }
         }
