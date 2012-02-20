@@ -45,6 +45,7 @@
 //@property (readwrite, nonatomic, assign) GLenum internalFormat;
 //@property (readwrite, nonatomic, assign) GLboolean hasAlpha;
 
+- (BOOL)loadWithImage:(CGImageRef)inImage size:(SIntSize)inSize format:(GLint)inFormat type:(GLint)inType error:(NSError **)outError;
 - (BOOL)loadWithImage:(CGImageRef)inImage error:(NSError **)outError;
 @end
 
@@ -148,92 +149,101 @@
     return([super hasAlpha]);
     }
 
-- (BOOL)loadWithImage:(CGImageRef)inImage error:(NSError **)outError
-    {
-    #pragma unused (outError)
-    
-    NSAssert(inImage != NULL, @"Seriously, we need an image!");
-    
-    CGColorSpaceRef theColorSpace = CGImageGetColorSpace(inImage);
-    const CGColorSpaceModel theModel = CGColorSpaceGetModel(theColorSpace);
-    const CGImageAlphaInfo theAlphaInfo = CGImageGetAlphaInfo(inImage);
-    const size_t theBitsPerComponent = CGImageGetBitsPerComponent(inImage);
+- (BOOL)loadWithImage:(CGImageRef)inImage size:(SIntSize)inSize format:(GLint)inFormat type:(GLint)inType error:(NSError **)outError
+	{
+	NSParameterAssert(inFormat == GL_RGBA || inFormat == GL_RGB);
+	NSParameterAssert(inType == GL_UNSIGNED_BYTE);
 
-    const CGSize theSize = (CGSize){ floor(CGImageGetWidth(inImage)), floor(CGImageGetHeight(inImage)) };
+	if (inSize.width != inSize.height)
+		{
+		NSLog(@"WARNING: Desired texture size isn't square.");
+		}
+		
+    BOOL theFastPathFlag = NO;
+	
+	if (YES)
+		{
+		CGColorSpaceRef theColorSpace = CGImageGetColorSpace(inImage);
+		const CGColorSpaceModel theModel = CGColorSpaceGetModel(theColorSpace);
+		const CGImageAlphaInfo theAlphaInfo = CGImageGetAlphaInfo(inImage);
+		const size_t theBitsPerComponent = CGImageGetBitsPerComponent(inImage);
+		const CGSize theSize = (CGSize){ floor(CGImageGetWidth(inImage)), floor(CGImageGetHeight(inImage)) };
 
-    GLint theFormat = 0;
-    GLint theType = 0;
+		if (inFormat == GL_RGBA && (theModel == kCGColorSpaceModelRGB) && (theAlphaInfo == kCGImageAlphaLast || theAlphaInfo == kCGImageAlphaPremultipliedLast || theAlphaInfo == kCGImageAlphaNoneSkipLast))
+			{
+			theFastPathFlag = YES;
+			}
+
+		if (inFormat == GL_RGB && (theModel == kCGColorSpaceModelRGB) && (theAlphaInfo == kCGImageAlphaNone))
+			{
+			theFastPathFlag = YES;
+			}
+		
+		if (theBitsPerComponent != 8)
+			{
+			theFastPathFlag = YES;
+			}
+		
+		if (theSize.width != inSize.width || theSize.height != inSize.height)
+			{
+			theFastPathFlag = NO;
+			}
+		
+		if (self.flip == NO)
+			{
+			theFastPathFlag = NO;
+			}
+		}
 
     NSData *theData = NULL;
-
-    // Convert to power of 2
-    // TODO conditionalize
-    SIntSize theDesiredSize = {
-        .width = exp2(ceil(log2(theSize.width))),
-        .height = exp2(ceil(log2(theSize.height))),
-        };
-    
-    // TODO conditionalize
-
-    theDesiredSize.width = theDesiredSize.height = MIN(MAX(theDesiredSize.width, theDesiredSize.height), 2048.0);
-    
-    
-    const BOOL theFastPathFlag = ((theModel == kCGColorSpaceModelRGB) && (theAlphaInfo == kCGImageAlphaLast || theAlphaInfo == kCGImageAlphaPremultipliedLast) && (theBitsPerComponent == 8) && (theSize.width == theDesiredSize.width) && (theSize.height == theDesiredSize.height) && self.flip == NO);
-    
-    if (theFastPathFlag == YES)
-        {
-        theFormat = GL_RGBA;
-        theType = GL_UNSIGNED_BYTE;
+	if (theFastPathFlag)
+		{
         theData = (__bridge_transfer NSData *)CGDataProviderCopyData(CGImageGetDataProvider(inImage));
-        }
-
-
-    if (theData == NULL)
-        {
-        theFormat = GL_RGBA;
-        theType = GL_UNSIGNED_BYTE;
+		}
+	else
+		{
+		NSUInteger theOctetsPerPixel = 0;
+		CGImageAlphaInfo theAlphaInfo = kCGImageAlphaNone;
+		if (inFormat == GL_RGBA)
+			{
+			theOctetsPerPixel = 4;
+			theAlphaInfo = kCGImageAlphaPremultipliedLast;
+			}
+		else if (inFormat == GL_RGB)
+			{
+			theOctetsPerPixel = 3;
+			theAlphaInfo = kCGImageAlphaNone;
+			}
+		
+		NSUInteger theBitsPerChannel = 0;
+		if (inType == GL_UNSIGNED_BYTE)
+			{
+			theBitsPerChannel = 8;
+			}
+		
+        NSMutableData *theMutableData = [NSMutableData dataWithLength:inSize.width * theOctetsPerPixel * inSize.height];
         
-        NSLog(@"Warning, converting texture: Color Model: %d, Alpha Info: %d, Bits Per Components: %lu, Width: %g, Height: %g", theModel, theAlphaInfo, theBitsPerComponent, theSize.width, theSize.height);
+        CGColorSpaceRef theColorSpace = CGColorSpaceCreateDeviceRGB();
         
-        
-        NSMutableData *theMutableData = [NSMutableData dataWithLength:theDesiredSize.width * 4 * theDesiredSize.height];
-        theData = theMutableData;
-        
-        CGColorSpaceRef theColorspace = CGColorSpaceCreateDeviceRGB();
-        
-        CGContextRef theImageContext = CGBitmapContextCreate([theMutableData mutableBytes], theDesiredSize.width, theDesiredSize.height, 8, theDesiredSize.width * 4, theColorSpace, kCGImageAlphaPremultipliedLast);
+        CGContextRef theImageContext = CGBitmapContextCreate([theMutableData mutableBytes], inSize.width, inSize.height, theBitsPerChannel, inSize.width * theOctetsPerPixel, theColorSpace, theAlphaInfo);
         NSAssert(theImageContext != NULL, @"Should not have null context");
 
         if (self.flip == YES)
             {
-            CGContextTranslateCTM(theImageContext, 0, theDesiredSize.height);
+            CGContextTranslateCTM(theImageContext, 0, inSize.height);
             CGContextScaleCTM(theImageContext, 1, -1);
             }
         
-        CGContextDrawImage(theImageContext, (CGRect){ .size = { .width = theDesiredSize.width, .height = theDesiredSize.height } }, inImage);
+        CGContextDrawImage(theImageContext, (CGRect){ .size = { .width = inSize.width, .height = inSize.height } }, inImage);
         CGContextRelease(theImageContext);
         
-        CGColorSpaceRelease(theColorspace);
-        }
+        CGColorSpaceRelease(theColorSpace);
 
-    if (theFormat == 0 || theType == 0)
-        {
-        NSLog(@"No format!");
-        return(NO);
-        }
-      
-    if (theData == NULL)
-        {
-        NSLog(@"No data!");
-        return(NO);
-        }
-        
-    if (theData.length != theDesiredSize.width * theDesiredSize.height * 4)
-        {
-        NSLog(@"Wrong data length");
-        return(NO);
-        }
-      
+        theData = theMutableData;
+		}
+
+
+
     AssertOpenGLValidContext_();
     
     GLuint theName = 0;
@@ -249,7 +259,7 @@
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     // Update texture data...
-    glTexImage2D(GL_TEXTURE_2D, 0, theFormat, (GLsizei)theDesiredSize.width, (GLsizei)theDesiredSize.height, 0, theFormat, theType, theData.bytes);
+    glTexImage2D(GL_TEXTURE_2D, 0, inFormat, inSize.width, inSize.height, 0, inFormat, inType, theData.bytes);
 
     if (self.generateMipMap == YES)
         {
@@ -264,8 +274,8 @@
     AssertOpenGLNoError_();
 
     self.name = theName;
-    self.size = theDesiredSize;
-    self.internalFormat = theFormat;
+    self.size = inSize;
+    self.internalFormat = inFormat;
     self.hasAlpha = YES;
 
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -275,6 +285,26 @@
     self.loaded = YES;
     
     return(YES);
+	}
+
+
+- (BOOL)loadWithImage:(CGImageRef)inImage error:(NSError **)outError
+    {
+    #pragma unused (outError)
+    
+    NSAssert(inImage != NULL, @"Seriously, we need an image!");
+    
+	const CGSize theSize = (CGSize){ floor(CGImageGetWidth(inImage)), floor(CGImageGetHeight(inImage)) };
+    SIntSize theDesiredSize = {
+        .width = exp2(ceil(log2(theSize.width))),
+        .height = exp2(ceil(log2(theSize.height))),
+        };
+    
+    // TODO conditionalize
+
+    theDesiredSize.width = theDesiredSize.height = MIN(MAX(theDesiredSize.width, theDesiredSize.height), 2048.0);
+	
+	return([self loadWithImage:inImage size:theDesiredSize format:GL_RGBA type:GL_UNSIGNED_BYTE error:outError]);
     }
 
 @end
