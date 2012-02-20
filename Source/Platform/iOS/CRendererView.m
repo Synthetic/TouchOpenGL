@@ -239,7 +239,12 @@
 
         glViewport(0, 0, theSize.width, theSize.height);
         }
-        
+
+    if ([EAGLContext currentContext] != self.context)
+        {
+        [EAGLContext setCurrentContext:self.context];
+        }
+
     if (self.multisampleAntialiasing == NO)
         {
         [self.frameBuffer bind:GL_FRAMEBUFFER];
