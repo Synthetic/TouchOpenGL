@@ -197,6 +197,10 @@
         return(NO);
         }
     }
+
+- (void)update
+	{
+	}
     
 - (void)use
     {
