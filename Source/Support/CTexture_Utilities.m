@@ -8,6 +8,9 @@
 
 #import "CTexture_Utilities.h"
 
+#import <ImageIO/ImageIO.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+
 #import "CFrameBuffer.h"
 
 @implementation CTexture (CTexture_Utilities)
