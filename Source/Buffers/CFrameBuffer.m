@@ -93,5 +93,45 @@
     glFramebufferTexture2D(self.target, inAttachment, GL_TEXTURE_2D, inTexture.name, 0);
     AssertOpenGLNoError_();
     }
+	
+#pragma mark -
+
+- (CGImageRef)fetchImage:(SIntSize)inSize CF_RETURNS_RETAINED
+	{
+	AssertOpenGLValidContext_();
+	AssertOpenGLNoError_();
+	
+	NSMutableData *theData = [NSMutableData dataWithLength:inSize.width * 4 * inSize.height];
+
+	GLint theReadFormat = GL_RGBA;
+//	glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT, &theReadFormat);
+	GLint theReadType = GL_UNSIGNED_BYTE;
+//	glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE, &theReadType);
+
+	glReadPixels(0, 0, inSize.width, inSize.height, theReadFormat, theReadType, theData.mutableBytes);
+//	AssertOpenGLNoError_();
+
+	// #########################################################################
+	
+	CGColorSpaceRef theColorSpace = CGColorSpaceCreateDeviceRGB();
+	
+	const size_t width = inSize.width;
+	const size_t height = inSize.height;
+	const size_t bitsPerComponent = 8;
+	const size_t bytesPerRow = width * (bitsPerComponent * 4) / 8;
+	// TODO - probably dont want skip last
+	CGBitmapInfo theBitmapInfo = kCGImageAlphaNoneSkipLast;
+	
+	CGContextRef theContext = CGBitmapContextCreateWithData(theData.mutableBytes, width, height, bitsPerComponent, bytesPerRow, theColorSpace, theBitmapInfo, NULL, NULL);
+	
+	CGImageRef theImage = CGBitmapContextCreateImage(theContext);
+	
+	// #########################################################################
+	
+	CFRelease(theContext);
+	CFRelease(theColorSpace);
+
+	return(theImage);		
+	}
 
 @end

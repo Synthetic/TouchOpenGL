@@ -32,6 +32,7 @@
 #import <Foundation/Foundation.h>
 
 #import "OpenGLIncludes.h"
+#import "OpenGLTypes.h"
 
 @class CRenderBuffer;
 @class CTexture;
@@ -49,5 +50,6 @@
 - (void)attachRenderBuffer:(CRenderBuffer *)inRenderBuffer attachment:(GLenum)inAttachment;
 - (void)attachTexture:(CTexture *)inTexture attachment:(GLenum)inAttachment;
 
+- (CGImageRef)fetchImage:(SIntSize)inSize CF_RETURNS_RETAINED;
 
 @end
