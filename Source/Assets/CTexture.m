@@ -122,6 +122,8 @@
         }
     
     glUniform1i(inUniform, theTextureUnitIndex);
+	AssertOpenGLNoError_();
 	}
+
     
 @end
