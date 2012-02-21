@@ -37,15 +37,26 @@
 
 @implementation CFrameBuffer
 
+@synthesize target;
 @synthesize name;
 
 - (id)init
 	{
 	if ((self = [super init]) != NULL)
 		{
+		target = GL_FRAMEBUFFER;
         glGenFramebuffers(1, &name);
 
         AssertOpenGLNoError_();
+		}
+	return(self);
+	}
+
+- (id)initWithTarget:(GLenum)inTarget;
+	{
+	if ((self = [self init]) != NULL)
+		{
+		target = inTarget;
 		}
 	return(self);
 	}
@@ -59,27 +70,27 @@
         }
     }
 
-- (BOOL)isComplete:(GLenum)inTarget
+- (BOOL)isComplete
     {
     NSAssert(glIsFramebuffer(name), @"name is not a framebuffer");
-    GLenum theStatus = glCheckFramebufferStatus(inTarget);
+    GLenum theStatus = glCheckFramebufferStatus(self.target);
     return(theStatus == GL_FRAMEBUFFER_COMPLETE);
     }
 
-- (void)bind:(GLenum)inTarget
+- (void)bind
     {
-    glBindFramebuffer(inTarget, self.name);
+    glBindFramebuffer(self.target, self.name);
     }
 
 - (void)attachRenderBuffer:(CRenderBuffer *)inRenderBuffer attachment:(GLenum)inAttachment
     {
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, inAttachment, GL_RENDERBUFFER, inRenderBuffer.name);
+    glFramebufferRenderbuffer(self.target, inAttachment, GL_RENDERBUFFER, inRenderBuffer.name);
     AssertOpenGLNoError_();
     }
     
 - (void)attachTexture:(CTexture *)inTexture attachment:(GLenum)inAttachment
     {
-    glFramebufferTexture2D(GL_FRAMEBUFFER, inAttachment, GL_TEXTURE_2D, inTexture.name, 0);
+    glFramebufferTexture2D(self.target, inAttachment, GL_TEXTURE_2D, inTexture.name, 0);
     AssertOpenGLNoError_();
     }
 

@@ -36,14 +36,15 @@
 @class CRenderBuffer;
 @class CTexture;
 
-@interface CFrameBuffer : NSObject {
-    
-}
+@interface CFrameBuffer : NSObject
 
+@property (readonly, nonatomic, assign) GLenum target;
 @property (readonly, nonatomic, assign) GLuint name;
 
-- (BOOL)isComplete:(GLenum)inTarget;
-- (void)bind:(GLenum)inTarget;
+- (id)initWithTarget:(GLenum)inTarget;
+
+- (BOOL)isComplete;
+- (void)bind;
 
 - (void)attachRenderBuffer:(CRenderBuffer *)inRenderBuffer attachment:(GLenum)inAttachment;
 - (void)attachTexture:(CTexture *)inTexture attachment:(GLenum)inAttachment;

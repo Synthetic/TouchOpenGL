@@ -247,11 +247,11 @@
 
     if (self.multisampleAntialiasing == NO)
         {
-        [self.frameBuffer bind:GL_FRAMEBUFFER];
+        [self.frameBuffer bind];
         }
     else
         {
-        [self.sampleFrameBuffer bind:GL_FRAMEBUFFER];
+        [self.sampleFrameBuffer bind];
         }
     
     [self.renderer prerender];
@@ -309,7 +309,7 @@
 
     // Create frame buffer
     self.frameBuffer = [[CFrameBuffer alloc] init];
-    [self.frameBuffer bind:GL_FRAMEBUFFER];
+    [self.frameBuffer bind];
     
     // Create a color render buffer - and configure it with current context & drawable
     self.colorRenderBuffer = [[CRenderBuffer alloc] init];
@@ -330,7 +330,7 @@
 
     // Make sure the frame buffer has a complete set of render buffers.
 
-	if ([self.frameBuffer isComplete:GL_FRAMEBUFFER] == NO)
+	if ([self.frameBuffer isComplete] == NO)
         {
 		NSLog(@"createFramebuffer failed %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
         }
@@ -340,7 +340,7 @@
     if (self.multisampleAntialiasing == YES)
         {
         self.sampleFrameBuffer = [[CFrameBuffer alloc] init];
-        [self.sampleFrameBuffer bind:GL_FRAMEBUFFER];
+        [self.sampleFrameBuffer bind];
         
         self.sampleColorRenderBuffer = [[CRenderBuffer alloc] init];
         [self.sampleColorRenderBuffer bind];
