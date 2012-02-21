@@ -189,7 +189,7 @@
 			theFastPathFlag = NO;
 			}
 		
-		if (self.flip == NO)
+		if (self.flip == YES)
 			{
 			theFastPathFlag = NO;
 			}
