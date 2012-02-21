@@ -47,9 +47,13 @@
 
 - (void)writeToFile:(NSString *)inPath
 	{
+	GLLog_(@"Writing to file.");
+
 	CGImageRef theImage = [self fetchImage];
 	[UIImagePNGRepresentation([UIImage imageWithCGImage:theImage]) writeToFile:inPath atomically:YES];
 	CFRelease(theImage);
+
+	GLLog_(@"Writing to file, done.");
 	}
 
 @end

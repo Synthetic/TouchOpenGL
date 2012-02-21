@@ -126,7 +126,7 @@
         {
         GLuint theAttributeIndex = [[self.attributesByName objectForKey:theAttributeName] unsignedIntValue];
         glBindAttribLocation(theProgramName, theAttributeIndex, [theAttributeName UTF8String]);
-        NSLog(@"BINDING %@ TO %d", theAttributeName, theAttributeIndex);
+        GLLog_(@"BINDING %@ TO %d", theAttributeName, theAttributeIndex);
         }
 
     AssertOpenGLNoError_();
