@@ -35,10 +35,9 @@
 
 #import "OpenGLIncludes.h"
 #import "OpenGLTypes.h"
+#import "COpenGLAsset.h"
 
-@interface CRenderBuffer : NSObject {
-    
-}
+@interface CRenderBuffer : NSObject <COpenGLAsset>
 
 @property (readonly, nonatomic, assign) GLuint name;
 @property (readonly, nonatomic, assign) SIntSize size;

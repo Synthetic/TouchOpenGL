@@ -316,7 +316,7 @@
     [self.colorRenderBuffer storageFromContext:self.context drawable:self.EAGLLayer];
 
     // Attach color buffer to frame buffer
-    [self.frameBuffer attachRenderBuffer:self.colorRenderBuffer attachment:GL_COLOR_ATTACHMENT0];
+    [self.frameBuffer attachObject:self.colorRenderBuffer attachment:GL_COLOR_ATTACHMENT0];
     
     // Get the size of the color buffer (we'll be using this a lot)
     self.backingSize = self.colorRenderBuffer.size;
@@ -326,7 +326,7 @@
     [self.depthRenderBuffer storage:GL_DEPTH_COMPONENT16 size:self.backingSize];
 
     // Attach depth buffer to the frame buffer
-    [self.frameBuffer attachRenderBuffer:self.depthRenderBuffer attachment:GL_DEPTH_ATTACHMENT];
+    [self.frameBuffer attachObject:self.depthRenderBuffer attachment:GL_DEPTH_ATTACHMENT];
 
     // Make sure the frame buffer has a complete set of render buffers.
 

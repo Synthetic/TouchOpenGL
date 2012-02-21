@@ -10,9 +10,10 @@
 
 @protocol COpenGLAsset <NSObject>
 
-@property (readonly, nonatomic, assign) GLint name;
+@property (readonly, nonatomic, assign) GLuint name;
 
-- (void)load;
+@optional
 - (void)invalidate;
+- (void)load;
 
 @end

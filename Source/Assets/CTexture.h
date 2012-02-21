@@ -33,8 +33,9 @@
 
 #import "OpenGLIncludes.h"
 #import "OpenGLTypes.h"
+#import "COpenGLAsset.h"
 
-@interface CTexture : NSObject
+@interface CTexture : NSObject <COpenGLAsset>
 
 // TODO -- all this should be read only
 @property (readwrite, nonatomic, assign) GLuint name;

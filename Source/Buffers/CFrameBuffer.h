@@ -33,11 +33,12 @@
 
 #import "OpenGLIncludes.h"
 #import "OpenGLTypes.h"
+#import "COpenGLAsset.h"
 
 @class CRenderBuffer;
 @class CTexture;
 
-@interface CFrameBuffer : NSObject
+@interface CFrameBuffer : NSObject <COpenGLAsset>
 
 @property (readonly, nonatomic, assign) GLenum target;
 @property (readonly, nonatomic, assign) GLuint name;
@@ -48,8 +49,8 @@
 - (BOOL)isComplete;
 - (void)bind;
 
-- (void)attachRenderBuffer:(CRenderBuffer *)inRenderBuffer attachment:(GLenum)inAttachment;
-- (void)attachTexture:(CTexture *)inTexture attachment:(GLenum)inAttachment;
+- (void)attachObject:(id <COpenGLAsset>)inObject attachment:(GLenum)inAttachment;
+- (void)detachObject:(id <COpenGLAsset>)inObject attachment:(GLenum)inAttachment;
 
 - (CGImageRef)fetchImage:(SIntSize)inSize CF_RETURNS_RETAINED;
 

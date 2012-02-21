@@ -33,8 +33,9 @@
 
 #import "OpenGLIncludes.h"
 #import "OpenGLTypes.h"
+#import "COpenGLAsset.h"
 
-@interface CProgram : NSObject
+@interface CProgram : NSObject <COpenGLAsset>
 
 @property (readonly, nonatomic, copy) NSArray *shaders;    
 @property (readonly, nonatomic, assign) GLuint name;

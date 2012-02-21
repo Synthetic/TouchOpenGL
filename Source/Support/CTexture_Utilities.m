@@ -26,7 +26,7 @@
 	[theFrameBuffer bind];
 
 	// Attach the texture (self) to it.
-	[theFrameBuffer attachTexture:self attachment:GL_COLOR_ATTACHMENT0];
+	[theFrameBuffer attachObject:self attachment:GL_COLOR_ATTACHMENT0];
 
 	if (theFrameBuffer.isComplete == NO)
 		{

@@ -32,8 +32,9 @@
 #import <Foundation/Foundation.h>
 
 #import "OpenGLTypes.h"
+#import "COpenGLAsset.h"
 
-@interface CVertexArrayBuffer : NSObject {
+@interface CVertexArrayBuffer : NSObject <COpenGLAsset> {
     
 }
 

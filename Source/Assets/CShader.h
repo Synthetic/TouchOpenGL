@@ -32,8 +32,9 @@
 #import <Foundation/Foundation.h>
 
 #import "OpenGLIncludes.h"
+#import "COpenGLAsset.h"
 
-@interface CShader : NSObject 
+@interface CShader : NSObject <COpenGLAsset>
 
 @property (readonly, nonatomic, assign) GLuint name;
 

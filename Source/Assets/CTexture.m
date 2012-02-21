@@ -82,13 +82,18 @@
 
 - (void)dealloc
     {
+	[self invalidate];
+    }
+	
+- (void)invalidate
+	{
     if (named == YES && glIsTexture(name))
         {
         glDeleteTextures(1, &name);
         name = 0;
 		named = NO;
         }
-    }
+	}
 
 - (void)setName:(GLuint)inName
 	{

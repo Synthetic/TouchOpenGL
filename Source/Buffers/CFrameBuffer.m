@@ -32,7 +32,6 @@
 #import "CFrameBuffer.h"
 
 #import "CRenderBuffer.h"
-
 #import "CTexture.h"
 
 @interface CFrameBuffer ()
@@ -94,36 +93,51 @@
     glBindFramebuffer(self.target, self.name);
     }
 
-//- (void)discard
-//	{
-//	GLenum theAttachments[ self.attachments.count ];
-////	for (id <COpenGLNamedObject> in self.attachments)
-////		{
-////		theAttachments[
-////		}
-//
-//	glDiscardFramebufferEXT(self.target, <#GLsizei numAttachments#>, <#const GLenum *attachments#>)
-//	}
+- (void)discard
+	{
+	GLenum theAttachments[ self.attachments.count ];
+	int N = 0;
+	for (id <COpenGLAsset> theAttachment in self.attachments)
+		{
+		theAttachments[N++] = theAttachment.name;
+		}
 
-- (void)attachRenderBuffer:(CRenderBuffer *)inRenderBuffer attachment:(GLenum)inAttachment
-    {
-	NSParameterAssert([self.attachments containsObject:inRenderBuffer] == NO);
+	glDiscardFramebufferEXT(self.target, self.attachments.count, theAttachments);
+	}
+
+- (void)attachObject:(id <COpenGLAsset>)inObject attachment:(GLenum)inAttachment
+	{
+	NSParameterAssert([self.mutableAttachments containsObject:inObject] == NO);
 	
-	[self.mutableAttachments addObject:inRenderBuffer];
+	[self.mutableAttachments addObject:inObject];
 	
-    glFramebufferRenderbuffer(self.target, inAttachment, GL_RENDERBUFFER, inRenderBuffer.name);
+	if ([inObject isKindOfClass:[CTexture class]])
+		{
+			glFramebufferTexture2D(self.target, inAttachment, GL_TEXTURE_2D, inObject.name, 0);
+		}
+	else if ([inObject isKindOfClass:[CRenderBuffer class]])
+		{
+		glFramebufferRenderbuffer(self.target, inAttachment, GL_RENDERBUFFER, inObject.name);
+		}
+
     AssertOpenGLNoError_();
-    }
-    
-- (void)attachTexture:(CTexture *)inTexture attachment:(GLenum)inAttachment
-    {
-	NSParameterAssert([self.mutableAttachments containsObject:inTexture] == NO);
+	}
+
+- (void)detachObject:(id <COpenGLAsset>)inObject attachment:(GLenum)inAttachment
+	{
+	NSParameterAssert([self.mutableAttachments containsObject:inObject] == YES);
 	
-	[self.mutableAttachments addObject:inTexture];
+	if ([inObject isKindOfClass:[CTexture class]])
+		{
+		glFramebufferTexture2D(self.target, inAttachment, GL_TEXTURE_2D, inObject.name, 0);
+		}
+	else if ([inObject isKindOfClass:[CRenderBuffer class]])
+		{
+		glFramebufferRenderbuffer(self.target, inAttachment, GL_RENDERBUFFER, 0);
+		}
 	
-    glFramebufferTexture2D(self.target, inAttachment, GL_TEXTURE_2D, inTexture.name, 0);
-    AssertOpenGLNoError_();
-    }
+	[self.mutableAttachments removeObject:inObject];
+	}
 	
 #pragma mark -
 
