@@ -130,9 +130,22 @@
     return self;
     }
 
-- (void)use
+- (void)reset
+	{
+	self.modelViewMatrixChanged = YES;
+	self.projectionMatrixChanged = YES;
+	self.texture0Changed = YES;
+	self.texture1Changed = YES;
+	self.blendModeChanged = YES;
+	self.gammaChanged = YES;
+	self.alphaChanged = YES;
+	self.positionsChanged = YES;
+	self.texCoordsChanged = YES;
+	}
+
+- (void)update
     {
-    [super use];
+    [super update];
     //
     AssertOpenGLNoError_();
 

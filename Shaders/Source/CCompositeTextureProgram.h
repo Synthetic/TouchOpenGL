@@ -29,4 +29,6 @@
 @property (readwrite, nonatomic, retain) CVertexBufferReference *positions;
 @property (readwrite, nonatomic, retain) CVertexBufferReference *texCoords;
 
+- (void)reset;
+
 @end

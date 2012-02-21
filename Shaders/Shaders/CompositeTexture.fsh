@@ -284,9 +284,9 @@ uniform int u_blendMode;
 uniform float u_alpha;
 uniform float u_gamma;
 
-vec4 gamma_correct(vec4 C)
+vec3 gamma_correct(vec3 C)
 	{
-	return pow(C, vec4(u_gamma)); // desiredGamma / currentGamma
+	return pow(C, vec3(u_gamma)); // desiredGamma / currentGamma
 	}
 
 vec4 premultiply(vec4 v)
@@ -339,11 +339,14 @@ vec4 RGBToHSV(vec4 RGB)
 
 void main()
     {
-	vec4 S = texture2D(u_texture1, v_texture);
-	vec4 D = texture2D(u_texture0, v_texture);
+	vec4 S = texture2D(u_texture0, v_texture);
+	vec4 D = texture2D(u_texture1, v_texture);
 	
 //	S = premultiply(S);
 //	D = premultiply(D);
+
+//	D.rgb *= u_alpha;
+	D.a = u_alpha;
 
 	vec4 OUT;
 
@@ -351,11 +354,11 @@ void main()
 	
 	if (u_blendMode == kCGBlendModeNormal)
 		{
-		OUT = D * (1.0 - S.a) + S * S.a;
+		OUT = S * (1.0 - D.a) + D * D.a;
 		}
 	else if (u_blendMode == kCGBlendModeMultiply)
 		{
-		OUT = D * S;
+		OUT = S * D;
 		}
 	else if (u_blendMode == kCGBlendModeScreen)
 		{
@@ -366,7 +369,7 @@ void main()
 		}
 	else if (u_blendMode == kCGBlendModeOverlay)
 		{
-		OUT.rgb = BlendOverlay(S.rgb, D.rgb);
+		OUT.rgb = BlendOverlay(D.rgb, S.rgb);
 		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeDarken)
@@ -486,14 +489,15 @@ void main()
 		{
 		OUT = vec4(1.0, 0.0, 1.0, 1.0);
 		}
+
+	OUT.a = 1.0;
 		
 	if (u_gamma != 0.0)
 		{
-		gl_FragColor = gamma_correct(OUT) * u_alpha;
+		gl_FragColor.rgb = gamma_correct(OUT.rgb);
 		}
 	else
 		{
-		gl_FragColor = OUT * u_alpha;
+		gl_FragColor = OUT;
 		}
-		
     }
