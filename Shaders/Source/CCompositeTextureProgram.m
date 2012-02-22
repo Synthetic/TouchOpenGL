@@ -24,9 +24,11 @@
 
 @property (readwrite, nonatomic, assign) GLint texture0Uniform;
 @property (readwrite, nonatomic, assign) BOOL texture0Changed;
+@property (readwrite, nonatomic, assign) GLint texture0Index;
 
 @property (readwrite, nonatomic, assign) GLint texture1Uniform;
 @property (readwrite, nonatomic, assign) BOOL texture1Changed;
+@property (readwrite, nonatomic, assign) GLint texture1Index;
 
 @property (readwrite, nonatomic, assign) GLint blendModeUniform;
 @property (readwrite, nonatomic, assign) BOOL blendModeChanged;
@@ -60,10 +62,12 @@
 @synthesize texture0;
 @synthesize texture0Uniform;
 @synthesize texture0Changed;
+@synthesize texture0Index;
 
 @synthesize texture1;
 @synthesize texture1Uniform;
 @synthesize texture1Changed;
+@synthesize texture1Index;
 
 @synthesize blendMode;
 @synthesize blendModeUniform;
@@ -101,10 +105,12 @@
         texture0 = NULL;
         texture0Uniform = -1;
         texture0Changed = YES;
+        texture0Index = 0;
 
         texture1 = NULL;
         texture1Uniform = -1;
         texture1Changed = YES;
+        texture1Index = 1;
 
         blendMode = 0;
         blendModeUniform = -1;
@@ -129,19 +135,6 @@
         }
     return self;
     }
-
-- (void)reset
-	{
-	self.modelViewMatrixChanged = YES;
-	self.projectionMatrixChanged = YES;
-	self.texture0Changed = YES;
-	self.texture1Changed = YES;
-	self.blendModeChanged = YES;
-	self.gammaChanged = YES;
-	self.alphaChanged = YES;
-	self.positionsChanged = YES;
-	self.texCoordsChanged = YES;
-	}
 
 - (void)update
     {
@@ -180,7 +173,7 @@
             texture0Uniform = glGetUniformLocation(self.name, "u_texture0");
             }
 
-        [texture0 use:texture0Uniform];
+        [texture0 use:texture0Uniform index:texture0Index];
         texture0Changed = NO;
         AssertOpenGLNoError_();
         }
@@ -192,7 +185,7 @@
             texture1Uniform = glGetUniformLocation(self.name, "u_texture1");
             }
 
-        [texture1 use:texture1Uniform];
+        [texture1 use:texture1Uniform index:texture1Index];
         texture1Changed = NO;
         AssertOpenGLNoError_();
         }
