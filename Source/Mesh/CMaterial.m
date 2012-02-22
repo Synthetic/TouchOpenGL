@@ -31,7 +31,6 @@
 
 #import "CMaterial.h"
 
-#import "COpenGLAssetLibrary.h"
 #import "CTexture.h"
 
 @interface CMaterial ()
