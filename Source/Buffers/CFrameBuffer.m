@@ -35,10 +35,17 @@
 
 #import "CTexture.h"
 
+@interface CFrameBuffer ()
+@property (readwrite, nonatomic, assign) NSMutableArray *mutableAttachments;
+@end
+
+#pragma mark -
+
 @implementation CFrameBuffer
 
 @synthesize target;
 @synthesize name;
+@synthesize mutableAttachments;
 
 - (id)init
 	{
@@ -46,8 +53,8 @@
 		{
 		target = GL_FRAMEBUFFER;
         glGenFramebuffers(1, &name);
-
-        AssertOpenGLNoError_();
+		AssertOpenGLNoError_();
+		mutableAttachments = [NSMutableArray array];
 		}
 	return(self);
 	}
@@ -70,6 +77,11 @@
         }
     }
 
+- (NSArray *)attachments
+	{
+	return(self.mutableAttachments);
+	}
+
 - (BOOL)isComplete
     {
     NSAssert(glIsFramebuffer(name), @"name is not a framebuffer");
@@ -82,14 +94,33 @@
     glBindFramebuffer(self.target, self.name);
     }
 
+//- (void)discard
+//	{
+//	GLenum theAttachments[ self.attachments.count ];
+////	for (id <COpenGLNamedObject> in self.attachments)
+////		{
+////		theAttachments[
+////		}
+//
+//	glDiscardFramebufferEXT(self.target, <#GLsizei numAttachments#>, <#const GLenum *attachments#>)
+//	}
+
 - (void)attachRenderBuffer:(CRenderBuffer *)inRenderBuffer attachment:(GLenum)inAttachment
     {
+	NSParameterAssert([self.attachments containsObject:inRenderBuffer] == NO);
+	
+	[self.mutableAttachments addObject:inRenderBuffer];
+	
     glFramebufferRenderbuffer(self.target, inAttachment, GL_RENDERBUFFER, inRenderBuffer.name);
     AssertOpenGLNoError_();
     }
     
 - (void)attachTexture:(CTexture *)inTexture attachment:(GLenum)inAttachment
     {
+	NSParameterAssert([self.mutableAttachments containsObject:inTexture] == NO);
+	
+	[self.mutableAttachments addObject:inTexture];
+	
     glFramebufferTexture2D(self.target, inAttachment, GL_TEXTURE_2D, inTexture.name, 0);
     AssertOpenGLNoError_();
     }

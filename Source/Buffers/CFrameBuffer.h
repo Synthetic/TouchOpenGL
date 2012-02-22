@@ -41,6 +41,7 @@
 
 @property (readonly, nonatomic, assign) GLenum target;
 @property (readonly, nonatomic, assign) GLuint name;
+@property (readonly, nonatomic, assign) NSArray *attachments;
 
 - (id)initWithTarget:(GLenum)inTarget;
 
