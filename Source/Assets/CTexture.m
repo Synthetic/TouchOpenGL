@@ -77,7 +77,7 @@
 
 - (NSString *)description
     {
-    return([NSString stringWithFormat:@"%@ (name: %d (named: %d), %d x %d)", [super description], self.name, self.named, self.size.width, self.size.height]);
+    return([NSString stringWithFormat:@"%@ (name: %d, %d x %d)", [super description], self.name, self.size.width, self.size.height]);
     }
 
 - (void)dealloc
@@ -111,8 +111,7 @@
 
 - (void)use:(GLuint)inUniform index:(GLuint)inIndex
 	{
-	GLenum theTextureUnit = GL_TEXTURE0 + inIndex;
-	glActiveTexture(theTextureUnit);
+	glActiveTexture(GL_TEXTURE0 + inIndex);
 	glBindTexture(GL_TEXTURE_2D, self.name);
 	glUniform1i(inUniform, inIndex);
 	AssertOpenGLNoError_();

@@ -37,11 +37,10 @@
 
 @interface CTexture : NSObject <COpenGLAsset>
 
-// TODO -- all this should be read only
-@property (readwrite, nonatomic, assign) GLuint name;
-@property (readwrite, nonatomic, assign) SIntSize size;
-@property (readwrite, nonatomic, assign) GLenum internalFormat;
-@property (readwrite, nonatomic, assign) GLboolean hasAlpha;
+@property (readonly, nonatomic, assign) GLuint name;
+@property (readonly, nonatomic, assign) SIntSize size;
+@property (readonly, nonatomic, assign) GLenum internalFormat;
+@property (readonly, nonatomic, assign) GLboolean hasAlpha;
 
 - (id)initWithName:(GLuint)inName size:(SIntSize)inSize;
 - (id)initWithSize:(SIntSize)inSize;
