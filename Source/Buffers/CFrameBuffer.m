@@ -35,7 +35,7 @@
 #import "CTexture.h"
 
 @interface CFrameBuffer ()
-@property (readwrite, nonatomic, assign) NSMutableArray *mutableAttachments;
+@property (readwrite, nonatomic, strong) NSMutableArray *mutableAttachments;
 @end
 
 #pragma mark -
@@ -95,6 +95,8 @@
 
 - (void)discard
 	{
+	#if TARGET_OS_IPHONE == 1
+	
 	GLenum theAttachments[ self.attachments.count ];
 	int N = 0;
 	for (id <COpenGLAsset> theAttachment in self.attachments)
@@ -103,6 +105,10 @@
 		}
 
 	glDiscardFramebufferEXT(self.target, self.attachments.count, theAttachments);
+
+	#else
+	NSLog(@"No glDiscardFramebufferEXT on OSX");
+	#endif
 	}
 
 - (void)attachObject:(id <COpenGLAsset>)inObject attachment:(GLenum)inAttachment
