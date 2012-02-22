@@ -112,7 +112,6 @@
     return([NSString stringWithFormat:@"%@ (%@)", [super description], self.image]);
     }
 
-
 - (GLuint)name
     {
     if (self.loaded == NO)
@@ -277,8 +276,6 @@
     self.size = inSize;
     self.internalFormat = inFormat;
     self.hasAlpha = YES;
-
-    glBindTexture(GL_TEXTURE_2D, 0);
 
     AssertOpenGLNoError_();
         
