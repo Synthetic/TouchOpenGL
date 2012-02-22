@@ -33,11 +33,9 @@
 
 #import "CVertexBuffer.h"
 #import "CVertexBufferReference.h"
-#import "COpenGLAssetLibrary.h"
 #import "CProgram.h"
 #import "CTexture.h"
 #import "CMaterial.h"
-#import "CSceneRenderer_Extensions.h"
 #import "CMesh.h"
 #import "CMeshLoader.h"
 #import "CGeometry.h"
@@ -212,8 +210,6 @@
 	Vector3 P2 = self.mesh.p2;
     [self drawBoundingBox:theModelTransform v1:P1 v2:P2];
 #endif
-
-    [self drawBackgroundGradient];
 
 	// #### Use shader program
 	CProgram *theProgram = self.lightingProgram;
