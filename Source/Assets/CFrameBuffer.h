@@ -48,6 +48,7 @@
 
 - (BOOL)isComplete;
 - (void)bind;
+- (void)unbind;
 
 - (void)attachObject:(id <COpenGLAsset>)inObject attachment:(GLenum)inAttachment;
 - (void)detachObject:(id <COpenGLAsset>)inObject attachment:(GLenum)inAttachment;

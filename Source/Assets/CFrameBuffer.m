@@ -93,6 +93,12 @@
     glBindFramebuffer(self.target, self.name);
     }
 
+- (void)unbind
+    {
+    glBindFramebuffer(self.target, 0);
+    }
+
+
 - (void)discard
 	{
 	#if TARGET_OS_IPHONE == 1
@@ -119,7 +125,7 @@
 	
 	if ([inObject isKindOfClass:[CTexture class]])
 		{
-			glFramebufferTexture2D(self.target, inAttachment, GL_TEXTURE_2D, inObject.name, 0);
+		glFramebufferTexture2D(self.target, inAttachment, GL_TEXTURE_2D, inObject.name, 0);
 		}
 	else if ([inObject isKindOfClass:[CRenderBuffer class]])
 		{
