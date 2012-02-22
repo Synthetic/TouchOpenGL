@@ -19,6 +19,9 @@
 {% for uniform in uniforms %}\
 @property (readwrite, nonatomic, assign) GLint ${uniform.propertyName}Uniform;
 @property (readwrite, nonatomic, assign) BOOL ${uniform.propertyName}Changed;
+{% if uniform.usesTextureUnit %}\
+@property (readwrite, nonatomic, assign) GLint ${uniform.propertyName}Index;
+{% end %}\
 
 {% end %}\
 // Attributes
@@ -36,6 +39,9 @@
 @synthesize ${uniform.propertyName};
 @synthesize ${uniform.propertyName}Uniform;
 @synthesize ${uniform.propertyName}Changed;
+{% if uniform.usesTextureUnit %}\
+@synthesize ${uniform.propertyName}Index;
+{% end %}\
 
 {% end %}\
 // Attributes
@@ -53,6 +59,9 @@
         ${uniform.propertyName} = ${uniform.initialValue};
         ${uniform.propertyName}Uniform = -1;
         ${uniform.propertyName}Changed = YES;
+{% if uniform.usesTextureUnit %}\
+        ${uniform.propertyName}Index = ${uniform.textureUnitIndex};
+{% end %}\
 
 {% end %}\
         GLint theIndex = 0;
@@ -66,9 +75,9 @@
     return self;
     }
 
-- (void)use
+- (void)update
     {
-    [super use];
+    [super update];
     //
     AssertOpenGLNoError_();
 

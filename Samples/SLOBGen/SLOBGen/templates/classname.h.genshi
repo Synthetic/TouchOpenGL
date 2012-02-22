@@ -19,6 +19,9 @@
 // Uniforms
 {% for uniform in uniforms %}\
 @property (readwrite, nonatomic, ${uniform.ownership}) ${uniform.propertyType} ${uniform.propertyName};
+{% if uniform.usesTextureUnit %}\
+@property (readonly, nonatomic, assign) GLint ${uniform.propertyName}Index;
+{% end %}\
 {% end %}\
 
 // Attributes

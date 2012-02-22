@@ -90,36 +90,42 @@ class Generator(object):
                 'setter': 'glUniformMatrix4fv(${uniform.propertyName}Uniform, 1, NO, &${uniform.propertyName}.m[0][0]);',
                 'initialValue': 'Matrix4Identity',
                 'ownership': 'assign',
+                'usesTextureUnit': False,
                 },
             ('vec4',None): {
                 'propertyType': 'Vector4',
                 'setter': 'glUniform4fv(${uniform.propertyName}Uniform, 1, &${uniform.propertyName}.x);',
                 'initialValue': '{}',
                 'ownership': 'assign',
+                'usesTextureUnit': False,
                 },
             ('vec4','Color'): {
                 'propertyType': 'Color4f',
                 'setter': 'glUniform4fv(${uniform.propertyName}Uniform, 1, &${uniform.propertyName}.r);',
                 'initialValue': '(Color4f){ 1.0, 1.0, 1.0, 1.0 }',
                 'ownership': 'assign',
+                'usesTextureUnit': False,
                 },
             ('int',None): {
                 'propertyType': 'GLint',
                 'setter': 'glUniform1i(${uniform.propertyName}Uniform, ${uniform.propertyName});',
                 'initialValue': '0',
                 'ownership': 'assign',
+                'usesTextureUnit': False,
                 },
             ('sampler2D',None): {
                 'propertyType': 'CTexture *',
-                'setter': '[${uniform.propertyName} use:${uniform.propertyName}Uniform]',
+                'setter': '[${uniform.propertyName} use:${uniform.propertyName}Uniform index:${uniform.propertyName}Index]',
                 'initialValue': 'NULL',
                 'ownership': 'strong',
+                'usesTextureUnit': True,
                 },
             ('float',None): {
                 'propertyType': 'GLfloat',
                 'setter': 'glUniform1f(${uniform.propertyName}Uniform, ${uniform.propertyName});',
                 'initialValue': '0.0',
                 'ownership': 'assign',
+                'usesTextureUnit': False,
                 },
             }
 
@@ -129,10 +135,17 @@ class Generator(object):
 
         theKlassName = self.classPrefix + theProgramSpecification['name'] + self.classSuffix
 
+        theTextureUnitIndex = 0
+
         for theUniform in theProgramSpecification['uniforms']:
             d = dict()
             theUniform['intent'] = theUniform['intent'] if 'intent' in theUniform else None
             d.update(theTypeTable[(theUniform['type'], theUniform['intent'])])
+            if d['usesTextureUnit']:
+                d['textureUnitIndex'] = theTextureUnitIndex
+                theTextureUnitIndex += 1
+
+
             d['GLSLName'] = theUniform['name']
             d['propertyName'] = MyString(theUniform['propertyName'])
 
@@ -169,16 +182,6 @@ class Generator(object):
 
             file(theOutputPath, 'w').write(theNewContent)
 
-#             if os.path.exists(theOutputPath) == False:
-#                 file(theOutputPath, 'w').write(theNewContent)
-#             else:
-#                 theCurrentContent = file(theOutputPath).read()
-#                 theNewContent = merge(theNewContent, theCurrentContent, [
-#                     ('#pragma mark begin emogenerator accessors', '#pragma mark end emogenerator accessors'),
-#                     ('#pragma mark begin emogenerator forward declarations', '#pragma mark end emogenerator forward declarations'),
-#                     ])
-#                 if theNewContent != theCurrentContent:
-#                     file(theOutputPath, 'w').write(theNewContent)
 
 if __name__ == '__main__':
     g = Generator()
