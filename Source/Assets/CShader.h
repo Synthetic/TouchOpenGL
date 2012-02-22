@@ -33,8 +33,7 @@
 
 #import "OpenGLIncludes.h"
 
-@interface CShader : NSObject {
-}
+@interface CShader : NSObject 
 
 @property (readonly, nonatomic, assign) GLuint name;
 

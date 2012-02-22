@@ -33,8 +33,7 @@
 
 #import "OpenGLIncludes.h"
 
-@interface CVertexBuffer : NSObject {
-}
+@interface CVertexBuffer : NSObject 
 
 @property (readonly, nonatomic, assign) GLenum target; // GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER
 @property (readonly, nonatomic, assign) GLenum usage; // GL_STREAM_DRAW, GL_STATIC_DRAW, GL_DYNAMIC_DRAW

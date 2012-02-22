@@ -35,8 +35,7 @@
 
 @class CVertexBuffer;
 
-@interface CVertexBufferReference : NSObject {
-}
+@interface CVertexBufferReference : NSObject 
 
 @property (readonly, nonatomic, strong) CVertexBuffer *vertexBuffer;
 

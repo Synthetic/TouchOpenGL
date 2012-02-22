@@ -34,8 +34,7 @@
 #import "OpenGLIncludes.h"
 #import "OpenGLTypes.h"
 
-@interface CTexture : NSObject {
-}
+@interface CTexture : NSObject
 
 // TODO -- all this should be read only
 @property (readwrite, nonatomic, assign) GLuint name;
