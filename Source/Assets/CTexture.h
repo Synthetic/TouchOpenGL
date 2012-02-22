@@ -42,14 +42,11 @@
 @property (readwrite, nonatomic, assign) GLenum internalFormat;
 @property (readwrite, nonatomic, assign) GLboolean hasAlpha;
 
-// TODO -- this should not be here. Textures aren't bound to texture units. Programs _temporarily_ bind textures to TUs.
-@property (readwrite, nonatomic, assign) GLuint textureUnit;
-
 - (id)initWithName:(GLuint)inName size:(SIntSize)inSize;
 - (id)initWithSize:(SIntSize)inSize;
 
 - (BOOL)isValid;
 
-- (void)use:(GLuint)inUniform;
+- (void)use:(GLuint)inUniform index:(GLuint)inIndex;
 
 @end

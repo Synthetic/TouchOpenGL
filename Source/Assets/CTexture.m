@@ -41,7 +41,6 @@
 @synthesize size;
 @synthesize internalFormat;
 @synthesize hasAlpha;
-@synthesize textureUnit;
 
 @synthesize named;
 
@@ -52,7 +51,6 @@
         name = inName;
         size = inSize;
         named = YES;
-        textureUnit = GL_TEXTURE0;
         }
     return(self);
     }
@@ -79,7 +77,7 @@
 
 - (NSString *)description
     {
-    return([NSString stringWithFormat:@"%@ (name: %d (named: %d), %d x %d, texture unit: %d)", [super description], self.name, self.named, self.size.width, self.size.height, self.textureUnit]);
+    return([NSString stringWithFormat:@"%@ (name: %d (named: %d), %d x %d)", [super description], self.name, self.named, self.size.width, self.size.height]);
     }
 
 - (void)dealloc
@@ -106,22 +104,12 @@
     return(glIsTexture(self.name));
     }
 
-- (void)use:(GLuint)inUniform
+- (void)use:(GLuint)inUniform index:(GLuint)inIndex
 	{
-	glActiveTexture(self.textureUnit);
+	GLenum theTextureUnit = GL_TEXTURE0 + inIndex;
+	glActiveTexture(theTextureUnit);
 	glBindTexture(GL_TEXTURE_2D, self.name);
-    GLuint theTextureUnitIndex = 0;
-    switch (self.textureUnit)
-        {
-        case GL_TEXTURE0:
-            theTextureUnitIndex = 0;
-            break;
-        case GL_TEXTURE1:
-            theTextureUnitIndex = 1;
-            break;
-        }
-    
-    glUniform1i(inUniform, theTextureUnitIndex);
+	glUniform1i(inUniform, inIndex);
 	AssertOpenGLNoError_();
 	}
 
