@@ -32,6 +32,7 @@
 #import "CShader.h"
 
 #import "OpenGLTypes.h"
+#import "CSimplePreprocessor.h"
 
 @interface CShader ()
 @property (readwrite, nonatomic, strong) NSURL *URL;
@@ -94,6 +95,21 @@
     return(name);
     }
 
+- (NSString *)source
+	{
+	
+	NSString *theSource = [NSString stringWithContentsOfURL:self.URL encoding:NSUTF8StringEncoding error:NULL];
+	
+	CSimplePreprocessor *thePreprocessor = [[CSimplePreprocessor alloc] init];
+	thePreprocessor.loader = ^(NSString *inName) {
+		NSURL *theURL = [[self.URL URLByDeletingLastPathComponent] URLByAppendingPathComponent:inName];
+		NSString *theSource = [NSString stringWithContentsOfURL:theURL encoding:NSUTF8StringEncoding error:NULL];
+		return(theSource);
+		};
+	theSource = [thePreprocessor preprocess:theSource error:NULL];
+	return(theSource);
+	}
+
 - (BOOL)compileShader:(NSError **)outError
     {
     #pragma unused (outError)
@@ -103,7 +119,7 @@
     GLint theStatus;
     const GLchar *theSource;
 
-    theSource = (GLchar *)[[NSString stringWithContentsOfURL:self.URL encoding:NSUTF8StringEncoding error:nil] UTF8String];
+    theSource = (GLchar *)[self.source UTF8String];
     if (!theSource)
         {
         NSLog(@"Failed to load vertex shader");
