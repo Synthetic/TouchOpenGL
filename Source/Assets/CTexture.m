@@ -66,6 +66,8 @@
 	glGenTextures(1, &theTextureName);
 	glBindTexture(GL_TEXTURE_2D, theTextureName);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, inSize.width, inSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL); 
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	AssertOpenGLNoError_();
 
