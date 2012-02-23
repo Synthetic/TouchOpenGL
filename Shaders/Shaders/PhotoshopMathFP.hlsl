@@ -1,3 +1,7 @@
+#define float4 vec4
+#define float3 vec3
+#define lerp mix
+
 /*
 ** Photoshop & misc math
 ** Blending modes, RGB/HSL/Contrast/Desaturate
