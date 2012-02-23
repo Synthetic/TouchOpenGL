@@ -258,6 +258,8 @@
     [self.renderer render];
     [self.renderer postrender];
 
+    AssertOpenGLNoError_();
+
     if (self.multisampleAntialiasing == NO)
         {
         [self.colorRenderBuffer bind];
