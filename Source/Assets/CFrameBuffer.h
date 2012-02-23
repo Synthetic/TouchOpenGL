@@ -53,6 +53,8 @@
 - (void)attachObject:(id <COpenGLAsset>)inObject attachment:(GLenum)inAttachment;
 - (void)detachObject:(id <COpenGLAsset>)inObject attachment:(GLenum)inAttachment;
 
+- (void)discard;
+
 - (CGImageRef)fetchImage:(SIntSize)inSize CF_RETURNS_RETAINED;
 
 @end

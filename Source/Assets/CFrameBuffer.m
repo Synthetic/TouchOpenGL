@@ -98,25 +98,6 @@
     glBindFramebuffer(self.target, 0);
     }
 
-
-- (void)discard
-	{
-	#if TARGET_OS_IPHONE == 1
-	
-	GLenum theAttachments[ self.attachments.count ];
-	int N = 0;
-	for (id <COpenGLAsset> theAttachment in self.attachments)
-		{
-		theAttachments[N++] = theAttachment.name;
-		}
-
-	glDiscardFramebufferEXT(self.target, self.attachments.count, theAttachments);
-
-	#else
-	NSLog(@"No glDiscardFramebufferEXT on OSX");
-	#endif
-	}
-
 - (void)attachObject:(id <COpenGLAsset>)inObject attachment:(GLenum)inAttachment
 	{
 	NSParameterAssert([self.mutableAttachments containsObject:inObject] == NO);
@@ -151,6 +132,24 @@
 	[self.mutableAttachments removeObject:inObject];
 	}
 	
+- (void)discard
+	{
+	#if TARGET_OS_IPHONE == 1
+	
+	GLenum theAttachments[ self.attachments.count ];
+	int N = 0;
+	for (id <COpenGLAsset> theAttachment in self.attachments)
+		{
+		theAttachments[N++] = theAttachment.name;
+		}
+
+	glDiscardFramebufferEXT(self.target, self.attachments.count, theAttachments);
+
+	#else
+	NSLog(@"No glDiscardFramebufferEXT on OSX");
+	#endif
+	}
+
 #pragma mark -
 
 - (CGImageRef)fetchImage:(SIntSize)inSize CF_RETURNS_RETAINED
