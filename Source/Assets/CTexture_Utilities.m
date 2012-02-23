@@ -173,6 +173,26 @@
 	return([self textureWithCGImage:inImage size:theDesiredSize format:GL_RGBA type:GL_UNSIGNED_BYTE error:outError]);
     }
 
++ (id)textureNamed:(NSString *)inName error:(NSError *__autoreleasing *)outError
+	{
+	NSURL *theURL = [[NSBundle mainBundle].resourceURL URLByAppendingPathComponent:inName];
+
+	CGImageSourceRef theImageSource = CGImageSourceCreateWithURL((__bridge CFURLRef)theURL, NULL);
+	CGImageRef theImage = CGImageSourceCreateImageAtIndex(theImageSource, 0, NULL);
+	CFRelease(theImageSource);
+
+	if (theImage == NULL)
+		{
+		return(NULL);
+		}
+
+	CTexture *theTexture = [self textureWithCGImage:theImage error:NULL];
+
+	CFRelease(theImage);
+	
+	return(theTexture);
+	}
+
 #pragma mark -
 
 - (CGImageRef)fetchImageViaFrameBuffer CF_RETURNS_RETAINED
@@ -212,6 +232,8 @@
 
 - (CGImageRef)fetchImageDirect CF_RETURNS_RETAINED
 	{
+	
+	
 	glBindTexture(GL_TEXTURE_2D, self.name);
 	
 	NSMutableData *theData = [NSMutableData dataWithLength:self.size.width * 4 * self.size.height];
