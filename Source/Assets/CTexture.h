@@ -42,6 +42,7 @@
 @property (readonly, nonatomic, assign) GLenum internalFormat;
 @property (readonly, nonatomic, assign) GLboolean hasAlpha;
 
+- (id)initWithName:(GLuint)inName size:(SIntSize)inSize owns:(BOOL)inOwns;
 - (id)initWithName:(GLuint)inName size:(SIntSize)inSize;
 - (id)initWithSize:(SIntSize)inSize;
 

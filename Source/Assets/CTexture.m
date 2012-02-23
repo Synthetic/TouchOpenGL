@@ -32,7 +32,7 @@
 #import "CTexture.h"
 
 @interface CTexture ()
-@property (readwrite, nonatomic, assign) BOOL named;
+@property (readwrite, nonatomic, assign) BOOL owns;
 @end
 
 @implementation CTexture
@@ -42,17 +42,22 @@
 @synthesize internalFormat;
 @synthesize hasAlpha;
 
-@synthesize named;
+@synthesize owns;
 
-- (id)initWithName:(GLuint)inName size:(SIntSize)inSize
-    {
+- (id)initWithName:(GLuint)inName size:(SIntSize)inSize owns:(BOOL)inOwns
+	{
     if ((self = [super init]) != NULL)
         {
         name = inName;
         size = inSize;
-        named = YES;
+        owns = inOwns;
         }
     return(self);
+	}
+
+- (id)initWithName:(GLuint)inName size:(SIntSize)inSize
+    {
+	return([self initWithName:inName size:inSize owns:YES]);
     }
 
 - (id)initWithSize:(SIntSize)inSize
@@ -71,7 +76,7 @@
 
 	AssertOpenGLNoError_();
 
-    if ((self = [self initWithName:theTextureName size:inSize]) != NULL)
+    if ((self = [self initWithName:theTextureName size:inSize owns:YES]) != NULL)
         {
         }
     return(self);
@@ -89,11 +94,11 @@
 	
 - (void)invalidate
 	{
-    if (named == YES && glIsTexture(name))
+    if (owns == YES && glIsTexture(name))
         {
         glDeleteTextures(1, &name);
         name = 0;
-		named = NO;
+		owns = NO;
         }
 	}
 
@@ -102,7 +107,7 @@
 	if (name != inName)
 		{
 		name = inName;
-		self.named = YES;
+		self.owns = YES;
 		}
 	}
 
