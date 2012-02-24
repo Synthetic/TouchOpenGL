@@ -16,12 +16,9 @@
 
 @property (readonly, nonatomic, assign) SIntSize size;
 @property (readonly, nonatomic, strong) CFrameBuffer *frameBuffer;
-@property (readonly, nonatomic, strong) CTexture *texture;
 @property (readonly, nonatomic, strong) CRenderBuffer *depthBuffer;
+@property (readonly, nonatomic, strong) CTexture *texture;
 
-- (id)initWithSize:(SIntSize)inSize;
-
-- (BOOL)start:(NSError **)outError;
 - (CTexture *)detachTexture;
 - (CGImageRef)fetchImage CF_RETURNS_RETAINED;
 

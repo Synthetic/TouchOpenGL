@@ -17,58 +17,29 @@
 @interface COpenGLOffscreenContext ()
 @property (readwrite, nonatomic, strong) CFrameBuffer *frameBuffer;
 @property (readwrite, nonatomic, strong) CTexture *texture;
-@property (readwrite, nonatomic, strong) CRenderBuffer *colorBuffer;
 @end
 
 #pragma mark -
 
 @implementation COpenGLOffscreenContext
 
-@synthesize size;
-@synthesize frameBuffer;
-@synthesize texture;
-@synthesize colorBuffer;
-
-- (id)initWithSize:(SIntSize)inSize
-    {
-    if ((self = [self init]) != NULL)
-        {
-		size = inSize;
-		
-		[self use];
-
-
-//		// TODO check if depth buffer needed...
-//		depthBuffer = [[CRenderBuffer alloc] init];
-//		[depthBuffer storage:GL_DEPTH_COMPONENT16 size:size];
-//		[frameBuffer attachObject:depthBuffer attachment:GL_DEPTH_ATTACHMENT];
-
-//		colorBuffer = [[CRenderBuffer alloc] init];
-//		[colorBuffer storage:GL_RGBA8_OES size:size];
-//		[frameBuffer attachObject:colorBuffer attachment:GL_COLOR_ATTACHMENT0];
-
-		[self frameBuffer];
-        }
-    return self;
-    }
-
-- (CFrameBuffer *)frameBuffer
+- (void)setupFrameBuffer
 	{
-	if (frameBuffer == NULL)
+	AssertOpenGLValidContext_();
+	NSParameterAssert(self.frameBuffer == NULL);
+	NSParameterAssert(_texture == NULL);
+	
+	self.frameBuffer = [[CFrameBuffer alloc] init];
+	[self.frameBuffer bind];
+
+	self.texture = [[CTexture alloc] initWithSize:self.size];
+	[self.frameBuffer attachObject:self.texture attachment:GL_COLOR_ATTACHMENT0];
+
+	GLenum theStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER); 
+	if (theStatus != GL_FRAMEBUFFER_COMPLETE)
 		{
-		frameBuffer = [[CFrameBuffer alloc] init];
-		[frameBuffer bind];
-
-		texture = [[CTexture alloc] initWithSize:size];
-		[frameBuffer attachObject:texture attachment:GL_COLOR_ATTACHMENT0];
-
-		GLenum theStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER); 
-		if (theStatus != GL_FRAMEBUFFER_COMPLETE)
-			{
-			NSLog(@"glCheckFramebufferStatus failed: %@", NSStringFromGLenum(theStatus));
-			}
+		NSLog(@"glCheckFramebufferStatus failed: %@", NSStringFromGLenum(theStatus));
 		}
-	return(frameBuffer);
 	}
 
 - (BOOL)start:(NSError **)outError

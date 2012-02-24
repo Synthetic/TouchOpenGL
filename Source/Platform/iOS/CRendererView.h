@@ -36,7 +36,7 @@
 #import "OpenGLTypes.h"
 #import "Matrix.h"
 
-@class EAGLContext;
+@class COpenGLContext;
 @class CAEAGLLayer;
 @class CFrameBuffer;
 @class CRenderBuffer;
@@ -44,24 +44,11 @@
 @interface CRendererView : UIView {    
 }
 
-@property (readwrite, nonatomic, assign) SIntSize backingSize;
-@property (readwrite, nonatomic, strong) EAGLContext *context;
+@property (readwrite, nonatomic, strong) COpenGLContext *context;
 @property (readwrite, nonatomic, assign) NSInteger animationFrameInterval;
 @property (readwrite, nonatomic, strong) CSceneRenderer *renderer;
-@property (readwrite, nonatomic, assign) BOOL multisampleAntialiasing;
 
 @property (readonly, nonatomic, assign) BOOL animating;
-
-@property (readwrite, nonatomic, strong) CFrameBuffer *frameBuffer;
-@property (readwrite, nonatomic, strong) CRenderBuffer *colorRenderBuffer;
-@property (readwrite, nonatomic, strong) CRenderBuffer *depthRenderBuffer;
-
-@property (readwrite, nonatomic, strong) CFrameBuffer *sampleFrameBuffer;
-@property (readwrite, nonatomic, strong) CRenderBuffer *sampleColorRenderBuffer;
-@property (readwrite, nonatomic, strong) CRenderBuffer *sampleDepthRenderBuffer;
-
-
-
 
 - (void)startAnimation;
 - (void)stopAnimation;

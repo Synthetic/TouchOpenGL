@@ -36,12 +36,14 @@
 #import "Matrix.h"
 
 @class CFrameBuffer;
+@class COpenGLContext;
 
 @interface CSceneRenderer : NSObject <NSCopying>
 
 @property (readwrite, nonatomic, assign) CGSize size;
 @property (readwrite, nonatomic, assign) Color4f clearColor;
 @property (readwrite, nonatomic, assign) Matrix4 projectionTransform;
+@property (readwrite, nonatomic, strong) COpenGLContext *context;
 
 - (void)setup;
 - (void)clear;
