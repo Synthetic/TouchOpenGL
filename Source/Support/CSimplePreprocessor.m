@@ -19,13 +19,16 @@ typedef enum {
 @property (readwrite, nonatomic, strong) NSString *value;
 @end
 
+#pragma mark -
+
 @implementation CSimplePreprocessorToken
 - (NSString *)description
     {
     return([NSString stringWithFormat:@"%d: %@", self.type, self.value]);
     }
-
 @end
+
+#pragma mark -
 
 @implementation CSimplePreprocessor
 
