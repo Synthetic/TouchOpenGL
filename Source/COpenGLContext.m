@@ -15,6 +15,15 @@
 #import "CTexture.h"
 
 @interface COpenGLContext ()
+
+@property (readwrite, nonatomic, strong) CFrameBuffer *frameBuffer;
+@property (readwrite, nonatomic, strong) CRenderBuffer *depthBuffer;
+@property (readwrite, nonatomic, strong) CRenderBuffer *colorBuffer;
+
+#if TARGET_OS_IPHONE == 1
+@property (readwrite, nonatomic, weak) id <EAGLDrawable> drawable;
+#endif
+
 - (void)setup;
 - (void)logInfo;
 @end
@@ -23,31 +32,52 @@
 
 @implementation COpenGLContext
 
-@synthesize nativeContext;
+static COpenGLContext *gCurrentContext = NULL;
 
-- (id)init
++ (COpenGLContext *)currentContext
+	{
+	return(gCurrentContext);
+	}
+
+- (id)initWithSize:(SIntSize)inSize
     {
     if ((self = [super init]) != NULL)
         {
+		_size = inSize;
+
 		[self setup];
         }
     return self;
     }
 
+#if TARGET_OS_IPHONE == 1
+- (id)initWithSize:(SIntSize)inSize drawable:(id <EAGLDrawable>)inDrawable;
+	{
+    if ((self = [super init]) != NULL)
+        {
+		_size = inSize;
+		_drawable = inDrawable;
+
+		[self setup];
+        }
+    return self;
+	}
+#endif
+
 - (void)dealloc
 	{
 	#if TARGET_OS_IPHONE == 1
-	if ([EAGLContext currentContext] == self.nativeContext)
+	if ([EAGLContext currentContext] == _nativeContext)
 		{
 		[EAGLContext setCurrentContext:NULL];
 		}
 	#else
-	if (CGLGetCurrentContext() == nativeContext)
+	if (CGLGetCurrentContext() == _nativeContext)
 		{
-		CGLSetCurrentContext(nativeContext);
+		CGLSetCurrentContext(_nativeContext);
 		}
-	CGLDestroyContext(nativeContext);
-	nativeContext = NULL;
+	CGLDestroyContext(_nativeContext);
+	_nativeContext = NULL;
 	#endif
 	}
 
@@ -55,7 +85,7 @@
 	{
 	#if TARGET_OS_IPHONE == 1
 	EAGLSharegroup *theShareGroup = [[EAGLSharegroup alloc] init];
-	nativeContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2 sharegroup:theShareGroup];
+	_nativeContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2 sharegroup:theShareGroup];
 	#else
 	CGLPixelFormatAttribute thePixelFormatAttributes[] = {
 		kCGLPFAAccelerated,
@@ -80,22 +110,95 @@
 		return;
 		}
 	
-	nativeContext = theOpenGLContext;
+	_nativeContext = theOpenGLContext;
 	#endif /* TARGET_OS_IPHONE == 1 */
+	}
+	
+- (void)setupFrameBuffer
+	{
+	NSParameterAssert(_frameBuffer == NULL);
+
+	[self use];
+		
+	// #########################################################################
+
+    self.frameBuffer = [[CFrameBuffer alloc] init];
+    [self.frameBuffer bind];
+    
+    // Create a color render buffer - and configure it with current context & drawable
+    self.colorBuffer = [[CRenderBuffer alloc] init];
+	
+	#warning TODO This a bit of a mess - and shouldn't be here...#pragma mark -
+#if TARGET_OS_IPHONE == 1
+    [self.colorBuffer storageFromContext:self.nativeContext drawable:self.drawable];
+#endif
+
+    // Attach color buffer to frame buffer
+    [self.frameBuffer attachObject:self.colorBuffer attachment:GL_COLOR_ATTACHMENT0];
+    
+    // Create a depth buffer - and configure it to the size of the color buffer.
+    self.depthBuffer = [[CRenderBuffer alloc] init];
+    [self.depthBuffer storage:GL_DEPTH_COMPONENT16 size:self.size];
+
+    // Attach depth buffer to the frame buffer
+    [self.frameBuffer attachObject:self.depthBuffer attachment:GL_DEPTH_ATTACHMENT];
+
+    // Make sure the frame buffer has a complete set of render buffers.
+
+	if ([self.frameBuffer isComplete] == NO)
+        {
+		NSLog(@"createFramebuffer failed %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+        }
+	}
+
+- (BOOL)isActive
+	{
+	#if TARGET_OS_IPHONE == 1
+	return([EAGLContext currentContext] == self.nativeContext);
+	#else
+	return(CGLGetCurrentContext() == _nativeContext);
+	#endif
 	}
 
 - (void)use
 	{
+	gCurrentContext = self;
+	
 	#if TARGET_OS_IPHONE == 1
 	[EAGLContext setCurrentContext:self.nativeContext];
 	#else
-	
 	CGLSetCurrentContext(self.nativeContext);
-	
 	#endif
-
-//	[self logInfo];
 	}
+	
+- (void)unuse
+	{
+	#if TARGET_OS_IPHONE == 1
+	if ([EAGLContext currentContext] == self.nativeContext)
+		{
+		[EAGLContext setCurrentContext:NULL];
+		}
+	#else
+	if (CGLGetCurrentContext() == _nativeContext)
+		{
+		CGLSetCurrentContext(NULL);
+		}
+	#endif
+	}
+
+- (void)present;
+	{
+    AssertOpenGLNoError_();
+
+	[self.colorBuffer bind];
+//		[self.context.frameBuffer discard];
+	AssertOpenGLNoError_();
+
+	#if TARGET_OS_IPHONE
+	[self.nativeContext presentRenderbuffer:GL_RENDERBUFFER];
+	#endif /* TARGET_OS_IPHONE */
+	}
+
 
 - (void)logInfo
 	{
