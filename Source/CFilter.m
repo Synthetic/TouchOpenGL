@@ -8,41 +8,45 @@
 
 #import "CFilter.h"
 
-#import "CSceneRenderer_ImageExtensions.h"
 #import "COpenGLContext.h"
-#import "CCompositeTextureProgram.h"
-#import "CProgram_Extensions.h"
-#import "CVertexBufferReference_FactoryExtensions.h"
 #import "COpenGLOffscreenContext.h"
-#import "CFrameBuffer.h"
 #import "CTexture_Utilities.h"
-#import "CSourceCopyProgram.h"
-#import "CSimpleTextureProgram.h"
+#import "CFrameBuffer.h"
+#import "CRenderBuffer.h"
 
 @interface CFilter ()
 @property (readwrite, nonatomic, assign) SIntSize size;
-@property (readwrite, nonatomic, strong) COpenGLOffscreenContext *context;
-@property (readwrite, nonatomic, strong) CTexture *a1_grain1;
-@property (readwrite, nonatomic, strong) CTexture *a1_grain2;
-@property (readwrite, nonatomic, strong) CTexture *a1_shift_warm;
-@property (readwrite, nonatomic, strong) CSourceCopyProgram *program;
-
+@property (readwrite, nonatomic, strong) CFrameBuffer *frameBuffer;
+@property (readwrite, nonatomic, strong) CTexture *texture;
 @property (readwrite, nonatomic, strong) CTexture *workingTexture;
-
 @end
 
 #pragma mark -
 
 @implementation CFilter
 
-- (id)initWithSize:(SIntSize)inSize;
+- (id)initWithContext:(COpenGLContext *)inContext size:(SIntSize)inSize
     {
     if ((self = [super init]) != NULL)
         {
+		_context = inContext;
 		_size = inSize;
-
-		_context = [[COpenGLOffscreenContext alloc] initWithSize:_size];
+		
 		[_context use];
+
+		AssertOpenGLValidContext_();
+		
+		self.frameBuffer = [[CFrameBuffer alloc] init];
+		[self.frameBuffer bind];
+
+		self.texture = [[CTexture alloc] initWithSize:self.size];
+		[self.frameBuffer attachObject:self.texture attachment:GL_COLOR_ATTACHMENT0];
+
+		GLenum theStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER); 
+		if (theStatus != GL_FRAMEBUFFER_COMPLETE)
+			{
+			NSLog(@"glCheckFramebufferStatus failed: %@", NSStringFromGLenum(theStatus));
+			}
 
 		glViewport(0, 0, self.size.width, self.size.height);
 
@@ -50,7 +54,7 @@
 
 		glDisable(GL_DEPTH_TEST);
 
-		glClearColor(255, 0, 255, 255);
+		glClearColor(255, 255, 255, 255);
         }
     return self;
     }
@@ -60,26 +64,63 @@
 - (void)start:(CTexture *)inStartTexture
 	{
 	[self.context use];
-
-	// #########################################################################
-
+	[self.frameBuffer bind];
+	[self.texture bind];
 
 	self.workingTexture = inStartTexture;
-
 	}
 
 - (void)filter:(void (^)(CTexture *texture))inFilter;
 	{
 	NSParameterAssert(inFilter != NULL);
 
+	AssertOpenGLNoError_();
+
 	inFilter(self.workingTexture);
-	
-	self.workingTexture = [self.context detachTexture];
+
+	AssertOpenGLNoError_();
+
+	self.workingTexture = [self detachTexture];
 	}
 
-- (CGImageRef)finish
+- (CTexture *)finish;
 	{
-	return([self.workingTexture fetchImage]);
+	return(self.workingTexture);
+	}
+
+- (CTexture *)detachTexture
+	{
+	AssertOpenGLValidContext_();
+	AssertOpenGLNoError_();
+
+//	[self.frameBuffer unbind];
+
+	// Snag a copy of the texture...
+	CTexture *theDetachedTexture = self.texture;
+	[theDetachedTexture bind];
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);   
+
+
+
+	[self.frameBuffer detachObject:theDetachedTexture attachment:GL_COLOR_ATTACHMENT0];
+
+	// Create a new texture...
+	// TODO doing this _EVERY_ frame will be expense
+	self.texture = [[CTexture alloc] initWithSize:self.size];
+
+	// Attach it to the frame buffer...
+	[self.frameBuffer attachObject:self.texture attachment:GL_COLOR_ATTACHMENT0];
+	if ([self.frameBuffer isComplete] == NO)
+		{
+		NSLog(@"Frame buffer not complete.");
+		}
+
+	AssertOpenGLNoError_();
+
+	return(theDetachedTexture);
 	}
 
 @end

@@ -16,13 +16,15 @@
 @interface CFilter : NSObject
 
 @property (readonly, nonatomic, assign) SIntSize size;
+@property (readwrite, nonatomic, strong) COpenGLContext *context;
+@property (readonly, nonatomic, strong) CTexture *workingTexture;
 
-- (id)initWithSize:(SIntSize)inSize;
+- (id)initWithContext:(COpenGLContext *)inContext size:(SIntSize)inSize;
 
 - (void)start:(CTexture *)inStartTexture;
 
 - (void)filter:(void (^)(CTexture *texture))inFilter;
 
-- (CGImageRef)finish;
+- (CTexture *)finish;
 
 @end
