@@ -29,7 +29,7 @@
 	CVOpenGLESTextureRef theTexture = NULL;
     CVReturn theError = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault, inTextureCache,
 		inImageBuffer, NULL, GL_TEXTURE_2D, GL_RGBA, theSize.width, theSize.height, GL_BGRA, GL_UNSIGNED_BYTE, 0, &theTexture);
-	if (theError != kCVReturnSuccess)
+	if (theError != kCVReturnSuccess || theTexture == NULL)
 		{
 		self = NULL;
 		return(NULL);
