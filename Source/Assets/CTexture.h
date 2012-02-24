@@ -48,6 +48,8 @@
 
 - (BOOL)isValid;
 
+- (void)bind;
+
 - (void)use:(GLuint)inUniform index:(GLuint)inIndex;
 
 @end

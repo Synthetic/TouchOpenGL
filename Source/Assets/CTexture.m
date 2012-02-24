@@ -62,6 +62,8 @@
 
 - (id)initWithSize:(SIntSize)inSize
 	{
+	AssertOpenGLValidContext_();
+
 	if (inSize.width != inSize.height)
 		{
 		NSLog(@"WARNING: Texture request isn't square.");
@@ -94,6 +96,8 @@
 	
 - (void)invalidate
 	{
+	AssertOpenGLValidContext_();
+
     if (owns == YES && glIsTexture(name))
         {
         glDeleteTextures(1, &name);
@@ -116,8 +120,15 @@
     return(glIsTexture(self.name));
     }
 
+- (void)bind
+	{
+	glBindTexture(GL_TEXTURE_2D, self.name);
+	}
+
 - (void)use:(GLuint)inUniform index:(GLuint)inIndex
 	{
+	AssertOpenGLValidContext_();
+	
 	glActiveTexture(GL_TEXTURE0 + inIndex);
 	glBindTexture(GL_TEXTURE_2D, self.name);
 	glUniform1i(inUniform, inIndex);
