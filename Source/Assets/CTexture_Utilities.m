@@ -230,10 +230,9 @@
 	return(theImage);
 	}
 
+#if TARGET_OS_IPHONE == 0
 - (CGImageRef)fetchImageDirect CF_RETURNS_RETAINED
 	{
-	
-	
 	glBindTexture(GL_TEXTURE_2D, self.name);
 	
 	NSMutableData *theData = [NSMutableData dataWithLength:self.size.width * 4 * self.size.height];
@@ -259,6 +258,7 @@
 
 	return(theImage);
 	}
+#endif
 
 - (CGImageRef)fetchImage CF_RETURNS_RETAINED
 	{
