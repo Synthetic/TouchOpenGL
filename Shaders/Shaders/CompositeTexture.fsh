@@ -70,11 +70,6 @@ void main()
 //	S = premultiply(S);
 //	D = premultiply(D);
 
-	S.rgb *= S.a;
-	S.a = 1.0;
-	D.rgb *= D.a * u_alpha;
-	D.a = 1.0;
-
 	vec4 OUT;
 
 	// The big uber IF statement is inefficient. Better to use multiple shaders for this...
@@ -96,8 +91,8 @@ void main()
 		}
 	else if (u_blendMode == kCGBlendModeOverlay)
 		{
-		OUT.rgb = BlendOverlay(D.rgb, S.rgb);
-		OUT.a = 1.0;
+		D *= u_alpha;
+		OUT.rgb = BlendOverlay(S.rgb, D.rgb);
 		}
 	else if (u_blendMode == kCGBlendModeDarken)
 		{
@@ -119,8 +114,8 @@ void main()
 		}
 	else if (u_blendMode == kCGBlendModeSoftLight)
 		{
+		D *= u_alpha;
 		OUT.rgb = BlendSoftLight(S.rgb, D.rgb);
-		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeHardLight)
 		{
@@ -214,17 +209,8 @@ void main()
 		}
 	else
 		{
-		OUT = vec4(1.0, 0.0, 1.0, 1.0);
+		OUT = vec4(1.0, 0.0, 0.0, 1.0);
 		}
 
-	OUT.a = 1.0;
-		
-	if (u_gamma != 0.0)
-		{
-		gl_FragColor.rgb = gamma_correct(OUT.rgb);
-		}
-	else
-		{
-		gl_FragColor = OUT;
-		}
+	gl_FragColor = OUT;
     }
