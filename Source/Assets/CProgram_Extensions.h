@@ -11,6 +11,6 @@
 @interface CProgram (Extensions)
 
 - (id)initWithName:(NSString *)inName attributeNames:(NSArray *)inAttributeNames uniformNames:(NSArray *)inUniformNames;
-- (id)initWithURL:(NSURL *)inURL;
+- (id)initWithURL:(NSURL *)inURL error:(NSError **)outError;
 
 @end

@@ -25,9 +25,10 @@
     return(self);
     }
 
-- (id)initWithURL:(NSURL *)inURL
+- (id)initWithURL:(NSURL *)inURL error:(NSError **)outError
     {
-    NSDictionary *theProgramDictionary = [NSDictionary dictionaryWithContentsOfURL:inURL];
+	NSData *theData = [NSData dataWithContentsOfURL:inURL options:0 error:outError];
+	NSDictionary *theProgramDictionary = [NSPropertyListSerialization propertyListWithData:theData options:0 format:NULL error:outError];
     if (theProgramDictionary == NULL)
         {
         self = NULL;
