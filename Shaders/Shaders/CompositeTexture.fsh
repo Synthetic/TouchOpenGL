@@ -49,6 +49,7 @@ uniform sampler2D u_texture1;
 uniform int u_blendMode;
 uniform float u_alpha;
 uniform float u_gamma;
+uniform vec4 u_color;
 
 vec3 gamma_correct(vec3 C)
 	{
@@ -65,7 +66,7 @@ vec4 premultiply(vec4 v)
 void main()
     {
 	vec4 S = texture2D(u_texture0, v_texture);
-	vec4 D = texture2D(u_texture1, v_texture);
+	vec4 D = texture2D(u_texture1, v_texture) + u_color;
 	
 //	S = premultiply(S);
 //	D = premultiply(D);

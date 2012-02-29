@@ -26,6 +26,7 @@
 @property (readwrite, nonatomic, assign) GLint blendMode;
 @property (readwrite, nonatomic, assign) GLfloat gamma;
 @property (readwrite, nonatomic, assign) GLfloat alpha;
+@property (readwrite, nonatomic, assign) Color4f color;
 
 // Attributes
 @property (readwrite, nonatomic, retain) CVertexBufferReference *positions;

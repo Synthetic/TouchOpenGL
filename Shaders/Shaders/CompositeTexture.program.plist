@@ -79,6 +79,16 @@
 			<key>type</key>
 			<string>float</string>
 		</dict>
+		<dict>
+			<key>intent</key>
+			<string>Color</string>
+			<key>name</key>
+			<string>u_color</string>
+			<key>propertyName</key>
+			<string>color</string>
+			<key>type</key>
+			<string>vec4</string>
+		</dict>
 	</array>
 	<key>vertexShader</key>
 	<string>CompositeTexture.vsh</string>
