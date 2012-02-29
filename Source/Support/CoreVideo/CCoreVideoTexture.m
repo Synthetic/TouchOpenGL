@@ -21,7 +21,7 @@
 	{
 	AssertOpenGLValidContext_();
 	
-	SIntSize theSize = {
+	const SIntSize theSize = {
 		.width = CVPixelBufferGetWidth(inImageBuffer),
 		.height = CVPixelBufferGetHeight(inImageBuffer),
 		};
@@ -54,19 +54,80 @@
     return self;
     }
 
-- (void)dealloc
+- (id)initWithSize:(SIntSize)inSize textureCache:(CVOpenGLESTextureCacheRef)inTextureCache
 	{
+	NSDictionary *theAttributes = @{ (__bridge NSString *)kCVPixelBufferIOSurfacePropertiesKey: @{} };
+	
+	NSLog(@"%@", theAttributes);
+	CVPixelBufferRef thePixelBuffer;
+	CVReturn theError = CVPixelBufferCreate(kCFAllocatorDefault, inSize.width, inSize.height, kCVPixelFormatType_32BGRA, (__bridge CFDictionaryRef)theAttributes, &thePixelBuffer);
+	if (theError != kCVReturnSuccess)
+		{
+		NSLog(@"Failure");
+		self = NULL;
+		return(self);
+		}
+	if ((self = [self initWithCVImageBuffer:thePixelBuffer textureCache:inTextureCache]) != NULL)
+		{
+		}
+		
+	CFRelease(thePixelBuffer);
+		
+	return(self);
+	}
+
+- (void)invalidate
+	{
+	if (_texture)
+		{
+		CFRelease(_texture);
+		_texture = NULL;
+		}
+
 	if (_textureCache)
 		{
 		CVOpenGLESTextureCacheFlush(_textureCache, 0);
 
 		CFRelease(_textureCache);
+		_textureCache = NULL;
 		}
-	if (_texture)
-		{
-		CFRelease(_texture);
-		}
-	}
 
+	[super invalidate];
+	}
+	
+/*
+- (CGImageRef)fetchImage CF_RETURNS_RETAINED
+	{
+//	CVReturn theResult = CVPixelBufferLockBaseAddress(self.texture, kCVPixelBufferLock_ReadOnly);
+//	if (theResult != kCVReturnSuccess)
+//		{
+//		return(NULL);
+//		}
+
+	uint8_t *thePixels = (uint8_t*)CVPixelBufferGetBaseAddress(self.texture);
+
+	const size_t width = self.size.width;
+	const size_t height = self.size.height;
+	const size_t bitsPerComponent = 8;
+	const size_t bytesPerRow = width * (bitsPerComponent * 4) / 8;
+	// TODO - probably dont want skip last
+	CGBitmapInfo theBitmapInfo = kCGImageAlphaPremultipliedLast;
+
+	CGColorSpaceRef theColorSpace = CGColorSpaceCreateDeviceRGB();
+	
+	CGContextRef theContext = CGBitmapContextCreateWithData(thePixels, width, height, bitsPerComponent, bytesPerRow, theColorSpace, theBitmapInfo, NULL, NULL);
+	
+	CGImageRef theImage = CGBitmapContextCreateImage(theContext);
+	
+	// #########################################################################
+	
+	CFRelease(theContext);
+	CFRelease(theColorSpace);
+
+//	CVPixelBufferUnlockBaseAddress(self.texture, kCVPixelBufferLock_ReadOnly);
+
+	return(theImage);
+ 	}
+*/
 
 @end

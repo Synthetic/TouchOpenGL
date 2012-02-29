@@ -13,5 +13,6 @@
 @interface CCoreVideoTexture : CTexture
 
 - (id)initWithCVImageBuffer:(CVImageBufferRef)inImageBuffer textureCache:(CVOpenGLESTextureCacheRef)inTextureCache;
+- (id)initWithSize:(SIntSize)inSize textureCache:(CVOpenGLESTextureCacheRef)inTextureCache;
 
 @end
