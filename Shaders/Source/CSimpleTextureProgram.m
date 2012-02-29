@@ -16,6 +16,12 @@
 @interface CSimpleTextureProgram ()
 
 // Uniforms
+@property (readwrite, nonatomic, assign) GLint projectionMatrixUniform;
+@property (readwrite, nonatomic, assign) BOOL projectionMatrixChanged;
+
+@property (readwrite, nonatomic, assign) GLint modelViewMatrixUniform;
+@property (readwrite, nonatomic, assign) BOOL modelViewMatrixChanged;
+
 @property (readwrite, nonatomic, assign) GLint texture0Uniform;
 @property (readwrite, nonatomic, assign) BOOL texture0Changed;
 @property (readwrite, nonatomic, assign) GLint texture0Index;
@@ -32,6 +38,14 @@
 @implementation CSimpleTextureProgram
 
 // Uniforms
+@synthesize projectionMatrix;
+@synthesize projectionMatrixUniform;
+@synthesize projectionMatrixChanged;
+
+@synthesize modelViewMatrix;
+@synthesize modelViewMatrixUniform;
+@synthesize modelViewMatrixChanged;
+
 @synthesize texture0;
 @synthesize texture0Uniform;
 @synthesize texture0Changed;
@@ -50,6 +64,14 @@
     {
     if ((self = [super init]) != NULL)
         {
+        projectionMatrix = Matrix4Identity;
+        projectionMatrixUniform = -1;
+        projectionMatrixChanged = YES;
+
+        modelViewMatrix = Matrix4Identity;
+        modelViewMatrixUniform = -1;
+        modelViewMatrixChanged = YES;
+
         texture0 = NULL;
         texture0Uniform = -1;
         texture0Changed = YES;
@@ -72,6 +94,30 @@
     [super update];
     //
     AssertOpenGLNoError_();
+
+    if (projectionMatrixChanged == YES)
+        {
+        if (projectionMatrixUniform == -1)
+            {
+            projectionMatrixUniform = glGetUniformLocation(self.name, "u_projectionMatrix");
+            }
+
+        glUniformMatrix4fv(projectionMatrixUniform, 1, NO, &projectionMatrix.m[0][0]);;
+        projectionMatrixChanged = NO;
+        AssertOpenGLNoError_();
+        }
+
+    if (modelViewMatrixChanged == YES)
+        {
+        if (modelViewMatrixUniform == -1)
+            {
+            modelViewMatrixUniform = glGetUniformLocation(self.name, "u_modelViewMatrix");
+            }
+
+        glUniformMatrix4fv(modelViewMatrixUniform, 1, NO, &modelViewMatrix.m[0][0]);;
+        modelViewMatrixChanged = NO;
+        AssertOpenGLNoError_();
+        }
 
     if (texture0Changed == YES)
         {
@@ -110,6 +156,18 @@
             }
         }
 
+    }
+
+- (void)setProjectionMatrix:(Matrix4)inProjectionMatrix
+    {
+    projectionMatrix = inProjectionMatrix;
+    projectionMatrixChanged = YES;
+    }
+
+- (void)setModelViewMatrix:(Matrix4)inModelViewMatrix
+    {
+    modelViewMatrix = inModelViewMatrix;
+    modelViewMatrixChanged = YES;
     }
 
 - (void)setTexture0:(CTexture *)inTexture0

@@ -17,6 +17,8 @@
 @interface CSimpleTextureProgram : CProgram
 
 // Uniforms
+@property (readwrite, nonatomic, assign) Matrix4 projectionMatrix;
+@property (readwrite, nonatomic, assign) Matrix4 modelViewMatrix;
 @property (readwrite, nonatomic, strong) CTexture * texture0;
 @property (readonly, nonatomic, assign) GLint texture0Index;
 
