@@ -122,7 +122,8 @@ static COpenGLContext *gCurrentContext = NULL;
 		
 	// #########################################################################
 
-    self.frameBuffer = [[CFrameBuffer alloc] init];
+    self.frameBuffer = [[CFrameBuffer alloc] initWithTarget:GL_FRAMEBUFFER];
+	self.frameBuffer.label = [NSString stringWithFormat:@"Framebuffer (%d)", self.frameBuffer.name];
     [self.frameBuffer bind];
     
     // Create a color render buffer - and configure it with current context & drawable
