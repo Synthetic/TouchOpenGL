@@ -59,12 +59,15 @@
 
 - (NSString *)objectLabel
 	{
+	NSString *theString = NULL;
+	#if TARGET_OS_IPHONE == 1
 	GLsizei theLength = 0;
 	glGetObjectLabelEXT([[self class] type], self.name, 0, &theLength, NULL);
 	char theBuffer[theLength + 1];
 	glGetObjectLabelEXT([[self class] type], self.name, theLength + 1, &theLength, theBuffer);
 	AssertOpenGLNoError_();
-	NSString *theString = [NSString stringWithUTF8String:theBuffer];
+	theString = [NSString stringWithUTF8String:theBuffer];
+	#endif /* TARGET_OS_IPHONE == 1 */
 	return(theString);
 	}
 
@@ -74,9 +77,11 @@
 	// TODO -- need to figure this out. Cannot set labels on framebuffers.
 	if (NO)
 		{
+	#if TARGET_OS_IPHONE == 1
 		const char *theUTF8Label = [inLabel UTF8String];
 		glLabelObjectEXT([[self class] type], self.name, strlen(theUTF8Label), theUTF8Label);
 		AssertOpenGLNoError_();
+	#endif /* TARGET_OS_IPHONE == 1 */
 		}
 	}
 
