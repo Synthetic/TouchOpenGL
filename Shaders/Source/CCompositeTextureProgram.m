@@ -39,6 +39,9 @@
 @property (readwrite, nonatomic, assign) GLint alphaUniform;
 @property (readwrite, nonatomic, assign) BOOL alphaChanged;
 
+@property (readwrite, nonatomic, assign) GLint colorUniform;
+@property (readwrite, nonatomic, assign) BOOL colorChanged;
+
 // Attributes
 @property (readwrite, nonatomic, assign) GLint positionsAttribute;
 @property (readwrite, nonatomic, assign) BOOL positionsChanged;
@@ -80,6 +83,10 @@
 @synthesize alpha;
 @synthesize alphaUniform;
 @synthesize alphaChanged;
+
+@synthesize color;
+@synthesize colorUniform;
+@synthesize colorChanged;
 
 // Attributes
 @synthesize positions;
@@ -123,6 +130,10 @@
         alpha = 0.0;
         alphaUniform = -1;
         alphaChanged = YES;
+
+        color = (Color4f){ 1.0, 1.0, 1.0, 1.0 };
+        colorUniform = -1;
+        colorChanged = YES;
 
         GLint theIndex = 0;
 
@@ -226,6 +237,18 @@
         AssertOpenGLNoError_();
         }
 
+    if (colorChanged == YES)
+        {
+        if (colorUniform == -1)
+            {
+            colorUniform = glGetUniformLocation(self.name, "u_color");
+            }
+
+        glUniform4fv(colorUniform, 1, &color.r);;
+        colorChanged = NO;
+        AssertOpenGLNoError_();
+        }
+
 
     if (positionsChanged == YES)
         {
@@ -293,6 +316,12 @@
     {
     alpha = inAlpha;
     alphaChanged = YES;
+    }
+
+- (void)setColor:(Color4f)inColor
+    {
+    color = inColor;
+    colorChanged = YES;
     }
 
 
