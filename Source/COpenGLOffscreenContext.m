@@ -30,6 +30,7 @@
 	NSParameterAssert(_texture == NULL);
 	
 	self.frameBuffer = [[CFrameBuffer alloc] init];
+	self.frameBuffer.label = [NSString stringWithFormat:@"Offscreen framebuffer (%d)", self.frameBuffer.name];
 	[self.frameBuffer bind];
 
 	self.texture = [[CTexture alloc] initWithSize:self.size];
@@ -55,7 +56,8 @@
 
     glDisable(GL_DEPTH_TEST);
 
-    glClearColor(255, 0, 255, 255);
+	// Green
+    glClearColor(0.0, 1.0, 0.0, 1.0);
 
     glClear(GL_COLOR_BUFFER_BIT);
 
