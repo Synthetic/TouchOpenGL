@@ -71,6 +71,8 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopAnimation:) name:UIApplicationDidEnterBackgroundNotification object:[UIApplication sharedApplication]];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startAnimation:) name:UIApplicationWillEnterForegroundNotification object:[UIApplication sharedApplication]];
+
+		[self setup];
         }
 
     return self;
@@ -87,6 +89,8 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopAnimation:) name:UIApplicationDidEnterBackgroundNotification object:[UIApplication sharedApplication]];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startAnimation:) name:UIApplicationWillEnterForegroundNotification object:[UIApplication sharedApplication]];
+		
+		[self setup];
         }
 
     return self;
@@ -108,15 +112,15 @@
 
 #pragma mark -
 
-- (void)layoutSubviews
-    {
-    [super layoutSubviews];
-    //
-    if (self.renderer != NULL)
-        {
-        [self render];
-        }
-    }
+//- (void)layoutSubviews
+//    {
+//    [super layoutSubviews];
+//    //
+//    if (self.renderer != NULL)
+//        {
+//        [self render];
+//        }
+//    }
 
 - (void)removeFromSuperview
     {
@@ -149,7 +153,6 @@
     if (_renderer != inRenderer)
         {
         _renderer = inRenderer;
-        _renderer.clearColor = [self.backgroundColor color4f];
         _renderer.size = self.frame.size;
 		_renderer.context = self.context;
         //
@@ -209,23 +212,21 @@
     {
     NSAssert(self.renderer != NULL, @"No renderer");
 
-    if (self.context == NULL)
-        {
-        [self setup];
-		
-		self.renderer.context = self.context;
-        [self.renderer setup];
+	[self.context use];
 
-        const SIntSize theSize = { .width = self.bounds.size.width, .height = self.bounds.size.height };
+	AssertOpenGLValidContext_();
 
-        glViewport(0, 0, theSize.width, theSize.height);
-        }
+	[self.context.frameBuffer bind];
+	[self.context.colorBuffer bind];
+
+	self.renderer.context = self.context;
+
+	const SIntSize theSize = { .width = self.bounds.size.width, .height = self.bounds.size.height };
+
+	glViewport(0, 0, theSize.width, theSize.height);
 
     AssertOpenGLNoError_();
 
-	[self.context use];
-	[self.context.frameBuffer bind];
-	[self.context.colorBuffer bind];
 
 #warning TODO
 //    if (self.multisampleAntialiasing == NO)
