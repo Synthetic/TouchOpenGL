@@ -38,10 +38,10 @@
 @class CRenderBuffer;
 @class CTexture;
 
-@interface CFrameBuffer : NSObject <COpenGLAsset>
+@interface CFrameBuffer : COpenGLAsset
 
+// Target is either GL_FRAMEBUFFER, GL_DRAW_FRAMEBUFFER or GL_READ_FRAMEBUFFER
 @property (readonly, nonatomic, assign) GLenum target;
-@property (readonly, nonatomic, assign) GLuint name;
 @property (readonly, nonatomic, assign) NSArray *attachments;
 
 - (id)initWithTarget:(GLenum)inTarget;

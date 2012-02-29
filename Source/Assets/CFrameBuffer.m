@@ -43,38 +43,46 @@
 @implementation CFrameBuffer
 
 @synthesize target;
-@synthesize name;
 @synthesize mutableAttachments;
 
-- (id)init
++ (GLenum)type
 	{
-	if ((self = [super init]) != NULL)
-		{
-		target = GL_FRAMEBUFFER;
-        glGenFramebuffers(1, &name);
-		AssertOpenGLNoError_();
-		mutableAttachments = [NSMutableArray array];
-		}
-	return(self);
+	return(GL_FRAMEBUFFER);
 	}
 
 - (id)initWithTarget:(GLenum)inTarget;
 	{
-	if ((self = [self init]) != NULL)
+	GLuint theName;
+	glGenFramebuffers(1, &theName);
+	AssertOpenGLNoError_();
+
+	if ((self = [super initWithName:theName]) != NULL)
 		{
+		mutableAttachments = [NSMutableArray array];
 		target = inTarget;
 		}
 	return(self);
 	}
 
-- (void)dealloc
+#pragma mark -
+
+- (NSString *)description
     {
-    if (glIsFramebuffer(name))
-        {
-        glDeleteFramebuffers(1, &name);
-        name = 0;
-        }
+    return([NSString stringWithFormat:@"%@ (%@)", [super description], self.attachments]);
     }
+
+
+- (void)invalidate
+	{
+    NSParameterAssert(glIsFramebuffer(self.name) == GL_TRUE);
+
+	GLuint theName = self.name;
+	glDeleteFramebuffers(1, &theName);
+	
+	[super invalidate];
+	}
+
+#pragma mark -
 
 - (NSArray *)attachments
 	{
@@ -83,13 +91,15 @@
 
 - (BOOL)isComplete
     {
-    NSAssert(glIsFramebuffer(name), @"name is not a framebuffer");
+    NSParameterAssert(glIsFramebuffer(self.name) == GL_TRUE);
+
     GLenum theStatus = glCheckFramebufferStatus(self.target);
     return(theStatus == GL_FRAMEBUFFER_COMPLETE);
     }
 
 - (void)bind
     {
+//	NSLog(@"BINDING FRAMEBUFFER: %@", self.label);
     glBindFramebuffer(self.target, self.name);
     }
 
