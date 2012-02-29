@@ -17,3 +17,28 @@
 - (void)load;
 
 @end
+
+@interface COpenGLAsset : NSObject <COpenGLAsset>
+
+@property (readonly, nonatomic, assign) GLuint name;
+@property (readonly, nonatomic, assign) NSString *objectLabel;
+@property (readwrite, nonatomic, strong) NSString *label;
+@property (readonly, nonatomic, assign) GLuint cost;
+
++ (GLenum)type;
+
+- (id)initWithName:(GLuint)inName;
+
+- (void)invalidate;
+
+@end
+
+#pragma mark -
+
+@interface COpenGLAsset (Debugging)
++ (BOOL)debug;
++ (void)trackAsset:(COpenGLAsset *)inAsset;
++ (void)untrackAsset:(COpenGLAsset *)inAsset;
++ (void)clearTrackedAssets;
++ (void)dumpActiveAssets;
+@end
