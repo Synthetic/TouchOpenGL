@@ -35,15 +35,15 @@
 #import "OpenGLTypes.h"
 #import "COpenGLAsset.h"
 
-@interface CTexture : NSObject <COpenGLAsset>
+@interface CTexture : COpenGLAsset
 
 @property (readonly, nonatomic, assign) GLuint name;
 @property (readonly, nonatomic, assign) SIntSize size;
-@property (readonly, nonatomic, assign) GLenum internalFormat;
-@property (readonly, nonatomic, assign) GLboolean hasAlpha;
 
 - (id)initWithName:(GLuint)inName size:(SIntSize)inSize owns:(BOOL)inOwns;
 - (id)initWithName:(GLuint)inName size:(SIntSize)inSize;
+
+- (id)initWithSize:(SIntSize)inSize format:(GLenum)inFormat type:(GLenum)inType;
 - (id)initWithSize:(SIntSize)inSize;
 
 - (BOOL)isValid;

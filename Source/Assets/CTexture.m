@@ -37,20 +37,17 @@
 
 @implementation CTexture
 
-@synthesize name;
-@synthesize size;
-@synthesize internalFormat;
-@synthesize hasAlpha;
-
-@synthesize owns;
++ (GLenum)type
+	{
+	return(GL_TEXTURE);
+	}
 
 - (id)initWithName:(GLuint)inName size:(SIntSize)inSize owns:(BOOL)inOwns
 	{
-    if ((self = [super init]) != NULL)
+    if ((self = [super initWithName:inName]) != NULL)
         {
-        name = inName;
-        size = inSize;
-        owns = inOwns;
+        _size = inSize;
+        _owns = inOwns;
         }
     return(self);
 	}
@@ -60,7 +57,7 @@
 	return([self initWithName:inName size:inSize owns:YES]);
     }
 
-- (id)initWithSize:(SIntSize)inSize
+- (id)initWithSize:(SIntSize)inSize format:(GLenum)inFormat type:(GLenum)inType
 	{
 	AssertOpenGLValidContext_();
 
@@ -72,9 +69,11 @@
 	GLuint theTextureName;
 	glGenTextures(1, &theTextureName);
 	glBindTexture(GL_TEXTURE_2D, theTextureName);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, inSize.width, inSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL); 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, inFormat, inSize.width, inSize.height, 0, inFormat, inType, NULL); 
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);   
 
 	AssertOpenGLNoError_();
 
@@ -84,35 +83,33 @@
     return(self);
 	}
 
-- (NSString *)description
-    {
-    return([NSString stringWithFormat:@"%@ (name: %d, %d x %d)", [super description], self.name, self.size.width, self.size.height]);
-    }
+- (id)initWithSize:(SIntSize)inSize
+	{
+	return([self initWithSize:inSize format:GL_RGBA type:GL_UNSIGNED_BYTE]);
+	}
 
-- (void)dealloc
-    {
-	[self invalidate];
-    }
-	
+//- (NSString *)description
+//    {
+//    return([NSString stringWithFormat:@"%@ (name: %d, %d x %d)", [super description], self.name, self.size.width, self.size.height]);
+//    }
+
+- (GLuint)cost
+	{
+	return(self.size.width * self.size.height);
+	}
+
 - (void)invalidate
 	{
 	AssertOpenGLValidContext_();
 
-    if (owns == YES && glIsTexture(name))
+    if (_owns == YES && glIsTexture(self.name))
         {
-        glDeleteTextures(1, &name);
-        name = 0;
-		owns = NO;
+		GLuint theName = self.name;
+        glDeleteTextures(1, &theName);
+		_owns = NO;
         }
-	}
 
-- (void)setName:(GLuint)inName
-	{
-	if (name != inName)
-		{
-		name = inName;
-		self.owns = YES;
-		}
+	[super invalidate];
 	}
 
 - (BOOL)isValid
@@ -135,5 +132,9 @@
 	AssertOpenGLNoError_();
 	}
 
++ (BOOL)debug
+	{
+	return(NO);
+	}
     
 @end
