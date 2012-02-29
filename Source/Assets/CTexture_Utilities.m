@@ -181,6 +181,11 @@
 	NSURL *theURL = [[NSBundle mainBundle].resourceURL URLByAppendingPathComponent:inName];
 
 	CGImageSourceRef theImageSource = CGImageSourceCreateWithURL((__bridge CFURLRef)theURL, NULL);
+	if (theImageSource == NULL)
+		{
+		return(NULL);
+		}
+
 	CGImageRef theImage = CGImageSourceCreateImageAtIndex(theImageSource, 0, NULL);
 	CFRelease(theImageSource);
 
@@ -192,7 +197,6 @@
 	CTexture *theTexture = [self textureWithCGImage:theImage error:NULL];
 
 	CFRelease(theImage);
-	
 	return(theTexture);
 	}
 
@@ -210,7 +214,8 @@
 	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &theCurrentFrameBuffer);
 
 	// Create a new frame buffer...
-	CFrameBuffer *theFrameBuffer = [[CFrameBuffer alloc] init];
+	CFrameBuffer *theFrameBuffer = [[CFrameBuffer alloc] initWithTarget:GL_FRAMEBUFFER];
+	theFrameBuffer.label = [NSString stringWithFormat:@"Temporary texture framebuffer (%d)", theFrameBuffer.name];
 	[theFrameBuffer bind];
 
 	// Attach the texture (self) to it.
