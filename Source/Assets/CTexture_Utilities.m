@@ -156,7 +156,6 @@
     return(theTexture);
 	}
 
-
 + (id)textureWithCGImage:(CGImageRef)inImage error:(NSError **)outError
     {
     #pragma unused (outError)
@@ -179,8 +178,12 @@
 + (id)textureNamed:(NSString *)inName error:(NSError *__autoreleasing *)outError
 	{
 	NSURL *theURL = [[NSBundle mainBundle].resourceURL URLByAppendingPathComponent:inName];
+	return([self textureWithContentsOfURL:theURL error:outError]);
+	}
 
-	CGImageSourceRef theImageSource = CGImageSourceCreateWithURL((__bridge CFURLRef)theURL, NULL);
++ (id)textureWithContentsOfURL:(NSURL *)inURL error:(NSError **)outError;
+	{
+	CGImageSourceRef theImageSource = CGImageSourceCreateWithURL((__bridge CFURLRef)inURL, NULL);
 	if (theImageSource == NULL)
 		{
 		return(NULL);
@@ -194,7 +197,7 @@
 		return(NULL);
 		}
 
-	CTexture *theTexture = [self textureWithCGImage:theImage error:NULL];
+	CTexture *theTexture = [self textureWithCGImage:theImage error:outError];
 
 	CFRelease(theImage);
 	return(theTexture);

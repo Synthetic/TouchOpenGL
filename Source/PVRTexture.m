@@ -41,14 +41,14 @@ typedef struct _PVRTexHeader {
 
 @implementation PVRTexture
 
-+ (id)PVRTextureWithContentsOfURL:(NSURL *)inURL
++ (id)textureWithContentsOfURL:(NSURL *)inURL error:(NSError **)outError
 	{
-	return([[self alloc] initWithContentsOfURL:inURL]);
+	return([[self alloc] initWithContentsOfURL:inURL error:outError]);
 	}
 
 #pragma mark -
 
-- (id)initWithContentsOfURL:(NSURL *)inURL
+- (id)initWithContentsOfURL:(NSURL *)inURL error:(NSError **)outError
 	{
 	NSData *theData = [NSData dataWithContentsOfURL:inURL];
 	if (theData == NULL)

@@ -59,9 +59,9 @@ Copyright (C) 2010 Apple Inc. All Rights Reserved.
 @property (readonly, nonatomic, assign) GLenum internalFormat;
 //@property (readonly, nonatomic, assign) BOOL hasAlpha;
 
-+ (id)PVRTextureWithContentsOfURL:(NSURL *)inURL;
++ (id)textureWithContentsOfURL:(NSURL *)inURL error:(NSError **)outError;
 
-- (id)initWithContentsOfURL:(NSURL *)url;
+- (id)initWithContentsOfURL:(NSURL *)url error:(NSError **)outError;
 
 
 @end
