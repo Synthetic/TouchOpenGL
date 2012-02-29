@@ -25,7 +25,8 @@
 
 - (void)setup
 	{
-	self.multisampleFrameBuffer = [[CFrameBuffer alloc] init];
+	self.multisampleFrameBuffer = [[CFrameBuffer alloc] initWithTarget:GL_FRAMEBUFFER];
+	self.multisampleFrameBuffer.label = [NSString stringWithFormat:@"Multisample framebuffer (%d)", self.frameBuffer.name];
 	[self.multisampleFrameBuffer bind];
 	
 	self.multisampleColorBuffer = [[CRenderBuffer alloc] init];
