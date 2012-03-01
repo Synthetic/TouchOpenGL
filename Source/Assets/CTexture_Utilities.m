@@ -163,14 +163,20 @@
     NSAssert(inImage != NULL, @"Seriously, we need an image!");
     
 	const CGSize theSize = (CGSize){ floor(CGImageGetWidth(inImage)), floor(CGImageGetHeight(inImage)) };
-    SIntSize theDesiredSize = {
-        .width = exp2(ceil(log2(theSize.width))),
-        .height = exp2(ceil(log2(theSize.height))),
-        };
-    
-    // TODO conditionalize
+//    SIntSize theDesiredSize = {
+//        .width = exp2(ceil(log2(theSize.width))),
+//        .height = exp2(ceil(log2(theSize.height))),
+//        };
+//    
+//    // TODO conditionalize
+//
+//    theDesiredSize.width = theDesiredSize.height = MIN(MAX(theDesiredSize.width, theDesiredSize.height), 2048.0);
 
-    theDesiredSize.width = theDesiredSize.height = MIN(MAX(theDesiredSize.width, theDesiredSize.height), 2048.0);
+    SIntSize theDesiredSize = {
+        .width = theSize.width,
+        .height = theSize.height,
+        };
+
 	
 	return([self textureWithCGImage:inImage size:theDesiredSize format:GL_RGBA type:GL_UNSIGNED_BYTE error:outError]);
     }
