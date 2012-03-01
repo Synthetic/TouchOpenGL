@@ -35,9 +35,6 @@
 #import "CShader.h"
 
 @interface CProgram ()
-@property (readwrite, nonatomic, copy) NSArray *shaders;    
-@property (readwrite, nonatomic, assign) GLuint name;
-
 @property (readonly, nonatomic, copy) NSMutableDictionary *attributesByName;    
 @property (readonly, nonatomic, copy) NSMutableDictionary *uniformsByName;
 @end
@@ -46,23 +43,21 @@
 
 @implementation CProgram
 
-@synthesize shaders;
-@synthesize name;
-
-@synthesize attributesByName;
-@synthesize uniformsByName;
-
-- (id)initWithShaders:(NSArray *)inShaders attributeNames:(NSArray *)inAttributeNames uniformNames:(NSArray *)inUniformNames
+- (id)initWithAttributeNames:(NSArray *)inAttributeNames uniformNames:(NSArray *)inUniformNames
     {
     #pragma unused (inUniformNames)
     // TODO: Clean this inUniformNames
+
+	AssertOpenGLNoError_();
+
+    // Create shader program
+    GLuint theName = glCreateProgram();
+
     
-    if ((self = [self init]) != NULL)
+    if ((self = [self initWithName:theName]) != NULL)
         {
-        shaders = [inShaders copy];
-        attributesByName = [[NSMutableDictionary alloc] init];
-        uniformsByName = [[NSMutableDictionary alloc] init];
-        name = 0;
+        _attributesByName = [[NSMutableDictionary alloc] init];
+        _uniformsByName = [[NSMutableDictionary alloc] init];
 
         GLuint theAttributeIndex = 0;
         NSMutableDictionary *theAttributesByName = [NSMutableDictionary dictionary];
@@ -70,54 +65,102 @@
             {
             [theAttributesByName setObject:[NSNumber numberWithUnsignedInt:theAttributeIndex++] forKey:theAttributeName];
             }
-        attributesByName = [theAttributesByName mutableCopy];
+        _attributesByName = [theAttributesByName mutableCopy];
         }
     return(self);
     }
-
-- (void)dealloc
+	
+- (id)initWithURL:(NSURL *)inURL error:(NSError **)outError
     {
-    if (glIsProgram(name))
+	NSData *theData = [NSData dataWithContentsOfURL:inURL options:0 error:outError];
+	NSDictionary *theProgramDictionary = [NSPropertyListSerialization propertyListWithData:theData options:0 format:NULL error:outError];
+    if (theProgramDictionary == NULL)
         {
-        glDeleteProgram(name);
-        name = 0;
+        self = NULL;
+        return(NULL);
         }
+    
+
+    NSArray *theAttributeNames = [[theProgramDictionary objectForKey:@"attributes"] valueForKey:@"name"];
+    NSArray *theUniformNames = [[theProgramDictionary objectForKey:@"uniforms"] valueForKey:@"name"];
+
+    if ((self = [self initWithAttributeNames:theAttributeNames uniformNames:theUniformNames]) != NULL)
+        {
+		NSURL *theParentURL = [inURL URLByDeletingLastPathComponent];
+
+		NSString *theVertexShaderName = [theProgramDictionary objectForKey:@"vertexShader"];
+		CShader *theVertexShader = [[CShader alloc] initWithURL:[theParentURL URLByAppendingPathComponent:theVertexShaderName]];
+
+		
+		_vertexShader = theVertexShader;
+		[self attachShader:_vertexShader];
+		
+
+		NSString *theFragmentShaderName = [theProgramDictionary objectForKey:@"fragmentShader"];
+		CShader *theFragmentShader = [[CShader alloc] initWithURL:[theParentURL URLByAppendingPathComponent:theFragmentShaderName]];
+
+		_fragmentShader = theFragmentShader;
+		[self attachShader:_fragmentShader];
+		
+		    AssertOpenGLNoError_();
+
+		[self linkProgram:NULL];
+		
+		NSError *theError = NULL;
+		[self validate:&theError];
+		NSLog(@"%@", theError);
+    AssertOpenGLNoError_();
+
+        }
+    return self;
+    }
+
+
+- (void)invalidate
+    {
+    if (self.named && glIsProgram(self.name))
+        {
+		GLuint theName = self.name;
+        glDeleteProgram(theName);
+        }
+		
+	[super invalidate];
     }
 
 #pragma mark -
 
-- (GLuint)name
-    {
-    if (name == 0)
-        {
-        NSError *theError = NULL;
-        if ([self linkProgram:&theError] == NO)
-            {
-            NSLog(@"linkProgram failed: %@", theError);
-            }
-        }
-    return(name);
-    }
-    
+- (void)attachShader:(CShader *)inShader
+	{
+    AssertOpenGLNoError_();
+	
+	
+	glAttachShader(self.name, inShader.name);
+    AssertOpenGLNoError_();
+
+	inShader.program = self;
+
+	}
+	
+- (void)detachShader:(CShader *)inShader
+	{
+	self.uniformsByName = NULL;
+	
+    AssertOpenGLNoError_();
+	glDetachShader(self.name, inShader.name);
+    AssertOpenGLNoError_();
+
+	inShader.program = NULL;
+	}
+
+- (NSArray *)shaders
+	{
+	return(@[ self.vertexShader, self.fragmentShader ]);
+	}
+
 #pragma mark -
 
 - (BOOL)linkProgram:(NSError **)outError
     {
-    AssertOpenGLNoError_();
-
-    // Create shader program
-    GLuint theProgramName = glCreateProgram();
-
-    AssertOpenGLNoError_();
-    
-    // Attach shaders to program...
-    for (CShader *theShader in self.shaders)
-        {
-        AssertOpenGLNoError_();
-        NSAssert(theShader.name != 0, @"No shader name");
-        glAttachShader(theProgramName, theShader.name);
-        AssertOpenGLNoError_();
-        }
 
     AssertOpenGLNoError_();
     
@@ -125,25 +168,25 @@
     for (NSString *theAttributeName in self.attributesByName)
         {
         GLuint theAttributeIndex = [[self.attributesByName objectForKey:theAttributeName] unsignedIntValue];
-        glBindAttribLocation(theProgramName, theAttributeIndex, [theAttributeName UTF8String]);
+        glBindAttribLocation(self.name, theAttributeIndex, [theAttributeName UTF8String]);
         }
 
     AssertOpenGLNoError_();
 
     // Link program
-    glLinkProgram(theProgramName);
+    glLinkProgram(self.name);
 
     GLint theStatus = GL_FALSE;
-    glGetProgramiv(theProgramName, GL_LINK_STATUS, &theStatus);
+    glGetProgramiv(self.name, GL_LINK_STATUS, &theStatus);
     if (theStatus == GL_FALSE)
         {
         NSMutableDictionary *theUserInfo = [NSMutableDictionary dictionary];
         GLint theLogLength;
-        glGetProgramiv(theProgramName, GL_INFO_LOG_LENGTH, &theLogLength);
+        glGetProgramiv(self.name, GL_INFO_LOG_LENGTH, &theLogLength);
         if (theLogLength > 0)
             {
             GLchar *theLogStringBuffer = (GLchar *)malloc(theLogLength);
-            glGetProgramInfoLog(theProgramName, theLogLength, &theLogLength, theLogStringBuffer);
+            glGetProgramInfoLog(self.name, theLogLength, &theLogLength, theLogStringBuffer);
             [theUserInfo setObject:[NSString stringWithUTF8String:theLogStringBuffer] forKey:NSLocalizedDescriptionKey];
             free(theLogStringBuffer);
             }
@@ -156,12 +199,6 @@
 
     AssertOpenGLNoError_();
     
-    name = theProgramName;
-
-    self.shaders = NULL;
-
-    AssertOpenGLNoError_();
-
     return(YES);
     }
 

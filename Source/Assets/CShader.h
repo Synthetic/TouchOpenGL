@@ -33,13 +33,16 @@
 
 #import "OpenGLIncludes.h"
 #import "COpenGLAsset.h"
+#import "CProgram.h"
 
-@interface CShader : NSObject <COpenGLAsset>
+@interface CShader : COpenGLAsset
 
 @property (readonly, nonatomic, assign) GLuint name;
+@property (readonly, nonatomic, strong) NSURL *URL;
+@property (readwrite, nonatomic, strong) NSString *source;
+@property (readwrite, nonatomic, weak) CProgram *program;
 
 - (id)initWithURL:(NSURL *)inURL;
-- (id)initWithName:(NSString *)inName;
 
 - (BOOL)compileShader:(NSError **)outError;
 

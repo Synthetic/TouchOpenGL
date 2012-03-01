@@ -21,6 +21,7 @@
 @interface COpenGLAsset : NSObject <COpenGLAsset>
 
 @property (readonly, nonatomic, assign) GLuint name;
+@property (readonly, nonatomic, assign) BOOL named;
 @property (readonly, nonatomic, assign) NSString *objectLabel;
 @property (readwrite, nonatomic, strong) NSString *label;
 @property (readonly, nonatomic, assign) GLuint cost;
@@ -41,4 +42,12 @@
 + (void)untrackAsset:(COpenGLAsset *)inAsset;
 + (void)clearTrackedAssets;
 + (void)dumpActiveAssets;
+@end
+
+#pragma #pragma mark -
+
+@interface COpenGLAsset (COpenGLAsset_Private)
+
+@property (readwrite, nonatomic, assign) GLuint name;
+
 @end

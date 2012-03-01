@@ -60,6 +60,7 @@
 - (id)initWithSize:(SIntSize)inSize format:(GLenum)inFormat type:(GLenum)inType
 	{
 	AssertOpenGLValidContext_();
+	AssertOpenGLNoError_();
 
 	if (inSize.width != inSize.height)
 		{

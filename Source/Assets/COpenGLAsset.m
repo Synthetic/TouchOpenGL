@@ -11,6 +11,10 @@
 #import "OpenGLIncludes.h"
 #import "OpenGLTypes.h"
 
+@interface COpenGLAsset ()
+@property (readwrite, nonatomic, assign) GLuint name;
+@end
+
 @implementation COpenGLAsset
 
 @synthesize name = _name;
@@ -22,7 +26,7 @@
 
 - (id)initWithName:(GLuint)inName
     {
-    if ((self = [super init]) != NULL)
+    if ((self = [self init]) != NULL)
         {
         _name = inName;
         }
@@ -55,6 +59,21 @@
 		}
 
 	_name = 0;
+	}
+	
+- (void)setName:(GLuint)name
+	{
+	if (_name != name)
+		{
+		[self invalidate];
+		
+		_name = name;
+		}
+	}
+
+- (BOOL)named
+	{
+	return(_name != 0);
 	}
 
 - (NSString *)objectLabel

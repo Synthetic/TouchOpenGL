@@ -35,12 +35,19 @@
 #import "OpenGLTypes.h"
 #import "COpenGLAsset.h"
 
-@interface CProgram : NSObject <COpenGLAsset>
+@class CShader;
+
+@interface CProgram : COpenGLAsset
 
 @property (readonly, nonatomic, copy) NSArray *shaders;    
-@property (readonly, nonatomic, assign) GLuint name;
+@property (readwrite, nonatomic, strong) CShader *vertexShader;
+@property (readwrite, nonatomic, strong) CShader *fragmentShader;
 
-- (id)initWithShaders:(NSArray *)inShaders attributeNames:(NSArray *)inAttributeNames uniformNames:(NSArray *)inUniformNames;
+- (id)initWithVertexAttributeNames:(NSArray *)inAttributeNames uniformNames:(NSArray *)inUniformNames;
+- (id)initWithURL:(NSURL *)inURL error:(NSError **)outError;
+
+- (void)attachShader:(CShader *)inShader;
+- (void)detachShader:(CShader *)inShader;
 
 - (BOOL)linkProgram:(NSError **)outError;
 - (BOOL)validate:(NSError **)outError;

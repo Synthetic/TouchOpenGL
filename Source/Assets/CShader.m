@@ -36,15 +36,13 @@
 
 @interface CShader ()
 @property (readwrite, nonatomic, strong) NSURL *URL;
-@property (readwrite, nonatomic, assign) GLuint name;
 @end
 
 #pragma mark -
 
 @implementation CShader
 
-@synthesize URL;
-@synthesize name;
+@synthesize source = _source;
 
 - (id)initWithURL:(NSURL *)inURL
     {
@@ -59,55 +57,62 @@
 
     if ((self = [super init]) != NULL)
         {
-        URL = inURL;
+        _URL = inURL;
+		
+		[self compileShader:NULL];
         }
     return(self);
     }
 
-- (id)initWithName:(NSString *)inName
+- (void)invalidate
     {
-    NSURL *theURL = [[NSBundle mainBundle] URLForResource:[inName stringByDeletingPathExtension] withExtension:[inName pathExtension]];
-    if (theURL == NULL)
+    if (glIsShader(self.name))
         {
-        theURL = [[[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:@"Shaders"] URLByAppendingPathComponent:inName];
+		GLuint theName = self.name;
+        glDeleteShader(theName);
         }
-    if ((self = [self initWithURL:theURL]) != NULL)
-        {
-        }
-    return(self);
-    }
-
-- (void)dealloc
-    {
-    if (glIsShader(name))
-        {
-        glDeleteShader(name);
-        name = 0;
-        }
-    }
-
-- (GLuint)name
-    {
-    if (name == 0)
-        {
-        [self compileShader:NULL];
-        }
-    return(name);
+		
+	[super invalidate];
     }
 
 - (NSString *)source
 	{
-	
-	NSString *theSource = [NSString stringWithContentsOfURL:self.URL encoding:NSUTF8StringEncoding error:NULL];
-	
+	if (_source == NULL)
+		{
+		NSString *theSource = [NSString stringWithContentsOfURL:self.URL encoding:NSUTF8StringEncoding error:NULL];
+		return(theSource);
+		}
+	return(_source);
+	}
+
+- (NSString *)preprocessedSource
+	{
 	CSimplePreprocessor *thePreprocessor = [[CSimplePreprocessor alloc] init];
 	thePreprocessor.loader = ^(NSString *inName) {
 		NSURL *theURL = [[self.URL URLByDeletingLastPathComponent] URLByAppendingPathComponent:inName];
 		NSString *theSource = [NSString stringWithContentsOfURL:theURL encoding:NSUTF8StringEncoding error:NULL];
 		return(theSource);
 		};
-	theSource = [thePreprocessor preprocess:theSource error:NULL];
+	NSString *theSource = [thePreprocessor preprocess:self.source error:NULL];
 	return(theSource);
+	}
+
+- (void)setSource:(NSString *)source
+	{
+	if (_source != source)
+		{
+		_source = source;
+
+		[self.program detachShader:self];
+
+		[self invalidate];
+		
+
+		[self compileShader:NULL];
+
+		[self.program attachShader:self];
+		
+		}
 	}
 
 - (BOOL)compileShader:(NSError **)outError
@@ -119,7 +124,7 @@
     GLint theStatus;
     const GLchar *theSource;
 
-    theSource = (GLchar *)[self.source UTF8String];
+    theSource = (GLchar *)[self.preprocessedSource UTF8String];
     if (!theSource)
         {
         NSLog(@"Failed to load vertex shader");
@@ -174,7 +179,7 @@
 
     AssertOpenGLNoError_();
 
-    name = theName;
+    self.name = theName;
 
     return(TRUE);
     }
