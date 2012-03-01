@@ -67,10 +67,9 @@ void main()
     {
 	vec4 S = texture2D(u_texture0, v_texture);
 	vec4 D = texture2D(u_texture1, v_texture) + u_color;
-	
-//	S = premultiply(S);
-//	D = premultiply(D);
 
+	D.a *= u_alpha;
+	
 	vec4 OUT;
 
 	// The big uber IF statement is inefficient. Better to use multiple shaders for this...
@@ -88,7 +87,6 @@ void main()
 		OUT.r = 1.0 - ((1.0 - S.r) * (1.0 - D.r));
 		OUT.g = 1.0 - ((1.0 - S.g) * (1.0 - D.g));
 		OUT.b = 1.0 - ((1.0 - S.b) * (1.0 - D.b));
-		OUT.a = 1.0 - ((1.0 - S.a) * (1.0 - D.a));
 		}
 	else if (u_blendMode == kCGBlendModeOverlay)
 		{
@@ -115,7 +113,6 @@ void main()
 		}
 	else if (u_blendMode == kCGBlendModeSoftLight)
 		{
-		D *= u_alpha;
 		OUT.rgb = BlendSoftLight(S.rgb, D.rgb);
 		}
 	else if (u_blendMode == kCGBlendModeHardLight)
@@ -135,7 +132,6 @@ void main()
 		}
 	else if (u_blendMode == kCGBlendModeHue)
 		{
-		// TODO
 		OUT.rgb = BlendHue(D.rgb, S.rbg);
 		OUT.a = 1.0;
 		}
@@ -164,7 +160,7 @@ void main()
 		}
 	else if (u_blendMode == kCGBlendModeSourceIn)
 		{
-		OUT = S * D.a;
+		OUT = D * S.a * D.a;
 		}
 	else if (u_blendMode == kCGBlendModeSourceOut)
 		{
