@@ -26,12 +26,22 @@
 - (void)setupFrameBuffer
 	{
 	AssertOpenGLValidContext_();
+	AssertOpenGLNoError_();
+
 	NSParameterAssert(self.frameBuffer == NULL);
 	NSParameterAssert(_texture == NULL);
 	
-	self.frameBuffer = [[CFrameBuffer alloc] init];
+	self.frameBuffer = [[CFrameBuffer alloc] initWithTarget:GL_FRAMEBUFFER];
+
+	AssertOpenGLNoError_();
+
 	self.frameBuffer.label = [NSString stringWithFormat:@"Offscreen framebuffer (%d)", self.frameBuffer.name];
+
+	AssertOpenGLNoError_();
+
 	[self.frameBuffer bind];
+
+	AssertOpenGLNoError_();
 
 	self.texture = [[CTexture alloc] initWithSize:self.size];
 	[self.frameBuffer attachObject:self.texture attachment:GL_COLOR_ATTACHMENT0];
