@@ -129,7 +129,7 @@ static COpenGLContext *gCurrentContext = NULL;
     // Create a color render buffer - and configure it with current context & drawable
     self.colorBuffer = [[CRenderBuffer alloc] init];
 	
-	#warning TODO This a bit of a mess - and shouldn't be here...#pragma mark -
+	#warning TODO This a bit of a mess - and shouldn't be here...
 #if TARGET_OS_IPHONE == 1
     [self.colorBuffer storageFromContext:self.nativeContext drawable:self.drawable];
 #endif
