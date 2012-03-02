@@ -52,6 +52,7 @@
 - (BOOL)linkProgram:(NSError **)outError;
 - (BOOL)validate:(NSError **)outError;
 
+- (void)reset;
 - (void)update;
 - (void)use;
 

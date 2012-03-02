@@ -36,7 +36,7 @@
 
 @interface CProgram ()
 @property (readonly, nonatomic, copy) NSMutableDictionary *attributesByName;    
-@property (readonly, nonatomic, copy) NSMutableDictionary *uniformsByName;
+@property (readwrite, nonatomic, copy) NSMutableDictionary *uniformsByName;
 @end
 
 #pragma mark -
@@ -143,7 +143,7 @@
 	
 - (void)detachShader:(CShader *)inShader
 	{
-	self.uniformsByName = NULL;
+	[self reset];
 	
     AssertOpenGLNoError_();
 	glDetachShader(self.name, inShader.name);
@@ -233,6 +233,11 @@
         return(NO);
         }
     }
+
+- (void)reset
+	{
+	self.uniformsByName = NULL;
+	}
 
 - (void)update
 	{

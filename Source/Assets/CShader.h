@@ -37,7 +37,7 @@
 
 @interface CShader : COpenGLAsset
 
-@property (readonly, nonatomic, assign) GLuint name;
+@property (readonly, nonatomic, assign) GLenum type;
 @property (readonly, nonatomic, strong) NSURL *URL;
 @property (readwrite, nonatomic, strong) NSString *source;
 @property (readwrite, nonatomic, weak) CProgram *program;

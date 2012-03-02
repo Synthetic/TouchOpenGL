@@ -13,7 +13,7 @@
 #import "CTexture.h"
 #import "CVertexBufferReference.h"
 
-@interface CDiffProgram ()
+@interface CDiffProgram () 
 
 // Uniforms
 @property (readwrite, nonatomic, assign) GLint projectionMatrixUniform;

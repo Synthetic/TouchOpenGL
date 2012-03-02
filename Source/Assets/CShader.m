@@ -55,8 +55,26 @@
             }
         }
 
-    if ((self = [super init]) != NULL)
+    GLenum theType = 0;
+    if ([[inURL pathExtension] isEqualToString:@"fsh"])
         {
+        theType = GL_FRAGMENT_SHADER;
+        }
+    else if ([[inURL pathExtension] isEqualToString:@"vsh"])
+        {
+        theType = GL_VERTEX_SHADER;
+        }
+    else
+        {
+		self = NULL;
+		return(NULL);
+        }
+
+    GLuint theName = glCreateShader(theType);
+
+    if ((self = [super initWithName:theName]) != NULL)
+        {
+		_type = theType;
         _URL = inURL;
 		
 		[self compileShader:NULL];
@@ -66,7 +84,7 @@
 
 - (void)invalidate
     {
-    if (glIsShader(self.name))
+    if (self.named && glIsShader(self.name))
         {
 		GLuint theName = self.name;
         glDeleteShader(theName);
@@ -103,15 +121,7 @@
 		{
 		_source = source;
 
-		[self.program detachShader:self];
-
-		[self invalidate];
-		
-
 		[self compileShader:NULL];
-
-		[self.program attachShader:self];
-		
 		}
 	}
 
@@ -133,35 +143,20 @@
 
     AssertOpenGLNoError_();
         
-    GLenum theType = 0;
-    if ([[self.URL pathExtension] isEqualToString:@"fsh"])
-        {
-        theType = GL_FRAGMENT_SHADER;
-        }
-    else if ([[self.URL pathExtension] isEqualToString:@"vsh"])
-        {
-        theType = GL_VERTEX_SHADER;
-        }
-    else
-        {
-        return(NO);
-        }
-
     AssertOpenGLNoError_();
 
-    GLuint theName = glCreateShader(theType);
-    glShaderSource(theName, 1, &theSource, NULL);
-    glCompileShader(theName);
+    glShaderSource(self.name, 1, &theSource, NULL);
+    glCompileShader(self.name);
 
     AssertOpenGLNoError_();
 
 #if defined(DEBUG)
     GLint logLength;
-    glGetShaderiv(theName, GL_INFO_LOG_LENGTH, &logLength);
+    glGetShaderiv(self.name, GL_INFO_LOG_LENGTH, &logLength);
     if (logLength > 0)
         {
         GLchar *theLogBuffer = (GLchar *)malloc(logLength);
-        glGetShaderInfoLog(theName, logLength, &logLength, theLogBuffer);
+        glGetShaderInfoLog(self.name, logLength, &logLength, theLogBuffer);
         NSLog(@"Shader failed:\n%@", self.URL);
         NSLog(@"Shader compile log:\n%s", theLogBuffer);
         free(theLogBuffer);
@@ -170,16 +165,14 @@
 
     AssertOpenGLNoError_();
 
-    glGetShaderiv(theName, GL_COMPILE_STATUS, &theStatus);
-    if (theStatus == 0)
-        {
-        glDeleteShader(theName);
-        return FALSE;
-        }
+    glGetShaderiv(self.name, GL_COMPILE_STATUS, &theStatus);
+//    if (theStatus == 0)
+//        {
+//        glDeleteShader(self.name);
+//        return FALSE;
+//        }
 
     AssertOpenGLNoError_();
-
-    self.name = theName;
 
     return(TRUE);
     }
