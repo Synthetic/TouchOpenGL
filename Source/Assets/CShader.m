@@ -103,6 +103,16 @@
 	return(_source);
 	}
 
+- (void)setSource:(NSString *)source
+	{
+	if (_source != source)
+		{
+		_source = source;
+
+		[self compileShader:NULL];
+		}
+	}
+
 - (NSString *)preprocessedSource
 	{
 	CSimplePreprocessor *thePreprocessor = [[CSimplePreprocessor alloc] init];
@@ -115,15 +125,6 @@
 	return(theSource);
 	}
 
-- (void)setSource:(NSString *)source
-	{
-	if (_source != source)
-		{
-		_source = source;
-
-		[self compileShader:NULL];
-		}
-	}
 
 - (BOOL)compileShader:(NSError **)outError
     {
