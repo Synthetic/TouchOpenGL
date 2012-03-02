@@ -7,7 +7,7 @@
 //
 
 #ifdef GL_ES
-precision highp float;
+precision lowp float;
 #endif
 
 #include "PhotoshopMathFP.hlsl"
@@ -41,6 +41,8 @@ precision highp float;
 #define kCGBlendModePlusDarker 26
 #define kCGBlendModePlusLighter 27
 
+// #############################################################################
+
 varying vec2 v_texture;
 
 uniform sampler2D u_texture0;
@@ -51,6 +53,8 @@ uniform float u_alpha;
 uniform float u_gamma;
 uniform vec4 u_color;
 
+// #############################################################################
+
 vec3 gamma_correct(vec3 C)
 	{
 	return pow(C, vec3(u_gamma)); // desiredGamma / currentGamma
@@ -58,7 +62,7 @@ vec3 gamma_correct(vec3 C)
 
 vec4 premultiply(vec4 v)
 	{
-	return vec4(v.r * v.a, v.g * v.a, v.b * v.a, 1.0);
+	return vec4(v.r * v.a, v.g * v.a, v.b * v.a, v.a);
 	}
 
 // #############################################################################
@@ -84,6 +88,8 @@ void main()
 		}
 	else if (u_blendMode == kCGBlendModeScreen)
 		{
+		S = premultiply(S);
+		D = premultiply(D);
 		OUT.r = 1.0 - ((1.0 - S.r) * (1.0 - D.r));
 		OUT.g = 1.0 - ((1.0 - S.g) * (1.0 - D.g));
 		OUT.b = 1.0 - ((1.0 - S.b) * (1.0 - D.b));
@@ -106,6 +112,8 @@ void main()
 		}
 	else if (u_blendMode == kCGBlendModeColorDodge)
 		{
+		S = premultiply(S);
+		D = premultiply(D);
 		OUT.rgb = BlendColorDodge(S.rgb, D.rgb);
 		OUT.a = 1.0;
 		}
@@ -119,24 +127,33 @@ void main()
 		{
 		// AGED
 		OUT.rgb = BlendSoftLight(S.rgb, D.rgb);
+		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeHardLight)
 		{
+		S = premultiply(S);
+		D = premultiply(D);
 		OUT.rgb = BlendHardLight(S.rgb, D.rgb);
 		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeDifference)
 		{
+		S = premultiply(S);
+		D = premultiply(D);
 		OUT.rgb = BlendDifference(S.rgb, D.rgb);
 		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeExclusion)
 		{
+		S = premultiply(S);
+		D = premultiply(D);
 		OUT.rgb = BlendExclusion(S.rgb, D.rgb);
 		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeHue)
 		{
+		S = premultiply(S);
+		D = premultiply(D);
 		OUT.rgb = BlendHue(D.rgb, S.rbg);
 		OUT.a = 1.0;
 		}
@@ -161,7 +178,7 @@ void main()
 		}
 	else if (u_blendMode == kCGBlendModeCopy)
 		{
-		OUT = S;
+		OUT = D;
 		}
 	else if (u_blendMode == kCGBlendModeSourceIn)
 		{
@@ -169,41 +186,57 @@ void main()
 		}
 	else if (u_blendMode == kCGBlendModeSourceOut)
 		{
-		OUT = S * (1.0 - D.a);
+		OUT = D * (1.0 - S.a);
 		}
 	else if (u_blendMode == kCGBlendModeSourceAtop)
 		{
-		OUT = S * D.a + D * (1.0 - S.a);
+		S = premultiply(S);
+		D = premultiply(D);
+		OUT = D * S.a + S * (1.0 - D.a);
 		}
 	else if (u_blendMode == kCGBlendModeDestinationOver)
 		{
-		OUT = S * (1.0 - D.a) + D;
+		S = premultiply(S);
+		D = premultiply(D);
+		OUT = D * (1.0 - S.a) + S;
 		}
 	else if (u_blendMode == kCGBlendModeDestinationIn)
 		{
-		OUT = D * S.a;
+		S = premultiply(S);
+		D = premultiply(D);
+		OUT = S * D.a;
 		}
 	else if (u_blendMode == kCGBlendModeDestinationOut)
 		{
-		OUT = D * (1.0 - S.a);
+		S = premultiply(S);
+		D = premultiply(D);
+		OUT = S * (1.0 - D.a);
 		}
 	else if (u_blendMode == kCGBlendModeDestinationAtop)
 		{
-		OUT = S * (1.0 - D.a) + D * S.a;
+		S = premultiply(S);
+		D = premultiply(D);
+		OUT = D * (1.0 - S.a) + S * D.a;
 		}
 	else if (u_blendMode == kCGBlendModeXOR)
 		{
+		S = premultiply(S);
+		D = premultiply(D);
 		OUT = S * (1.0 - D.a) + D * (1.0 - S.a);
 		}
 	else if (u_blendMode == kCGBlendModePlusDarker)
 		{
-		OUT.r = max(0.0, (1.0 - D.r) + (1.0 - S.r));
-		OUT.g = max(0.0, (1.0 - D.g) + (1.0 - S.g));
-		OUT.b = max(0.0, (1.0 - D.b) + (1.0 - S.b));
-		OUT.a = max(0.0, (1.0 - D.a) + (1.0 - S.a));
+		S = premultiply(S);
+		D = premultiply(D);
+		OUT.r = max(0.0, (1.0 - S.r) + (1.0 - D.r));
+		OUT.g = max(0.0, (1.0 - S.g) + (1.0 - D.g));
+		OUT.b = max(0.0, (1.0 - S.b) + (1.0 - D.b));
+		OUT.a = max(0.0, (1.0 - S.a) + (1.0 - D.a));
 		}
 	else if (u_blendMode == kCGBlendModePlusLighter)
 		{
+		S = premultiply(S);
+		D = premultiply(D);
 		OUT.r = min(1.0, S.r + D.r);
 		OUT.g = min(1.0, S.g + D.g);
 		OUT.b = min(1.0, S.b + D.b);
@@ -213,6 +246,11 @@ void main()
 		{
 		OUT = vec4(1.0, 0.0, 0.0, 1.0);
 		}
+
+if (OUT.a > 0.0)
+	{
+//	OUT = vec4(1.0, 0.0, 0.0, 1.0);
+	}
 
 	gl_FragColor = OUT;
     }
