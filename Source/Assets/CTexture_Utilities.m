@@ -289,8 +289,6 @@
 
 - (void)writeToFile:(NSString *)inPath
 	{
-	GLLog_(@"Writing to file.");
-
 	CGImageRef theImage = [self fetchImage];
 	NSURL *theURL = [NSURL fileURLWithPath:inPath];
 	CGImageDestinationRef theDestination = CGImageDestinationCreateWithURL((__bridge CFURLRef)theURL, kUTTypePNG, 1, NULL);
@@ -298,8 +296,6 @@
 	CGImageDestinationFinalize(theDestination);
 	CFRelease(theDestination);	
 	CFRelease(theImage);
-
-	GLLog_(@"Writing to file, done.");
 	}
 
 @end
