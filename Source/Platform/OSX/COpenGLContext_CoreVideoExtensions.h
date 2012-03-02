@@ -8,8 +8,10 @@
 
 #import "COpenGLContext.h"
 
+#import <CoreVideo/CoreVideo.h>
+
 @interface COpenGLContext (COpenGLContext_CoreVideoExtensions)
 
-@property (readonly, nonatomic, assign) CVOpenGLESTextureCacheRef textureCache;
+@property (readonly, nonatomic, assign) CVOpenGLTextureCacheRef textureCache;
 
 @end

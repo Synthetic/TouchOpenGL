@@ -14,14 +14,12 @@
 
 static void *kKey;
 
-- (CVOpenGLESTextureCacheRef)textureCache
+- (CVOpenGLTextureCacheRef)textureCache
 	{
-	CVOpenGLESTextureCacheRef theTextureCache = (__bridge CVOpenGLESTextureCacheRef)objc_getAssociatedObject(self, &kKey);
+	CVOpenGLTextureCacheRef theTextureCache = (__bridge CVOpenGLTextureCacheRef)objc_getAssociatedObject(self, &kKey);
 	if (theTextureCache == NULL)
 		{
-		CVReturn theResult = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, (__bridge void *)self.nativeContext, NULL, &theTextureCache);
-
-
+		CVReturn theResult = CVOpenGLTextureCacheCreate(kCFAllocatorDefault, NULL, self.nativeContext, CGLGetPixelFormat(self.nativeContext), NULL, &theTextureCache);
 		objc_setAssociatedObject(self, &kKey, (__bridge id)theTextureCache, OBJC_ASSOCIATION_RETAIN);
 		}
 	return(theTextureCache);
