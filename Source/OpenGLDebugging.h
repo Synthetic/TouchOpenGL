@@ -8,8 +8,3 @@
 
 #include <stdio.h>
 
-#define GLLog_ GLLog
-
-extern void GLLog(NSString *inFormat, ...);
-extern void GLLogC(char const *inFormat);
-
