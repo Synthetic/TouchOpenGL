@@ -50,5 +50,7 @@
 	</array>
 	<key>vertexShader</key>
 	<string>SimpleTexture.vsh</string>
+	<key>className</key>
+	<string>CSimpleTextureProgram</string>
 </dict>
 </plist>
