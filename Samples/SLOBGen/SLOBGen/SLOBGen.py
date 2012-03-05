@@ -65,6 +65,8 @@ class Generator(object):
         if self.input == None:
             raise Exception('Could not find any input files.')
 
+        print self.input
+
         # If we still don't have an input file we need to bail.
         if not os.path.exists(self.input):
             raise Exception('Input file doesnt exist at %s' % self.input)
