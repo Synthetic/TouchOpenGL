@@ -35,6 +35,8 @@
 
 #if TARGET_OS_IPHONE == 1
 - (id)initWithSize:(SIntSize)inSize drawable:(id <EAGLDrawable>)inDrawable;
+#else
+- (id)initWithNativeContext:(CGLContextObj)inNativeContext size:(SIntSize)inSize;
 #endif
 
 - (void)setupFrameBuffer;

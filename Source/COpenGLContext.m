@@ -49,7 +49,7 @@ static COpenGLContext *gCurrentContext = NULL;
         }
     return self;
     }
-
+	
 #if TARGET_OS_IPHONE == 1
 - (id)initWithSize:(SIntSize)inSize drawable:(id <EAGLDrawable>)inDrawable;
 	{
@@ -62,6 +62,18 @@ static COpenGLContext *gCurrentContext = NULL;
         }
     return self;
 	}
+#else
+- (id)initWithNativeContext:(CGLContextObj)inNativeContext size:(SIntSize)inSize
+    {
+    if ((self = [super init]) != NULL)
+        {
+		_size = inSize;
+        _nativeContext = inNativeContext;
+		
+		[self setup];
+        }
+    return self;
+    }
 #endif
 
 - (void)dealloc
@@ -83,35 +95,38 @@ static COpenGLContext *gCurrentContext = NULL;
 
 - (void)setup
 	{
-	#if TARGET_OS_IPHONE == 1
-	EAGLSharegroup *theShareGroup = [[EAGLSharegroup alloc] init];
-	_nativeContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2 sharegroup:theShareGroup];
-	#else
-	CGLPixelFormatAttribute thePixelFormatAttributes[] = {
-		kCGLPFAAccelerated,
-		kCGLPFAColorSize, 8,
-		kCGLPFAAlphaSize, 8,
-		kCGLPFADepthSize, 16,
-		0
-		};
-	CGLPixelFormatObj thePixelFormatObject = NULL;
-	GLint theNumberOfPixelFormats = 0;
-	CGLChoosePixelFormat(thePixelFormatAttributes, &thePixelFormatObject, &theNumberOfPixelFormats);
-	if (thePixelFormatObject == NULL)
+	if (_nativeContext == NULL)
 		{
-		NSLog(@"Error: Could not choose pixel format!");
-		}
+		#if TARGET_OS_IPHONE == 1
+		EAGLSharegroup *theShareGroup = [[EAGLSharegroup alloc] init];
+		_nativeContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2 sharegroup:theShareGroup];
+		#else
+		CGLPixelFormatAttribute thePixelFormatAttributes[] = {
+			kCGLPFAAccelerated,
+			kCGLPFAColorSize, 8,
+			kCGLPFAAlphaSize, 8,
+			kCGLPFADepthSize, 16,
+			0
+			};
+		CGLPixelFormatObj thePixelFormatObject = NULL;
+		GLint theNumberOfPixelFormats = 0;
+		CGLChoosePixelFormat(thePixelFormatAttributes, &thePixelFormatObject, &theNumberOfPixelFormats);
+		if (thePixelFormatObject == NULL)
+			{
+			NSLog(@"Error: Could not choose pixel format!");
+			}
 
-	CGLContextObj theOpenGLContext = NULL;
-	CGLError theError = CGLCreateContext(thePixelFormatObject, NULL, &theOpenGLContext);
-	if (theError != kCGLNoError)
-		{
-		NSLog(@"Could not create context");
-		return;
+		CGLContextObj theOpenGLContext = NULL;
+		CGLError theError = CGLCreateContext(thePixelFormatObject, NULL, &theOpenGLContext);
+		if (theError != kCGLNoError)
+			{
+			NSLog(@"Could not create context");
+			return;
+			}
+		
+		_nativeContext = theOpenGLContext;
+		#endif /* TARGET_OS_IPHONE == 1 */
 		}
-	
-	_nativeContext = theOpenGLContext;
-	#endif /* TARGET_OS_IPHONE == 1 */
 	}
 	
 - (void)setupFrameBuffer
