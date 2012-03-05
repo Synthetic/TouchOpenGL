@@ -32,9 +32,11 @@
 #import "CSceneRendererOpenGLLayer.h"
 
 #import "CSceneRenderer.h"
+#import "COpenGLContext.h"
 
 @interface CSceneRendererOpenGLLayer ()
 @property (readwrite, nonatomic, assign) BOOL setup;
+@property (readwrite, nonatomic, strong) COpenGLContext *context;
 @end
 
 #pragma mark -
@@ -42,7 +44,6 @@
 @implementation CSceneRendererOpenGLLayer
 
 @synthesize renderer;
-
 @synthesize setup;
 
 - (id)init
@@ -82,7 +83,15 @@
 
 - (void)drawInCGLContext:(CGLContextObj)ctx pixelFormat:(CGLPixelFormatObj)pf forLayerTime:(CFTimeInterval)t displayTime:(const CVTimeStamp *)ts
     {
-    CGLSetCurrentContext(ctx);
+	if (self.context == NULL)
+		{
+		self.context = [[COpenGLContext alloc] initWithNativeContext:ctx size:(SIntSize){ self.frame.size.width, self.frame.size.height }];
+		self.renderer.context = self.context;
+		}
+
+	NSParameterAssert(self.context.nativeContext == ctx);
+
+	[self.context use];
     
     if (self.setup == NO)
         {
