@@ -80,6 +80,16 @@
         return(NULL);
         }
     
+	NSString *theClassName = [theProgramDictionary objectForKey:@"className"];
+	if (theClassName)
+		{
+		Class theClass = NSClassFromString(theClassName);
+		if (theClass)
+			{
+			self = [theClass alloc]; 
+			}
+		}
+
 
     NSArray *theAttributeNames = [[theProgramDictionary objectForKey:@"attributes"] valueForKey:@"name"];
     NSArray *theUniformNames = [[theProgramDictionary objectForKey:@"uniforms"] valueForKey:@"name"];
@@ -102,14 +112,14 @@
 		_fragmentShader = theFragmentShader;
 		[self attachShader:_fragmentShader];
 		
-		    AssertOpenGLNoError_();
+		AssertOpenGLNoError_();
 
 		[self linkProgram:NULL];
 		
 		NSError *theError = NULL;
 		[self validate:&theError];
-		NSLog(@"%@", theError);
-    AssertOpenGLNoError_();
+
+		AssertOpenGLNoError_();
 
         }
     return self;

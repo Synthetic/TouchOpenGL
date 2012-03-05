@@ -43,7 +43,7 @@
 @property (readwrite, nonatomic, strong) CShader *vertexShader;
 @property (readwrite, nonatomic, strong) CShader *fragmentShader;
 
-- (id)initWithVertexAttributeNames:(NSArray *)inAttributeNames uniformNames:(NSArray *)inUniformNames;
+- (id)initWithAttributeNames:(NSArray *)inAttributeNames uniformNames:(NSArray *)inUniformNames;
 - (id)initWithURL:(NSURL *)inURL error:(NSError **)outError;
 
 - (void)attachShader:(CShader *)inShader;
