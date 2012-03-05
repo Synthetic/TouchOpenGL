@@ -46,7 +46,7 @@
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);   
 
 	
-    if ((self = [self initWithName:theName size:theSize owns:NO]) != NULL)
+    if ((self = [self initWithName:theName target:GL_TEXTURE_2D size:theSize owns:NO]) != NULL)
         {
 		_textureCache = (CVOpenGLESTextureCacheRef)CFRetain(inTextureCache);
 		_texture = theTexture;

@@ -38,12 +38,13 @@
 @interface CTexture : COpenGLAsset
 
 @property (readonly, nonatomic, assign) GLuint name;
+@property (readonly, nonatomic, assign) GLenum target;
 @property (readonly, nonatomic, assign) SIntSize size;
 
-- (id)initWithName:(GLuint)inName size:(SIntSize)inSize owns:(BOOL)inOwns;
-- (id)initWithName:(GLuint)inName size:(SIntSize)inSize;
+- (id)initWithName:(GLuint)inName target:(GLenum)inTarget size:(SIntSize)inSize owns:(BOOL)inOwns;
+- (id)initWithName:(GLuint)inName target:(GLenum)inTarget size:(SIntSize)inSize;
 
-- (id)initWithSize:(SIntSize)inSize format:(GLenum)inFormat type:(GLenum)inType;
+- (id)initWithTarget:(GLenum)inTarget size:(SIntSize)inSize format:(GLenum)inFormat type:(GLenum)inType;
 - (id)initWithSize:(SIntSize)inSize;
 
 - (BOOL)isValid;

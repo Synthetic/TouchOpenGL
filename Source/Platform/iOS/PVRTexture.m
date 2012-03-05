@@ -71,7 +71,7 @@ typedef struct _PVRTexHeader {
 
 
 
-	if ((self = [self initWithName:theName size:theSize owns:YES]) != NULL)
+	if ((self = [self initWithName:theName target:GL_TEXTURE_2D size:theSize owns:YES]) != NULL)
 		{
 		}	
 	return(self);

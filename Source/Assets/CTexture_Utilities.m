@@ -115,18 +115,19 @@
     AssertOpenGLValidContext_();
     
     GLuint theName = 0;
+	GLenum theTarget = GL_TEXTURE_2D;
 
     glGenTextures(1, &theName);
     
     AssertOpenGLNoError_();
     
-    glBindTexture(GL_TEXTURE_2D, theName);
+    glBindTexture(theTarget, theName);
 
     // Configure texture...
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);   
+	glTexParameteri(theTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(theTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(theTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(theTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);   
 
 
     // Update texture data...
@@ -151,7 +152,7 @@
 //        
 //    self.loaded = YES;
  
-	CTexture *theTexture = [[CTexture alloc] initWithName:theName size:inSize];
+	CTexture *theTexture = [[CTexture alloc] initWithName:theName target:theTarget size:inSize];
 	      
     return(theTexture);
 	}
@@ -216,7 +217,7 @@
 	AssertOpenGLValidContext_();
 	AssertOpenGLNoError_();
 
-	glBindTexture(GL_TEXTURE_2D, self.name);
+	glBindTexture(self.target, self.name);
 
 	// Store the current frame buffer...
 	GLint theCurrentFrameBuffer = 0;
@@ -250,10 +251,10 @@
 #if TARGET_OS_IPHONE == 0
 - (CGImageRef)fetchImageDirect CF_RETURNS_RETAINED
 	{
-	glBindTexture(GL_TEXTURE_2D, self.name);
+	glBindTexture(self.target, self.name);
 	
 	NSMutableData *theData = [NSMutableData dataWithLength:self.size.width * 4 * self.size.height];
-	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, theData.mutableBytes);
+	glGetTexImage(self.target, 0, GL_RGBA, GL_UNSIGNED_BYTE, theData.mutableBytes);
 
 	CGColorSpaceRef theColorSpace = CGColorSpaceCreateDeviceRGB();
 	

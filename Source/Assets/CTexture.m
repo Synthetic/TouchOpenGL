@@ -42,22 +42,23 @@
 	return(GL_TEXTURE);
 	}
 
-- (id)initWithName:(GLuint)inName size:(SIntSize)inSize owns:(BOOL)inOwns
+- (id)initWithName:(GLuint)inName target:(GLenum)inTarget size:(SIntSize)inSize owns:(BOOL)inOwns
 	{
     if ((self = [super initWithName:inName]) != NULL)
         {
         _size = inSize;
+		_target = inTarget;
         _owns = inOwns;
         }
     return(self);
 	}
 
-- (id)initWithName:(GLuint)inName size:(SIntSize)inSize
+- (id)initWithName:(GLuint)inName target:(GLenum)inTarget size:(SIntSize)inSize
     {
-	return([self initWithName:inName size:inSize owns:YES]);
+	return([self initWithName:inName target:inTarget size:inSize owns:YES]);
     }
 
-- (id)initWithSize:(SIntSize)inSize format:(GLenum)inFormat type:(GLenum)inType
+- (id)initWithTarget:(GLenum)inTarget size:(SIntSize)inSize format:(GLenum)inFormat type:(GLenum)inType
 	{
 	AssertOpenGLValidContext_();
 	AssertOpenGLNoError_();
@@ -69,16 +70,16 @@
 	
 	GLuint theTextureName;
 	glGenTextures(1, &theTextureName);
-	glBindTexture(GL_TEXTURE_2D, theTextureName);
-	glTexImage2D(GL_TEXTURE_2D, 0, inFormat, inSize.width, inSize.height, 0, inFormat, inType, NULL); 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);   
+	glBindTexture(inTarget, theTextureName);
+	glTexImage2D(inTarget, 0, inFormat, inSize.width, inSize.height, 0, inFormat, inType, NULL); 
+	glTexParameteri(inTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(inTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(inTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(inTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);   
 
 	AssertOpenGLNoError_();
 
-    if ((self = [self initWithName:theTextureName size:inSize owns:YES]) != NULL)
+    if ((self = [self initWithName:theTextureName target:inTarget size:inSize owns:YES]) != NULL)
         {
         }
     return(self);
@@ -86,7 +87,7 @@
 
 - (id)initWithSize:(SIntSize)inSize
 	{
-	return([self initWithSize:inSize format:GL_RGBA type:GL_UNSIGNED_BYTE]);
+	return([self initWithTarget:GL_TEXTURE_2D size:inSize format:GL_RGBA type:GL_UNSIGNED_BYTE]);
 	}
 
 //- (NSString *)description
@@ -120,7 +121,7 @@
 
 - (void)bind
 	{
-	glBindTexture(GL_TEXTURE_2D, self.name);
+	glBindTexture(self.target, self.name);
 	}
 
 - (void)use:(GLuint)inUniform index:(GLuint)inIndex
@@ -128,7 +129,7 @@
 	AssertOpenGLValidContext_();
 	
 	glActiveTexture(GL_TEXTURE0 + inIndex);
-	glBindTexture(GL_TEXTURE_2D, self.name);
+	glBindTexture(self.target, self.name);
 	glUniform1i(inUniform, inIndex);
 	AssertOpenGLNoError_();
 	}
