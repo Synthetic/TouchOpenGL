@@ -71,6 +71,8 @@ void main()
     {
 	vec4 S = texture2D(u_texture0, v_texture);
 	vec4 D = texture2D(u_texture1, v_texture) + u_color;
+	vec4	Sp = premultiply(S);
+	vec4	Dp = premultiply(D);
 
 	D.a *= u_alpha;
 
@@ -80,19 +82,19 @@ void main()
 
 	if (u_blendMode == kCGBlendModeNormal)
 		{
+		// COLOR WORKS.
+		// ALPHA FAILS
 		OUT = S * (1.0 - D.a) + D * D.a;
 		}
 	else if (u_blendMode == kCGBlendModeMultiply)
 		{
-		OUT = S * D;
+		OUT.rgb = Sp.rgb * Dp.rgb;
 		}
 	else if (u_blendMode == kCGBlendModeScreen)
 		{
-		S = premultiply(S);
-		D = premultiply(D);
-		OUT.r = 1.0 - ((1.0 - S.r) * (1.0 - D.r));
-		OUT.g = 1.0 - ((1.0 - S.g) * (1.0 - D.g));
-		OUT.b = 1.0 - ((1.0 - S.b) * (1.0 - D.b));
+		OUT.r = 1.0 - ((1.0 - Sp.r) * (1.0 - Dp.r));
+		OUT.g = 1.0 - ((1.0 - Sp.g) * (1.0 - Dp.g));
+		OUT.b = 1.0 - ((1.0 - Sp.b) * (1.0 - Dp.b));
 		}
 	else if (u_blendMode == kCGBlendModeOverlay)
 		{
@@ -107,19 +109,16 @@ void main()
 		}
 	else if (u_blendMode == kCGBlendModeLighten)
 		{
-        // AGED
+	        // AGED
 		OUT = BlendLighten(S, D);
 		}
 	else if (u_blendMode == kCGBlendModeColorDodge)
 		{
-		S = premultiply(S);
-		D = premultiply(D);
-		OUT.rgb = BlendColorDodge(S.rgb, D.rgb);
-		OUT.a = 1.0;
+		OUT.rgb = BlendColorDodge(Sp.rgb, Dp.rgb);
 		}
 	else if (u_blendMode == kCGBlendModeColorBurn)
 		{
-        // AGED
+	        // AGED
 		OUT.rgb = BlendColorBurn(S.rgb, D.rgb);
 		OUT.a = 1.0;
 		}
@@ -131,45 +130,37 @@ void main()
 		}
 	else if (u_blendMode == kCGBlendModeHardLight)
 		{
-		S = premultiply(S);
-		D = premultiply(D);
-		OUT.rgb = BlendHardLight(S.rgb, D.rgb);
+		OUT.rgb = BlendHardLight(Sp.rgb, Dp.rgb);
 		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeDifference)
 		{
-		S = premultiply(S);
-		D = premultiply(D);
-		OUT.rgb = BlendDifference(S.rgb, D.rgb);
+		OUT.rgb = BlendDifference(Sp.rgb, Dp.rgb);
 		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeExclusion)
 		{
-		S = premultiply(S);
-		D = premultiply(D);
-		OUT.rgb = BlendExclusion(S.rgb, D.rgb);
+		OUT.rgb = BlendExclusion(Sp.rgb, Dp.rgb);
 		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeHue)
 		{
-		S = premultiply(S);
-		D = premultiply(D);
-		OUT.rgb = BlendHue(D.rgb, S.rbg);
+		OUT.rgb = BlendHue(Dp.rgb, Sp.rgb);
 		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeSaturation)
 		{
-		OUT.rgb = BlendSaturation(S.rgb, D.rbg);
+		OUT.rgb = BlendSaturation(S.rgb, D.rgb);
 		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeColor)
 		{
-		OUT.rgb = BlendColor(S.rgb, D.rbg);
+		OUT.rgb = BlendColor(S.rgb, D.rgb);
 		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeLuminosity)
 		{
-		OUT.rgb = BlendLuminosity(S.rgb, D.rbg);
+		OUT.rgb = BlendLuminosity(S.rgb, D.rgb);
 		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeClear)
@@ -190,62 +181,51 @@ void main()
 		}
 	else if (u_blendMode == kCGBlendModeSourceAtop)
 		{
-		S = premultiply(S);
-		D = premultiply(D);
-		OUT = D * S.a + S * (1.0 - D.a);
+		OUT = Dp * Sp.a + Sp * (1.0 - Dp.a);
 		}
 	else if (u_blendMode == kCGBlendModeDestinationOver)
 		{
-		S = premultiply(S);
-		D = premultiply(D);
-		OUT = D * (1.0 - S.a) + S;
+		OUT = Dp * (1.0 - Sp.a) + Sp;
 		}
 	else if (u_blendMode == kCGBlendModeDestinationIn)
 		{
-		S = premultiply(S);
-		D = premultiply(D);
-		OUT = S * D.a;
+		OUT = Sp * Dp.a;
 		}
 	else if (u_blendMode == kCGBlendModeDestinationOut)
 		{
-		S = premultiply(S);
-		D = premultiply(D);
-		OUT = S * (1.0 - D.a);
+		OUT = Sp * (1.0 - Dp.a);
 		}
 	else if (u_blendMode == kCGBlendModeDestinationAtop)
 		{
-		S = premultiply(S);
-		D = premultiply(D);
-		OUT = D * (1.0 - S.a) + S * D.a;
+		OUT = Dp * (1.0 - Sp.a) + Sp * Dp.a;
 		}
 	else if (u_blendMode == kCGBlendModeXOR)
 		{
-		S = premultiply(S);
-		D = premultiply(D);
-		OUT = S * (1.0 - D.a) + D * (1.0 - S.a);
+		OUT = Sp * (1.0 - Dp.a) + Dp * (1.0 - Sp.a);
 		}
 	else if (u_blendMode == kCGBlendModePlusDarker)
 		{
-		S = premultiply(S);
-		D = premultiply(D);
-		OUT.r = max(0.0, (1.0 - S.r) + (1.0 - D.r));
-		OUT.g = max(0.0, (1.0 - S.g) + (1.0 - D.g));
-		OUT.b = max(0.0, (1.0 - S.b) + (1.0 - D.b));
-		OUT.a = max(0.0, (1.0 - S.a) + (1.0 - D.a));
+//  MAX(0, (1 - D) + (1 - S))
+
+		OUT.r = max(0.0, (1.0 - Dp.r) + (1.0 - Sp.r));
+		OUT.g = max(0.0, (1.0 - Dp.g) + (1.0 - Sp.g));
+		OUT.b = max(0.0, (1.0 - Dp.b) + (1.0 - Sp.b));
+
+//		OUT.rgb = max(0.0, (1.0 - Dp) + (1.0 - Sp))
 		}
 	else if (u_blendMode == kCGBlendModePlusLighter)
 		{
-		S = premultiply(S);
-		D = premultiply(D);
-		OUT.r = min(1.0, S.r + D.r);
-		OUT.g = min(1.0, S.g + D.g);
-		OUT.b = min(1.0, S.b + D.b);
-		OUT.a = min(1.0, S.a + D.a);
+		OUT.r = min(1.0, Dp.r + Sp.r);
+		OUT.g = min(1.0, Dp.g + Sp.g);
+		OUT.b = min(1.0, Dp.b + Sp.b);
+		OUT.a = min(1.0, Dp.a + Sp.a);
 		}
 	else
 		{
 		OUT = vec4(1.0, 0.0, 0.0, 1.0);
 		}
+
+OUT = S * (1.0 - OUT.a) + OUT * OUT.a;
 
 if (OUT.a > 0.0)
 	{
