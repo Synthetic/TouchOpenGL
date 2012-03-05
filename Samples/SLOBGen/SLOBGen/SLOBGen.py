@@ -59,7 +59,7 @@ class Generator(object):
     def generate(self):
         # If we don't have an input file lets try and find one in the cwd
         if self.input == None:
-            files = glob.glob('*.plist')
+            files = glob.glob('*.GLSLProgram')
             if files:
                 self.input = files[0]
         if self.input == None:
@@ -70,8 +70,8 @@ class Generator(object):
             raise Exception('Input file doesnt exist at %s' % self.input)
 
         self.input_type = os.path.splitext(self.input)[1][1:]
-        if self.input_type not in ['plist']:
-            raise Exception('Input file is not a .plist. Why are you trying to trick me?')
+        if self.input_type not in ['GLSLProgram']:
+            raise Exception('Input file is not a .GLSLProgram. Why are you trying to trick me?')
 
         # No? Ok, let's fall back to the cwd
         if self.template == None:
