@@ -116,7 +116,7 @@
 	
 	if ([inObject isKindOfClass:[CTexture class]])
 		{
-		glFramebufferTexture2D(self.target, inAttachment, GL_TEXTURE_2D, inObject.name, 0);
+		glFramebufferTexture2D(self.target, inAttachment, ((CTexture *)inObject).target, inObject.name, 0);
 		}
 	else if ([inObject isKindOfClass:[CRenderBuffer class]])
 		{
@@ -132,7 +132,7 @@
 	
 	if ([inObject isKindOfClass:[CTexture class]])
 		{
-		glFramebufferTexture2D(self.target, inAttachment, GL_TEXTURE_2D, inObject.name, 0);
+		glFramebufferTexture2D(self.target, inAttachment, ((CTexture *)inObject).target, inObject.name, 0);
 		}
 	else if ([inObject isKindOfClass:[CRenderBuffer class]])
 		{
