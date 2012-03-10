@@ -205,6 +205,7 @@
 		}
 
 	CTexture *theTexture = [self textureWithCGImage:theImage error:outError];
+	theTexture.label = [inURL lastPathComponent];
 
 	CFRelease(theImage);
 	return(theTexture);
