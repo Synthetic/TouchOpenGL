@@ -74,10 +74,13 @@
 
 - (void)invalidate
 	{
-    NSParameterAssert(glIsFramebuffer(self.name) == GL_TRUE);
+	if (self.named == YES)
+		{
+		NSParameterAssert(glIsFramebuffer(self.name) == GL_TRUE);
 
-	GLuint theName = self.name;
-	glDeleteFramebuffers(1, &theName);
+		GLuint theName = self.name;
+		glDeleteFramebuffers(1, &theName);
+		}
 	
 	[super invalidate];
 	}
