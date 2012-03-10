@@ -50,6 +50,7 @@
         {
         if ([[NSFileManager defaultManager] fileExistsAtPath:inURL.path] == NO)
             {
+			NSLog(@"No file at %@", inURL);
             self = NULL;
             return(NULL);
             }
