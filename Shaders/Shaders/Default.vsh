@@ -9,8 +9,8 @@
 attribute vec4 a_position;
 attribute vec2 a_texCoord;
 
-uniform mat4 u_modelViewMatrix;
-uniform mat4 u_projectionMatrix;
+uniform mat4 u_modelViewMatrix; //@ name=modelViewMatrix
+uniform mat4 u_projectionMatrix; //@ name=projectionViewMatrix
 
 varying vec2 v_texture0;
 

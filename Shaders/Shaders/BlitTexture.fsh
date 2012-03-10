@@ -12,7 +12,7 @@ precision lowp float;
 
 varying vec2 v_texture0;
 
-uniform sampler2D u_texture0;
+uniform sampler2D u_texture0; //@ name:texture0
 
 void main()
     {

@@ -15,8 +15,8 @@ precision mediump float;
 #endif
 
 varying vec2 v_texture0;
-uniform sampler2D u_texture0;
-uniform bool u_vertical;
+uniform sampler2D u_texture0; //@ name:texture0, type=texture, default=NULL
+uniform bool u_vertical; //@ name:vertical, type=bool, default=0
 
 void main(void)
 	{

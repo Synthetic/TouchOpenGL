@@ -8,20 +8,13 @@
 
 #ifdef GL_ES
 precision mediump float;
-#define TEXTURE2D texture2D
-#define SAMPLER2D sampler2D
-#else
-#define TEXTURE2D texture2DRect
-#define SAMPLER2D sampler2DRect
 #endif
-
 
 varying vec2 v_texture0;
 
-// uniform sampler2D u_texture0;
-uniform SAMPLER2D u_texture0;
+uniform sampler2DRect u_texture0; //@ name:texture0
 
 void main()
     {
-    gl_FragColor = TEXTURE2D(u_texture0, v_texture0);
+    gl_FragColor = texture2DRect(u_texture0, v_texture0);
     }
