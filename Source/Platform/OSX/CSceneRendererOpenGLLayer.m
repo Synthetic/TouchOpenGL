@@ -86,6 +86,11 @@
 	if (self.context == NULL)
 		{
 		self.context = [[COpenGLContext alloc] initWithNativeContext:ctx size:(SIntSize){ self.frame.size.width, self.frame.size.height }];
+		}
+
+	if (self.renderer.context == NULL)
+		{
+		NSParameterAssert(self.context != NULL);
 		self.renderer.context = self.context;
 		}
 
