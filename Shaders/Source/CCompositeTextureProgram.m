@@ -142,44 +142,10 @@
 
         texCoordsAttribute = theIndex++;
         texCoordsChanged = YES;
+
         }
     return self;
     }
-
-- (void)reset
-	{
-	[super reset];
-
-	modelViewMatrixUniform = -1;
-	modelViewMatrixChanged = YES;
-
-	projectionMatrixUniform = -1;
-	projectionMatrixChanged = YES;
-
-	texture0Uniform = -1;
-	texture0Changed = YES;
-	texture0Index = 0;
-
-	texture1Uniform = -1;
-	texture1Changed = YES;
-	texture1Index = 1;
-
-	blendModeUniform = -1;
-	blendModeChanged = YES;
-
-	gammaUniform = -1;
-	gammaChanged = YES;
-
-	alphaUniform = -1;
-	alphaChanged = YES;
-
-	colorUniform = -1;
-	colorChanged = YES;
-
-	positionsChanged = YES;
-
-	texCoordsChanged = YES;
-	}
 
 - (void)update
     {
