@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "OpenGLIncludes.h"
+
 @protocol COpenGLAsset <NSObject>
 
 @property (readonly, nonatomic, assign) GLuint name;

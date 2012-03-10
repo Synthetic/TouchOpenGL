@@ -31,7 +31,6 @@
         _name = inName;
         }
 
-
 	if ([[self class] debug] == YES)
 		{
 		[[self class] trackAsset:self];
