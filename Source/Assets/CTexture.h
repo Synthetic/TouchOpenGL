@@ -53,4 +53,6 @@
 
 - (void)use:(GLuint)inUniform index:(GLuint)inIndex;
 
+- (void)set:(Color4f)inColor;
+
 @end
