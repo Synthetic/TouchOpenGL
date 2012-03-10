@@ -31,6 +31,8 @@
 
 #import "CTexture.h"
 
+//static int gCount = 0;
+
 @interface CTexture ()
 @property (readwrite, nonatomic, assign) BOOL owns;
 @end
@@ -46,6 +48,8 @@
 	{
     if ((self = [super initWithName:inName]) != NULL)
         {
+//		NSLog(@"INIT: %d %@", ++gCount, self);
+		
         _size = inSize;
 		_target = inTarget;
         _owns = inOwns;
@@ -65,7 +69,7 @@
 
 	if (inSize.width != inSize.height)
 		{
-		NSLog(@"WARNING: Texture request isn't square.");
+//		NSLog(@"WARNING: Texture request isn't square.");
 		}
 	
 	GLuint theTextureName;
@@ -109,6 +113,8 @@
 		GLuint theName = self.name;
         glDeleteTextures(1, &theName);
 		_owns = NO;
+		
+//		NSLog(@"DELETED");
         }
 
 	[super invalidate];
