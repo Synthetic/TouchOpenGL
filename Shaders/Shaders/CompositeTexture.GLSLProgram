@@ -91,6 +91,6 @@
 		</dict>
 	</array>
 	<key>vertexShader</key>
-	<string>CompositeTexture.vsh</string>
+	<string>Default.vsh</string>
 </dict>
 </plist>

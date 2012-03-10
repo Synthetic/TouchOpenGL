@@ -18,9 +18,9 @@
 		</dict>
 	</array>
 	<key>fragmentShader</key>
-	<string>SimpleTexture.fsh</string>
+	<string>Blur.fsh</string>
 	<key>name</key>
-	<string>SimpleTexture</string>
+	<string>Blur</string>
 	<key>uniforms</key>
 	<array>
 		<dict>
@@ -47,10 +47,26 @@
 			<key>type</key>
 			<string>sampler2D</string>
 		</dict>
+		<dict>
+			<key>name</key>
+			<string>u_blurRadius</string>
+			<key>propertyName</key>
+			<string>blurRadius</string>
+			<key>type</key>
+			<string>float</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>u_vertical</string>
+			<key>propertyName</key>
+			<string>vertical</string>
+			<key>type</key>
+			<string>bool</string>
+		</dict>
 	</array>
 	<key>vertexShader</key>
 	<string>Default.vsh</string>
 	<key>className</key>
-	<string>CSimpleTextureProgram</string>
+	<string>CBlurProgram</string>
 </dict>
 </plist>

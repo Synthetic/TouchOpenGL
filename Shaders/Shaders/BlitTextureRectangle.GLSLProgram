@@ -18,9 +18,9 @@
 		</dict>
 	</array>
 	<key>fragmentShader</key>
-	<string>SimpleTexture.fsh</string>
+	<string>BlitTextureRectangle.fsh</string>
 	<key>name</key>
-	<string>SimpleTexture</string>
+	<string>BlitTextureRectangle</string>
 	<key>uniforms</key>
 	<array>
 		<dict>
@@ -51,6 +51,6 @@
 	<key>vertexShader</key>
 	<string>Default.vsh</string>
 	<key>className</key>
-	<string>CSimpleTextureProgram</string>
+	<string>CBlitTextureRectangleProgram</string>
 </dict>
 </plist>
