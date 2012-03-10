@@ -104,7 +104,7 @@
 	{
 	AssertOpenGLValidContext_();
 
-    if (_owns == YES && glIsTexture(self.name))
+    if (_owns == YES)
         {
 		GLuint theName = self.name;
         glDeleteTextures(1, &theName);
