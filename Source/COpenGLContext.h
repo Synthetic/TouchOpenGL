@@ -12,6 +12,7 @@
 
 @class CFrameBuffer;
 @class CRenderBuffer;
+@class CTexture;
 
 @interface COpenGLContext : NSObject
 
@@ -45,5 +46,7 @@
 - (void)unuse;
 
 - (void)present;
+
+- (CTexture *)readTexture;
 
 @end

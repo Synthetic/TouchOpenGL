@@ -126,6 +126,7 @@ static COpenGLContext *gCurrentContext = NULL;
 		
 		_nativeContext = theOpenGLContext;
 		#endif /* TARGET_OS_IPHONE == 1 */
+
 		}
 	}
 	
@@ -229,6 +230,32 @@ static COpenGLContext *gCurrentContext = NULL;
 //	X(d, GL_MAX_TEXTURE_UNITS);
 	
 //	NSLog(@"%@", d);
+	}
+
+- (CTexture *)readTexture
+	{
+	NSMutableData *theData = [NSMutableData dataWithLength:self.size.width * 4 * self.size.height];
+
+	GLint theReadFormat = GL_RGBA;
+	GLint theReadType = GL_UNSIGNED_BYTE;
+
+	glReadPixels(0, 0, self.size.width, self.size.height, theReadFormat, theReadType, theData.mutableBytes);
+
+	CTexture *theTexture = [[CTexture alloc] initWithTarget:GL_TEXTURE_2D size:self.size format:GL_RGBA type:GL_UNSIGNED_BYTE];
+	
+    [theTexture bind];
+
+    // Configure texture...
+	glTexParameteri(theTexture.target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(theTexture.target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(theTexture.target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(theTexture.target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);   
+
+
+    // Update texture data...
+    glTexImage2D(GL_TEXTURE_2D, 0, theReadFormat, self.size.width, self.size.height, 0, theReadFormat, theReadType, theData.bytes);
+	
+	return(theTexture);
 	}
 
 @end
