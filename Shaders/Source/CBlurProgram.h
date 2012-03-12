@@ -17,15 +17,12 @@
 @interface CBlurProgram : CProgram
 
 // Uniforms
-@property (readwrite, nonatomic, assign) Matrix4 projectionMatrix;
-@property (readwrite, nonatomic, assign) Matrix4 modelViewMatrix;
 @property (readwrite, nonatomic, strong) CTexture * texture0;
 @property (readonly, nonatomic, assign) GLint texture0Index;
-@property (readwrite, nonatomic, assign) GLfloat blurRadius;
+@property (readwrite, nonatomic, assign) Matrix4 modelViewMatrix;
 @property (readwrite, nonatomic, assign) GLboolean vertical;
+@property (readwrite, nonatomic, assign) Matrix4 projectionViewMatrix;
 
 // Attributes
-@property (readwrite, nonatomic, retain) CVertexBufferReference *positions;
-@property (readwrite, nonatomic, retain) CVertexBufferReference *texCoords;
 
 @end

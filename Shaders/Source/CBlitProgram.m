@@ -1,19 +1,19 @@
 //
-//  CBlurProgram.m
+//  CBlitProgram.m
 //  Dwarf
 //
 //  Created by Jonathan Wight on 9/10/11.
 //  Copyright (c) 2011 toxicsoftware.com. All rights reserved.
 //
 
-#import "CBlurProgram.h"
+#import "CBlitProgram.h"
 
 #import "OpenGLTypes.h"
 #import "OpenGLIncludes.h"
 #import "CTexture.h"
 #import "CVertexBufferReference.h"
 
-@interface CBlurProgram ()
+@interface CBlitProgram ()
 
 // Uniforms
 @property (readwrite, nonatomic, assign) GLint texture0Uniform;
@@ -23,16 +23,13 @@
 @property (readwrite, nonatomic, assign) GLint modelViewMatrixUniform;
 @property (readwrite, nonatomic, assign) BOOL modelViewMatrixChanged;
 
-@property (readwrite, nonatomic, assign) GLint verticalUniform;
-@property (readwrite, nonatomic, assign) BOOL verticalChanged;
-
 @property (readwrite, nonatomic, assign) GLint projectionViewMatrixUniform;
 @property (readwrite, nonatomic, assign) BOOL projectionViewMatrixChanged;
 
 // Attributes
 @end
 
-@implementation CBlurProgram
+@implementation CBlitProgram
 
 // Uniforms
 @synthesize texture0;
@@ -43,10 +40,6 @@
 @synthesize modelViewMatrix;
 @synthesize modelViewMatrixUniform;
 @synthesize modelViewMatrixChanged;
-
-@synthesize vertical;
-@synthesize verticalUniform;
-@synthesize verticalChanged;
 
 @synthesize projectionViewMatrix;
 @synthesize projectionViewMatrixUniform;
@@ -65,10 +58,6 @@
         modelViewMatrix = Matrix4Identity;
         modelViewMatrixUniform = -1;
         modelViewMatrixChanged = YES;
-
-        vertical = False;
-        verticalUniform = -1;
-        verticalChanged = YES;
 
         projectionViewMatrix = Matrix4Identity;
         projectionViewMatrixUniform = -1;
@@ -110,18 +99,6 @@
         AssertOpenGLNoError_();
         }
 
-    if (verticalChanged == YES)
-        {
-        if (verticalUniform == -1)
-            {
-            verticalUniform = glGetUniformLocation(self.name, "u_vertical");
-            }
-
-        glUniform1i(verticalUniform, vertical);
-        verticalChanged = NO;
-        AssertOpenGLNoError_();
-        }
-
     if (projectionViewMatrixChanged == YES)
         {
         if (projectionViewMatrixUniform == -1)
@@ -147,12 +124,6 @@
     {
     modelViewMatrix = inModelViewMatrix;
     modelViewMatrixChanged = YES;
-    }
-
-- (void)setVertical:(GLboolean)inVertical
-    {
-    vertical = inVertical;
-    verticalChanged = YES;
     }
 
 - (void)setProjectionViewMatrix:(Matrix4)inProjectionViewMatrix

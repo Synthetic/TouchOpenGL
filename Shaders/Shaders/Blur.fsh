@@ -15,8 +15,8 @@ precision mediump float;
 #endif
 
 varying vec2 v_texture0;
-uniform sampler2D u_texture0; //@ name:texture0, type=texture, default=NULL
-uniform bool u_vertical; //@ name:vertical, type=bool, default=0
+uniform sampler2D u_texture0; //@ name:texture0, type:texture
+uniform bool u_vertical; //@ name:vertical, type:bool, default:NO
 
 void main(void)
 	{
@@ -34,7 +34,7 @@ void main(void)
 	sum += texture2D(u_texture0, v_texture0 + 2.0 * theOffset) * 0.12;
 	sum += texture2D(u_texture0, v_texture0 + 3.0 * theOffset) * 0.09;
 	sum += texture2D(u_texture0, v_texture0 + 4.0 * theOffset) * 0.05;
-	
+
 	// Without this multiplier the output will slowly converge towards 0.0
 	gl_FragColor = sum * 1.02040816326531;
 	}
