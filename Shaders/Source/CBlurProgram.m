@@ -30,6 +30,12 @@
 @property (readwrite, nonatomic, assign) BOOL projectionViewMatrixChanged;
 
 // Attributes
+@property (readwrite, nonatomic, assign) GLint texCoordsAttribute;
+@property (readwrite, nonatomic, assign) BOOL texCoordsChanged;
+
+@property (readwrite, nonatomic, assign) GLint positionsAttribute;
+@property (readwrite, nonatomic, assign) BOOL positionsChanged;
+
 @end
 
 @implementation CBlurProgram
@@ -53,11 +59,19 @@
 @synthesize projectionViewMatrixChanged;
 
 // Attributes
+@synthesize texCoords;
+@synthesize texCoordsAttribute;
+@synthesize texCoordsChanged;
+
+@synthesize positions;
+@synthesize positionsAttribute;
+@synthesize positionsChanged;
+
 - (id)init
     {
     if ((self = [super init]) != NULL)
         {
-        texture0 = ;
+        texture0 = NULL;
         texture0Uniform = -1;
         texture0Changed = YES;
         texture0Index = 0;
@@ -66,7 +80,7 @@
         modelViewMatrixUniform = -1;
         modelViewMatrixChanged = YES;
 
-        vertical = False;
+        vertical = NO;
         verticalUniform = -1;
         verticalChanged = YES;
 
@@ -75,6 +89,12 @@
         projectionViewMatrixChanged = YES;
 
         GLint theIndex = 0;
+
+        texCoordsAttribute = theIndex++;
+        texCoordsChanged = YES;
+
+        positionsAttribute = theIndex++;
+        positionsChanged = YES;
 
         }
     return self;
@@ -135,6 +155,30 @@
         }
 
 
+    if (texCoordsChanged == YES)
+        {
+        if (texCoords)
+            {
+            [texCoords use:texCoordsAttribute];
+            glEnableVertexAttribArray(texCoordsAttribute);
+
+            texCoordsChanged = NO;
+            AssertOpenGLNoError_();
+            }
+        }
+
+    if (positionsChanged == YES)
+        {
+        if (positions)
+            {
+            [positions use:positionsAttribute];
+            glEnableVertexAttribArray(positionsAttribute);
+
+            positionsChanged = NO;
+            AssertOpenGLNoError_();
+            }
+        }
+
     }
 
 - (void)setTexture0:(CTexture *)inTexture0
@@ -161,6 +205,24 @@
     projectionViewMatrixChanged = YES;
     }
 
+
+- (void)setTexCoords:(CVertexBufferReference *)inTexCoords
+    {
+    if (texCoords != inTexCoords)
+        {
+        texCoords = inTexCoords;
+        texCoordsChanged = YES;
+        }
+    }
+
+- (void)setPositions:(CVertexBufferReference *)inPositions
+    {
+    if (positions != inPositions)
+        {
+        positions = inPositions;
+        positionsChanged = YES;
+        }
+    }
 
 
 @end

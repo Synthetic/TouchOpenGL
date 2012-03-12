@@ -24,5 +24,7 @@
 @property (readwrite, nonatomic, assign) Matrix4 projectionViewMatrix;
 
 // Attributes
+@property (readwrite, nonatomic, retain) CVertexBufferReference *texCoords;
+@property (readwrite, nonatomic, retain) CVertexBufferReference *positions;
 
 @end

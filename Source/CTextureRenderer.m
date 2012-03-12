@@ -8,15 +8,15 @@
 
 #import "CTextureRenderer.h"
 
-#import "CBlitTextureProgram.h"
-#import "CBlitTextureRectangleProgram.h"
+#import "CBlitProgram.h"
+#import "CBlitRectangleProgram.h"
 #import "CAssetLibrary.h"
 #import "CVertexBufferReference_FactoryExtensions.h"
 #import "CTexture.h"
 
 @interface CTextureRenderer ()
-@property (readwrite, nonatomic, strong) CBlitTextureProgram *program;
-@property (readwrite, nonatomic, strong) CBlitTextureRectangleProgram *rectangleProgram;
+@property (readwrite, nonatomic, strong) CBlitProgram *program;
+@property (readwrite, nonatomic, strong) CBlitRectangleProgram *rectangleProgram;
 @end
 
 #pragma mark -
@@ -29,13 +29,13 @@
 	
 	if (self.program == NULL)
 		{
-		self.program = (CBlitTextureProgram *)[[COpenGLContext currentContext].assetLibrary programNamed:@"BlitTexture" error:NULL];
+		self.program = (CBlitProgram *)[[COpenGLContext currentContext].assetLibrary programNamed:@"BlitTexture" error:NULL];
 		[self.program use];
 		self.program.texCoords = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ .size = { 1.0, 1.0 } }];
 		self.program.positions = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ -1, -1, 2, 2 }];
 		self.program.projectionMatrix = Matrix4MakeScale(-1.0, -1.0, 1.0);
 
-		self.rectangleProgram = (CBlitTextureRectangleProgram *)[[COpenGLContext currentContext].assetLibrary programNamed:@"BlitTextureRectangle" error:NULL];
+		self.rectangleProgram = (CBlitRectangleProgram *)[[COpenGLContext currentContext].assetLibrary programNamed:@"BlitTextureRectangle" error:NULL];
 		[self.rectangleProgram use];
 		self.rectangleProgram.texCoords = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ .size = { 1.0, 1.0 } }];
 		self.rectangleProgram.positions = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ -1, -1, 2, 2 }];

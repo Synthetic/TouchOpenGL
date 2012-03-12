@@ -19,9 +19,12 @@
 // Uniforms
 @property (readwrite, nonatomic, strong) CTexture * texture0;
 @property (readonly, nonatomic, assign) GLint texture0Index;
+@property (readwrite, nonatomic, assign) Color4f color;
 @property (readwrite, nonatomic, assign) Matrix4 modelViewMatrix;
 @property (readwrite, nonatomic, assign) Matrix4 projectionViewMatrix;
 
 // Attributes
+@property (readwrite, nonatomic, retain) CVertexBufferReference *texCoords;
+@property (readwrite, nonatomic, retain) CVertexBufferReference *positions;
 
 @end
