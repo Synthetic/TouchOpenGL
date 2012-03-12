@@ -6,8 +6,8 @@
 //  Copyright 2010 toxicsoftware.com. All rights reserved.
 //
 
-attribute vec4 a_position;
-attribute vec2 a_texCoord;
+attribute vec4 a_position; //@ name:positions
+attribute vec2 a_texCoord; //@ name:texCoords
 
 uniform mat4 u_modelViewMatrix; //@ name:modelViewMatrix
 uniform mat4 u_projectionMatrix; //@ name:projectionViewMatrix
