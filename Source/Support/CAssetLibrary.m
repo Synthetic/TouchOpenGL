@@ -12,6 +12,7 @@
 
 #import "CTexture_Utilities.h"
 #import "CProgram.h"
+#import "CShader.h"
 
 #if TARGET_OS_IPHONE == 1
 #import "PVRTexture.h"
@@ -92,16 +93,38 @@
 		}
 	return(theTexture);	
 	}
-
-- (CProgram *)programNamed:(NSString *)inName error:(NSError **)outError;
+	
+- (CShader *)shaderNamed:(NSString *)inName error:(NSError **)outError;
 	{
-	// We should not cache these unless asked...
-	NSURL *theURL = [self URLForFileNamed:inName possiblePathExtensions:@[ @"GLSLProgram", @"plist" ]];
-	CProgram *theProgram = [[CProgram alloc] initWithURL:theURL error:outError];
-	return(theProgram);
+	NSURL *theURL = [self URLForFileNamed:inName];
+	CShader *theShader = [[CShader alloc] initWithURL:theURL error:outError];
+	return(theShader);
 	}
 
 #pragma mark -
+
+- (NSURL *)URLForFileNamed:(NSString *)inName
+	{
+	__block BOOL theStopFlag = NO;
+	__block NSURL *theURL = NULL;
+
+	[self.searchDirectoryURLs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+
+		NSURL *theDirectoryURL = obj;
+
+		NSURL *thePotentialURL = [theDirectoryURL URLByAppendingPathComponent:inName];
+
+		if ([thePotentialURL checkResourceIsReachableAndReturnError:NULL] == YES)
+			{
+			theURL = thePotentialURL;
+			theStopFlag = YES;
+			}
+
+		*stop = theStopFlag;
+		}];
+
+	return(theURL);
+	}
 
 - (NSURL *)URLForFileNamed:(NSString *)inName possiblePathExtensions:(NSArray *)inPossiblePathExtensions
 	{

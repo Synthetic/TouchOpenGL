@@ -40,11 +40,10 @@
 @interface CProgram : COpenGLAsset
 
 @property (readonly, nonatomic, copy) NSArray *shaders;    
-@property (readwrite, nonatomic, strong) CShader *vertexShader;
-@property (readwrite, nonatomic, strong) CShader *fragmentShader;
 
-- (id)initWithAttributeNames:(NSArray *)inAttributeNames uniformNames:(NSArray *)inUniformNames;
-- (id)initWithURL:(NSURL *)inURL error:(NSError **)outError;
+- (id)initWithShaders:(NSArray *)inShaders uniformNames:(NSArray *)inUniformNames;
+
+- (void)bindAttribute:(NSString *)inName location:(GLuint)inLocation;
 
 - (void)attachShader:(CShader *)inShader;
 - (void)detachShader:(CShader *)inShader;
@@ -56,9 +55,9 @@
 - (void)update;
 - (void)use;
 
-- (GLuint)attributeIndexForName:(NSString *)inName;
 - (GLuint)uniformIndexForName:(NSString *)inName;
 
-- (void)setColor4f:(Color4f)inColor4f forUniformNamed:(NSString *)inName;
+// This is a bit of a hack...
++ (CShader *)loadShader:(NSString *)inName;
 
 @end

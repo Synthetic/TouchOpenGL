@@ -44,7 +44,7 @@
 
 @synthesize source = _source;
 
-- (id)initWithURL:(NSURL *)inURL
+- (id)initWithURL:(NSURL *)inURL error:(NSError **)outError
     {
     if ([inURL isFileURL] == YES)
         {
@@ -78,7 +78,11 @@
 		_type = theType;
         _URL = inURL;
 		
-		[self compileShader:NULL];
+		if ([self compileShader:outError] == NO)
+			{
+			self = NULL;
+			return(self);
+			}
         }
     return(self);
     }

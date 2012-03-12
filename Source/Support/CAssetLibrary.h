@@ -13,6 +13,7 @@
 
 @class CTexture;
 @class CProgram;
+@class CShader;
 
 @interface CAssetLibrary : NSObject
 
@@ -26,7 +27,7 @@
 - (CTexture *)textureNamed:(NSString *)inName error:(NSError **)outError;
 - (CTexture *)textureNamed:(NSString *)inName cache:(BOOL)inCache error:(NSError **)outError;
 
-- (CProgram *)programNamed:(NSString *)inName error:(NSError **)outError;
+- (CShader *)shaderNamed:(NSString *)inName error:(NSError **)outError;
 
 @end
 

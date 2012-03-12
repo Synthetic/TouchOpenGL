@@ -33,9 +33,9 @@
 
 #import "OpenGLTypes.h"
 #import "CShader.h"
+#import "CAssetLibrary.h"
 
 @interface CProgram ()
-@property (readonly, nonatomic, copy) NSMutableDictionary *attributesByName;    
 @property (readwrite, nonatomic, copy) NSMutableDictionary *uniformsByName;
 @end
 
@@ -43,7 +43,7 @@
 
 @implementation CProgram
 
-- (id)initWithAttributeNames:(NSArray *)inAttributeNames uniformNames:(NSArray *)inUniformNames
+- (id)initWithShaders:(NSArray *)inShaders uniformNames:(NSArray *)inUniformNames
     {
     #pragma unused (inUniformNames)
     // TODO: Clean this inUniformNames
@@ -53,78 +53,20 @@
     // Create shader program
     GLuint theName = glCreateProgram();
 
-    
     if ((self = [self initWithName:theName]) != NULL)
         {
-        _attributesByName = [[NSMutableDictionary alloc] init];
+		_shaders = inShaders;
+		
+		for (CShader *theShader in _shaders)
+			{
+			[self attachShader:theShader];
+			}
+		
         _uniformsByName = [[NSMutableDictionary alloc] init];
-
-        GLuint theAttributeIndex = 0;
-        NSMutableDictionary *theAttributesByName = [NSMutableDictionary dictionary];
-        for (NSString *theAttributeName in inAttributeNames)
-            {
-            [theAttributesByName setObject:[NSNumber numberWithUnsignedInt:theAttributeIndex++] forKey:theAttributeName];
-            }
-        _attributesByName = [theAttributesByName mutableCopy];
         }
     return(self);
     }
 	
-- (id)initWithURL:(NSURL *)inURL error:(NSError **)outError
-    {
-	NSData *theData = [NSData dataWithContentsOfURL:inURL options:0 error:outError];
-	NSDictionary *theProgramDictionary = [NSPropertyListSerialization propertyListWithData:theData options:0 format:NULL error:outError];
-    if (theProgramDictionary == NULL)
-        {
-        self = NULL;
-        return(NULL);
-        }
-    
-	NSString *theClassName = [theProgramDictionary objectForKey:@"className"];
-	if (theClassName)
-		{
-		Class theClass = NSClassFromString(theClassName);
-		if (theClass)
-			{
-			self = [theClass alloc]; 
-			}
-		}
-
-
-    NSArray *theAttributeNames = [[theProgramDictionary objectForKey:@"attributes"] valueForKey:@"name"];
-    NSArray *theUniformNames = [[theProgramDictionary objectForKey:@"uniforms"] valueForKey:@"name"];
-
-    if ((self = [self initWithAttributeNames:theAttributeNames uniformNames:theUniformNames]) != NULL)
-        {
-		NSURL *theParentURL = [inURL URLByDeletingLastPathComponent];
-
-		NSString *theVertexShaderName = [theProgramDictionary objectForKey:@"vertexShader"];
-		CShader *theVertexShader = [[CShader alloc] initWithURL:[theParentURL URLByAppendingPathComponent:theVertexShaderName]];
-
-		
-		_vertexShader = theVertexShader;
-		[self attachShader:_vertexShader];
-		
-
-		NSString *theFragmentShaderName = [theProgramDictionary objectForKey:@"fragmentShader"];
-		CShader *theFragmentShader = [[CShader alloc] initWithURL:[theParentURL URLByAppendingPathComponent:theFragmentShaderName]];
-
-		_fragmentShader = theFragmentShader;
-		[self attachShader:_fragmentShader];
-		
-		AssertOpenGLNoError_();
-
-		[self linkProgram:NULL];
-		
-		NSError *theError = NULL;
-		[self validate:&theError];
-
-		AssertOpenGLNoError_();
-
-        }
-    return self;
-    }
-
 
 - (void)invalidate
     {
@@ -139,16 +81,19 @@
 
 #pragma mark -
 
+- (void)bindAttribute:(NSString *)inName location:(GLuint)inLocation;
+	{
+	glBindAttribLocation(self.name, inLocation, [inName UTF8String]);
+	}
+
 - (void)attachShader:(CShader *)inShader
 	{
     AssertOpenGLNoError_();
-	
 	
 	glAttachShader(self.name, inShader.name);
     AssertOpenGLNoError_();
 
 	inShader.program = self;
-
 	}
 	
 - (void)detachShader:(CShader *)inShader
@@ -162,25 +107,10 @@
 	inShader.program = NULL;
 	}
 
-- (NSArray *)shaders
-	{
-	return(@[ self.vertexShader, self.fragmentShader ]);
-	}
-
 #pragma mark -
 
 - (BOOL)linkProgram:(NSError **)outError
     {
-
-    AssertOpenGLNoError_();
-    
-    // Bind attribute locations this needs to be done prior to linking
-    for (NSString *theAttributeName in self.attributesByName)
-        {
-        GLuint theAttributeIndex = [[self.attributesByName objectForKey:theAttributeName] unsignedIntValue];
-        glBindAttribLocation(self.name, theAttributeIndex, [theAttributeName UTF8String]);
-        }
-
     AssertOpenGLNoError_();
 
     // Link program
@@ -262,22 +192,6 @@
 
 #pragma mark -
 
-- (GLuint)attributeIndexForName:(NSString *)inName
-    {
-    NSNumber *theNumber = [self.attributesByName objectForKey:inName];
-    if (theNumber == NULL)
-        {
-        GLuint theIndex = (GLuint)self.attributesByName.count;
-        theNumber = [NSNumber numberWithUnsignedInt:theIndex];
-        [self.attributesByName setObject:theNumber forKey:inName];
-        return(theIndex);
-        }
-    else
-        {
-        return([theNumber unsignedIntValue]);
-        }
-    }
-    
 - (GLuint)uniformIndexForName:(NSString *)inName
     {
     if ([self.uniformsByName objectForKey:inName] == NULL)
@@ -302,31 +216,12 @@
     }
 
 #pragma mark -
-
-- (void)setColor4f:(Color4f)inColor4f forUniformNamed:(NSString *)inName;
-    {
-    GLuint theUniform = [self uniformIndexForName:inName];
-    glUniform4fv(theUniform, 1, &inColor4f.r);
-    }
-
-#pragma mark -
     
-- (void)dump
-    {
-    NSLog(@"%@", [NSString stringWithFormat:@"%@", [super description]]);
-    NSLog(@"Name: %d", self.name);
-    for (id theShader in self.shaders)
-        {
-        NSLog(@"\t%@", theShader);
-        }
-    NSLog(@"Attributes:");
-    [self.attributesByName enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        NSLog(@"\t%@: %@", key, obj);
-        }];
-    NSLog(@"Uniforms:");
-    [self.uniformsByName enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        NSLog(@"\t%@: %@", key, obj);
-        }];
-    }
++ (CShader *)loadShader:(NSString *)inName;
+	{
+	NSParameterAssert([COpenGLContext currentContext] != NULL);
+	CShader *theShader = [[COpenGLContext currentContext].assetLibrary shaderNamed:inName error:NULL];
+	return(theShader);
+	}
 
 @end

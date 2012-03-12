@@ -42,7 +42,7 @@
 @property (readwrite, nonatomic, strong) NSString *source;
 @property (readwrite, nonatomic, weak) CProgram *program;
 
-- (id)initWithURL:(NSURL *)inURL;
+- (id)initWithURL:(NSURL *)inURL error:(NSError **)outError;
 
 - (BOOL)compileShader:(NSError **)outError;
 

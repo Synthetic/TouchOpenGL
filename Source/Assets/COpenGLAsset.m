@@ -26,7 +26,7 @@
 
 - (id)initWithName:(GLuint)inName
     {
-    if ((self = [self init]) != NULL)
+    if ((self = [super init]) != NULL)
         {
         _name = inName;
         }
