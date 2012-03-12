@@ -1,6 +1,0 @@
-#!/usr/bin/env python
-
-import SLOBGen
-import sys
-
-SLOBGen.main(sys.argv)
