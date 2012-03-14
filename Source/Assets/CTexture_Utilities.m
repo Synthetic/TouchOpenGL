@@ -291,8 +291,11 @@
 
 - (void)writeToFile:(NSString *)inPath
 	{
-	CGImageRef theImage = [self fetchImage];
 	NSURL *theURL = [NSURL fileURLWithPath:inPath];
+	
+	[[NSFileManager defaultManager] createDirectoryAtURL:[theURL URLByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:NULL error:NULL];
+	
+	CGImageRef theImage = [self fetchImage];
 	CGImageDestinationRef theDestination = CGImageDestinationCreateWithURL((__bridge CFURLRef)theURL, kUTTypePNG, 1, NULL);
 	CGImageDestinationAddImage(theDestination, theImage, nil);
 	CGImageDestinationFinalize(theDestination);
