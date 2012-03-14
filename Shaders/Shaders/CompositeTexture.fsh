@@ -51,7 +51,7 @@ uniform sampler2D u_texture1; //@ name:texture1
 uniform int u_blendMode; //@ name:blendMode
 uniform float u_alpha; //@ name:alpha
 uniform float u_gamma; //@ name:gamma
-uniform vec4 u_color; //@ name:color, intent:Color
+uniform vec4 u_color; //@ name:color, usage:color
 
 // #############################################################################
 
