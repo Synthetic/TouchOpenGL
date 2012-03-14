@@ -102,8 +102,16 @@
         texture0Uniform = glGetUniformLocation(self.name, "u_texture0");
         }
 
-    [texture0 use:texture0Uniform index:texture0Index];
-    AssertOpenGLNoError_();
+    if (texture0)
+        {
+        [texture0 use:texture0Uniform index:texture0Index];
+        AssertOpenGLNoError_();
+        }
+    else
+        {
+        glBindTexture(GL_TEXTURE_2D, 0);
+        }
+
     // color
     if (colorUniform == -1)
         {
@@ -112,6 +120,7 @@
 
     glUniform4fv(colorUniform, 1, &color.r);
     AssertOpenGLNoError_();
+
     // modelViewMatrix
     if (modelViewMatrixUniform == -1)
         {
@@ -120,6 +129,7 @@
 
     glUniformMatrix4fv(modelViewMatrixUniform, 1, NO, &modelViewMatrix.m[0][0]);
     AssertOpenGLNoError_();
+
     // projectionMatrix
     if (projectionMatrixUniform == -1)
         {
@@ -128,6 +138,7 @@
 
     glUniformMatrix4fv(projectionMatrixUniform, 1, NO, &projectionMatrix.m[0][0]);
     AssertOpenGLNoError_();
+
 
     // texCoords
     if (texCoords)
