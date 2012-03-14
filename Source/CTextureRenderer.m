@@ -29,13 +29,13 @@
 	
 	if (self.program == NULL)
 		{
-		self.program = (CBlitProgram *)[[COpenGLContext currentContext].assetLibrary programNamed:@"BlitTexture" error:NULL];
+		self.program = [[CBlitProgram alloc] init];
 		[self.program use];
 		self.program.texCoords = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ .size = { 1.0, 1.0 } }];
 		self.program.positions = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ -1, -1, 2, 2 }];
 		self.program.projectionMatrix = Matrix4MakeScale(-1.0, -1.0, 1.0);
 
-		self.rectangleProgram = (CBlitRectangleProgram *)[[COpenGLContext currentContext].assetLibrary programNamed:@"BlitTextureRectangle" error:NULL];
+		self.rectangleProgram = [[CBlitRectangleProgram alloc] init];
 		[self.rectangleProgram use];
 		self.rectangleProgram.texCoords = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ .size = { 1.0, 1.0 } }];
 		self.rectangleProgram.positions = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ -1, -1, 2, 2 }];
