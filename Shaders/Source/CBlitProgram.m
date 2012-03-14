@@ -23,7 +23,7 @@
 @property (readwrite, nonatomic, assign) GLint texture0Index;
 @property (readwrite, nonatomic, assign) GLint colorUniform;
 @property (readwrite, nonatomic, assign) GLint modelViewMatrixUniform;
-@property (readwrite, nonatomic, assign) GLint projectionViewMatrixUniform;
+@property (readwrite, nonatomic, assign) GLint projectionMatrixUniform;
 
 @end
 
@@ -37,8 +37,8 @@
 @synthesize colorUniform;
 @synthesize modelViewMatrix;
 @synthesize modelViewMatrixUniform;
-@synthesize projectionViewMatrix;
-@synthesize projectionViewMatrixUniform;
+@synthesize projectionMatrix;
+@synthesize projectionMatrixUniform;
 
 // Attributes
 @synthesize texCoords;
@@ -83,9 +83,9 @@
         // modelViewMatrix
         modelViewMatrix = Matrix4Identity;
         modelViewMatrixUniform = -1;
-        // projectionViewMatrix
-        projectionViewMatrix = Matrix4Identity;
-        projectionViewMatrixUniform = -1;
+        // projectionMatrix
+        projectionMatrix = Matrix4Identity;
+        projectionMatrixUniform = -1;
         }
     return self;
     }
@@ -120,13 +120,13 @@
 
     glUniformMatrix4fv(modelViewMatrixUniform, 1, NO, &modelViewMatrix.m[0][0]);
     AssertOpenGLNoError_();
-    // projectionViewMatrix
-    if (projectionViewMatrixUniform == -1)
+    // projectionMatrix
+    if (projectionMatrixUniform == -1)
         {
-        projectionViewMatrixUniform = glGetUniformLocation(self.name, "u_projectionMatrix");
+        projectionMatrixUniform = glGetUniformLocation(self.name, "u_projectionMatrix");
         }
 
-    glUniformMatrix4fv(projectionViewMatrixUniform, 1, NO, &projectionViewMatrix.m[0][0]);
+    glUniformMatrix4fv(projectionMatrixUniform, 1, NO, &projectionMatrix.m[0][0]);
     AssertOpenGLNoError_();
 
     // texCoords

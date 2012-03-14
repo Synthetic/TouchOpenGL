@@ -21,7 +21,7 @@
 @property (readonly, nonatomic, assign) GLint texture0Index;
 @property (readwrite, nonatomic, assign) Matrix4 modelViewMatrix;
 @property (readwrite, nonatomic, assign) GLboolean vertical;
-@property (readwrite, nonatomic, assign) Matrix4 projectionViewMatrix;
+@property (readwrite, nonatomic, assign) Matrix4 projectionMatrix;
 
 // Attributes
 @property (readwrite, nonatomic, retain) CVertexBufferReference *texCoords;
