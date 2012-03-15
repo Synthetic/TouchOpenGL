@@ -6,11 +6,10 @@
 //  Copyright 2010 toxicsoftware.com. All rights reserved.
 //
 
-#version 120
-
 #ifdef GL_ES
 precision mediump float;
 #else
+#version 120
 #extension GL_EXT_gpu_shader4 : require
 #endif
 
@@ -18,9 +17,17 @@ varying vec2 v_texture0;
 uniform sampler2D u_texture0; //@ name:texture0, type:texture
 uniform bool u_vertical; //@ name:vertical, type:bool, default:NO
 
+#ifdef GL_ES
+uniform vec2 u_textureSize; //@ name:textureSize, type:ivec2
+#endif
+
 void main(void)
 	{
+#ifdef GL_ES
+	vec2 theTextureSize = u_textureSize;
+#else
 	ivec2 theTextureSize = textureSize2D(u_texture0, 0);
+#endif
 	vec2 theOffset = u_vertical ? vec2(0.0, 1.0 / theTextureSize.y) : vec2(1.0 / theTextureSize.x, 0.0);
 
 	// Mostly from: http://www.gamerendering.com/2008/10/11/gaussian-blur-filter-shader/

@@ -22,6 +22,7 @@
 @property (readwrite, nonatomic, assign) GLint texture0Uniform;
 @property (readwrite, nonatomic, assign) GLint texture0Index;
 @property (readwrite, nonatomic, assign) GLint modelViewMatrixUniform;
+@property (readwrite, nonatomic, assign) GLint textureSizeUniform;
 @property (readwrite, nonatomic, assign) GLint verticalUniform;
 @property (readwrite, nonatomic, assign) GLint projectionMatrixUniform;
 
@@ -35,6 +36,8 @@
 @synthesize texture0Index;
 @synthesize modelViewMatrix;
 @synthesize modelViewMatrixUniform;
+@synthesize textureSize;
+@synthesize textureSizeUniform;
 @synthesize vertical;
 @synthesize verticalUniform;
 @synthesize projectionMatrix;
@@ -49,6 +52,7 @@
     NSArray *theUniformNames = @[
         @"u_texture0",
         @"u_modelViewMatrix",
+        @"u_textureSize",
         @"u_vertical",
         @"u_projectionMatrix",
         ];
@@ -80,6 +84,9 @@
         // modelViewMatrix
         modelViewMatrix = Matrix4Identity;
         modelViewMatrixUniform = -1;
+        // textureSize
+        textureSize = (Vector2){};
+        textureSizeUniform = -1;
         // vertical
         vertical = NO;
         verticalUniform = -1;
@@ -119,6 +126,15 @@
         }
 
     glUniformMatrix4fv(modelViewMatrixUniform, 1, NO, &modelViewMatrix.m[0][0]);
+    AssertOpenGLNoError_();
+
+    // textureSize
+    if (textureSizeUniform == -1)
+        {
+        textureSizeUniform = glGetUniformLocation(self.name, "u_textureSize");
+        }
+
+    glUniform2fv(textureSizeUniform, 1, &textureSize.x);
     AssertOpenGLNoError_();
 
     // vertical

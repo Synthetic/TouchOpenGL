@@ -20,6 +20,7 @@
 @property (readwrite, nonatomic, strong) CTexture * texture0;
 @property (readonly, nonatomic, assign) GLint texture0Index;
 @property (readwrite, nonatomic, assign) Matrix4 modelViewMatrix;
+@property (readwrite, nonatomic, assign) Vector2 textureSize;
 @property (readwrite, nonatomic, assign) GLboolean vertical;
 @property (readwrite, nonatomic, assign) Matrix4 projectionMatrix;
 
