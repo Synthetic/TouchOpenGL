@@ -42,7 +42,6 @@
 #import "CVertexArrayBuffer.h"
 #import "CLight.h"
 #import "CCamera.h"
-#import "CProgram_Extensions.h"
 
 #define USE_PERSPECTIVE 0
 #define DRAW_AXES 0
