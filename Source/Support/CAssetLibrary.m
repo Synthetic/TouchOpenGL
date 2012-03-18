@@ -56,16 +56,23 @@
 	
 - (CTexture *)textureNamed:(NSString *)inName cache:(BOOL)inCache error:(NSError **)outError;
 	{
-	id theKey = @{ @"texture": inName };
+	id theKey = @{ @"texture": [inName stringByDeletingPathExtension] };
 
 	CTexture *theTexture = [self.cache objectForKey:theKey];
 	if (theTexture == NULL)
 		{
 		#if TARGET_OS_IPHONE == 1
-		NSArray *theFileExtensions = @[ @"pvrt", @"pvr", @"png", @"jpg" ];
+		NSArray *theFileExtensions = @[ @"pvrt", @"pvr", @"png", @"jpg", @"tiff" ];
 		#else
 		NSArray *theFileExtensions = @[ @"png", @"jpg" ];
 		#endif
+		
+		if (inName.pathExtension.length > 0)
+			{
+			theFileExtensions = @[ inName.pathExtension ];
+			inName = [inName stringByDeletingPathExtension];
+			}
+		
 		NSURL *theURL = [self URLForFileNamed:inName possiblePathExtensions:theFileExtensions];
 		
 		if (theURL == NULL)
