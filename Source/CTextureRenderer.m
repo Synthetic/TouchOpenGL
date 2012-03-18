@@ -34,13 +34,18 @@
 		self.program.texCoords = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ .size = { 1.0, 1.0 } }];
 		self.program.positions = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ -1, -1, 2, 2 }];
 		self.program.projectionMatrix = Matrix4MakeScale(-1.0, -1.0, 1.0);
-
+		}
+	
+	#if TARGET_OS_IPHONE == 0
+	if (self.rectangleProgram == NULL)
+		{
 		self.rectangleProgram = [[CBlitRectangleProgram alloc] init];
 		[self.rectangleProgram use];
 		self.rectangleProgram.texCoords = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ .size = { 1.0, 1.0 } }];
 		self.rectangleProgram.positions = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ -1, -1, 2, 2 }];
 		self.rectangleProgram.projectionMatrix = Matrix4MakeScale(-1.0, -1.0, 1.0);
 		}
+	#endif
 	}
 
 - (void)render
