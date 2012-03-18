@@ -58,7 +58,6 @@
 	{
 	NSDictionary *theAttributes = @{ (__bridge NSString *)kCVPixelBufferIOSurfacePropertiesKey: @{} };
 	
-	NSLog(@"%@", theAttributes);
 	CVPixelBufferRef thePixelBuffer;
 	CVReturn theError = CVPixelBufferCreate(kCFAllocatorDefault, inSize.width, inSize.height, kCVPixelFormatType_32BGRA, (__bridge CFDictionaryRef)theAttributes, &thePixelBuffer);
 	if (theError != kCVReturnSuccess)
