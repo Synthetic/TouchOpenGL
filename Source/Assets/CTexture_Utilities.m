@@ -22,10 +22,10 @@
 	NSParameterAssert(inFormat == GL_RGBA || inFormat == GL_RGB);
 	NSParameterAssert(inType == GL_UNSIGNED_BYTE);
 
-	if (inSize.width != inSize.height)
-		{
-		NSLog(@"WARNING: Desired texture size isn't square.");
-		}
+//	if (inSize.width != inSize.height)
+//		{
+//		NSLog(@"WARNING: Desired texture size isn't square.");
+//		}
 		
     BOOL theFastPathFlag = NO;
 	

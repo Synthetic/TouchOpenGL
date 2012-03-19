@@ -46,19 +46,12 @@
 
 - (id)init
     {
-    NSArray *theUniformNames = @[
-        @"u_texture0",
-        @"u_color",
-        @"u_modelViewMatrix",
-        @"u_projectionMatrix",
-        ];
-
     NSArray *theShaders = @[
         [[self class] loadShader:@"BlitTexture.fsh"],
         [[self class] loadShader:@"Default.vsh"],
         ];
 
-    if ((self = [self initWithShaders:theShaders uniformNames:theUniformNames]) != NULL)
+    if ((self = [self initWithShaders:theShaders]) != NULL)
         {
         [self bindAttribute:@"a_texCoord" location:ktexCoordsAttributeIndex];
         [self bindAttribute:@"a_position" location:kpositionsAttributeIndex];
