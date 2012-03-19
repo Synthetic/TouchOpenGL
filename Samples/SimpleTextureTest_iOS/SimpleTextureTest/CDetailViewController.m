@@ -8,14 +8,16 @@
 
 #import "CDetailViewController.h"
 #import "CRendererView.h"
-#import "CTextureRenderer.h"
+#import "CTestRenderer.h"
 #import "COpenGLContext.h"
 #import "CAssetLibrary.h"
+#import "CAutomagicBlitProgram.h"
+#import "CVertexBufferReference_FactoryExtensions.h"
 
 @interface CDetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 @property (readwrite, nonatomic, strong) IBOutlet CRendererView *rendererView;
-@property (readwrite, nonatomic, strong) CTextureRenderer *renderer;
+@property (readwrite, nonatomic, strong) CTestRenderer *renderer;
 
 - (void)configureView;
 @end
@@ -70,22 +72,24 @@
 }
 
 - (void)configureView
-{
-    // Update the user interface for the detail item.
-
+	{
 	if (self.detailItem) {
 	    self.detailDescriptionLabel.text = [self.detailItem description];
 	}
 	
-	self.renderer = [[CTextureRenderer alloc] init];
+	self.renderer = [[CTestRenderer alloc] init];
 	self.renderer.setupBlock = ^(void) {
-		NSLog(@"SETUP");
 		self.renderer.texture = [self.renderer.context.assetLibrary textureNamed:@"lena_std.tiff" error:NULL];
+		self.renderer.program = [[CAutomagicBlitProgram alloc] init];
+		[self.renderer.program use];
+		self.renderer.program.texCoords = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ .size = { 1.0, 1.0 } }];
+		self.renderer.program.positions = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ -1, -1, 2, 2 }];
+		self.renderer.program.projectionMatrix = Matrix4MakeScale(-1.0, -1.0, 1.0);
+
+
 		};
 	self.rendererView.renderer = self.renderer;
-	
-	
-}
+	}
 
 							
 #pragma mark - Split view
