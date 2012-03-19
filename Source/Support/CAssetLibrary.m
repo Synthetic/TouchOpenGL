@@ -64,7 +64,7 @@
 		#if TARGET_OS_IPHONE == 1
 		NSArray *theFileExtensions = @[ @"pvrt", @"pvr", @"png", @"jpg", @"tiff" ];
 		#else
-		NSArray *theFileExtensions = @[ @"png", @"jpg" ];
+		NSArray *theFileExtensions = @[ @"png", @"jpg", @"tiff" ];
 		#endif
 		
 		if (inName.pathExtension.length > 0)
