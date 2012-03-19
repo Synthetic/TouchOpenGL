@@ -43,7 +43,7 @@
 
 @implementation CProgram
 
-- (id)initWithShaders:(NSArray *)inShaders uniformNames:(NSArray *)inUniformNames
+- (id)initWithShaders:(NSArray *)inShaders
     {
     #pragma unused (inUniformNames)
     // TODO: Clean this inUniformNames

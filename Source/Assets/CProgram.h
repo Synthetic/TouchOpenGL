@@ -41,7 +41,7 @@
 
 @property (readonly, nonatomic, copy) NSArray *shaders;    
 
-- (id)initWithShaders:(NSArray *)inShaders uniformNames:(NSArray *)inUniformNames;
+- (id)initWithShaders:(NSArray *)inShaders;
 
 - (void)bindAttribute:(NSString *)inName location:(GLuint)inLocation;
 
