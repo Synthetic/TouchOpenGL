@@ -22,7 +22,10 @@ static void *kKey;
 	if (theTextureCache == NULL)
 		{
 		CVReturn theResult = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, (__bridge void *)self.nativeContext, NULL, &theTextureCache);
-
+		if (theResult != kCVReturnSuccess)
+			{
+			NSLog(@"CVOpenGLESTextureCacheCreate failed.");
+			}
 
 		objc_setAssociatedObject(self, &kKey, (__bridge id)theTextureCache, OBJC_ASSOCIATION_RETAIN);
 		}
