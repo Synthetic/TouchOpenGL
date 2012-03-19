@@ -9,9 +9,11 @@
 #import "CBlockRenderer.h"
 
 @class CTexture;
+@class CBlitProgram;
 
 @interface CTextureRenderer : CBlockRenderer
 
 @property (readwrite, nonatomic, strong) CTexture *texture;
+@property (readwrite, nonatomic, strong) CBlitProgram *program;
 
 @end

@@ -15,7 +15,6 @@
 #import "CTexture.h"
 
 @interface CTextureRenderer ()
-@property (readwrite, nonatomic, strong) CBlitProgram *program;
 @property (readwrite, nonatomic, strong) CBlitRectangleProgram *rectangleProgram;
 @end
 
