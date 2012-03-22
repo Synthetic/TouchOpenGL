@@ -39,13 +39,13 @@
 
 @property (readonly, nonatomic, assign) GLuint name;
 @property (readonly, nonatomic, assign) GLenum target;
+@property (readonly, nonatomic, assign) GLenum format;
+@property (readonly, nonatomic, assign) GLenum type;
 @property (readonly, nonatomic, assign) SIntSize size;
 
-- (id)initWithName:(GLuint)inName target:(GLenum)inTarget size:(SIntSize)inSize owns:(BOOL)inOwns;
-- (id)initWithName:(GLuint)inName target:(GLenum)inTarget size:(SIntSize)inSize;
+- (id)initWithName:(GLuint)inName target:(GLenum)inTarget size:(SIntSize)inSize format:(GLenum)inFormat type:(GLenum)inType owns:(BOOL)inOwns;
 
 - (id)initWithTarget:(GLenum)inTarget size:(SIntSize)inSize format:(GLenum)inFormat type:(GLenum)inType;
-- (id)initWithSize:(SIntSize)inSize;
 
 - (BOOL)isValid;
 

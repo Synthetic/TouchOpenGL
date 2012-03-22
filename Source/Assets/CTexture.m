@@ -44,25 +44,22 @@
 	return(GL_TEXTURE);
 	}
 
-- (id)initWithName:(GLuint)inName target:(GLenum)inTarget size:(SIntSize)inSize owns:(BOOL)inOwns
+- (id)initWithName:(GLuint)inName target:(GLenum)inTarget size:(SIntSize)inSize format:(GLenum)inFormat type:(GLenum)inType owns:(BOOL)inOwns;
 	{
     if ((self = [super initWithName:inName]) != NULL)
         {
 //		NSLog(@"INIT: %d %@", ++gCount, self);
 		
-        _size = inSize;
 		_target = inTarget;
+        _size = inSize;
+		_format = inFormat;
+		_type = inType;
         _owns = inOwns;
         }
     return(self);
 	}
 
-- (id)initWithName:(GLuint)inName target:(GLenum)inTarget size:(SIntSize)inSize
-    {
-	return([self initWithName:inName target:inTarget size:inSize owns:YES]);
-    }
-
-- (id)initWithTarget:(GLenum)inTarget size:(SIntSize)inSize format:(GLenum)inFormat type:(GLenum)inType
+- (id)initWithTarget:(GLenum)inTarget size:(SIntSize)inSize format:(GLenum)inFormat type:(GLenum)inType;
 	{
 	AssertOpenGLValidContext_();
 	AssertOpenGLNoError_();
@@ -83,15 +80,10 @@
 
 	AssertOpenGLNoError_();
 
-    if ((self = [self initWithName:theTextureName target:inTarget size:inSize owns:YES]) != NULL)
+    if ((self = [self initWithName:theTextureName target:inTarget size:inSize format:inFormat type:inType owns:YES]) != NULL)
         {
         }
     return(self);
-	}
-
-- (id)initWithSize:(SIntSize)inSize
-	{
-	return([self initWithTarget:GL_TEXTURE_2D size:inSize format:GL_RGBA type:GL_UNSIGNED_BYTE]);
 	}
 
 //- (NSString *)description

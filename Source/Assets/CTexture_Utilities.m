@@ -17,9 +17,10 @@
 
 @implementation CTexture (CTexture_Utilities)
 
-+ (id)textureWithCGImage:(CGImageRef)inImage size:(SIntSize)inSize format:(GLint)inFormat type:(GLint)inType error:(NSError **)outError
++ (id)textureWithCGImage:(CGImageRef)inImage size:(SIntSize)inSize target:(GLenum)inTarget format:(GLint)inFormat type:(GLint)inType error:(NSError **)outError
 	{
-	NSParameterAssert(inFormat == GL_RGBA || inFormat == GL_RGB);
+	NSParameterAssert(inImage != NULL);
+	NSParameterAssert(inFormat == GL_RGBA || inFormat == GL_RGB || inFormat == GL_LUMINANCE);
 	NSParameterAssert(inType == GL_UNSIGNED_BYTE);
 
 //	if (inSize.width != inSize.height)
@@ -70,17 +71,30 @@
 		}
 	else
 		{
+        CGColorSpaceRef theColorSpace = NULL;
 		NSUInteger theOctetsPerPixel = 0;
 		CGImageAlphaInfo theAlphaInfo = kCGImageAlphaNone;
 		if (inFormat == GL_RGBA)
 			{
+			theColorSpace = CGColorSpaceCreateDeviceRGB();
 			theOctetsPerPixel = 4;
 			theAlphaInfo = kCGImageAlphaPremultipliedLast;
 			}
 		else if (inFormat == GL_RGB)
 			{
+			theColorSpace = CGColorSpaceCreateDeviceRGB();
 			theOctetsPerPixel = 3;
 			theAlphaInfo = kCGImageAlphaNone;
+			}
+		else if (inFormat == GL_LUMINANCE)
+			{
+			theColorSpace = CGColorSpaceCreateDeviceGray();
+			theOctetsPerPixel = 1;
+			theAlphaInfo = kCGImageAlphaNone;
+			}
+		else
+			{
+			NSAssert(NO, @"Unknown format");
 			}
 		
 		NSUInteger theBitsPerChannel = 0;
@@ -91,7 +105,6 @@
 		
         NSMutableData *theMutableData = [NSMutableData dataWithLength:inSize.width * theOctetsPerPixel * inSize.height];
         
-        CGColorSpaceRef theColorSpace = CGColorSpaceCreateDeviceRGB();
         
         CGContextRef theImageContext = CGBitmapContextCreate([theMutableData mutableBytes], inSize.width, inSize.height, theBitsPerChannel, inSize.width * theOctetsPerPixel, theColorSpace, theAlphaInfo);
         NSAssert(theImageContext != NULL, @"Should not have null context");
@@ -115,23 +128,33 @@
     AssertOpenGLValidContext_();
     
     GLuint theName = 0;
-	GLenum theTarget = GL_TEXTURE_2D;
 
     glGenTextures(1, &theName);
     
     AssertOpenGLNoError_();
     
-    glBindTexture(theTarget, theName);
+    glBindTexture(inTarget, theName);
 
     // Configure texture...
-	glTexParameteri(theTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(theTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(theTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(theTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);   
+	glTexParameteri(inTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(inTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(inTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(inTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 
     // Update texture data...
-    glTexImage2D(GL_TEXTURE_2D, 0, inFormat, inSize.width, inSize.height, 0, inFormat, inType, theData.bytes);
+	if (inTarget == GL_TEXTURE_2D)
+		{
+		glTexImage2D(inTarget, 0, inFormat, inSize.width, inSize.height, 0, inFormat, inType, theData.bytes);
+		}
+	else if (inTarget == GL_TEXTURE_1D)
+		{
+		glTexImage1D(inTarget, 0, inFormat, MAX(inSize.width, inSize.height), 0, inFormat, inType, theData.bytes);
+		}
+
+    AssertOpenGLNoError_();
+
+
 
 //    if (self.generateMipMap == YES)
 //        {
@@ -152,7 +175,7 @@
 //        
 //    self.loaded = YES;
  
-	CTexture *theTexture = [[CTexture alloc] initWithName:theName target:theTarget size:inSize];
+	CTexture *theTexture = [[CTexture alloc] initWithName:theName target:inTarget size:inSize format:inFormat type:inType owns:YES];
 	      
     return(theTexture);
 	}
@@ -179,13 +202,36 @@
         };
 
 	
-	return([self textureWithCGImage:inImage size:theDesiredSize format:GL_RGBA type:GL_UNSIGNED_BYTE error:outError]);
+	return([self textureWithCGImage:inImage size:theDesiredSize target:GL_TEXTURE_2D format:GL_RGBA type:GL_UNSIGNED_BYTE error:outError]);
     }
 
 + (id)textureNamed:(NSString *)inName error:(NSError *__autoreleasing *)outError
 	{
 	NSURL *theURL = [[NSBundle mainBundle].resourceURL URLByAppendingPathComponent:inName];
 	return([self textureWithContentsOfURL:theURL error:outError]);
+	}
+
++ (id)textureWithContentsOfURL:(NSURL *)inURL size:(SIntSize)inSize target:(GLenum)inTarget format:(GLint)inFormat type:(GLint)inType error:(NSError **)outError;
+	{
+	CGImageSourceRef theImageSource = CGImageSourceCreateWithURL((__bridge CFURLRef)inURL, NULL);
+	if (theImageSource == NULL)
+		{
+		return(NULL);
+		}
+
+	CGImageRef theImage = CGImageSourceCreateImageAtIndex(theImageSource, 0, NULL);
+	CFRelease(theImageSource);
+
+	if (theImage == NULL)
+		{
+		return(NULL);
+		}
+
+	CTexture *theTexture = [self textureWithCGImage:theImage size:inSize target:inTarget format:inFormat type:inType error:outError];
+	theTexture.label = [inURL lastPathComponent];
+
+	CFRelease(theImage);
+	return(theTexture);
 	}
 
 + (id)textureWithContentsOfURL:(NSURL *)inURL error:(NSError **)outError;
@@ -254,19 +300,46 @@
 	{
 	glBindTexture(self.target, self.name);
 	
-	NSMutableData *theData = [NSMutableData dataWithLength:self.size.width * 4 * self.size.height];
-	glGetTexImage(self.target, 0, GL_RGBA, GL_UNSIGNED_BYTE, theData.mutableBytes);
 
-	CGColorSpaceRef theColorSpace = CGColorSpaceCreateDeviceRGB();
+	CGColorSpaceRef theColorSpace = NULL;
+	size_t theComponents = 0;
+	size_t theBitsPerComponent = 0;
+	CGBitmapInfo theBitmapInfo = 0;
+
+	if (self.format == GL_RGBA)
+		{
+		theColorSpace = CGColorSpaceCreateDeviceRGB();
+		theComponents = 4;
+		theBitsPerComponent = 8;
+		theBitmapInfo = kCGImageAlphaPremultipliedLast;
+		}
+	else if (self.format == GL_RGB)
+		{
+		theColorSpace = CGColorSpaceCreateDeviceRGB();
+		theComponents = 3;
+		theBitsPerComponent = 8;
+		theBitmapInfo = kCGImageAlphaNone;
+		}
+	else if (self.format == GL_LUMINANCE)
+		{
+		theColorSpace = CGColorSpaceCreateDeviceGray();
+		theComponents = 1;
+		theBitsPerComponent = 8;
+		theBitmapInfo = kCGImageAlphaNone;
+		}
+	else
+		{
+		NSLog(@"Cannot create texture. Unknown format.");
+		return(NULL);
+		}
+
+
+	NSMutableData *theData = [NSMutableData dataWithLength:self.size.width * theComponents * self.size.height];
+	glGetTexImage(self.target, 0, self.format, self.type, theData.mutableBytes);
 	
-	const size_t width = self.size.width;
-	const size_t height = self.size.height;
-	const size_t bitsPerComponent = 8;
-	const size_t bytesPerRow = width * (bitsPerComponent * 4) / 8;
-	// TODO - probably dont want skip last
-	CGBitmapInfo theBitmapInfo = kCGImageAlphaPremultipliedLast;
+	const size_t theBytesPerRow = self.size.width * (theBitsPerComponent * theComponents) / 8;
 	
-	CGContextRef theContext = CGBitmapContextCreateWithData(theData.mutableBytes, width, height, bitsPerComponent, bytesPerRow, theColorSpace, theBitmapInfo, NULL, NULL);
+	CGContextRef theContext = CGBitmapContextCreateWithData(theData.mutableBytes, self.size.width, self.size.height, theBitsPerComponent, theBytesPerRow, theColorSpace, theBitmapInfo, NULL, NULL);
 	
 	CGImageRef theImage = CGBitmapContextCreateImage(theContext);
 	

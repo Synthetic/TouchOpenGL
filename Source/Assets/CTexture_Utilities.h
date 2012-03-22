@@ -10,9 +10,12 @@
 
 @interface CTexture (CTexture_Utilities)
 
-+ (id)textureWithCGImage:(CGImageRef)inImage size:(SIntSize)inSize format:(GLint)inFormat type:(GLint)inType error:(NSError **)outError;
++ (id)textureWithCGImage:(CGImageRef)inImage size:(SIntSize)inSize target:(GLenum)inTarget format:(GLint)inFormat type:(GLint)inType error:(NSError **)outError;
 + (id)textureWithCGImage:(CGImageRef)inImage error:(NSError **)outError;
+
 + (id)textureNamed:(NSString *)inName error:(NSError **)outError;
+
++ (id)textureWithContentsOfURL:(NSURL *)inURL size:(SIntSize)inSize target:(GLenum)inTarget format:(GLint)inFormat type:(GLint)inType error:(NSError **)outError;
 + (id)textureWithContentsOfURL:(NSURL *)inURL error:(NSError **)outError;
 
 - (CGImageRef)fetchImageViaFrameBuffer CF_RETURNS_RETAINED;

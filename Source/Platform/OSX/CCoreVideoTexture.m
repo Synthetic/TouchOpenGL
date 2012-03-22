@@ -50,8 +50,11 @@
 
 	AssertOpenGLNoError_();
 
+	#warning TODO - do not assume.
+	GLenum theFormat = GL_RGBA;
+	GLenum theType = GL_UNSIGNED_BYTE;
 	
-    if ((self = [self initWithName:theName target:theTarget size:theSize owns:NO]) != NULL)
+    if ((self = [self initWithName:theName target:theTarget size:theSize format:theFormat type:theType owns:NO]) != NULL)
         {
 		_textureCache = (CVOpenGLTextureCacheRef)CFRetain(inTextureCache);
 		_texture = theTexture;
