@@ -45,9 +45,6 @@
 
 - (id)initWithShaders:(NSArray *)inShaders
     {
-    #pragma unused (inUniformNames)
-    // TODO: Clean this inUniformNames
-
 	AssertOpenGLNoError_();
 
     // Create shader program
