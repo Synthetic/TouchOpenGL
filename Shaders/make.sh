@@ -7,3 +7,4 @@ SLOBGen Shaders/BlitTextureRectangle.fsh Shaders/Default.vsh --class CBlitRectan
 SLOBGen Shaders/Blur.fsh Shaders/Default.vsh --class CBlurProgram --output Source
 SLOBGen Shaders/CompositeTexture.fsh Shaders/Default.vsh --class CCompositeProgram --output Source
 SLOBGen Shaders/ChannelLookup.fsh Shaders/Default.vsh --class CChannelLookupProgram --output Source
+SLOBGen Shaders/HSLAdjustment.fsh Shaders/Default.vsh --class CHSLAdjustmentProgram --output Source
