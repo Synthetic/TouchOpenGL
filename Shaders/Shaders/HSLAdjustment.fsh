@@ -7,7 +7,7 @@
 //
 
 #ifdef GL_ES
-precision lowp float;
+precision highp float;
 #endif
 
 // #############################################################################
