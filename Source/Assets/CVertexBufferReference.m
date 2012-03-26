@@ -69,7 +69,7 @@
         {
 		NSAssert(inVertexBuffer != NULL, @"We need a vertex buffer.");
         NSAssert1(inSize >= 1 && inSize <= 4, @"Size (%d) needs to be between 1 & 4", inSize);
-        NSAssert3((size_t)(inRowCount * inRowSize) == inVertexBuffer.data.length, @"Row size (%d) * row count (%d) != vertex buffer length (%d)", inRowSize, inRowCount, inVertexBuffer.data.length);
+        NSAssert3((size_t)(inRowCount * inRowSize) == inVertexBuffer.data.length, @"Row size (%d) * row count (%d) != vertex buffer length (%lu)", inRowSize, inRowCount, inVertexBuffer.data.length);
         NSAssert(inStride == 0 || inStride <= inRowSize, @"Stride should be either 0 or row size");
         NSAssert(inOffset == 0 || inOffset < inStride, @"Offset should be 0 or less then stride");
 
