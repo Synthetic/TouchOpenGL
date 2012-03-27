@@ -8,3 +8,4 @@ SLOBGen Shaders/Blur.fsh Shaders/Default.vsh --class CBlurProgram --output Sourc
 SLOBGen Shaders/CompositeTexture.fsh Shaders/Default.vsh --class CCompositeProgram --output Source
 SLOBGen Shaders/ChannelLookup.fsh Shaders/Default.vsh --class CChannelLookupProgram --output Source
 SLOBGen Shaders/HSLAdjustment.fsh Shaders/Default.vsh --class CHSLAdjustmentProgram --output Source
+SLOBGen Shaders/Diff.fsh Shaders/Default.vsh --class CDiffProgram --output Source

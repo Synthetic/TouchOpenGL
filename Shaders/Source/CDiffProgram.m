@@ -69,14 +69,6 @@
 		    return(self);
 		    }
 
-		theError = NULL;
-		if ([self validate:&theError] == NO)
-		    {
-		    NSLog(@"Could not validate program (%@): %@", self, theError);
-		    self = NULL;
-		    return(self);
-		    }
-
 		AssertOpenGLNoError_();
 
         // texture1

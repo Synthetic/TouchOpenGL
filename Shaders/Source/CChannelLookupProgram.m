@@ -71,10 +71,13 @@
 
 		AssertOpenGLNoError_();
 
-		[self linkProgram:NULL];
-
 		NSError *theError = NULL;
-		[self validate:&theError];
+		if ([self linkProgram:&theError] == NO)
+		    {
+		    NSLog(@"Could not link program (%@): %@", self, theError);
+		    self = NULL;
+		    return(self);
+		    }
 
 		AssertOpenGLNoError_();
 

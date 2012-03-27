@@ -11,7 +11,6 @@
 #import "Matrix.h"
 
 @class CTexture;
-
 @class CVertexBufferReference;
 
 @interface CBlurProgram : CProgram
