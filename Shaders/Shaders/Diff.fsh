@@ -10,15 +10,15 @@
 precision mediump float;
 #endif
 
-varying vec2 v_texture;
+varying vec2 v_texture0;
 
-uniform sampler2D u_texture0; //@
-uniform sampler2D u_texture1; //@
+uniform sampler2D u_texture0; //@ name:texture0
+uniform sampler2D u_texture1; //@ name:texture1
 
 void main()
     {
-	vec4 S = texture2D(u_texture0, v_texture);
-	vec4 D = texture2D(u_texture1, v_texture);
+	vec4 S = texture2D(u_texture0, v_texture0);
+	vec4 D = texture2D(u_texture1, v_texture0);
 	
 	S *= S.a;
 	D *= D.a;
