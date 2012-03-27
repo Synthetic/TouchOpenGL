@@ -43,7 +43,7 @@ precision lowp float;
 
 // #############################################################################
 
-varying vec2 v_texture;
+varying vec2 v_texture0;
 
 uniform sampler2D u_texture0; //@ name:texture0
 uniform sampler2D u_texture1; //@ name:texture1
@@ -69,8 +69,8 @@ vec4 premultiply(vec4 v)
 
 void main()
     {
-	vec4 S = texture2D(u_texture0, v_texture);
-	vec4 D = texture2D(u_texture1, v_texture) + u_color;
+	vec4 S = texture2D(u_texture0, v_texture0);
+	vec4 D = texture2D(u_texture1, v_texture0) + u_color;
 	vec4	Sp = premultiply(S);
 	vec4	Dp = premultiply(D);
 
