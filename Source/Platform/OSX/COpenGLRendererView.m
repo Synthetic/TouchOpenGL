@@ -36,10 +36,34 @@ static CVReturn MyCVDisplayLinkOutputCallback(CVDisplayLinkRef displayLink,  con
 
 		CVDisplayLinkSetOutputCallback(_displayLink, MyCVDisplayLinkOutputCallback, (__bridge void *)self);
 		
-		CVDisplayLinkStart(_displayLink);
         }
     return(self);
     }
+
+- (void)dealloc
+	{
+	if (_displayLink)
+		{
+		if (CVDisplayLinkIsRunning(_displayLink))
+			{
+			CVDisplayLinkStop(_displayLink);
+			}
+			
+		CVDisplayLinkRelease(_displayLink);
+		}
+	}
+
+- (void)viewWillMoveToWindow:(NSWindow *)newWindow
+	{
+	if (newWindow != NULL)
+		{
+		CVDisplayLinkStart(_displayLink);
+		}
+	else
+		{
+		CVDisplayLinkStop(_displayLink);
+		}
+	}
 
 - (void)drawRect:(NSRect)dirtyRect
 	{
