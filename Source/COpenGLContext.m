@@ -19,6 +19,7 @@
 @property (readwrite, nonatomic, strong) CFrameBuffer *frameBuffer;
 @property (readwrite, nonatomic, strong) CRenderBuffer *depthBuffer;
 @property (readwrite, nonatomic, strong) CRenderBuffer *colorBuffer;
+@property (readwrite, nonatomic, strong) CTexture *colorTexture;
 
 #if TARGET_OS_IPHONE == 1
 @property (readwrite, nonatomic, weak) id <EAGLDrawable> drawable;
@@ -129,7 +130,29 @@ static COpenGLContext *gCurrentContext = NULL;
 
 		}
 	}
+
+- (void)setupForOffscreen;
+	{
+	NSParameterAssert(_frameBuffer == NULL);
+
+	[self use];
+		
+	// #########################################################################
+
+    self.frameBuffer = [[CFrameBuffer alloc] initWithTarget:GL_FRAMEBUFFER];
+	self.frameBuffer.label = [NSString stringWithFormat:@"Framebuffer (%d)", self.frameBuffer.name];
+    [self.frameBuffer bind];
+
+	self.colorTexture = [[CTexture alloc] initWithTarget:GL_TEXTURE_2D size:self.size format:GL_RGBA type:GL_UNSIGNED_BYTE];
 	
+    [self.frameBuffer attachObject:self.colorTexture attachment:GL_COLOR_ATTACHMENT0];
+
+	if ([self.frameBuffer isComplete] == NO)
+        {
+		NSLog(@"createFramebuffer failed %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+        }
+	}
+
 - (void)setupFrameBuffer
 	{
 	NSParameterAssert(_frameBuffer == NULL);

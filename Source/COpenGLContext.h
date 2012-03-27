@@ -21,6 +21,7 @@
 @property (readonly, nonatomic, strong) CFrameBuffer *frameBuffer;
 @property (readonly, nonatomic, strong) CRenderBuffer *depthBuffer;
 @property (readonly, nonatomic, strong) CRenderBuffer *colorBuffer;
+@property (readonly, nonatomic, strong) CTexture *colorTexture;
 
 @property (readonly, nonatomic, assign) BOOL isActive;
 
@@ -39,6 +40,8 @@
 #else
 - (id)initWithNativeContext:(CGLContextObj)inNativeContext size:(SIntSize)inSize;
 #endif
+
+- (void)setupForOffscreen;
 
 - (void)setupFrameBuffer;
 
