@@ -86,10 +86,10 @@
     return(self);
 	}
 
-//- (NSString *)description
-//    {
-//    return([NSString stringWithFormat:@"%@ (name: %d, %d x %d)", [super description], self.name, self.size.width, self.size.height]);
-//    }
+- (NSString *)description
+    {
+    return([NSString stringWithFormat:@"%@ (name: %d, %d x %d)", [super description], self.name, self.size.width, self.size.height]);
+    }
 
 - (GLuint)cost
 	{
