@@ -14,6 +14,7 @@
 @interface CTextureRenderer : CBlockRenderer
 
 @property (readwrite, nonatomic, strong) CTexture *texture;
+@property (readwrite, nonatomic, copy) CTexture *(^textureBlock)(void);
 @property (readwrite, nonatomic, strong) CBlitProgram *program;
 
 @end

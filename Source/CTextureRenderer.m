@@ -40,7 +40,6 @@
 		{
 		self.rectangleProgram = [[CBlitRectangleProgram alloc] init];
 		[self.rectangleProgram use];
-		self.rectangleProgram.texCoords = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ .size = { 1.0, 1.0 } }];
 		self.rectangleProgram.positions = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ -1, -1, 2, 2 }];
 		self.rectangleProgram.projectionMatrix = Matrix4MakeScale(-1.0, -1.0, 1.0);
 		}
@@ -50,45 +49,39 @@
 - (void)render
     {
 	[super render];
+	
 
-	if (self.texture != NULL)
+	CTexture *theTexture;
+	if (self.textureBlock != NULL)
+		{
+		theTexture = self.texture = self.textureBlock();
+		}
+	else
+		{
+		theTexture = self.texture;
+		}
+
+
+	if (theTexture != NULL)
 		{
 		#if TARGET_OS_IPHONE == 0
-		if (_texture.target == GL_TEXTURE_RECTANGLE_ARB)
+		if (theTexture.target == GL_TEXTURE_RECTANGLE_ARB)
 			{
 			[self.rectangleProgram use];
-			self.rectangleProgram.texture0 = self.texture;
+			self.rectangleProgram.texCoords = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ .size = { theTexture.size.width, theTexture.size.height } }];
+			self.rectangleProgram.texture0 = theTexture;
 			[self.rectangleProgram update];
 			}
 		else
 		#endif /* TARGET_OS_IPHONE == 0 */
 			{
 			[self.program use];
-			self.program.texture0 = self.texture;
+			self.program.texture0 = theTexture;
 			[self.program update];
 			}
 
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		glFlush();
-		}
-	}
-
-- (void)setTexture:(CTexture *)texture
-	{
-	if (_texture != texture)
-		{
-		_texture = texture;
-		//
-		#if TARGET_OS_IPHONE == 0
-		if (_texture.target == GL_TEXTURE_RECTANGLE_ARB)
-			{
-			self.rectangleProgram.texCoords = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ .size = { self.texture.size.width, self.texture.size.height } }];
-			}
-		else
-		#endif /* TARGET_OS_IPHONE == 0 */
-			{
-			self.program.texCoords = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ .size = { 1.0, 1.0 } }];
-			}
 		}
 	}
 
