@@ -376,4 +376,27 @@
 	CFRelease(theImage);
 	}
 
+- (void)open
+	{
+	
+	NSString *theTemporaryDirectory = NSTemporaryDirectory();
+
+
+    NSString *theTemplate = [theTemporaryDirectory stringByAppendingPathComponent:@"XXXXXX.png"];
+    char theBuffer[theTemplate.length + 1];
+    strncpy(theBuffer, [theTemplate UTF8String], theTemplate.length + 1);
+    int fd = mkstemps(theBuffer, 4);
+	if (fd < 0)
+		{
+		NSLog(@"Could not create temp file. %d", errno);
+		return;
+		}
+	NSString *thePath = [NSString stringWithUTF8String:theBuffer];
+	[self writeToFile:thePath];
+	
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:thePath]];
+	
+	
+	}
+
 @end

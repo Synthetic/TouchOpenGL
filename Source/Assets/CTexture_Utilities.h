@@ -23,4 +23,8 @@
 
 - (void)writeToFile:(NSString *)inPath;
 
+#if TARGET_OS_IPHONE == 0
+- (void)open;
+#endif
+
 @end
