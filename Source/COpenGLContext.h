@@ -16,6 +16,7 @@
 
 @interface COpenGLContext : NSObject
 
+#warning TODO remove size from here...
 @property (readonly, nonatomic, assign) SIntSize size;
 
 @property (readonly, nonatomic, strong) CFrameBuffer *frameBuffer;
