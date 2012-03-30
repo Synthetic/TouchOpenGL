@@ -66,6 +66,7 @@ static COpenGLContext *gCurrentContext = NULL;
 #else
 - (id)initWithNativeContext:(CGLContextObj)inNativeContext size:(SIntSize)inSize
     {
+	NSParameterAssert(inNativeContext != NULL);
     if ((self = [super init]) != NULL)
         {
 		_size = inSize;
