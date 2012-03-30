@@ -29,13 +29,11 @@ static CVReturn MyCVDisplayLinkOutputCallback(CVDisplayLinkRef displayLink,  con
         {
 		NSOpenGLContext *theOpenGLContext = [self openGLContext];
 		void *theNativeContext = [theOpenGLContext CGLContextObj];
-		
 		_context = [[COpenGLContext alloc] initWithNativeContext:theNativeContext size:(SIntSize){ self.frame.size.width, self.frame.size.height }];
 
 		CVDisplayLinkCreateWithActiveCGDisplays(&_displayLink);
-
 		CVDisplayLinkSetOutputCallback(_displayLink, MyCVDisplayLinkOutputCallback, (__bridge void *)self);
-		
+
         }
     return(self);
     }
@@ -65,38 +63,48 @@ static CVReturn MyCVDisplayLinkOutputCallback(CVDisplayLinkRef displayLink,  con
 		}
 	}
 
-- (void)drawRect:(NSRect)dirtyRect
-	{
-	NSParameterAssert(self.context != NULL);
-
-	if (self.renderer == NULL)
-		{
-		return;
-		}
-		
-	if (self.renderer.context == NULL)
-		{
-		NSParameterAssert(self.context != NULL);
-		self.renderer.context = self.context;
-		}
-
-	[self.context use];
-    
-    if (self.setup == NO)
-        {
-		[self.renderer setup];
-		//
-        self.setup = YES;
-        }
-
-    [self.renderer prerender];
-    [self.renderer render];
-    [self.renderer postrender];
-	}
-
 - (void)reshape
 	{
 	[super reshape];
+	
+	NSLog(@"RESHAPE: %@", NSStringFromRect(self.frame));
+
+	glViewport(0, 0, self.frame.size.width, self.frame.size.height);
+	}
+
+- (void)drawRect:(NSRect)dirtyRect
+	{
+	NSParameterAssert(self.context != NULL);
+	NSParameterAssert(self.context.nativeContext == [[self openGLContext] CGLContextObj]);
+
+	
+
+	glClearColor(0.0, 0.5, 0.0, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	if (self.renderer != NULL)
+		{
+		if (self.renderer.context == NULL)
+			{
+			NSParameterAssert(self.context != NULL);
+			self.renderer.context = self.context;
+			}
+
+		[self.context use];
+		
+		if (self.setup == NO)
+			{
+			[self.renderer setup];
+			//
+			self.setup = YES;
+			}
+
+		[self.renderer prerender];
+		[self.renderer render];
+		[self.renderer postrender];
+		}
+		
+	glFlush();
 	}
 
 @end
