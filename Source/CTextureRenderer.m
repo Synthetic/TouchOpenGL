@@ -32,30 +32,40 @@
     return self;
     }
 
+- (void)setup
+	{
+	[super setup];
+	//
+	if (self.rectangleProgram == NULL)
+		{
+		self.rectangleProgram = [[CBlitRectangleProgram alloc] init];
+		[self.rectangleProgram use];
+		}
+	if (self.program == NULL)
+		{
+		self.program = [[CBlitProgram alloc] init];
+		}
+	}
+
 - (void)render
     {
 	[super render];
 	
+	AssertOpenGLNoError_();
+	
 	CTexture *theTexture = NULL;
 	if (self.textureBlock != NULL)
 		{
-		theTexture = self.texture = self.textureBlock();
+		theTexture = self.textureBlock();
 		}
-	if (theTexture == NULL)
-		{
-		theTexture = self.texture;
-		}
+
+	AssertOpenGLNoError_();
 
 	if (theTexture != NULL)
 		{
 		#if TARGET_OS_IPHONE == 0
 		if (theTexture.target == GL_TEXTURE_RECTANGLE_ARB)
 			{
-			if (self.rectangleProgram == NULL)
-				{
-				self.rectangleProgram = [[CBlitRectangleProgram alloc] init];
-				[self.rectangleProgram use];
-				}
 			[self.rectangleProgram use];
 			self.rectangleProgram.texCoords = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ .size = { theTexture.size.width, theTexture.size.height } }];
 			self.rectangleProgram.positions = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ -1, -1, 2, 2 }];
@@ -66,10 +76,6 @@
 		else
 		#endif /* TARGET_OS_IPHONE == 0 */
 			{
-			if (self.program == NULL)
-				{
-				self.program = [[CBlitProgram alloc] init];
-				}
 			[self.program use];
 			self.program.texCoords = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ .size = { 1.0, 1.0 } }];
 			self.program.positions = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ -1, -1, 2, 2 }];

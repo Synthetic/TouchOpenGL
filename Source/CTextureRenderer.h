@@ -15,7 +15,6 @@
 
 @interface CTextureRenderer : CBlockRenderer
 
-@property (readwrite, nonatomic, strong) CTexture *texture;
 @property (readwrite, nonatomic, copy) CTexture *(^textureBlock)(void);
 @property (readwrite, nonatomic, strong) CBlitProgram *program;
 @property (readwrite, nonatomic, assign) Matrix4 projectionMatrix;
