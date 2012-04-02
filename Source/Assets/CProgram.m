@@ -198,7 +198,6 @@
         if (theLocation == -1)
             {
             NSLog(@"Could not get uniform location for: %@", inName);
-            #warning 0 is a valid uniform location
             return(0); 
             }
         
