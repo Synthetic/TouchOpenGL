@@ -77,15 +77,15 @@
 		#endif /* TARGET_OS_IPHONE == 0 */
 			{
 			[self.program use];
-			self.program.texCoords = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ .size = { 1.0, 1.0 } }];
+			self.program.texture0 = theTexture;
+			self.program.texCoords = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ .size = { 1, 1 } }];
 			self.program.positions = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ -1, -1, 2, 2 }];
 			self.program.projectionMatrix = self.projectionMatrix;
-			self.program.texture0 = theTexture;
+			self.program.modelViewMatrix = Matrix4Identity;
 			[self.program update];
 			}
 
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-		glFlush();
 		}
 	}
 
