@@ -44,6 +44,7 @@
 @property (readwrite, nonatomic, assign) Color4f clearColor;
 @property (readwrite, nonatomic, assign) Matrix4 projectionTransform;
 @property (readwrite, nonatomic, strong) COpenGLContext *context;
+@property (readonly, nonatomic, assign) double frameRate;
 
 - (void)setup;
 - (void)clear;  // TODO - should a renderer be clearing?

@@ -35,25 +35,32 @@
 
 @interface CSceneRenderer ()
 @property (readwrite, nonatomic, assign) BOOL needsSetup;
+@property (readwrite, nonatomic, assign) NSUInteger frameCount;
+@property (readwrite, nonatomic, assign) CFAbsoluteTime startTime;
+
+@property (readwrite, nonatomic, assign) double frameRate;
 @end
 
 #pragma mark -
 
 @implementation CSceneRenderer
 
-@synthesize size;
-@synthesize clearColor;
-@synthesize projectionTransform;
+@synthesize size = _size;
+@synthesize clearColor = _clearColor;
+@synthesize projectionTransform = _projectionTransform;
+@synthesize frameRate = _frameRate;
 
-@synthesize needsSetup;
+@synthesize needsSetup = _needsSetup;
+@synthesize frameCount = _frameCount;
+@synthesize startTime = _startTime;
 
 - (id)init
     {
     if ((self = [super init]))
         {
-        clearColor = (Color4f){ 0.5f, 0.5f, 0.5f, 1.0f };
-        projectionTransform = Matrix4Identity;
-        needsSetup = YES;
+        _clearColor = (Color4f){ 0.5f, 0.5f, 0.5f, 1.0f };
+        _projectionTransform = Matrix4Identity;
+        _needsSetup = YES;
         }
     return self;
     }
@@ -82,7 +89,7 @@
 
     glDepthFunc(GL_LEQUAL);
 
-    glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+    glClearColor(_clearColor.r, _clearColor.g, _clearColor.b, _clearColor.a);
 
     self.needsSetup = NO;
     }
@@ -108,6 +115,17 @@
 
 - (void)postrender
     {
+	const CFAbsoluteTime theTime = CFAbsoluteTimeGetCurrent();
+	if (_frameCount++ == 0)
+		{
+//		NSLog(@"START");
+		_startTime = theTime;
+		}
+	else
+		{
+//		NSLog(@"%f %f", theTime, _startTime);
+		self.frameRate = 1.0 / ((theTime - _startTime) / (double)_frameCount);
+		}
     }
 
 - (void)setNeedsSetup
