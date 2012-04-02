@@ -143,6 +143,8 @@
 		}
 	
 	[self.mutableAttachments removeObject:inObject];
+
+	AssertOpenGLNoError_();
 	}
 	
 - (void)discard
