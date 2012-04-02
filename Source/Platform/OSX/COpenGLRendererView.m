@@ -72,15 +72,14 @@ static CVReturn MyCVDisplayLinkOutputCallback(CVDisplayLinkRef displayLink,  con
 
 - (void)drawRect:(NSRect)dirtyRect
 	{
+	[super drawRect:dirtyRect];
+
 	NSParameterAssert(self.context != NULL);
 	NSParameterAssert(self.context.nativeContext == [[self openGLContext] CGLContextObj]);
 
 	[self.context use];
 
 	AssertOpenGLNoError_();
-
-	glClearColor(0.0, 0.5, 0.5, 1.0);
-	glClear(GL_COLOR_BUFFER_BIT);
 
 	if (self.renderer != NULL)
 		{
@@ -104,7 +103,7 @@ static CVReturn MyCVDisplayLinkOutputCallback(CVDisplayLinkRef displayLink,  con
 		[self.renderer render];
 		[self.renderer postrender];
 		}
-		
+
 	glFlush();
 	}
 
