@@ -67,8 +67,6 @@ static CVReturn MyCVDisplayLinkOutputCallback(CVDisplayLinkRef displayLink,  con
 	{
 	[super reshape];
 	
-	NSLog(@"RESHAPE: %@", NSStringFromRect(self.frame));
-
 	glViewport(0, 0, self.frame.size.width, self.frame.size.height);
 	}
 
@@ -77,27 +75,30 @@ static CVReturn MyCVDisplayLinkOutputCallback(CVDisplayLinkRef displayLink,  con
 	NSParameterAssert(self.context != NULL);
 	NSParameterAssert(self.context.nativeContext == [[self openGLContext] CGLContextObj]);
 
-	
+	[self.context use];
 
-	glClearColor(0.0, 0.5, 0.0, 1.0);
+	AssertOpenGLNoError_();
+
+	glClearColor(0.0, 0.5, 0.5, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	if (self.renderer != NULL)
 		{
 		if (self.renderer.context == NULL)
 			{
-			NSParameterAssert(self.context != NULL);
 			self.renderer.context = self.context;
 			}
-
-		[self.context use];
 		
+		AssertOpenGLNoError_();
+
 		if (self.setup == NO)
 			{
 			[self.renderer setup];
 			//
 			self.setup = YES;
 			}
+
+		AssertOpenGLNoError_();
 
 		[self.renderer prerender];
 		[self.renderer render];
