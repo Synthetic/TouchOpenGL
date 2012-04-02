@@ -378,10 +378,7 @@
 
 - (void)open
 	{
-	
 	NSString *theTemporaryDirectory = NSTemporaryDirectory();
-
-
     NSString *theTemplate = [theTemporaryDirectory stringByAppendingPathComponent:@"XXXXXX.png"];
     char theBuffer[theTemplate.length + 1];
     strncpy(theBuffer, [theTemplate UTF8String], theTemplate.length + 1);

@@ -39,8 +39,8 @@
 	if (self.rectangleProgram == NULL)
 		{
 		self.rectangleProgram = [[CBlitRectangleProgram alloc] init];
-		[self.rectangleProgram use];
 		}
+
 	if (self.program == NULL)
 		{
 		self.program = [[CBlitProgram alloc] init];
