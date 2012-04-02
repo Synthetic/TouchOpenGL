@@ -46,7 +46,7 @@
 @property (readwrite, nonatomic, strong) COpenGLContext *context;
 
 - (void)setup;
-- (void)clear;
+- (void)clear;  // TODO - should a renderer be clearing?
 - (void)prerender;
 - (void)render;
 - (void)postrender;
