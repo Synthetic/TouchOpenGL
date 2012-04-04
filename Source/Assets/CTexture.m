@@ -48,8 +48,6 @@
 	{
     if ((self = [super initWithName:inName]) != NULL)
         {
-//		NSLog(@"INIT: %d %@", ++gCount, self);
-		
 		_target = inTarget;
         _size = inSize;
 		_format = inFormat;
