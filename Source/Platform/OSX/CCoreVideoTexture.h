@@ -12,6 +12,9 @@
 
 @interface CCoreVideoTexture : CTexture
 
+@property (readonly, nonatomic, assign) CVOpenGLTextureCacheRef textureCache;
+@property (readonly, nonatomic, assign) CVOpenGLTextureRef texture;
+
 - (id)initWithCVImageBuffer:(CVImageBufferRef)inImageBuffer textureCache:(CVOpenGLTextureCacheRef)inTextureCache;
 //- (id)initWithSize:(SIntSize)inSize textureCache:(CVOpenGLTextureCacheRef)inTextureCache;
 
