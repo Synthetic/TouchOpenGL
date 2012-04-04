@@ -95,6 +95,11 @@ static COpenGLContext *gCurrentContext = NULL;
 	#endif
 	}
 
+- (NSString *)description
+    {
+    return([NSString stringWithFormat:@"%@ (%@)", [super description], self.label]);
+    }
+
 - (void)setup
 	{
 	if (_nativeContext == NULL)

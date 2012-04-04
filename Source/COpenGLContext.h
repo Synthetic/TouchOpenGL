@@ -18,6 +18,7 @@
 
 #warning TODO remove size from here...
 @property (readonly, nonatomic, assign) SIntSize size;
+@property (readwrite, nonatomic, strong) NSString *label;
 
 @property (readonly, nonatomic, strong) CFrameBuffer *frameBuffer;
 @property (readonly, nonatomic, strong) CRenderBuffer *depthBuffer;
