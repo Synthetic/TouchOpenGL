@@ -62,30 +62,37 @@
     return self;
     }
 
-//- (id)initWithSize:(SIntSize)inSize textureCache:(CVOpenGLTextureCacheRef)inTextureCache
-//	{
-//	NSDictionary *theAttributes = @{ (__bridge NSString *)kCVPixelBufferIOSurfacePropertiesKey: @{} };
-//	
-//	NSLog(@"%@", theAttributes);
-//	CVPixelBufferRef thePixelBuffer;
-//	CVReturn theError = CVPixelBufferCreate(kCFAllocatorDefault, inSize.width, inSize.height, kCVPixelFormatType_32BGRA, (__bridge CFDictionaryRef)theAttributes, &thePixelBuffer);
-//	if (theError != kCVReturnSuccess)
-//		{
-//		NSLog(@"Failure");
-//		self = NULL;
-//		return(self);
-//		}
-//	if ((self = [self initWithCVImageBuffer:thePixelBuffer textureCache:inTextureCache]) != NULL)
-//		{
-//		}
-//		
-//	CFRelease(thePixelBuffer);
-//		
-//	return(self);
-//	}
+- (id)initWithSize:(SIntSize)inSize textureCache:(CVOpenGLTextureCacheRef)inTextureCache
+	{
+	NSDictionary *theAttributes = @{
+		(__bridge NSString *)kCVPixelBufferIOSurfacePropertiesKey: @{},
+		(__bridge NSString *)kCVPixelBufferOpenGLCompatibilityKey: @YES,
+		};
+	CVPixelBufferRef thePixelBuffer = NULL;
+	CVReturn theError = CVPixelBufferCreate(kCFAllocatorDefault, inSize.width, inSize.height, kCVPixelFormatType_32BGRA, (__bridge CFDictionaryRef)theAttributes, &thePixelBuffer);
+	if (theError != kCVReturnSuccess)
+		{
+		NSLog(@"Failure");
+		self = NULL;
+		return(self);
+		}
+
+	if ((self = [self initWithCVImageBuffer:thePixelBuffer textureCache:inTextureCache]) != NULL)
+		{
+		_pixelBuffer = thePixelBuffer;
+		}
+		
+	return(self);
+	}
 
 - (void)invalidate
 	{
+	if (_pixelBuffer)
+		{
+		CFRelease(_pixelBuffer);
+		_pixelBuffer = NULL;
+		}
+	
 	if (_texture)
 		{
 		CFRelease(_texture);
