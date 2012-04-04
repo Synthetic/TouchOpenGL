@@ -76,8 +76,6 @@
 	{
 	if (self.named == YES)
 		{
-		NSParameterAssert(glIsFramebuffer(self.name) == GL_TRUE);
-
 		GLuint theName = self.name;
 		glDeleteFramebuffers(1, &theName);
 		}
