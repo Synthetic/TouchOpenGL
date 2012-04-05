@@ -8,8 +8,9 @@
 
 #import "CCoreVideoTexture.h"
 
+#import "COpenGLContext_CoreVideoExtensions.h"
+
 @interface CCoreVideoTexture ()
-@property (readwrite, nonatomic, assign) CVOpenGLTextureCacheRef textureCache;
 @property (readwrite, nonatomic, assign) CVOpenGLTextureRef texture;
 @end
 
@@ -17,7 +18,7 @@
 
 @implementation CCoreVideoTexture
 
-- (id)initWithCVImageBuffer:(CVImageBufferRef)inImageBuffer textureCache:(CVOpenGLTextureCacheRef)inTextureCache
+- (id)initWithCVImageBuffer:(CVImageBufferRef)inImageBuffer
 	{
 	AssertOpenGLValidContext_();
 	
@@ -27,7 +28,7 @@
 		};
 	
 	CVOpenGLTextureRef theTexture = NULL;
-    CVReturn theError = CVOpenGLTextureCacheCreateTextureFromImage(kCFAllocatorDefault, inTextureCache, inImageBuffer, NULL, &theTexture);
+    CVReturn theError = CVOpenGLTextureCacheCreateTextureFromImage(kCFAllocatorDefault, [COpenGLContext currentContext].textureCache, inImageBuffer, NULL, &theTexture);
 	if (theError != kCVReturnSuccess || theTexture == NULL)
 		{
 		self = NULL;
@@ -57,22 +58,22 @@
 	
     if ((self = [self initWithName:theName target:theTarget size:theSize format:theFormat type:theType owns:NO]) != NULL)
         {
-		_textureCache = (CVOpenGLTextureCacheRef)CFRetain(inTextureCache);
 		_texture = theTexture;
+
 		CFRetain(inImageBuffer);
 		_pixelBuffer = inImageBuffer;
         }
     return self;
     }
 
-- (id)initWithSize:(SIntSize)inSize textureCache:(CVOpenGLTextureCacheRef)inTextureCache
+- (id)initWithSize:(SIntSize)inSize pixelFormat:(OSType)inPixelFormat
 	{
 	NSDictionary *theAttributes = @{
 		(__bridge NSString *)kCVPixelBufferIOSurfacePropertiesKey: @{},
 		(__bridge NSString *)kCVPixelBufferOpenGLCompatibilityKey: @YES,
 		};
 	CVPixelBufferRef thePixelBuffer = NULL;
-	CVReturn theError = CVPixelBufferCreate(kCFAllocatorDefault, inSize.width, inSize.height, kCVPixelFormatType_32BGRA, (__bridge CFDictionaryRef)theAttributes, &thePixelBuffer);
+	CVReturn theError = CVPixelBufferCreate(kCFAllocatorDefault, inSize.width, inSize.height, inPixelFormat, (__bridge CFDictionaryRef)theAttributes, &thePixelBuffer);
 	if (theError != kCVReturnSuccess)
 		{
 		NSLog(@"CVPixelBufferCreate() failed with %d", theError);
@@ -80,13 +81,18 @@
 		return(self);
 		}
 
-	if ((self = [self initWithCVImageBuffer:thePixelBuffer textureCache:inTextureCache]) != NULL)
+	if ((self = [self initWithCVImageBuffer:thePixelBuffer]) != NULL)
 		{
 		}
 	
 	CFRelease(thePixelBuffer);
 	
 	return(self);
+	}
+
+- (id)initWithSize:(SIntSize)inSize
+	{
+	return([self initWithSize:inSize pixelFormat:kCVPixelFormatType_32BGRA]);
 	}
 
 - (void)invalidate
@@ -103,17 +109,8 @@
 		_texture = NULL;
 		}
 
-	if (_textureCache)
-		{
-		CVOpenGLTextureCacheFlush(_textureCache, 0);
-
-		CFRelease(_textureCache);
-		_textureCache = NULL;
-		}
-
 	[super invalidate];
 	}
-	
 /*
 - (CGImageRef)fetchImage CF_RETURNS_RETAINED
 	{
