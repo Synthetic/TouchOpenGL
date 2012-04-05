@@ -237,7 +237,17 @@ NSString *NSStringFromGLenum(GLenum inEnum)
 		#endif /* if TARGET_OS_IPHONE == 1 */
 		case GL_FRAMEBUFFER_UNSUPPORTED:
 			return(@"GL_FRAMEBUFFER_UNSUPPORTED");
+		case GL_TEXTURE_1D:
+			return(@"GL_TEXTURE_1D");
+		case GL_TEXTURE_2D:
+			return(@"GL_TEXTURE_2D");
+		case GL_TEXTURE_RECTANGLE_ARB:
+			return(@"GL_TEXTURE_RECTANGLE_ARB");
+		case GL_RGBA:
+			return(@"GL_RGBA");
+		case GL_UNSIGNED_BYTE:
+			return(@"GL_UNSIGNED_BYTE");
         }
-    return(NULL);
+    return([NSString stringWithFormat:@"%X", inEnum]);
     }
     
