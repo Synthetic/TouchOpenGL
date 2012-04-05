@@ -39,11 +39,6 @@
 
 @implementation CTexture
 
-+ (GLenum)type
-	{
-	return(GL_TEXTURE);
-	}
-
 - (id)initWithName:(GLuint)inName target:(GLenum)inTarget size:(SIntSize)inSize format:(GLenum)inFormat type:(GLenum)inType owns:(BOOL)inOwns;
 	{
     if ((self = [super initWithName:inName]) != NULL)
@@ -148,6 +143,8 @@
 		}
 
 	glTexSubImage2D(self.target, 0, 0, 0, self.size.width, self.size.height, GL_RGBA, GL_UNSIGNED_BYTE, [theData mutableBytes]);
+
+	AssertOpenGLNoError_();
 	}
 
 
