@@ -111,28 +111,37 @@
 
 	[super invalidate];
 	}
-/*
+
 - (CGImageRef)fetchImage CF_RETURNS_RETAINED
 	{
-//	CVReturn theResult = CVPixelBufferLockBaseAddress(self.texture, kCVPixelBufferLock_ReadOnly);
-//	if (theResult != kCVReturnSuccess)
-//		{
-//		return(NULL);
-//		}
+	const OSType thePixelFormat = CVPixelBufferGetPixelFormatType(self.pixelBuffer);
+	const size_t theBytesPerRow = CVPixelBufferGetBytesPerRow(self.pixelBuffer);
 
-	uint8_t *thePixels = (uint8_t*)CVPixelBufferGetBaseAddress(self.texture);
+	size_t theBitsPerComponent = 0;
+	CGBitmapInfo theBitmapInfo = 0;
+	CGColorSpaceRef theColorSpace = NULL;
 
-	const size_t width = self.size.width;
-	const size_t height = self.size.height;
-	const size_t bitsPerComponent = 8;
-	const size_t bytesPerRow = width * (bitsPerComponent * 4) / 8;
-	// TODO - probably dont want skip last
-	CGBitmapInfo theBitmapInfo = kCGImageAlphaPremultipliedLast;
+	if (thePixelFormat == kCVPixelFormatType_32BGRA)
+		{
+		theBitsPerComponent = 8;
+		theBitmapInfo = kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Little;
+		theColorSpace = CGColorSpaceCreateDeviceRGB();
+		}
+	else
+		{
+		NSLog(@"Error: Unknown pixel format: %X", thePixelFormat);
+		return(NULL);
+		}
 
-	CGColorSpaceRef theColorSpace = CGColorSpaceCreateDeviceRGB();
-	
-	CGContextRef theContext = CGBitmapContextCreateWithData(thePixels, width, height, bitsPerComponent, bytesPerRow, theColorSpace, theBitmapInfo, NULL, NULL);
-	
+
+	CVReturn theResult = CVPixelBufferLockBaseAddress(self.pixelBuffer, kCVPixelBufferLock_ReadOnly);
+	if (theResult != kCVReturnSuccess)
+		{
+		return(NULL);
+		}
+
+	void *thePixels = CVPixelBufferGetBaseAddress(self.pixelBuffer);
+	CGContextRef theContext = CGBitmapContextCreateWithData(thePixels, self.size.width, self.size.height, theBitsPerComponent, theBytesPerRow, theColorSpace, theBitmapInfo, NULL, NULL);
 	CGImageRef theImage = CGBitmapContextCreateImage(theContext);
 	
 	// #########################################################################
@@ -140,10 +149,9 @@
 	CFRelease(theContext);
 	CFRelease(theColorSpace);
 
-//	CVPixelBufferUnlockBaseAddress(self.texture, kCVPixelBufferLock_ReadOnly);
+	CVPixelBufferUnlockBaseAddress(self.texture, kCVPixelBufferLock_ReadOnly);
 
 	return(theImage);
  	}
-*/
 
 @end
