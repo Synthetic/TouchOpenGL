@@ -36,8 +36,9 @@
 		
 	GLenum theName = CVOpenGLTextureGetName(theTexture);
 //	BOOL theIsFlippedFlag = CVOpenGLTextureisFlipped(theTexture);
-
+	
 	GLenum theTarget = CVOpenGLTextureGetTarget(theTexture);
+
 	
 	glBindTexture(theTarget, theName);
 
@@ -58,6 +59,8 @@
         {
 		_textureCache = (CVOpenGLTextureCacheRef)CFRetain(inTextureCache);
 		_texture = theTexture;
+		CFRetain(inImageBuffer);
+		_pixelBuffer = inImageBuffer;
         }
     return self;
     }
@@ -72,16 +75,17 @@
 	CVReturn theError = CVPixelBufferCreate(kCFAllocatorDefault, inSize.width, inSize.height, kCVPixelFormatType_32BGRA, (__bridge CFDictionaryRef)theAttributes, &thePixelBuffer);
 	if (theError != kCVReturnSuccess)
 		{
-		NSLog(@"Failure");
+		NSLog(@"CVPixelBufferCreate() failed with %d", theError);
 		self = NULL;
 		return(self);
 		}
 
 	if ((self = [self initWithCVImageBuffer:thePixelBuffer textureCache:inTextureCache]) != NULL)
 		{
-		_pixelBuffer = thePixelBuffer;
 		}
-		
+	
+	CFRelease(thePixelBuffer);
+	
 	return(self);
 	}
 
