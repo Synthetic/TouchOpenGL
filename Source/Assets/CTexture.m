@@ -81,7 +81,7 @@
 
 - (NSString *)description
     {
-    return([NSString stringWithFormat:@"%@ (name: %d, %d x %d)", [super description], self.name, self.size.width, self.size.height]);
+    return([NSString stringWithFormat:@"%@ (target: %@, name: %d, size: %d x %d, format: %@ type:%@", [super description], NSStringFromGLenum(self.target), self.name, self.size.width, self.size.height, NSStringFromGLenum(self.format), NSStringFromGLenum(self.type)]);
     }
 
 - (GLuint)cost

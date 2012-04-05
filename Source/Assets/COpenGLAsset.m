@@ -46,7 +46,9 @@
 
 - (NSString *)description
     {
-    return([NSString stringWithFormat:@"%@ (label: \"%@\", cost: %d)", [super description], self.label, self.cost]);
+    return([NSString stringWithFormat:@"%@ (%@cost: %d)", [super description],
+		self.label ? [NSString stringWithFormat:@"label: \"%@\", ", self.label] : @""
+		, self.cost]);
     }
 
 
