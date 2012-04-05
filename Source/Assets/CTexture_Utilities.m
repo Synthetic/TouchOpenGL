@@ -336,6 +336,8 @@
 
 	NSMutableData *theData = [NSMutableData dataWithLength:self.size.width * theComponents * self.size.height];
 	glGetTexImage(self.target, 0, self.format, self.type, theData.mutableBytes);
+
+	AssertOpenGLNoError_();
 	
 	const size_t theBytesPerRow = self.size.width * (theBitsPerComponent * theComponents) / 8;
 	
