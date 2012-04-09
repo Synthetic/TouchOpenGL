@@ -100,8 +100,16 @@ static CVReturn MyCVDisplayLinkOutputCallback(CVDisplayLinkRef displayLink,  con
 		AssertOpenGLNoError_();
 
 		[self.renderer prerender];
+
+		AssertOpenGLNoError_();
+
 		[self.renderer render];
+
+		AssertOpenGLNoError_();
+
 		[self.renderer postrender];
+
+		AssertOpenGLNoError_();
 		}
 
 	glFlush();
