@@ -215,6 +215,10 @@ NSString *NSStringFromGLenum(GLenum inEnum)
             return(@"GL_INVALID_OPERATION");
         case GL_OUT_OF_MEMORY:
             return(@"GL_OUT_OF_MEMORY");
+
+		case GL_INVALID_FRAMEBUFFER_OPERATION: // 0x0506
+			return(@"GL_INVALID_FRAMEBUFFER_OPERATION");
+
         case GL_ARRAY_BUFFER:
             return(@"GL_ARRAY_BUFFER");
         case GL_ELEMENT_ARRAY_BUFFER:
