@@ -8,8 +8,10 @@
 
 #import "CCoreVideoTexture.h"
 
+#import "COpenGLContext.h"
+#import "COpenGLContext_CoreVideoExtensions.h"
+
 @interface CCoreVideoTexture ()
-@property (readwrite, nonatomic, assign) CVOpenGLESTextureCacheRef textureCache;
 @property (readwrite, nonatomic, assign) CVOpenGLESTextureRef texture;
 @end
 
@@ -17,7 +19,7 @@
 
 @implementation CCoreVideoTexture
 
-- (id)initWithCVImageBuffer:(CVImageBufferRef)inImageBuffer textureCache:(CVOpenGLESTextureCacheRef)inTextureCache
+- (id)initWithCVImageBuffer:(CVImageBufferRef)inImageBuffer
 	{
 	AssertOpenGLValidContext_();
 	
@@ -27,7 +29,7 @@
 		};
 	
 	CVOpenGLESTextureRef theTexture = NULL;
-    CVReturn theError = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault, inTextureCache,
+    CVReturn theError = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault, [COpenGLContext currentContext].textureCache,
 		inImageBuffer, NULL, GL_TEXTURE_2D, GL_RGBA, theSize.width, theSize.height, GL_BGRA, GL_UNSIGNED_BYTE, 0, &theTexture);
 	if (theError != kCVReturnSuccess || theTexture == NULL)
 		{
@@ -48,13 +50,12 @@
 	#warning GLRGBA != GL_BRGA
     if ((self = [self initWithName:theName target:GL_TEXTURE_2D size:theSize format:GL_RGBA type:GL_UNSIGNED_BYTE owns:NO]) != NULL)
         {
-		_textureCache = (CVOpenGLESTextureCacheRef)CFRetain(inTextureCache);
 		_texture = theTexture;
         }
     return self;
     }
 
-- (id)initWithSize:(SIntSize)inSize textureCache:(CVOpenGLESTextureCacheRef)inTextureCache
+- (id)initWithSize:(SIntSize)inSize
 	{
 	NSDictionary *theAttributes = @{ (__bridge NSString *)kCVPixelBufferIOSurfacePropertiesKey: @{} };
 	
@@ -66,7 +67,7 @@
 		self = NULL;
 		return(self);
 		}
-	if ((self = [self initWithCVImageBuffer:thePixelBuffer textureCache:inTextureCache]) != NULL)
+	if ((self = [self initWithCVImageBuffer:thePixelBuffer]) != NULL)
 		{
 		}
 		
@@ -81,14 +82,6 @@
 		{
 		CFRelease(_texture);
 		_texture = NULL;
-		}
-
-	if (_textureCache)
-		{
-		CVOpenGLESTextureCacheFlush(_textureCache, 0);
-
-		CFRelease(_textureCache);
-		_textureCache = NULL;
 		}
 
 	[super invalidate];
