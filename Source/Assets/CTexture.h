@@ -38,9 +38,9 @@
 @interface CTexture : COpenGLAsset
 
 @property (readonly, nonatomic, assign) GLuint name;
-@property (readonly, nonatomic, assign) GLenum target;
-@property (readonly, nonatomic, assign) GLenum format;
-@property (readonly, nonatomic, assign) GLenum type;
+@property (readonly, nonatomic, assign) GLenum target; // e.g. GL_TEXTURE_2D
+@property (readonly, nonatomic, assign) GLenum format; // e.g. GL_RGBA
+@property (readonly, nonatomic, assign) GLenum type; // e.g. GL_UNSIGNED_BYTE
 @property (readonly, nonatomic, assign) SIntSize size;
 
 - (id)initWithName:(GLuint)inName target:(GLenum)inTarget size:(SIntSize)inSize format:(GLenum)inFormat type:(GLenum)inType owns:(BOOL)inOwns;
