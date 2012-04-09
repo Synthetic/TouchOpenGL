@@ -77,6 +77,10 @@
 
 - (void)setup
     {
+	AssertOpenGLValidContext_();
+
+	AssertOpenGLNoError_();
+
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -92,11 +96,19 @@
     glClearColor(_clearColor.r, _clearColor.g, _clearColor.b, _clearColor.a);
 
     self.needsSetup = NO;
+	
+	AssertOpenGLNoError_();
     }
 
 - (void)clear
     {
+	AssertOpenGLValidContext_();
+
+	AssertOpenGLNoError_();
+
     glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+
+	AssertOpenGLNoError_();
     }
 
 - (void)prerender
