@@ -215,10 +215,8 @@ NSString *NSStringFromGLenum(GLenum inEnum)
             return(@"GL_INVALID_OPERATION");
         case GL_OUT_OF_MEMORY:
             return(@"GL_OUT_OF_MEMORY");
-
 		case GL_INVALID_FRAMEBUFFER_OPERATION: // 0x0506
 			return(@"GL_INVALID_FRAMEBUFFER_OPERATION");
-
         case GL_ARRAY_BUFFER:
             return(@"GL_ARRAY_BUFFER");
         case GL_ELEMENT_ARRAY_BUFFER:
@@ -235,22 +233,24 @@ NSString *NSStringFromGLenum(GLenum inEnum)
 			return(@"GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
 		case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
 			return(@"GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
-		#if TARGET_OS_IPHONE == 1
-		case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
-			return(@"GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS");
-		#endif /* if TARGET_OS_IPHONE == 1 */
 		case GL_FRAMEBUFFER_UNSUPPORTED:
 			return(@"GL_FRAMEBUFFER_UNSUPPORTED");
-		case GL_TEXTURE_1D:
-			return(@"GL_TEXTURE_1D");
 		case GL_TEXTURE_2D:
 			return(@"GL_TEXTURE_2D");
-		case GL_TEXTURE_RECTANGLE_ARB:
-			return(@"GL_TEXTURE_RECTANGLE_ARB");
 		case GL_RGBA:
 			return(@"GL_RGBA");
 		case GL_UNSIGNED_BYTE:
 			return(@"GL_UNSIGNED_BYTE");
+
+		#if TARGET_OS_IPHONE == 1
+		case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
+			return(@"GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS");
+		#else
+		case GL_TEXTURE_1D:
+			return(@"GL_TEXTURE_1D");
+		case GL_TEXTURE_RECTANGLE_ARB:
+			return(@"GL_TEXTURE_RECTANGLE_ARB");
+		#endif /* if TARGET_OS_IPHONE == 1 */
         }
     return([NSString stringWithFormat:@"%X", inEnum]);
     }

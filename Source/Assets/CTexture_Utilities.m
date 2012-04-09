@@ -141,16 +141,17 @@
 	glTexParameteri(inTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(inTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-
     // Update texture data...
 	if (inTarget == GL_TEXTURE_2D)
 		{
 		glTexImage2D(inTarget, 0, inFormat, inSize.width, inSize.height, 0, inFormat, inType, theData.bytes);
 		}
+	#if TARGET_OS_IPHONE == 0
 	else if (inTarget == GL_TEXTURE_1D)
 		{
 		glTexImage1D(inTarget, 0, inFormat, MAX(inSize.width, inSize.height), 0, inFormat, inType, theData.bytes);
 		}
+	#endif /* TARGET_OS_IPHONE == 0 */
 
     AssertOpenGLNoError_();
 
@@ -378,6 +379,7 @@
 	CFRelease(theImage);
 	}
 
+#if TARGET_OS_IPHONE == 0
 - (void)open
 	{
 	NSString *theTemporaryDirectory = NSTemporaryDirectory();
@@ -394,8 +396,7 @@
 	[self writeToFile:thePath];
 	
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:thePath]];
-	
-	
 	}
+#endif
 
 @end
