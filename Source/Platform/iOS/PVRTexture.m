@@ -69,9 +69,7 @@ typedef struct _PVRTexHeader {
 	GLuint theName;
 	[PVRTexture createGLTexture:theLODData size:theSize name:&theName internalFormat:theInternalFormat];
 
-
-
-	if ((self = [self initWithName:theName target:GL_TEXTURE_2D size:theSize owns:YES]) != NULL)
+	if ((self = [self initWithName:theName target:GL_TEXTURE_2D size:theSize format:GL_RGBA type:GL_UNSIGNED_BYTE owns:YES]) != NULL)
 		{
 		}	
 	return(self);
