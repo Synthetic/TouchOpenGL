@@ -12,6 +12,8 @@
 
 @interface CCoreVideoTexture : CTexture
 
+@property (readonly, nonatomic, assign) CVImageBufferRef imageBuffer;
+
 - (id)initWithCVImageBuffer:(CVImageBufferRef)inImageBuffer;
 - (id)initWithSize:(SIntSize)inSize;
 

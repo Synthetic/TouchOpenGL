@@ -47,9 +47,12 @@
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);   
 
-	#warning GLRGBA != GL_BRGA
+	#warning GL_RGBA != GL_BGRA
     if ((self = [self initWithName:theName target:GL_TEXTURE_2D size:theSize format:GL_RGBA type:GL_UNSIGNED_BYTE owns:NO]) != NULL)
         {
+		_imageBuffer = inImageBuffer;
+		CFRetain(_imageBuffer);
+		
 		_texture = theTexture;
         }
     return self;
@@ -78,6 +81,12 @@
 
 - (void)invalidate
 	{
+	if (_imageBuffer)
+		{
+		CFRelease(_imageBuffer);
+		_imageBuffer = NULL;
+		}
+	
 	if (_texture)
 		{
 		CFRelease(_texture);
