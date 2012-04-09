@@ -59,7 +59,7 @@
 - (id)init
     {
     NSArray *theShaders = @[
-        [[self class] loadShader:@"ChannelLookup.fsh"],
+        [[self class] loadShader:@"ChannelLookup_GL.fsh"],
         [[self class] loadShader:@"Default.vsh"],
         ];
 

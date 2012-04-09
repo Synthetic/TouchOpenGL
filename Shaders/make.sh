@@ -1,11 +1,14 @@
 #!/bin/sh
 
-rm Source/*
+rm -rf Source/*
 
 SLOBGen Shaders/BlitTexture.fsh Shaders/Default.vsh --class CBlitProgram --output Source
 SLOBGen Shaders/BlitTextureRectangle.fsh Shaders/Default.vsh --class CBlitRectangleProgram --output Source
 SLOBGen Shaders/Blur.fsh Shaders/Default.vsh --class CBlurProgram --output Source
 SLOBGen Shaders/CompositeTexture.fsh Shaders/Default.vsh --class CCompositeProgram --output Source
-SLOBGen Shaders/ChannelLookup.fsh Shaders/Default.vsh --class CChannelLookupProgram --output Source
+
+SLOBGen Shaders/ChannelLookup_GL.fsh Shaders/Default.vsh --class CChannelLookupProgram --output Source/OSX
+SLOBGen Shaders/ChannelLookup_GLES.fsh Shaders/Default.vsh --class CChannelLookupProgram --output Source/iOS
+
 SLOBGen Shaders/HSLAdjustment.fsh Shaders/Default.vsh --class CHSLAdjustmentProgram --output Source
 SLOBGen Shaders/Diff.fsh Shaders/Default.vsh --class CDiffProgram --output Source
