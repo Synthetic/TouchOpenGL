@@ -86,7 +86,7 @@
     {
 	if (self.context == NULL)
 		{
-		self.context = [[COpenGLContext alloc] initWithNativeContext:ctx size:(SIntSize){ self.frame.size.width, self.frame.size.height }];
+		self.context = [[COpenGLContext alloc] initWithNativeContext:ctx];
 		}
 
 	if (self.renderer == NULL)

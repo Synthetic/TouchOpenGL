@@ -16,8 +16,6 @@
 
 @interface COpenGLContext : NSObject
 
-#warning TODO remove size from here...
-@property (readonly, nonatomic, assign) SIntSize size;
 @property (readwrite, nonatomic, strong) NSString *label;
 
 @property (readonly, nonatomic, strong) CFrameBuffer *frameBuffer;
@@ -35,23 +33,19 @@
 
 + (COpenGLContext *)currentContext;
 
-- (id)initWithSize:(SIntSize)inSize;
+- (id)init;
 
 #if TARGET_OS_IPHONE == 1
-- (id)initWithSize:(SIntSize)inSize drawable:(id <EAGLDrawable>)inDrawable;
+- (id)initWithDrawable:(id <EAGLDrawable>)inDrawable;
 #else
-- (id)initWithNativeContext:(CGLContextObj)inNativeContext size:(SIntSize)inSize;
+- (id)initWithNativeContext:(CGLContextObj)inNativeContext;
 #endif
-
-- (void)setupForOffscreen;
-
-- (void)setupFrameBuffer;
 
 - (void)use;
 - (void)unuse;
 
 - (void)present;
 
-- (CTexture *)readTexture;
+- (CTexture *)readTextureSize:(SIntSize)inSize;
 
 @end

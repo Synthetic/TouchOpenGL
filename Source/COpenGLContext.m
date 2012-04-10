@@ -40,23 +40,20 @@ static COpenGLContext *gCurrentContext = NULL;
 	return(gCurrentContext);
 	}
 
-- (id)initWithSize:(SIntSize)inSize
+- (id)init
     {
     if ((self = [super init]) != NULL)
         {
-		_size = inSize;
-
 		[self setup];
         }
     return self;
     }
 	
 #if TARGET_OS_IPHONE == 1
-- (id)initWithSize:(SIntSize)inSize drawable:(id <EAGLDrawable>)inDrawable;
+- (id)initWithDrawable:(id <EAGLDrawable>)inDrawable;
 	{
     if ((self = [super init]) != NULL)
         {
-		_size = inSize;
 		_drawable = inDrawable;
 
 		[self setup];
@@ -64,12 +61,11 @@ static COpenGLContext *gCurrentContext = NULL;
     return self;
 	}
 #else
-- (id)initWithNativeContext:(CGLContextObj)inNativeContext size:(SIntSize)inSize
+- (id)initWithNativeContext:(CGLContextObj)inNativeContext
     {
 	NSParameterAssert(inNativeContext != NULL);
     if ((self = [super init]) != NULL)
         {
-		_size = inSize;
         _nativeContext = inNativeContext;
 		
 		[self setup];
@@ -137,66 +133,6 @@ static COpenGLContext *gCurrentContext = NULL;
 		}
 	}
 
-- (void)setupForOffscreen;
-	{
-	NSParameterAssert(_frameBuffer == NULL);
-
-	[self use];
-		
-	// #########################################################################
-
-    self.frameBuffer = [[CFrameBuffer alloc] initWithTarget:GL_FRAMEBUFFER];
-	self.frameBuffer.label = [NSString stringWithFormat:@"Framebuffer (%d)", self.frameBuffer.name];
-    [self.frameBuffer bind];
-
-	self.colorTexture = [[CTexture alloc] initWithTarget:GL_TEXTURE_2D size:self.size format:GL_RGBA type:GL_UNSIGNED_BYTE];
-	
-    [self.frameBuffer attachObject:self.colorTexture attachment:GL_COLOR_ATTACHMENT0];
-
-	if ([self.frameBuffer isComplete] == NO)
-        {
-		NSLog(@"createFramebuffer failed %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
-        }
-	}
-
-- (void)setupFrameBuffer
-	{
-	NSParameterAssert(_frameBuffer == NULL);
-
-	[self use];
-		
-	// #########################################################################
-
-    self.frameBuffer = [[CFrameBuffer alloc] initWithTarget:GL_FRAMEBUFFER];
-	self.frameBuffer.label = [NSString stringWithFormat:@"Framebuffer (%d)", self.frameBuffer.name];
-    [self.frameBuffer bind];
-    
-    // Create a color render buffer - and configure it with current context & drawable
-    self.colorBuffer = [[CRenderBuffer alloc] init];
-	
-	#warning TODO This a bit of a mess - and shouldn't be here...
-#if TARGET_OS_IPHONE == 1
-    [self.colorBuffer storageFromContext:self.nativeContext drawable:self.drawable];
-#endif
-
-    // Attach color buffer to frame buffer
-    [self.frameBuffer attachObject:self.colorBuffer attachment:GL_COLOR_ATTACHMENT0];
-    
-    // Create a depth buffer - and configure it to the size of the color buffer.
-    self.depthBuffer = [[CRenderBuffer alloc] init];
-    [self.depthBuffer storage:GL_DEPTH_COMPONENT16 size:self.size];
-
-    // Attach depth buffer to the frame buffer
-    [self.frameBuffer attachObject:self.depthBuffer attachment:GL_DEPTH_ATTACHMENT];
-
-    // Make sure the frame buffer has a complete set of render buffers.
-
-	if ([self.frameBuffer isComplete] == NO)
-        {
-		NSLog(@"createFramebuffer failed %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
-        }
-	}
-
 - (BOOL)isActive
 	{
 	#if TARGET_OS_IPHONE == 1
@@ -261,16 +197,16 @@ static COpenGLContext *gCurrentContext = NULL;
 //	NSLog(@"%@", d);
 	}
 
-- (CTexture *)readTexture
+- (CTexture *)readTextureSize:(SIntSize)inSize
 	{
-	NSMutableData *theData = [NSMutableData dataWithLength:self.size.width * 4 * self.size.height];
+	NSMutableData *theData = [NSMutableData dataWithLength:inSize.width * 4 * inSize.height];
 
 	GLint theReadFormat = GL_RGBA;
 	GLint theReadType = GL_UNSIGNED_BYTE;
 
-	glReadPixels(0, 0, self.size.width, self.size.height, theReadFormat, theReadType, theData.mutableBytes);
+	glReadPixels(0, 0, inSize.width, inSize.height, theReadFormat, theReadType, theData.mutableBytes);
 
-	CTexture *theTexture = [[CTexture alloc] initWithTarget:GL_TEXTURE_2D size:self.size format:GL_RGBA type:GL_UNSIGNED_BYTE];
+	CTexture *theTexture = [[CTexture alloc] initWithTarget:GL_TEXTURE_2D size:inSize format:GL_RGBA type:GL_UNSIGNED_BYTE];
 	
     [theTexture bind];
 
@@ -282,7 +218,7 @@ static COpenGLContext *gCurrentContext = NULL;
 
 
     // Update texture data...
-    glTexImage2D(GL_TEXTURE_2D, 0, theReadFormat, self.size.width, self.size.height, 0, theReadFormat, theReadType, theData.bytes);
+    glTexImage2D(GL_TEXTURE_2D, 0, theReadFormat, inSize.width, inSize.height, 0, theReadFormat, theReadType, theData.bytes);
 	
 	return(theTexture);
 	}

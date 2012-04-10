@@ -29,7 +29,7 @@ static CVReturn MyCVDisplayLinkOutputCallback(CVDisplayLinkRef displayLink,  con
         {
 		NSOpenGLContext *theOpenGLContext = [self openGLContext];
 		void *theNativeContext = [theOpenGLContext CGLContextObj];
-		_context = [[COpenGLContext alloc] initWithNativeContext:theNativeContext size:(SIntSize){ self.frame.size.width, self.frame.size.height }];
+		_context = [[COpenGLContext alloc] initWithNativeContext:theNativeContext];
 
 		CVDisplayLinkCreateWithActiveCGDisplays(&_displayLink);
 		CVDisplayLinkSetOutputCallback(_displayLink, MyCVDisplayLinkOutputCallback, (__bridge void *)self);

@@ -261,8 +261,7 @@
 
     if (_context == NULL)
         {
-        self.context = [[COpenGLContext alloc] initWithSize:(SIntSize){ .width = self.frame.size.width, .height = self.frame.size.height } drawable:self.EAGLLayer];
-		[self.context setupFrameBuffer];
+        self.context = [[COpenGLContext alloc] initWithDrawable:self.EAGLLayer];
         }
 
 	[self.context use];
