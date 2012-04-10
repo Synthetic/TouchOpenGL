@@ -72,9 +72,8 @@
 		}
 	if ((self = [self initWithCVImageBuffer:thePixelBuffer]) != NULL)
 		{
+		_imageBuffer = thePixelBuffer;
 		}
-		
-	CFRelease(thePixelBuffer);
 		
 	return(self);
 	}
