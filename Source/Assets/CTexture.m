@@ -81,7 +81,30 @@
 
 - (NSString *)description
     {
-    return([NSString stringWithFormat:@"%@ (target: %@, name: %d, size: %d x %d, format: %@ type:%@", [super description], NSStringFromGLenum(self.target), self.name, self.size.width, self.size.height, NSStringFromGLenum(self.format), NSStringFromGLenum(self.type)]);
+	[self bind];
+	
+	GLint theMinFilterParam;
+	glGetTexParameteriv(self.target, GL_TEXTURE_MIN_FILTER, &theMinFilterParam);
+	GLint theMagFilterParam;
+	glGetTexParameteriv(self.target, GL_TEXTURE_MAG_FILTER, &theMagFilterParam);
+	GLint theWrapSParam;
+	glGetTexParameteriv(self.target, GL_TEXTURE_WRAP_S, &theWrapSParam);
+	GLint theWrapTParam;
+	glGetTexParameteriv(self.target, GL_TEXTURE_WRAP_T, &theWrapTParam);
+	
+	NSDictionary *theAttributes = @{
+		@"target": NSStringFromGLenum(self.target),
+		@"name": NSStringFromGLenum(self.name),
+		@"size": [NSString stringWithFormat:@"%d x %d", self.size.width, self.size.height],
+		@"format": NSStringFromGLenum(self.format),
+		@"type": NSStringFromGLenum(self.type),
+		@"GL_TEXTURE_MIN_FILTER": NSStringFromGLenum(theMinFilterParam),
+		@"GL_TEXTURE_MAG_FILTER": NSStringFromGLenum(theMagFilterParam),
+		@"GL_TEXTURE_WRAP_S": NSStringFromGLenum(theWrapSParam),
+		@"GL_TEXTURE_WRAP_T": NSStringFromGLenum(theWrapTParam),
+		};
+	
+    return([NSString stringWithFormat:@"%@ %@", [super description], theAttributes]);
     }
 
 - (GLuint)cost
