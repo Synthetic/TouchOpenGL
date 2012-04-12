@@ -64,6 +64,7 @@
 	
 	GLuint theTextureName;
 	glGenTextures(1, &theTextureName);
+
 	glBindTexture(inTarget, theTextureName);
 	glTexImage2D(inTarget, 0, inFormat, inSize.width, inSize.height, 0, inFormat, inType, NULL); 
 	glTexParameteri(inTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -151,6 +152,8 @@
 - (void)set:(Color4f)inColor;
 	{
 	[self bind];
+
+	AssertOpenGLNoError_();
 	
 	NSMutableData *theData = [NSMutableData dataWithLength:self.size.width * 4 * self.size.height];
 	const Color4ub theColor = {
@@ -165,7 +168,7 @@
 		*P++ = theColor;
 		}
 
-	glTexSubImage2D(self.target, 0, 0, 0, self.size.width, self.size.height, GL_RGBA, GL_UNSIGNED_BYTE, [theData mutableBytes]);
+	glTexSubImage2D(self.target, 0, 0, 0, self.size.width, self.size.height, self.format, self.type, [theData mutableBytes]);
 
 	AssertOpenGLNoError_();
 	}
