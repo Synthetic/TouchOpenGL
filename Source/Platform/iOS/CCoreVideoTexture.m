@@ -19,39 +19,53 @@
 
 @implementation CCoreVideoTexture
 
-- (id)initWithCVImageBuffer:(CVImageBufferRef)inImageBuffer
+- (id)initWithCVPixelBuffer:(CVPixelBufferRef)inPixelBuffer
 	{
 	AssertOpenGLValidContext_();
 	
 	const SIntSize theSize = {
-		.width = CVPixelBufferGetWidth(inImageBuffer),
-		.height = CVPixelBufferGetHeight(inImageBuffer),
+		.width = CVPixelBufferGetWidth(inPixelBuffer),
+		.height = CVPixelBufferGetHeight(inPixelBuffer),
 		};
+
+	const GLenum theTarget = GL_TEXTURE_2D;
+	GLenum theFormat;
+	const GLenum theType = GL_UNSIGNED_BYTE;
+	const GLenum theInternalFormat = GL_RGBA;
+	
+	const OSType thePixelFormat = CVPixelBufferGetPixelFormatType(inPixelBuffer);
+	if (thePixelFormat == kCVPixelFormatType_32BGRA)
+		{
+		theFormat = GL_BGRA;
+		}
+	else
+		{
+		NSAssert(NO, @"Unsupported pixel format.");
+		}
 	
 	CVOpenGLESTextureRef theTexture = NULL;
     CVReturn theError = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault, [COpenGLContext currentContext].textureCache,
-		inImageBuffer, NULL, GL_TEXTURE_2D, GL_RGBA, theSize.width, theSize.height, GL_BGRA, GL_UNSIGNED_BYTE, 0, &theTexture);
+		inPixelBuffer, NULL, theTarget, theInternalFormat, theSize.width, theSize.height, theFormat, theType, 0, &theTexture);
 	if (theError != kCVReturnSuccess || theTexture == NULL)
 		{
 		self = NULL;
 		return(NULL);
 		}
 
-//	GLenum theTarget = CVOpenGLESTextureGetTarget(theTexture);
 	GLenum theName = CVOpenGLESTextureGetName(theTexture);
+
 //	BOOL theIsFlippedFlag = CVOpenGLESTextureisFlipped(theTexture);
 
-	glBindTexture(GL_TEXTURE_2D, theName);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);   
+	glBindTexture(theTarget, theName);
+	glTexParameteri(theTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(theTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(theTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(theTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	#warning GL_RGBA != GL_BGRA
-    if ((self = [self initWithName:theName target:GL_TEXTURE_2D size:theSize format:GL_RGBA type:GL_UNSIGNED_BYTE owns:NO]) != NULL)
+    if ((self = [self initWithName:theName target:theTarget size:theSize format:theFormat type:theType owns:NO]) != NULL)
         {
-		_imageBuffer = inImageBuffer;
-		CFRetain(_imageBuffer);
+		_pixelBuffer = inPixelBuffer;
+		CFRetain(_pixelBuffer);
 		
 		_texture = theTexture;
         }
@@ -60,9 +74,12 @@
 
 - (id)initWithSize:(SIntSize)inSize
 	{
-	NSDictionary *theAttributes = @{ (__bridge NSString *)kCVPixelBufferIOSurfacePropertiesKey: @{} };
+	NSDictionary *theAttributes = @{
+		(__bridge NSString *)kCVPixelBufferIOSurfacePropertiesKey: @{},
+		(__bridge NSString *)kCVPixelBufferOpenGLCompatibilityKey: @1,
+		};
 	
-	CVPixelBufferRef thePixelBuffer;
+	CVPixelBufferRef thePixelBuffer = NULL;
 	CVReturn theError = CVPixelBufferCreate(kCFAllocatorDefault, inSize.width, inSize.height, kCVPixelFormatType_32BGRA, (__bridge CFDictionaryRef)theAttributes, &thePixelBuffer);
 	if (theError != kCVReturnSuccess)
 		{
@@ -70,20 +87,24 @@
 		self = NULL;
 		return(self);
 		}
-	if ((self = [self initWithCVImageBuffer:thePixelBuffer]) != NULL)
+	if ((self = [self initWithCVPixelBuffer:thePixelBuffer]) != NULL)
 		{
-		_imageBuffer = thePixelBuffer;
 		}
 		
 	return(self);
 	}
 
+- (NSString *)description
+    {
+    return([NSString stringWithFormat:@"%@ (pixel buffer: %p, texture: %p)", [super description], self.pixelBuffer, self.texture]);
+    }
+
 - (void)invalidate
 	{
-	if (_imageBuffer)
+	if (_pixelBuffer)
 		{
-		CFRelease(_imageBuffer);
-		_imageBuffer = NULL;
+		CFRelease(_pixelBuffer);
+		_pixelBuffer = NULL;
 		}
 	
 	if (_texture)
@@ -94,29 +115,40 @@
 
 	[super invalidate];
 	}
-	
-/*
+
+#if 1
 - (CGImageRef)fetchImage CF_RETURNS_RETAINED
 	{
-//	CVReturn theResult = CVPixelBufferLockBaseAddress(self.texture, kCVPixelBufferLock_ReadOnly);
-//	if (theResult != kCVReturnSuccess)
-//		{
-//		return(NULL);
-//		}
-
-	uint8_t *thePixels = (uint8_t*)CVPixelBufferGetBaseAddress(self.texture);
-
-	const size_t width = self.size.width;
-	const size_t height = self.size.height;
-	const size_t bitsPerComponent = 8;
-	const size_t bytesPerRow = width * (bitsPerComponent * 4) / 8;
-	// TODO - probably dont want skip last
-	CGBitmapInfo theBitmapInfo = kCGImageAlphaPremultipliedLast;
-
-	CGColorSpaceRef theColorSpace = CGColorSpaceCreateDeviceRGB();
+//	[self set:(Color4f){ 2.0, 4.0, 6.0, 8.0 }];
 	
-	CGContextRef theContext = CGBitmapContextCreateWithData(thePixels, width, height, bitsPerComponent, bytesPerRow, theColorSpace, theBitmapInfo, NULL, NULL);
-	
+	const OSType thePixelFormat = CVPixelBufferGetPixelFormatType(self.pixelBuffer);
+	const size_t theBytesPerRow = CVPixelBufferGetBytesPerRow(self.pixelBuffer);
+
+	size_t theBitsPerComponent = 0;
+	CGBitmapInfo theBitmapInfo = 0;
+	CGColorSpaceRef theColorSpace = NULL;
+
+	if (thePixelFormat == kCVPixelFormatType_32BGRA)
+		{
+		theBitsPerComponent = 8;
+		theBitmapInfo = kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Little;
+		theColorSpace = CGColorSpaceCreateDeviceRGB();
+		}
+	else
+		{
+		NSLog(@"Error: Unknown pixel format: %lu", thePixelFormat);
+		return(NULL);
+		}
+
+
+	CVReturn theResult = CVPixelBufferLockBaseAddress(self.pixelBuffer, kCVPixelBufferLock_ReadOnly);
+	if (theResult != kCVReturnSuccess)
+		{
+		return(NULL);
+		}
+
+	void *thePixels = CVPixelBufferGetBaseAddress(self.pixelBuffer);
+	CGContextRef theContext = CGBitmapContextCreateWithData(thePixels, self.size.width, self.size.height, theBitsPerComponent, theBytesPerRow, theColorSpace, theBitmapInfo, NULL, NULL);
 	CGImageRef theImage = CGBitmapContextCreateImage(theContext);
 	
 	// #########################################################################
@@ -124,10 +156,10 @@
 	CFRelease(theContext);
 	CFRelease(theColorSpace);
 
-//	CVPixelBufferUnlockBaseAddress(self.texture, kCVPixelBufferLock_ReadOnly);
+	CVPixelBufferUnlockBaseAddress(self.texture, kCVPixelBufferLock_ReadOnly);
 
 	return(theImage);
  	}
-*/
+#endif
 
 @end

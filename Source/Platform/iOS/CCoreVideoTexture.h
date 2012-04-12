@@ -12,9 +12,9 @@
 
 @interface CCoreVideoTexture : CTexture
 
-@property (readonly, nonatomic, assign) CVImageBufferRef imageBuffer;
+@property (readonly, nonatomic, assign) CVPixelBufferRef pixelBuffer;
 
-- (id)initWithCVImageBuffer:(CVImageBufferRef)inImageBuffer;
+- (id)initWithCVPixelBuffer:(CVPixelBufferRef)inPixelBuffer;
 - (id)initWithSize:(SIntSize)inSize;
 
 @end
