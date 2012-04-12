@@ -239,6 +239,8 @@ NSString *NSStringFromGLenum(GLenum inEnum)
 			return(@"GL_TEXTURE_2D");
 		case GL_RGBA:
 			return(@"GL_RGBA");
+		case GL_BGRA:
+			return(@"GL_BGRA");
 		case GL_UNSIGNED_BYTE:
 			return(@"GL_UNSIGNED_BYTE");
 
@@ -251,6 +253,21 @@ NSString *NSStringFromGLenum(GLenum inEnum)
 		case GL_TEXTURE_RECTANGLE_ARB:
 			return(@"GL_TEXTURE_RECTANGLE_ARB");
 		#endif /* if TARGET_OS_IPHONE == 1 */
+		
+		case GL_TEXTURE_MIN_FILTER:
+			return(@"GL_TEXTURE_MIN_FILTER");
+		case GL_TEXTURE_MAG_FILTER:
+			return(@"GL_TEXTURE_MAG_FILTER");
+		case GL_LINEAR:
+			return(@"GL_LINEAR");
+		case GL_TEXTURE_WRAP_S:
+			return(@"GL_TEXTURE_WRAP_S");
+		case GL_TEXTURE_WRAP_T:
+			return(@"GL_TEXTURE_WRAP_T");
+		case GL_CLAMP_TO_EDGE:
+			return(@"GL_CLAMP_TO_EDGE");
+
+		
         }
     return([NSString stringWithFormat:@"%X", inEnum]);
     }
