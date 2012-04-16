@@ -11,6 +11,8 @@
 #import "COpenGLContext.h"
 #import "COpenGLContext_CoreVideoExtensions.h"
 
+#define USE_GLREADPIXELS (TARGET_IPHONE_SIMULATOR == 1)
+
 @interface CCoreVideoTexture ()
 @property (readwrite, nonatomic, assign) CVOpenGLESTextureRef texture;
 @end
@@ -18,6 +20,8 @@
 #pragma mark -
 
 @implementation CCoreVideoTexture
+
+@synthesize pixelBuffer = _pixelBuffer;
 
 - (id)initWithCVPixelBuffer:(CVPixelBufferRef)inPixelBuffer
 	{
@@ -116,7 +120,48 @@
 	[super invalidate];
 	}
 
-#if 1
+#if USE_GLREADPIXELS == 1
+- (CVPixelBufferRef)pixelBuffer
+	{
+	// On the simulator pixel buffer backed textures do not work properly - so we have to manually copy texture contents (via a framebuffer & glReadPixel) into the pixel buffer...
+
+	AssertOpenGLNoError_();
+
+	// Store the current frame buffer...
+	GLint theCurrentFrameBuffer = 0;
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &theCurrentFrameBuffer);
+	
+	GLuint theFrameBuffer = 0;
+	glGenFramebuffers(1, &theFrameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, theFrameBuffer);
+	
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, self.target, self.name, 0);
+
+	// Make sure we have a valid frame buffer...
+	GLenum theFramebufferStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	if (theFramebufferStatus != GL_FRAMEBUFFER_COMPLETE)
+		{
+		NSLog(@"Framebuffer not complete: %x", theFramebufferStatus);
+		return(NULL);
+		}
+
+	CVPixelBufferLockBaseAddress(_pixelBuffer, kCVPixelBufferLock_ReadOnly);
+	void *theBaseAddress = CVPixelBufferGetBaseAddress(_pixelBuffer);
+	glReadPixels(0, 0, self.size.width, self.size.height, GL_BGRA, GL_UNSIGNED_BYTE, theBaseAddress);
+	CVPixelBufferUnlockBaseAddress(_pixelBuffer, kCVPixelBufferLock_ReadOnly);
+	
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, self.target, 0, 0);
+	
+	glBindFramebuffer(GL_FRAMEBUFFER, theCurrentFrameBuffer);
+
+	glDeleteFramebuffers(1, &theFrameBuffer);
+
+	AssertOpenGLNoError_();
+	
+	return(_pixelBuffer);
+	}
+#endif /* USE_GLREADPIXELS == 1 */
+
 - (CGImageRef)fetchImage CF_RETURNS_RETAINED
 	{
 //	[self set:(Color4f){ 2.0, 4.0, 6.0, 8.0 }];
@@ -160,6 +205,5 @@
 
 	return(theImage);
  	}
-#endif
 
 @end
