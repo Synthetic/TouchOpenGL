@@ -15,7 +15,7 @@
 @property (readonly, nonatomic, assign) CVOpenGLTextureRef texture;
 @property (readonly, nonatomic, assign) CVPixelBufferRef pixelBuffer;
 
-- (id)initWithCVImageBuffer:(CVImageBufferRef)inImageBuffer;
+- (id)initWithCVPixelBuffer:(CVPixelBufferRef)inPixelBuffer;
 - (id)initWithSize:(SIntSize)inSize pixelFormat:(OSType)inPixelFormat;
 - (id)initWithSize:(SIntSize)inSize;
 

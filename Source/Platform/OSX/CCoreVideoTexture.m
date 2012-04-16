@@ -18,17 +18,17 @@
 
 @implementation CCoreVideoTexture
 
-- (id)initWithCVImageBuffer:(CVImageBufferRef)inImageBuffer
+- (id)initWithCVPixelBuffer:(CVPixelBufferRef)inPixelBuffer
 	{
 	AssertOpenGLValidContext_();
 	
 	const SIntSize theSize = {
-		.width = CVPixelBufferGetWidth(inImageBuffer),
-		.height = CVPixelBufferGetHeight(inImageBuffer),
+		.width = CVPixelBufferGetWidth(inPixelBuffer),
+		.height = CVPixelBufferGetHeight(inPixelBuffer),
 		};
 	
 	CVOpenGLTextureRef theTexture = NULL;
-    CVReturn theError = CVOpenGLTextureCacheCreateTextureFromImage(kCFAllocatorDefault, [COpenGLContext currentContext].textureCache, inImageBuffer, NULL, &theTexture);
+    CVReturn theError = CVOpenGLTextureCacheCreateTextureFromImage(kCFAllocatorDefault, [COpenGLContext currentContext].textureCache, inPixelBuffer, NULL, &theTexture);
 	if (theError != kCVReturnSuccess || theTexture == NULL)
 		{
 		self = NULL;
@@ -60,8 +60,8 @@
         {
 		_texture = theTexture;
 
-		CFRetain(inImageBuffer);
-		_pixelBuffer = inImageBuffer;
+		CFRetain(inPixelBuffer);
+		_pixelBuffer = inPixelBuffer;
         }
     return self;
     }
@@ -81,7 +81,7 @@
 		return(self);
 		}
 
-	if ((self = [self initWithCVImageBuffer:thePixelBuffer]) != NULL)
+	if ((self = [self initWithCVPixelBuffer:thePixelBuffer]) != NULL)
 		{
 		}
 	
