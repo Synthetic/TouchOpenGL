@@ -71,19 +71,17 @@ void main()
     {
 	vec4 S = texture2D(u_texture0, v_texture0);
 	vec4 D = texture2D(u_texture1, v_texture0) + u_color;
-	vec4	Sp = premultiply(S);
-	vec4	Dp = premultiply(D);
+	vec4 Sp = premultiply(S);
+	vec4 Dp = premultiply(D);
 
 	D.a *= u_alpha;
 
-	vec4 OUT;
+	vec4 OUT = S;
 
 	// The big uber IF statement is inefficient. Better to use multiple shaders for this...
 
 	if (u_blendMode == kCGBlendModeNormal)
 		{
-		// COLOR WORKS.
-		// ALPHA FAILS
 		OUT = S * (1.0 - D.a) + D * D.a;
 		}
 	else if (u_blendMode == kCGBlendModeMultiply)
@@ -109,7 +107,7 @@ void main()
 		}
 	else if (u_blendMode == kCGBlendModeLighten)
 		{
-	        // AGED
+		// AGED
 		OUT = BlendLighten(S, D);
 		}
 	else if (u_blendMode == kCGBlendModeColorDodge)
@@ -118,50 +116,41 @@ void main()
 		}
 	else if (u_blendMode == kCGBlendModeColorBurn)
 		{
-	        // AGED
+		// AGED
 		OUT.rgb = BlendColorBurn(S.rgb, D.rgb);
-		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeSoftLight)
 		{
 		// AGED
 		OUT.rgb = BlendSoftLight(S.rgb, D.rgb);
-		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeHardLight)
 		{
 		OUT.rgb = BlendHardLight(Sp.rgb, Dp.rgb);
-		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeDifference)
 		{
 		OUT.rgb = BlendDifference(Sp.rgb, Dp.rgb);
-		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeExclusion)
 		{
 		OUT.rgb = BlendExclusion(Sp.rgb, Dp.rgb);
-		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeHue)
 		{
 		OUT.rgb = BlendHue(Dp.rgb, Sp.rgb);
-		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeSaturation)
 		{
 		OUT.rgb = BlendSaturation(S.rgb, D.rgb);
-		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeColor)
 		{
 		OUT.rgb = BlendColor(S.rgb, D.rgb);
-		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeLuminosity)
 		{
 		OUT.rgb = BlendLuminosity(S.rgb, D.rgb);
-		OUT.a = 1.0;
 		}
 	else if (u_blendMode == kCGBlendModeClear)
 		{
@@ -205,8 +194,6 @@ void main()
 		}
 	else if (u_blendMode == kCGBlendModePlusDarker)
 		{
-//  MAX(0, (1 - D) + (1 - S))
-
 		OUT.r = max(0.0, (1.0 - Dp.r) + (1.0 - Sp.r));
 		OUT.g = max(0.0, (1.0 - Dp.g) + (1.0 - Sp.g));
 		OUT.b = max(0.0, (1.0 - Dp.b) + (1.0 - Sp.b));
@@ -225,12 +212,7 @@ void main()
 		OUT = vec4(1.0, 0.0, 0.0, 1.0);
 		}
 
-OUT = S * (1.0 - OUT.a) + OUT * OUT.a;
-
-if (OUT.a > 0.0)
-	{
-//	OUT = vec4(1.0, 0.0, 0.0, 1.0);
-	}
+	OUT = S * (1.0 - OUT.a) + OUT * OUT.a;
 
 	gl_FragColor = OUT;
     }
