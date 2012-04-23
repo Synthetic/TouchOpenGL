@@ -23,8 +23,8 @@
 	AssertOpenGLValidContext_();
 	
 	const SIntSize theSize = {
-		.width = CVPixelBufferGetWidth(inPixelBuffer),
-		.height = CVPixelBufferGetHeight(inPixelBuffer),
+		.width = (GLint)CVPixelBufferGetWidth(inPixelBuffer),
+		.height = (GLint)CVPixelBufferGetHeight(inPixelBuffer),
 		};
 	
 	CVOpenGLTextureRef theTexture = NULL;
