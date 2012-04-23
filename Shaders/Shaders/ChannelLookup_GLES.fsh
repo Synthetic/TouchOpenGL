@@ -23,8 +23,8 @@ void main()
 
 //	gl_FragColor = theSourceColor;
 
-	gl_FragColor.r = texture2D(u_redLUT, vec2(theSourceColor.r, 0.0)).r;
-	gl_FragColor.g = texture2D(u_greenLUT, vec2(theSourceColor.g, 0.0)).g;
-	gl_FragColor.b = texture2D(u_blueLUT, vec2(theSourceColor.b, 0.0)).b;
+	gl_FragColor.r = texture2D(u_redLUT, vec2(theSourceColor.r, 0.5)).r;
+	gl_FragColor.g = texture2D(u_greenLUT, vec2(theSourceColor.g, 0.5)).g;
+	gl_FragColor.b = texture2D(u_blueLUT, vec2(theSourceColor.b, 0.5)).b;
 	gl_FragColor.a = theSourceColor.a;
     }
