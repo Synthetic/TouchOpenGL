@@ -101,8 +101,7 @@ static COpenGLContext *gCurrentContext = NULL;
 	if (_nativeContext == NULL)
 		{
 		#if TARGET_OS_IPHONE == 1
-		EAGLSharegroup *theShareGroup = [[EAGLSharegroup alloc] init];
-		_nativeContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2 sharegroup:theShareGroup];
+		_nativeContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 		#else
 		CGLPixelFormatAttribute thePixelFormatAttributes[] = {
 			kCGLPFAAccelerated,
