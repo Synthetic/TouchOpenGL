@@ -155,8 +155,8 @@ typedef struct _PVRTexHeader {
 			
 			dataOffset += dataSize;
 			
-			width = MAX(width >> 1, 1);
-			height = MAX(height >> 1, 1);
+			width = MAX(width >> 1, 1UL);
+			height = MAX(height >> 1, 1UL);
 		}
 				  
 		success = TRUE;
@@ -188,7 +188,7 @@ typedef struct _PVRTexHeader {
 	else
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	
-	for (int i=0; i < [inLODData count]; i++)
+	for (NSUInteger i=0; i < [inLODData count]; i++)
 	{
 		data = [inLODData objectAtIndex:i];
 		glCompressedTexImage2D(GL_TEXTURE_2D, i, inInternalFormat, width, height, 0, [data length], [data bytes]);

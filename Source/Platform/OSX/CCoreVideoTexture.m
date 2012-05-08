@@ -137,6 +137,7 @@
 	CVReturn theResult = CVPixelBufferLockBaseAddress(self.pixelBuffer, kCVPixelBufferLock_ReadOnly);
 	if (theResult != kCVReturnSuccess)
 		{
+		CFRelease(theColorSpace);
 		return(NULL);
 		}
 

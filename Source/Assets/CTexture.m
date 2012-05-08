@@ -157,13 +157,13 @@
 	
 	NSMutableData *theData = [NSMutableData dataWithLength:self.size.width * 4 * self.size.height];
 	const Color4ub theColor = {
-		.r = inColor.r * 255.0,
-		.g = inColor.g * 255.0,
-		.b = inColor.b * 255.0,
-		.a = inColor.a * 255.0,
+		.r = (GLubyte)( inColor.r * 255.0 ),
+		.g = (GLubyte)( inColor.g * 255.0 ),
+		.b = (GLubyte)( inColor.b * 255.0 ),
+		.a = (GLubyte)( inColor.a * 255.0 ),
 		};
 	Color4ub *P = [theData mutableBytes];
-	for (NSUInteger N = 0; N != self.size.width * self.size.height; ++N)
+	for (GLint N = 0; N != self.size.width * self.size.height; ++N)
 		{
 		*P++ = theColor;
 		}

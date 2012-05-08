@@ -131,7 +131,7 @@ typedef enum {
 	NSMutableArray *theInputTokens = [inTokens mutableCopy];
 	NSMutableArray *theOutputTokens = [NSMutableArray array];
 
-	for (int N = 0; N != theInputTokens.count; ++N)
+	for (NSUInteger N = 0; N != theInputTokens.count; ++N)
 		{
 		CSimplePreprocessorToken *theToken = [theInputTokens objectAtIndex:N];
 

@@ -87,13 +87,13 @@ Matrix4 Matrix4MakeScale(GLfloat sx, GLfloat sy, GLfloat sz)
 Matrix4 Matrix4MakeRotation(GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
     {
     Matrix4 m = {};
-    const GLfloat invLen = 1.0 / sqrt(x * x + y * y + z * z);
+    const GLfloat invLen = 1.0f / sqrt(x * x + y * y + z * z);
     x *= invLen;
     y *= invLen;
     z *= invLen;
     const GLfloat s = sin(angle);
     const GLfloat c = cos(angle);
-    const GLfloat t = 1.0 - c;
+    const GLfloat t = 1.0f - c;
     m.m[0][0] = t * x * x + c;
     m.m[1][1] = t * y * y + c;
     m.m[2][2] = t * z * z + c;

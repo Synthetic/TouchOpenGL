@@ -25,10 +25,10 @@
     Color4f theColor4f = self.color4f;
     
     Color4ub theColor = {
-        .r = theColor4f.r * 255.0,
-        .g = theColor4f.g * 255.0,
-        .b = theColor4f.b * 255.0,
-        .a = theColor4f.a * 255.0,
+        .r = (GLubyte)(theColor4f.r * 255.0),
+        .g = (GLubyte)(theColor4f.g * 255.0),
+        .b = (GLubyte)(theColor4f.b * 255.0),
+        .a = (GLubyte)(theColor4f.a * 255.0),
         };
     return(theColor);
 	}

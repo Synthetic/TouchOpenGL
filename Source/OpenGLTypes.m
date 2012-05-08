@@ -271,4 +271,3 @@ NSString *NSStringFromGLenum(GLenum inEnum)
         }
     return([NSString stringWithFormat:@"%X", inEnum]);
     }
-    
