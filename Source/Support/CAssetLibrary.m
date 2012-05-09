@@ -29,6 +29,10 @@
 
 @implementation CAssetLibrary
 
+@synthesize context = _context;
+@synthesize searchDirectoryURLs = _searchDirectoryURLs;
+@synthesize cache = _cache;
+
 - (id)initWithContext:(COpenGLContext *)inContext
     {
     if ((self = [super init]) != NULL)

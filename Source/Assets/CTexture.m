@@ -39,6 +39,14 @@
 
 @implementation CTexture
 
+@synthesize name = _name;
+@synthesize target = _target;
+@synthesize format = _format;
+@synthesize type = _type;
+@synthesize size = _size;
+
+@synthesize owns = _owns;
+
 - (id)initWithName:(GLuint)inName target:(GLenum)inTarget size:(SIntSize)inSize format:(GLenum)inFormat type:(GLenum)inType owns:(BOOL)inOwns;
 	{
     if ((self = [super initWithName:inName]) != NULL)

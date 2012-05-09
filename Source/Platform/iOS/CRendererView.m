@@ -53,6 +53,13 @@
 
 @implementation CRendererView
 
+@synthesize context = _context;
+@synthesize animationFrameInterval = _animationFrameInterval;
+@synthesize renderer = _renderer;
+@synthesize displayLink = _displayLink;
+@synthesize animating = _animating;
+@synthesize EAGLLayer = _EAGLLayer;
+
 + (Class)layerClass
     {
     return([CAEAGLLayer class]);

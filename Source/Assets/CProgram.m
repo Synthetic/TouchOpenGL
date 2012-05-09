@@ -43,6 +43,9 @@
 
 @implementation CProgram
 
+@synthesize shaders = _shaders;
+@synthesize uniformsByName = _uniformsByName;
+
 - (id)initWithShaders:(NSArray *)inShaders
     {
 	AssertOpenGLNoError_();
@@ -58,12 +61,10 @@
 			{
 			[self attachShader:theShader];
 			}
-		
         _uniformsByName = [[NSMutableDictionary alloc] init];
         }
     return(self);
     }
-	
 
 - (void)invalidate
     {

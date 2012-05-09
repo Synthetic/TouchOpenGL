@@ -22,6 +22,10 @@ typedef enum {
 #pragma mark -
 
 @implementation CSimplePreprocessorToken
+
+@synthesize type = _type;
+@synthesize value = _value;
+
 - (NSString *)description
     {
     return([NSString stringWithFormat:@"%d: %@", self.type, self.value]);
@@ -31,6 +35,8 @@ typedef enum {
 #pragma mark -
 
 @implementation CSimplePreprocessor
+
+@synthesize loader = _loader;
 
 - (NSString *)preprocess:(NSString *)inSource error:(NSError **)outError;
 	{

@@ -25,6 +25,8 @@
 
 @synthesize rectangleProgram = _rectangleProgram;
 @synthesize projectionMatrix = _projectionMatrix;
+@synthesize textureBlock = _textureBlock;
+@synthesize program = _program;
 
 - (id)init
     {

@@ -43,6 +43,7 @@
 @implementation CShader
 
 @synthesize source = _source;
+@synthesize program = _program;
 @synthesize type = _type;
 @synthesize URL = _URL;
 

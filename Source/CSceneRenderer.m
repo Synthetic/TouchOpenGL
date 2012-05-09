@@ -48,6 +48,7 @@
 @synthesize size = _size;
 @synthesize clearColor = _clearColor;
 @synthesize projectionTransform = _projectionTransform;
+@synthesize context = _context;
 @synthesize frameRate = _frameRate;
 
 @synthesize needsSetup = _needsSetup;

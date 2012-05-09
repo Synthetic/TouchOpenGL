@@ -30,8 +30,6 @@ typedef struct _PVRTexHeader {
 
 @interface PVRTexture ()
 
-@property (readwrite, nonatomic, assign) GLuint name;
-
 + (BOOL)unpackPVRData:(NSData *)inData LODData:(NSArray **)outLODData size:(SIntSize *)outSize internalFormat:(GLuint *)outInternalFormat hasAlpha:(BOOL *)outHasAlpha;
 + (BOOL)createGLTexture:(NSArray *)inLODData size:(SIntSize)inSize name:(GLuint *)outName internalFormat:(GLuint)inInternalFormat;
 
@@ -40,6 +38,10 @@ typedef struct _PVRTexHeader {
 #pragma mark -
 
 @implementation PVRTexture
+
+@synthesize width;
+@synthesize height;
+@synthesize internalFormat;
 
 + (id)textureWithContentsOfURL:(NSURL *)inURL error:(NSError **)outError
 	{
@@ -158,7 +160,7 @@ typedef struct _PVRTexHeader {
 			width = MAX(width >> 1, 1UL);
 			height = MAX(height >> 1, 1UL);
 		}
-				  
+
 		success = TRUE;
 	}
 	

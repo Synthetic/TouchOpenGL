@@ -105,7 +105,7 @@ extern NSString *NSStringFromGLenum(GLenum inEnum);
 
 #if DEBUG == 1
 
-#define AssertOpenGLNoError_() do { GLint theError = glGetError(); if (theError != GL_NO_ERROR) NSLog(@"glGetError() returned %@ (0x%X)", NSStringFromGLenum(theError), theError); NSAssert1(theError == GL_NO_ERROR, @"Code entered with existing OGL error 0x%X", theError); } while(0)
+#define AssertOpenGLNoError_() do { GLint theError_ = glGetError(); if (theError_ != GL_NO_ERROR) NSLog(@"glGetError() returned %@ (0x%X)", NSStringFromGLenum(theError_), theError_); NSAssert1(theError_ == GL_NO_ERROR, @"Code entered with existing OGL error 0x%X", theError_); } while(0)
 
 #if TARGET_OS_IPHONE == 1
 

@@ -22,6 +22,7 @@
 @implementation CCoreVideoTexture
 
 @synthesize pixelBuffer = _pixelBuffer;
+@synthesize texture = _texture;
 
 - (id)initWithCVPixelBuffer:(CVPixelBufferRef)inPixelBuffer
 	{

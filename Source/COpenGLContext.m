@@ -33,6 +33,18 @@
 
 @implementation COpenGLContext
 
+@synthesize label = _label;
+@synthesize frameBuffer = _frameBuffer;
+@synthesize depthBuffer = _depthBuffer;
+@synthesize colorBuffer = _colorBuffer;
+@synthesize colorTexture = _colorTexture;
+@synthesize isActive = isActive;
+@synthesize nativeContext = _nativeContext;
+
+#if TARGET_OS_IPHONE == 1
+@synthesize drawable = _drawable;
+#endif
+
 static COpenGLContext *gCurrentContext = NULL;
 
 + (COpenGLContext *)currentContext
