@@ -38,10 +38,10 @@
     if ((self = [super init]) != NULL)
         {
 		_context = inContext;
-		_searchDirectoryURLs = @[
+		_searchDirectoryURLs = [NSArray arrayWithObjects:
 			[NSBundle mainBundle].resourceURL,
 			[[NSBundle mainBundle].resourceURL URLByAppendingPathComponent:@"Shaders"],
-
+            NULL
 			];
 		_cache = [[NSCache alloc] init];
         }
@@ -60,20 +60,20 @@
 	
 - (CTexture *)textureNamed:(NSString *)inName cache:(BOOL)inCache error:(NSError **)outError;
 	{
-	id theKey = @{ @"texture": [inName stringByDeletingPathExtension] };
+	id theKey = [NSDictionary dictionaryWithObject:[inName stringByDeletingPathExtension] forKey:@"texture"];
 
 	CTexture *theTexture = [self.cache objectForKey:theKey];
 	if (theTexture == NULL)
 		{
 		#if TARGET_OS_IPHONE == 1
-		NSArray *theFileExtensions = @[ @"pvrt", @"pvr", @"png", @"jpg", @"tiff" ];
+		NSArray *theFileExtensions = [NSArray arrayWithObjects:@"pvrt", @"pvr", @"png", @"jpg", @"tiff", NULL];
 		#else
-		NSArray *theFileExtensions = @[ @"png", @"jpg", @"tiff" ];
+		NSArray *theFileExtensions = [NSArray arrayWithObjects:@"png", @"jpg", @"tiff", NULL];
 		#endif
 		
 		if (inName.pathExtension.length > 0)
 			{
-			theFileExtensions = @[ inName.pathExtension ];
+			theFileExtensions = [NSArray arrayWithObject:inName.pathExtension];
 			inName = [inName stringByDeletingPathExtension];
 			}
 		

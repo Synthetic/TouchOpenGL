@@ -49,9 +49,10 @@
 
 - (id)init
     {
-    NSArray *theShaders = @[
+    NSArray *theShaders = [NSArray arrayWithObjects:
         [[self class] loadShader:@"Blur.fsh"],
         [[self class] loadShader:@"Default.vsh"],
+        NULL
         ];
 
     if ((self = [self initWithShaders:theShaders]) != NULL)

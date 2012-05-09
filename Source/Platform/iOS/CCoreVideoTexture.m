@@ -80,10 +80,10 @@
 
 - (id)initWithSize:(SIntSize)inSize
 	{
-	NSDictionary *theAttributes = @{
-		(__bridge NSString *)kCVPixelBufferIOSurfacePropertiesKey: @{},
-		(__bridge NSString *)kCVPixelBufferOpenGLCompatibilityKey: @1,
-		};
+	NSDictionary *theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+		[NSDictionary dictionary], (__bridge NSString *)kCVPixelBufferIOSurfacePropertiesKey,
+		[NSNumber numberWithInt:1], (__bridge NSString *)kCVPixelBufferOpenGLCompatibilityKey,
+        NULL];
 	
 	CVPixelBufferRef thePixelBuffer = NULL;
 	CVReturn theError = CVPixelBufferCreate(kCFAllocatorDefault, inSize.width, inSize.height, kCVPixelFormatType_32BGRA, (__bridge CFDictionaryRef)theAttributes, &thePixelBuffer);
