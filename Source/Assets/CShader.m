@@ -43,6 +43,8 @@
 @implementation CShader
 
 @synthesize source = _source;
+@synthesize type = _type;
+@synthesize URL = _URL;
 
 - (id)initWithURL:(NSURL *)inURL error:(NSError **)outError
     {

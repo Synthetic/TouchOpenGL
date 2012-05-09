@@ -18,6 +18,7 @@
 @implementation COpenGLAsset
 
 @synthesize name = _name;
+@synthesize label = _label;
 
 + (GLenum)type
 	{

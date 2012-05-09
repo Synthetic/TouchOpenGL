@@ -10,6 +10,13 @@
 
 @implementation CBlockRenderer
 
+@synthesize userInfo = _userInfo;
+@synthesize setupBlock = _setupBlock;
+@synthesize clearBlock = _clearBlock;
+@synthesize prerenderBlock = _prerenderBlock;
+@synthesize renderBlock = _renderBlock;
+@synthesize postrenderBlock = _postrenderBlock;
+
 - (void)setup
 	{
 	[super setup];

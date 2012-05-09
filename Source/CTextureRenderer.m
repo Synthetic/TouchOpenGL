@@ -23,6 +23,9 @@
 
 @implementation CTextureRenderer
 
+@synthesize rectangleProgram = _rectangleProgram;
+@synthesize projectionMatrix = _projectionMatrix;
+
 - (id)init
     {
     if ((self = [super init]) != NULL)
