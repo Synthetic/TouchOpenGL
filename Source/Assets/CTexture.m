@@ -39,7 +39,6 @@
 
 @implementation CTexture
 
-@synthesize name = _name;
 @synthesize target = _target;
 @synthesize format = _format;
 @synthesize type = _type;

@@ -37,7 +37,6 @@
 
 @interface CTexture : COpenGLAsset
 
-@property (readonly, nonatomic, assign) GLuint name;
 @property (readonly, nonatomic, assign) GLenum target; // e.g. GL_TEXTURE_2D
 @property (readonly, nonatomic, assign) GLenum format; // e.g. GL_RGBA
 @property (readonly, nonatomic, assign) GLenum type; // e.g. GL_UNSIGNED_BYTE
