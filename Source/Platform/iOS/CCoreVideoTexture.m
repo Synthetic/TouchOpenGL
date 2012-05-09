@@ -25,6 +25,7 @@
 
 - (id)initWithCVPixelBuffer:(CVPixelBufferRef)inPixelBuffer
 	{
+    NSParameterAssert(inPixelBuffer);
 	AssertOpenGLValidContext_();
 	
 	const SIntSize theSize = {
@@ -69,7 +70,7 @@
     if ((self = [self initWithName:theName target:theTarget size:theSize format:theFormat type:theType owns:NO]) != NULL)
         {
 		_pixelBuffer = inPixelBuffer;
-		CFRetain(_pixelBuffer);
+		CVPixelBufferRetain(_pixelBuffer);
 		
 		_texture = theTexture;
         }
@@ -107,7 +108,7 @@
 	{
 	if (_pixelBuffer)
 		{
-		CFRelease(_pixelBuffer);
+		CVPixelBufferRelease(_pixelBuffer);
 		_pixelBuffer = NULL;
 		}
 	
