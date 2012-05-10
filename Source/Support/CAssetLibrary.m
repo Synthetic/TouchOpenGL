@@ -142,13 +142,13 @@
 	__block BOOL theStopFlag = NO;
 	__block NSURL *theURL = NULL;
 
-	[self.searchDirectoryURLs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+	[self.searchDirectoryURLs enumerateObjectsUsingBlock:^(id obj1, NSUInteger idx1, BOOL *stop1) {
 
-		NSURL *theDirectoryURL = obj;
+		NSURL *theDirectoryURL = obj1;
 
-		[inPossiblePathExtensions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		[inPossiblePathExtensions enumerateObjectsUsingBlock:^(id obj2, NSUInteger idx2, BOOL *stop2) {
 
-			NSString *thePotentialFileName = [inName stringByAppendingPathExtension:obj];
+			NSString *thePotentialFileName = [inName stringByAppendingPathExtension:obj2];
 
 			NSURL *thePotentialURL = [theDirectoryURL URLByAppendingPathComponent:thePotentialFileName];
 			
@@ -159,10 +159,10 @@
 				}
 
 
-			*stop = theStopFlag;
+			*stop2 = theStopFlag;
 			}];
 
-		*stop = theStopFlag;
+		*stop1 = theStopFlag;
 		}];
 
 	return(theURL);
