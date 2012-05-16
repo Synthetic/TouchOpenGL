@@ -30,11 +30,3 @@
 - (CShader *)shaderNamed:(NSString *)inName error:(NSError **)outError;
 
 @end
-
-#pragma mark -
-
-@interface COpenGLContext (COpenGLContext_AssetLibraryExtension)
-
-@property (readonly, nonatomic, strong) CAssetLibrary *assetLibrary;
-
-@end

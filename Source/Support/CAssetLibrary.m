@@ -169,22 +169,3 @@
 	}
 
 @end
-
-#pragma mark -
-
-@implementation COpenGLContext (COpenGLContext_AssetLibraryExtension)
-
-static void *kKey;
-
-- (CAssetLibrary *)assetLibrary
-	{
-	CAssetLibrary *theAssetLibrary = objc_getAssociatedObject(self, &kKey);
-	if (theAssetLibrary == NULL)
-		{
-		theAssetLibrary = [[CAssetLibrary alloc] initWithContext:self];
-		objc_setAssociatedObject(self, &kKey, theAssetLibrary, OBJC_ASSOCIATION_RETAIN);
-		}
-	return(theAssetLibrary);
-	}
-
-@end

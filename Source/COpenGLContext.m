@@ -13,6 +13,7 @@
 #import "CFrameBuffer.h"
 #import "CRenderBuffer.h"
 #import "CTexture.h"
+#import "CAssetLibrary.h"
 
 @interface COpenGLContext ()
 
@@ -40,6 +41,7 @@
 @synthesize colorTexture = _colorTexture;
 @synthesize isActive = isActive;
 @synthesize nativeContext = _nativeContext;
+@synthesize assetLibrary = _assetLibrary;
 
 #if TARGET_OS_IPHONE == 1
 @synthesize drawable = _drawable;
@@ -153,6 +155,14 @@ static COpenGLContext *gCurrentContext = NULL;
 	#endif
 	}
 
+- (CAssetLibrary *)assetLibrary
+	{
+	if (_assetLibrary == NULL)
+		{
+		_assetLibrary = [[CAssetLibrary alloc] initWithContext:self];
+		}
+	return(_assetLibrary);
+	}
 - (void)use
 	{
 	gCurrentContext = self;

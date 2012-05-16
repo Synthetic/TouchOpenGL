@@ -13,6 +13,7 @@
 @class CFrameBuffer;
 @class CRenderBuffer;
 @class CTexture;
+@class CAssetLibrary;
 
 @interface COpenGLContext : NSObject
 
@@ -30,6 +31,8 @@
 #else
 @property (readonly, nonatomic, assign) CGLContextObj nativeContext;
 #endif /* TARGET_OS_IPHONE == 1 */
+
+@property (readonly, nonatomic, strong) CAssetLibrary *assetLibrary;
 
 + (COpenGLContext *)currentContext;
 
