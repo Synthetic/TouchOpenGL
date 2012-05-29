@@ -22,11 +22,12 @@
 + (CVertexBufferReference *)vertexBufferReferenceWithIndices:(NSArray *)inIndices;
     {
     NSMutableData *theData = [NSMutableData dataWithCapacity:inIndices.count * sizeof(GLushort)];
-    
+
+    GLushort *V = theData.mutableBytes;
+
     for (NSNumber *theNumber in inIndices)
         {
-        GLushort theShort = [theNumber unsignedShortValue];
-        [theData appendBytes:&theShort length:sizeof(theShort)];
+        *V++ = [theNumber unsignedShortValue];
         }
     
     CVertexBuffer *theBuffer = [[CVertexBuffer alloc] initWithTarget:GL_ELEMENT_ARRAY_BUFFER usage:GL_STATIC_DRAW data:theData];
@@ -45,7 +46,7 @@
 
     NSData *theData = [NSData dataWithBytes:theVertices length:sizeof(theVertices)];
     CVertexBuffer *theBuffer = [[CVertexBuffer alloc] initWithTarget:GL_ARRAY_BUFFER usage:GL_STATIC_DRAW data:theData];
-    CVertexBufferReference *theReference = [[CVertexBufferReference alloc] initWithVertexBuffer:theBuffer cellEncoding:@encode(Vector3) normalized:NO];
+    CVertexBufferReference *theReference = [[CVertexBufferReference alloc] initWithVertexBuffer:theBuffer cellEncoding:@encode(typeof(theVertices[0])) normalized:NO];
     return(theReference);
     }
     
