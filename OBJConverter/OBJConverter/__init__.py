@@ -1,1 +1,0 @@
-from OBJConverter import main
