@@ -8,11 +8,20 @@
 
 #import "CAppDelegate.h"
 
+#import "COpenGLRendererView.h"
+#import "CSceneRenderer.h"
+
+@interface CAppDelegate ()
+@property (readwrite, nonatomic, assign) IBOutlet COpenGLRendererView *rendererView;
+@property (readwrite, nonatomic, strong) IBOutlet CSceneRenderer *renderer;
+@end
+
 @implementation CAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
-    // Insert code here to initialize your application
-}
+    {
+    self.renderer = [[CSceneRenderer alloc] init];
+    self.rendererView.renderer = self.renderer;
+    }
 
 @end

@@ -46,7 +46,6 @@ static CVReturn MyCVDisplayLinkOutputCallback(CVDisplayLinkRef displayLink,  con
 			{
 			CVDisplayLinkStop(_displayLink);
 			}
-			
 		CVDisplayLinkRelease(_displayLink);
 		}
 	}

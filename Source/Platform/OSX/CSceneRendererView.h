@@ -11,9 +11,7 @@
 @class CSceneRendererOpenGLLayer;
 @class CSceneRenderer;
 
-@interface CSceneRendererView : NSView {
-
-}
+@interface CSceneRendererView : NSView
 
 @property (readonly, nonatomic, strong) CSceneRendererOpenGLLayer *rendererLayer;
 @property (readwrite, nonatomic, strong) CSceneRenderer *renderer;
