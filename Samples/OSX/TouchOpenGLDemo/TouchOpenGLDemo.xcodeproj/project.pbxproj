@@ -55,6 +55,7 @@
 		45D695B8159660700095B9A0 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D695B7159660700095B9A0 /* OpenGL.framework */; };
 		45D695BA159660730095B9A0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D695B9159660730095B9A0 /* QuartzCore.framework */; };
 		45D695BC159660830095B9A0 /* Shaders in Resources */ = {isa = PBXBuildFile; fileRef = 45D695BB159660830095B9A0 /* Shaders */; };
+		45D81A2015968B9F00BD3499 /* lena_std.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 45D81A1F15968B9F00BD3499 /* lena_std.tiff */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -153,6 +154,7 @@
 		45D695B7159660700095B9A0 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		45D695B9159660730095B9A0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		45D695BB159660830095B9A0 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
+		45D81A1F15968B9F00BD3499 /* lena_std.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = lena_std.tiff; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +216,7 @@
 				45B7C88D15966055002F70F8 /* CAppDelegate.h */,
 				45B7C88E15966055002F70F8 /* CAppDelegate.m */,
 				45B7C89015966055002F70F8 /* MainMenu.xib */,
+				45D81A1E15968B9F00BD3499 /* Common */,
 				45B7C88215966055002F70F8 /* Supporting Files */,
 			);
 			path = TouchOpenGLDemo;
@@ -407,6 +410,15 @@
 			path = Interaction;
 			sourceTree = "<group>";
 		};
+		45D81A1E15968B9F00BD3499 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				45D81A1F15968B9F00BD3499 /* lena_std.tiff */,
+			);
+			name = Common;
+			path = ../../../Common;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -463,6 +475,7 @@
 				45B7C88C15966055002F70F8 /* Credits.rtf in Resources */,
 				45B7C89215966055002F70F8 /* MainMenu.xib in Resources */,
 				45D695BC159660830095B9A0 /* Shaders in Resources */,
+				45D81A2015968B9F00BD3499 /* lena_std.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

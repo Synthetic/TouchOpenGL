@@ -38,10 +38,9 @@
     if ((self = [super init]) != NULL)
         {
 		_context = inContext;
-		_searchDirectoryURLs = [NSArray arrayWithObjects:
+		_searchDirectoryURLs = @[
 			[NSBundle mainBundle].resourceURL,
 			[[NSBundle mainBundle].resourceURL URLByAppendingPathComponent:@"Shaders"],
-            NULL
 			];
 		_cache = [[NSCache alloc] init];
         }
@@ -66,9 +65,9 @@
 	if (theTexture == NULL)
 		{
 		#if TARGET_OS_IPHONE == 1
-		NSArray *theFileExtensions = [NSArray arrayWithObjects:@"pvrt", @"pvr", @"png", @"jpg", @"tiff", NULL];
+		NSArray *theFileExtensions = @[:@"pvrt", @"pvr", @"png", @"jpg", @"tiff"];
 		#else
-		NSArray *theFileExtensions = [NSArray arrayWithObjects:@"png", @"jpg", @"tiff", NULL];
+		NSArray *theFileExtensions = @[@"png", @"jpg", @"tiff"];
 		#endif
 		
 		if (inName.pathExtension.length > 0)
