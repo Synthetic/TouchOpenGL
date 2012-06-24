@@ -46,4 +46,6 @@
 
 - (BOOL)compileShader:(NSError **)outError;
 
++ (void)setAbortsOnCompilationFailure:(BOOL)inFlag;
+
 @end

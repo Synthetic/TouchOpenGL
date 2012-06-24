@@ -34,6 +34,8 @@
 #import "OpenGLTypes.h"
 #import "CSimplePreprocessor.h"
 
+static BOOL gAbortsOnCompilationFailure = DEBUG;
+
 @interface CShader ()
 @property (readwrite, nonatomic, strong) NSURL *URL;
 @end
@@ -133,7 +135,6 @@
 	return(theSource);
 	}
 
-
 - (BOOL)compileShader:(NSError **)outError
     {
     #pragma unused (outError)
@@ -147,6 +148,10 @@
     if (!theSource)
         {
         NSLog(@"Failed to load vertex shader");
+        if (gAbortsOnCompilationFailure == YES)
+            {
+            abort();
+            }
         return FALSE;
         }
 
@@ -169,6 +174,10 @@
         NSLog(@"Shader failed:\n%@", self.URL);
         NSLog(@"Shader compile log:\n%s", theLogBuffer);
         free(theLogBuffer);
+        if (gAbortsOnCompilationFailure == YES)
+            {
+            abort();
+            }
         }
 #endif
 
@@ -184,6 +193,11 @@
     AssertOpenGLNoError_();
 
     return(TRUE);
+    }
+
++ (void)setAbortsOnCompilationFailure:(BOOL)inFlag;
+    {
+    gAbortsOnCompilationFailure = inFlag;
     }
 
 @end
