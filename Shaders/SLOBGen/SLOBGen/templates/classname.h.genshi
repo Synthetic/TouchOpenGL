@@ -1,0 +1,31 @@
+//
+//  ${klass.name}.h
+//  <#some project>
+//
+//  Created by Jonathan Wight on 9/10/11.
+//  Copyright (c) 2011 toxicsoftware.com. All rights reserved.
+//
+
+#import "CProgram.h"
+
+#import "Matrix.h"
+
+@class CTexture;
+@class CVertexBufferReference;
+
+@interface ${klass.name} : CProgram
+
+// Uniforms
+{% for uniform in uniforms %}\
+@property (readwrite, nonatomic, ${uniform.ownership}) ${uniform.propertyType} ${uniform.propertyName};
+{% if uniform.usesTextureUnit %}\
+@property (readonly, nonatomic, assign) GLint ${uniform.propertyName}Index;
+{% end %}\
+{% end %}\
+
+// Attributes
+{% for attribute in attributes %}\
+@property (readwrite, nonatomic, retain) CVertexBufferReference *${attribute.propertyName};
+{% end %}\
+
+@end

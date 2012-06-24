@@ -1,0 +1,130 @@
+//
+//  ${klass.name}.m
+//  Dwarf
+//
+//  Created by Jonathan Wight on 9/10/11.
+//  Copyright (c) 2011 toxicsoftware.com. All rights reserved.
+//
+
+#import "${klass.name}.h"
+
+#import "OpenGLTypes.h"
+#import "OpenGLIncludes.h"
+#import "CTexture.h"
+#import "CVertexBufferReference.h"
+
+{% for attribute in attributes %}\
+#define k${attribute.propertyName}AttributeIndex ${attribute.index}
+{% end %}\
+
+@interface ${klass.name} ()
+
+// Uniforms
+{% for uniform in uniforms %}\
+@property (readwrite, nonatomic, assign) GLint ${uniform.propertyName}Uniform;
+{% if uniform.usesTextureUnit %}\
+@property (readwrite, nonatomic, assign) GLint ${uniform.propertyName}Index;
+{% end %}\
+{% end %}\
+
+@end
+
+@implementation ${klass.name}
+
+// Uniforms
+{% for uniform in uniforms %}\
+@synthesize ${uniform.propertyName};
+@synthesize ${uniform.propertyName}Uniform;
+{% if uniform.usesTextureUnit %}\
+@synthesize ${uniform.propertyName}Index;
+{% end %}\
+{% end %}\
+
+// Attributes
+{% for attribute in attributes %}\
+@synthesize ${attribute.propertyName};
+{% end %}\
+
+- (id)init
+    {
+    NSArray *theShaders = @[
+{% for shader in shaders %}\
+        [[self class] loadShader:@"${shader}"],
+{% end %}\
+        ];
+
+    if ((self = [self initWithShaders:theShaders]) != NULL)
+        {
+{% for attribute in attributes %}\
+        [self bindAttribute:@"${attribute.GLSLName}" location:k${attribute.propertyName}AttributeIndex];
+{% end %}\
+
+
+		AssertOpenGLNoError_();
+
+		NSError *theError = NULL;
+		if ([self linkProgram:&theError] == NO)
+		    {
+		    NSLog(@"Could not link program (%@): %@", self, theError);
+		    self = NULL;
+		    return(self);
+		    }
+
+		AssertOpenGLNoError_();
+
+{% for uniform in uniforms %}\
+        // ${uniform.propertyName}
+        ${uniform.propertyName} = ${uniform.initialValue};
+        ${uniform.propertyName}Uniform = -1;
+{% if uniform.usesTextureUnit %}\
+        ${uniform.propertyName}Index = ${uniform.textureUnitIndex};
+{% end %}\
+{% end %}\
+        }
+    return self;
+    }
+
+- (void)update
+    {
+    [super update];
+    //
+    AssertOpenGLNoError_();
+
+{% for uniform in uniforms %}\
+    // ${uniform.propertyName}
+    if (${uniform.propertyName}Uniform == -1)
+        {
+        ${uniform.propertyName}Uniform = glGetUniformLocation(self.name, "${uniform.GLSLName}");
+        }
+
+{% if 'resetter' in uniform %}\
+    if (${uniform.propertyName})
+        {
+        ${uniform.setter};
+        AssertOpenGLNoError_();
+        }
+    else
+        {
+        ${uniform.resetter};
+        }
+{% end %}\
+{% if 'resetter' not in uniform %}\
+    ${uniform.setter};
+    AssertOpenGLNoError_();
+{% end %}\
+
+{% end %}\
+
+{% for attribute in attributes %}\
+    // ${attribute.propertyName}
+    if (${attribute.propertyName})
+        {
+        [${attribute.propertyName} use:k${attribute.propertyName}AttributeIndex];
+        glEnableVertexAttribArray(k${attribute.propertyName}AttributeIndex);
+
+        AssertOpenGLNoError_();
+        }
+{% end %}\
+    }
+
+@end
