@@ -56,6 +56,7 @@
 - (void)use;
 
 - (GLuint)uniformIndexForName:(NSString *)inName;
+- (GLuint)locationForAttribute:(NSString *)inName;
 
 // This is a bit of a hack...
 + (CShader *)loadShader:(NSString *)inName;

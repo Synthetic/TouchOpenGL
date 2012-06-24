@@ -18,37 +18,38 @@
 @interface COpenGLContext : NSObject
 
 @property (readwrite, nonatomic, strong) NSString *label;
-
-@property (readonly, nonatomic, strong) CFrameBuffer *frameBuffer;
-@property (readonly, nonatomic, strong) CRenderBuffer *depthBuffer;
-@property (readonly, nonatomic, strong) CRenderBuffer *colorBuffer;
-@property (readonly, nonatomic, strong) CTexture *colorTexture;
-
 @property (readonly, nonatomic, assign) BOOL isActive;
-
 #if TARGET_OS_IPHONE == 1
 @property (readonly, nonatomic, strong) EAGLContext *nativeContext;
 #else
 @property (readonly, nonatomic, assign) CGLContextObj nativeContext;
 #endif /* TARGET_OS_IPHONE == 1 */
-
 @property (readonly, nonatomic, strong) CAssetLibrary *assetLibrary;
 
 + (COpenGLContext *)currentContext;
 
 - (id)init;
 
-#if TARGET_OS_IPHONE == 1
-- (id)initWithDrawable:(id <EAGLDrawable>)inDrawable;
-#else
-- (id)initWithNativeContext:(CGLContextObj)inNativeContext;
-#endif
-
 - (void)use;
 - (void)unuse;
-
-- (void)present;
 
 - (CTexture *)readTextureSize:(SIntSize)inSize;
 
 @end
+
+#pragma mark -
+
+#if TARGET_OS_IPHONE == 1
+@interface COpenGLContext (iOS)
+- (id)initWithDrawable:(id <EAGLDrawable>)inDrawable;
+- (void)present;
+@end
+#endif /* TARGET_OS_IPHONE == 1 */
+
+#pragma mark -
+
+#if TARGET_OS_IPHONE == 0
+@interface COpenGLContext (MacOSX)
+- (id)initWithNativeContext:(CGLContextObj)inNativeContext;
+@end
+#endif /* TARGET_OS_IPHONE == 0 */

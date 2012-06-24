@@ -8,12 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class CSceneRenderer;
+@class CRenderer;
 @class COpenGLContext;
 
 @interface COpenGLRendererView : NSOpenGLView
 
-@property (readwrite, nonatomic, strong) CSceneRenderer *renderer;
+@property (readwrite, nonatomic, strong) CRenderer *renderer;
 @property (readwrite, nonatomic, strong) COpenGLContext *context;
 
 @end

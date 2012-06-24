@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 toxicsoftware.com. All rights reserved.
 //
 
-#import "CSceneRenderer.h"
+#import "CRenderer.h"
 
-@interface CBlockRenderer : CSceneRenderer
+@interface CBlockRenderer : CRenderer
 
 @property (readwrite, nonatomic, strong) id userInfo;
 

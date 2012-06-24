@@ -9,11 +9,11 @@
 #import <Cocoa/Cocoa.h>
 
 @class CSceneRendererOpenGLLayer;
-@class CSceneRenderer;
+@class CRenderer;
 
 @interface CSceneRendererView : NSView
 
 @property (readonly, nonatomic, strong) CSceneRendererOpenGLLayer *rendererLayer;
-@property (readwrite, nonatomic, strong) CSceneRenderer *renderer;
+@property (readwrite, nonatomic, strong) CRenderer *renderer;
 
 @end

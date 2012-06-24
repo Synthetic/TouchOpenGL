@@ -42,6 +42,8 @@
 @property (readonly, nonatomic, assign) GLuint name;
 @property (readonly, nonatomic, assign) SIntSize size;
 
+- (id)initWithInternalFormat:(GLenum)inInternalFormat size:(SIntSize)inSize;
+
 - (void)bind;
 
 - (void)storage:(GLenum)inIntermalFormat size:(SIntSize)inSize;

@@ -31,10 +31,11 @@
 
 #import "CSceneRendererOpenGLLayer.h"
 
-#import "CSceneRenderer.h"
+#import "CRenderer.h"
 #import "COpenGLContext.h"
 
 @interface CSceneRendererOpenGLLayer ()
+@property (readwrite, nonatomic, assign) NSUInteger frameCount;
 @property (readwrite, nonatomic, assign) BOOL setup;
 @property (readwrite, nonatomic, strong) COpenGLContext *context;
 @end
@@ -43,16 +44,14 @@
 
 @implementation CSceneRendererOpenGLLayer
 
-@synthesize renderer;
-@synthesize setup;
-
 - (id)init
     {
     if ((self = [super init]) != NULL)
         {
         self.asynchronous = YES;
         
-        renderer = [[CSceneRenderer alloc] init];
+        _renderer = [[CRenderer alloc] init];
+        _frameCount = 0;
         }
     return(self);
     }
@@ -60,8 +59,8 @@
 - (CGLPixelFormatObj)copyCGLPixelFormatForDisplayMask:(uint32_t)mask
     {
     CGLPixelFormatAttribute thePixelFormatAttributes[] = {
-		kCGLPFAOpenGLProfile, kCGLOGLPVersion_Legacy,
-//		kCGLPFAOpenGLProfile, kCGLOGLPVersion_3_2_Core,
+//		kCGLPFAOpenGLProfile, kCGLOGLPVersion_Legacy,
+		kCGLPFAOpenGLProfile, kCGLOGLPVersion_3_2_Core,
         kCGLPFADisplayMask, mask,
         kCGLPFAAccelerated,
         kCGLPFAColorSize, 8,
@@ -85,6 +84,8 @@
 
 - (void)drawInCGLContext:(CGLContextObj)ctx pixelFormat:(CGLPixelFormatObj)pf forLayerTime:(CFTimeInterval)t displayTime:(const CVTimeStamp *)ts
     {
+    self.frameCount++;
+
 	if (self.context == NULL)
 		{
 		self.context = [[COpenGLContext alloc] initWithNativeContext:ctx];
@@ -103,19 +104,35 @@
 
 	NSParameterAssert(self.context.nativeContext == ctx);
 
+    AssertOpenGLNoError_();
+
 	[self.context use];
-    
+
+    AssertOpenGLNoError_();
+
     if (self.setup == NO)
         {
 		[self.renderer setup];
         self.setup = YES;
         }
 
+    AssertOpenGLNoError_();
+
+    AssertOpenGLNoError_();
+
     [self.renderer prerender];
+
+    AssertOpenGLNoError_();
+
     [self.renderer render];
+
+    AssertOpenGLNoError_();
+
     [self.renderer postrender];
 
-    [super drawInCGLContext:ctx pixelFormat:pf forLayerTime:t displayTime:ts];
+//    [super drawInCGLContext:ctx pixelFormat:pf forLayerTime:t displayTime:ts];
+
+    AssertOpenGLNoError_();
     }
 
 @end

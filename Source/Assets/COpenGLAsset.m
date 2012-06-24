@@ -47,11 +47,18 @@
 
 - (NSString *)description
     {
-    return([NSString stringWithFormat:@"%@ (%@cost: %d)", [super description],
-		self.label ? [NSString stringWithFormat:@"label: \"%@\", ", self.label] : @""
-		, self.cost]);
-    }
+    NSMutableArray *theComponents = [NSMutableArray array];
+    if (self.label != NULL)
+        {
+        [theComponents addObject:[NSString stringWithFormat:@"label: %@", self.label]];
+        }
+    if (self.cost > 0)
+        {
+        [theComponents addObject:[NSString stringWithFormat:@"cost: %d", self.cost]];
+        }
 
+    return([NSString stringWithFormat:@"%@ (%@)", [super description], [theComponents componentsJoinedByString:@", "]]);
+    }
 
 - (void)invalidate
 	{

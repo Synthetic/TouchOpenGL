@@ -34,11 +34,9 @@
 #import "OpenGLIncludes.h"
 #import "OpenGLTypes.h"
 #import "Matrix.h"
+#import "COpenGLContext.h"
 
-@class CFrameBuffer;
-@class COpenGLContext;
-
-@interface CSceneRenderer : NSObject <NSCopying>
+@interface CRenderer : NSObject <NSCopying>
 
 @property (readwrite, nonatomic, assign) CGSize size;
 @property (readwrite, nonatomic, assign) Color4f clearColor;
@@ -54,5 +52,11 @@
 
 - (void)setNeedsSetup;
 
+@end
+
+#pragma mark -
+
+@interface COpenGLContext (Renderer)
+- (void)render:(CRenderer *)inRenderer;
 @end
 

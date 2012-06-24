@@ -34,7 +34,11 @@
 #import "OpenGLTypes.h"
 #import "CSimplePreprocessor.h"
 
-static BOOL gAbortsOnCompilationFailure = DEBUG;
+#if DEBUG
+static BOOL gAbortsOnCompilationFailure = YES;
+#else
+static BOOL gAbortsOnCompilationFailure = NO;
+#endif
 
 @interface CShader ()
 @property (readwrite, nonatomic, strong) NSURL *URL;
@@ -93,6 +97,12 @@ static BOOL gAbortsOnCompilationFailure = DEBUG;
         }
     return(self);
     }
+
+- (NSString *)description
+    {
+    return([NSString stringWithFormat:@"%@ (%@, %@)", [super description], NSStringFromGLenum(self.type), [self.URL lastPathComponent]]);
+    }
+
 
 - (void)invalidate
     {

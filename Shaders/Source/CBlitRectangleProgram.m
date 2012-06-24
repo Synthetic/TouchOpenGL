@@ -13,9 +13,6 @@
 #import "CTexture.h"
 #import "CVertexBufferReference.h"
 
-#define ktexCoordsAttributeIndex 0
-#define kpositionsAttributeIndex 1
-
 @interface CBlitRectangleProgram ()
 
 // Uniforms
@@ -25,41 +22,23 @@
 @property (readwrite, nonatomic, assign) GLint modelViewMatrixUniform;
 @property (readwrite, nonatomic, assign) GLint projectionMatrixUniform;
 
+// Attributes
+@property (readwrite, nonatomic, assign) GLint texCoordsIndex;
+@property (readwrite, nonatomic, assign) GLint positionsIndex;
+
 @end
 
 @implementation CBlitRectangleProgram
 
-// Uniforms
-@synthesize texture0;
-@synthesize texture0Uniform;
-@synthesize texture0Index;
-@synthesize color;
-@synthesize colorUniform;
-@synthesize modelViewMatrix;
-@synthesize modelViewMatrixUniform;
-@synthesize projectionMatrix;
-@synthesize projectionMatrixUniform;
-
-// Attributes
-@synthesize texCoords;
-@synthesize positions;
-
 - (id)init
     {
-    NSArray *theShaders = [NSArray arrayWithObjects:
+    NSArray *theShaders = @[
         [[self class] loadShader:@"BlitTextureRectangle.fsh"],
         [[self class] loadShader:@"Default.vsh"],
-        NULL
         ];
 
     if ((self = [self initWithShaders:theShaders]) != NULL)
         {
-        [self bindAttribute:@"a_texCoord" location:ktexCoordsAttributeIndex];
-        [self bindAttribute:@"a_position" location:kpositionsAttributeIndex];
-
-
-		AssertOpenGLNoError_();
-
 		NSError *theError = NULL;
 		if ([self linkProgram:&theError] == NO)
 		    {
@@ -71,18 +50,19 @@
 		AssertOpenGLNoError_();
 
         // texture0
-        texture0 = NULL;
-        texture0Uniform = -1;
-        texture0Index = 0;
+        _texture0 = NULL;
+        _texture0Uniform = -1;
+        _texture0Index = 0;
         // color
-        color = (Color4f){ 0.0, 0.0, 0.0, 0.0 };
-        colorUniform = -1;
+        _color = (Color4f){ 0.0, 0.0, 0.0, 0.0 };
+        _colorUniform = -1;
         // modelViewMatrix
-        modelViewMatrix = Matrix4Identity;
-        modelViewMatrixUniform = -1;
+        _modelViewMatrix = Matrix4Identity;
+        _modelViewMatrixUniform = -1;
         // projectionMatrix
-        projectionMatrix = Matrix4Identity;
-        projectionMatrixUniform = -1;
+        _projectionMatrix = Matrix4Identity;
+        _projectionMatrixUniform = -1;
+
         }
     return self;
     }
@@ -94,55 +74,59 @@
     AssertOpenGLNoError_();
 
     // texture0
-    if (texture0Uniform == -1)
+    if (_texture0Uniform == -1)
         {
-        texture0Uniform = glGetUniformLocation(self.name, "u_texture0");
+        _texture0Uniform = glGetUniformLocation(self.name, "u_texture0");
         }
 
-    [texture0 use:texture0Uniform index:texture0Index];
+    [_texture0 use:_texture0Uniform index:_texture0Index];
     AssertOpenGLNoError_();
 
     // color
-    if (colorUniform == -1)
+    if (_colorUniform == -1)
         {
-        colorUniform = glGetUniformLocation(self.name, "u_color");
+        _colorUniform = glGetUniformLocation(self.name, "u_color");
         }
 
-    glUniform4fv(colorUniform, 1, &color.r);
+    glUniform4fv(_colorUniform, 1, &_color.r);
     AssertOpenGLNoError_();
 
     // modelViewMatrix
-    if (modelViewMatrixUniform == -1)
+    if (_modelViewMatrixUniform == -1)
         {
-        modelViewMatrixUniform = glGetUniformLocation(self.name, "u_modelViewMatrix");
+        _modelViewMatrixUniform = glGetUniformLocation(self.name, "u_modelViewMatrix");
         }
 
-    glUniformMatrix4fv(modelViewMatrixUniform, 1, NO, &modelViewMatrix.m[0][0]);
+    glUniformMatrix4fv(_modelViewMatrixUniform, 1, NO, &_modelViewMatrix.m[0][0]);
     AssertOpenGLNoError_();
 
     // projectionMatrix
-    if (projectionMatrixUniform == -1)
+    if (_projectionMatrixUniform == -1)
         {
-        projectionMatrixUniform = glGetUniformLocation(self.name, "u_projectionMatrix");
+        _projectionMatrixUniform = glGetUniformLocation(self.name, "u_projectionMatrix");
         }
 
-    glUniformMatrix4fv(projectionMatrixUniform, 1, NO, &projectionMatrix.m[0][0]);
+    glUniformMatrix4fv(_projectionMatrixUniform, 1, NO, &_projectionMatrix.m[0][0]);
     AssertOpenGLNoError_();
 
 
-    // texCoords
-    if (texCoords)
+
+    if (_texCoords)
         {
-        [texCoords use:ktexCoordsAttributeIndex];
-        glEnableVertexAttribArray(ktexCoordsAttributeIndex);
+        _texCoordsIndex = glGetAttribLocation(self.name, "a_texCoord");
+
+        [_texCoords use:_texCoordsIndex];
+        glEnableVertexAttribArray(_texCoordsIndex);
 
         AssertOpenGLNoError_();
         }
-    // positions
-    if (positions)
+
+    if (_positions)
         {
-        [positions use:kpositionsAttributeIndex];
-        glEnableVertexAttribArray(kpositionsAttributeIndex);
+        _positionsIndex = glGetAttribLocation(self.name, "a_position");
+
+        [_positions use:_positionsIndex];
+        glEnableVertexAttribArray(_positionsIndex);
 
         AssertOpenGLNoError_();
         }

@@ -41,12 +41,12 @@
     
 #pragma mark -
 
-- (CSceneRenderer *)renderer
+- (CRenderer *)renderer
     {
     return(self.rendererLayer.renderer);
     }
 
-- (void)setRenderer:(CSceneRenderer *)inRenderer
+- (void)setRenderer:(CRenderer *)inRenderer
     {
     self.rendererLayer.renderer = inRenderer;
     }

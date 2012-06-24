@@ -50,7 +50,7 @@ class Generator(object):
                 elif theScanner.scan_string('//'):
                     pass
 
-            thePattern = re.compile('^(?P<glsl_storage>uniform|attribute) (?P<glsl_type>.+) (?P<glsl_name>.+); //@ (?P<meta>.+)')
+            thePattern = re.compile('^(?P<glsl_storage>uniform|attribute|in|out) (?P<glsl_type>.+) (?P<glsl_name>.+); //@ (?P<meta>.+)')
 
             for theDefinition in theDefinitions:
                 theDefinition = thePattern.match(theDefinition).groupdict()
@@ -69,7 +69,7 @@ class Generator(object):
                 if theName in self.uniforms:
                     raise Exception('Already a uniform with that name!')
                 self.uniforms[theName] = theDefinition
-            elif theDefinition['glsl_storage'] == 'attribute':
+            elif theDefinition['glsl_storage'] in ('attribute', 'in', 'out'):
                 if theName in self.attributes:
                     raise Exception('Already an attribute with that name!')
                 self.attributes[theName] = theDefinition
@@ -111,6 +111,7 @@ class Generator(object):
 
             d['GLSLName'] = theUniform['glsl_name']
             d['propertyName'] = MyString(theUniform['name'])
+            d['ivarName'] = '_' + theUniform['name']
 
             # this is a bit of a hack
             d['setter'] = d['setter'].replace('${uniform.propertyName}', theUniform['name'])

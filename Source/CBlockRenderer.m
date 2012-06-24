@@ -23,7 +23,11 @@
 	
 	if (self.setupBlock)
 		{
+        AssertOpenGLNoError_();
+
 		self.setupBlock();
+
+        AssertOpenGLNoError_();
 		}
 	}
 	
@@ -33,7 +37,11 @@
 
 	if (self.clearBlock)
 		{
+        AssertOpenGLNoError_();
+
 		self.clearBlock();
+
+        AssertOpenGLNoError_();
 		}
 	}
 	
@@ -43,7 +51,11 @@
 
 	if (self.prerenderBlock)
 		{
+        AssertOpenGLNoError_();
+
 		self.prerenderBlock();
+
+        AssertOpenGLNoError_();
 		}
 	}
 	
@@ -53,7 +65,11 @@
 
 	if (self.renderBlock)
 		{
+        AssertOpenGLNoError_();
+
 		self.renderBlock();
+
+        AssertOpenGLNoError_();
 		}
 	}
 	
@@ -63,7 +79,11 @@
 
 	if (self.postrenderBlock)
 		{
+        AssertOpenGLNoError_();
+
 		self.postrenderBlock();
+
+        AssertOpenGLNoError_();
 		}
 	}
 

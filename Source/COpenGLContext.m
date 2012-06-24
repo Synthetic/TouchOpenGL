@@ -17,35 +17,16 @@
 
 @interface COpenGLContext ()
 
-@property (readwrite, nonatomic, strong) CFrameBuffer *frameBuffer;
-@property (readwrite, nonatomic, strong) CRenderBuffer *depthBuffer;
-@property (readwrite, nonatomic, strong) CRenderBuffer *colorBuffer;
-@property (readwrite, nonatomic, strong) CTexture *colorTexture;
-
 #if TARGET_OS_IPHONE == 1
 @property (readwrite, nonatomic, weak) id <EAGLDrawable> drawable;
 #endif
-
-- (void)setup;
-- (void)logInfo;
 @end
 
 #pragma mark -
 
 @implementation COpenGLContext
 
-@synthesize label = _label;
-@synthesize frameBuffer = _frameBuffer;
-@synthesize depthBuffer = _depthBuffer;
-@synthesize colorBuffer = _colorBuffer;
-@synthesize colorTexture = _colorTexture;
-@synthesize isActive = isActive;
-@synthesize nativeContext = _nativeContext;
 @synthesize assetLibrary = _assetLibrary;
-
-#if TARGET_OS_IPHONE == 1
-@synthesize drawable = _drawable;
-#endif
 
 static COpenGLContext *gCurrentContext = NULL;
 
@@ -63,31 +44,6 @@ static COpenGLContext *gCurrentContext = NULL;
     return self;
     }
 	
-#if TARGET_OS_IPHONE == 1
-- (id)initWithDrawable:(id <EAGLDrawable>)inDrawable;
-	{
-    if ((self = [super init]) != NULL)
-        {
-		_drawable = inDrawable;
-
-		[self setup];
-        }
-    return self;
-	}
-#else
-- (id)initWithNativeContext:(CGLContextObj)inNativeContext
-    {
-	NSParameterAssert(inNativeContext != NULL);
-    if ((self = [super init]) != NULL)
-        {
-        _nativeContext = inNativeContext;
-		
-		[self setup];
-        }
-    return self;
-    }
-#endif
-
 - (void)dealloc
 	{
 	#if TARGET_OS_IPHONE == 1
@@ -122,6 +78,7 @@ static COpenGLContext *gCurrentContext = NULL;
 			kCGLPFAColorSize, 8,
 			kCGLPFAAlphaSize, 8,
 			kCGLPFADepthSize, 16,
+            kCGLPFAOpenGLProfile, kCGLOGLPVersion_3_2_Core,
 			0
 			};
 		CGLPixelFormatObj thePixelFormatObject = NULL;
@@ -142,7 +99,6 @@ static COpenGLContext *gCurrentContext = NULL;
 		
 		_nativeContext = theOpenGLContext;
 		#endif /* TARGET_OS_IPHONE == 1 */
-
 		}
 	}
 
@@ -163,8 +119,11 @@ static COpenGLContext *gCurrentContext = NULL;
 		}
 	return(_assetLibrary);
 	}
+
 - (void)use
 	{
+    AssertOpenGLNoError_();
+
 	gCurrentContext = self;
 	
 	#if TARGET_OS_IPHONE == 1
@@ -172,6 +131,8 @@ static COpenGLContext *gCurrentContext = NULL;
 	#else
 	CGLSetCurrentContext(self.nativeContext);
 	#endif
+
+    AssertOpenGLNoError_();
 	}
 	
 - (void)unuse
@@ -187,35 +148,6 @@ static COpenGLContext *gCurrentContext = NULL;
 		CGLSetCurrentContext(NULL);
 		}
 	#endif
-	}
-
-- (void)present;
-	{
-    AssertOpenGLNoError_();
-
-	[self.colorBuffer bind];
-//		[self.context.frameBuffer discard];
-	AssertOpenGLNoError_();
-
-	#if TARGET_OS_IPHONE
-	[self.nativeContext presentRenderbuffer:GL_RENDERBUFFER];
-	#endif /* TARGET_OS_IPHONE */
-	}
-
-
-- (void)logInfo
-	{
-//	NSMutableDictionary *d = [NSMutableDictionary dictionary];
-//	
-//	#define X(d, K) do { \
-//		GLint V = -1; \
-//		glGetIntegerv(K, &V); \
-//		[d setObject:[NSNumber numberWithInt:V] forKey:[NSString stringWithUTF8String:#K]]; \
-//		} while (0); 
-//
-//	X(d, GL_MAX_TEXTURE_UNITS);
-	
-//	NSLog(@"%@", d);
 	}
 
 - (CTexture *)readTextureSize:(SIntSize)inSize
@@ -245,3 +177,53 @@ static COpenGLContext *gCurrentContext = NULL;
 	}
 
 @end
+
+#pragma mark -
+
+#if TARGET_OS_IPHONE == 1
+@implementation COpenGLContext (iOS)
+
+- (id)initWithDrawable:(id <EAGLDrawable>)inDrawable;
+	{
+    if ((self = [super init]) != NULL)
+        {
+		_drawable = inDrawable;
+
+		[self setup];
+        }
+    return self;
+	}
+
+- (void)present
+	{
+    AssertOpenGLNoError_();
+
+	[self.colorBuffer bind];
+	AssertOpenGLNoError_();
+
+	[self.nativeContext presentRenderbuffer:GL_RENDERBUFFER];
+	}
+
+@end
+#endif /* TARGET_OS_IPHONE == 1 */
+
+#pragma mark -
+
+#if TARGET_OS_IPHONE == 0
+@implementation COpenGLContext (MacOSX)
+
+- (id)initWithNativeContext:(CGLContextObj)inNativeContext
+    {
+	NSParameterAssert(inNativeContext != NULL);
+    if ((self = [super init]) != NULL)
+        {
+        _nativeContext = inNativeContext;
+		
+		[self setup];
+        }
+    return self;
+    }
+
+
+@end
+#endif /* TARGET_OS_IPHONE == 0 */

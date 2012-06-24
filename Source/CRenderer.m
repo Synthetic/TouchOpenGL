@@ -29,11 +29,13 @@
 //  authors and should not be interpreted as representing official policies, either expressed
 //  or implied, of toxicsoftware.com.
 
-#import "CSceneRenderer.h"
+#import "CRenderer.h"
 
 #import <QuartzCore/QuartzCore.h>
 
-@interface CSceneRenderer ()
+#import "OpenGLIncludes.h"
+
+@interface CRenderer ()
 @property (readwrite, nonatomic, assign) BOOL needsSetup;
 @property (readwrite, nonatomic, assign) NSUInteger frameCount;
 @property (readwrite, nonatomic, assign) CFAbsoluteTime startTime;
@@ -43,7 +45,7 @@
 
 #pragma mark -
 
-@implementation CSceneRenderer
+@implementation CRenderer
 
 @synthesize size = _size;
 @synthesize clearColor = _clearColor;
@@ -68,7 +70,7 @@
 
 - (id)copyWithZone:(NSZone *)zone;
 	{
-	CSceneRenderer *theCopy = [[[self class] alloc] init];
+	CRenderer *theCopy = [[[self class] alloc] init];
 	theCopy.clearColor = self.clearColor;
 	theCopy.projectionTransform = self.projectionTransform;
 	return(theCopy);
@@ -153,3 +155,52 @@
     }
 
 @end
+
+#pragma mark -
+
+@implementation COpenGLContext (Renderer)
+
+- (void)render:(CRenderer *)inRenderer
+    {
+	[self use];
+
+	AssertOpenGLNoError_();
+
+    if (inRenderer.context == NULL)
+        {
+        inRenderer.context = self;
+        }
+    
+    AssertOpenGLNoError_();
+
+//		if (self.setup == NO)
+//			{
+        [inRenderer setup];
+        //
+//			self.setup = YES;
+//			}
+
+
+    AssertOpenGLNoError_();
+
+    [inRenderer clear];
+
+    AssertOpenGLNoError_();
+
+    [inRenderer prerender];
+
+    AssertOpenGLNoError_();
+
+    [inRenderer render];
+
+    AssertOpenGLNoError_();
+
+    [inRenderer postrender];
+
+    AssertOpenGLNoError_();
+
+	glFlush();
+    }
+
+@end
+

@@ -30,18 +30,23 @@
 //  or implied, of toxicsoftware.com.
 
 #if TARGET_OS_IPHONE == 1
-#import <OpenGLES/ES2/gl.h>
-#import <OpenGLES/ES2/glext.h>
-#import <QuartzCore/QuartzCore.h>
 
-#define TOUCH_OPENGL_GL 0
-#define TOUCH_OPENGL_GLES 1
+    #import <OpenGLES/ES2/gl.h>
+    #import <OpenGLES/ES2/glext.h>
+    #import <QuartzCore/QuartzCore.h>
+
+    #define TOUCH_OPENGL_GL 0
+    #define TOUCH_OPENGL_GLES 1
 
 #else
-#import <OpenGL/OpenGL.h>
-#include <OpenGL/gl.h>
-#include <OpenGL/glext.h>
 
-#define TOUCH_OPENGL_GL 1
-#define TOUCH_OPENGL_GLES 0
+    #define GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED 1
+
+    #import <OpenGL/OpenGL.h>
+    #include <OpenGL/gl3.h>
+    #include <OpenGL/gl3ext.h>
+
+    #define TOUCH_OPENGL_GL 1
+    #define TOUCH_OPENGL_GLES 0
+
 #endif

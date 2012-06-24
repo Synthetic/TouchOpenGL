@@ -31,10 +31,11 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-@class CSceneRenderer;
+@class CRenderer;
 
 @interface CSceneRendererOpenGLLayer : CAOpenGLLayer 
 
-@property (readwrite, nonatomic, strong) CSceneRenderer *renderer;
+@property (readwrite, nonatomic, strong) CRenderer *renderer;
+@property (readonly, nonatomic, assign) NSUInteger frameCount;
 
 @end

@@ -8,7 +8,7 @@
 
 #import "COpenGLRendererView.h"
 
-#import "CSceneRenderer.h"
+#import "CRenderer.h"
 #import "COpenGLContext.h"
 #import <CoreVideo/CoreVideo.h>
 
@@ -27,13 +27,22 @@ static CVReturn MyCVDisplayLinkOutputCallback(CVDisplayLinkRef displayLink,  con
     {
     if ((self = [super initWithCoder:inCoder]) != NULL)
         {
-		NSOpenGLContext *theOpenGLContext = [self openGLContext];
-		void *theNativeContext = [theOpenGLContext CGLContextObj];
+        #if 1
+        NSOpenGLPixelFormatAttribute pixelFormatAttributes[] = {
+            NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
+            0
+            };
+
+        NSOpenGLPixelFormat *pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:pixelFormatAttributes];
+        NSOpenGLContext *theOpenGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
+        self.openGLContext = theOpenGLContext;
+        #endif
+
+		void *theNativeContext = self.openGLContext.CGLContextObj;
 		_context = [[COpenGLContext alloc] initWithNativeContext:theNativeContext];
 
 		CVDisplayLinkCreateWithActiveCGDisplays(&_displayLink);
 		CVDisplayLinkSetOutputCallback(_displayLink, MyCVDisplayLinkOutputCallback, (__bridge void *)self);
-
         }
     return(self);
     }

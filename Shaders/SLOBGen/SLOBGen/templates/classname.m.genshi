@@ -13,10 +13,6 @@
 #import "CTexture.h"
 #import "CVertexBufferReference.h"
 
-{% for attribute in attributes %}\
-#define k${attribute.propertyName}AttributeIndex ${attribute.index}
-{% end %}\
-
 @interface ${klass.name} ()
 
 // Uniforms
@@ -27,23 +23,14 @@
 {% end %}\
 {% end %}\
 
+// Attributes
+{% for attribute in attributes %}\
+@property (readwrite, nonatomic, assign) GLint ${attribute.propertyName}Index;
+{% end %}\
+
 @end
 
 @implementation ${klass.name}
-
-// Uniforms
-{% for uniform in uniforms %}\
-@synthesize ${uniform.propertyName};
-@synthesize ${uniform.propertyName}Uniform;
-{% if uniform.usesTextureUnit %}\
-@synthesize ${uniform.propertyName}Index;
-{% end %}\
-{% end %}\
-
-// Attributes
-{% for attribute in attributes %}\
-@synthesize ${attribute.propertyName};
-{% end %}\
 
 - (id)init
     {
@@ -55,13 +42,6 @@
 
     if ((self = [self initWithShaders:theShaders]) != NULL)
         {
-{% for attribute in attributes %}\
-        [self bindAttribute:@"${attribute.GLSLName}" location:k${attribute.propertyName}AttributeIndex];
-{% end %}\
-
-
-		AssertOpenGLNoError_();
-
 		NSError *theError = NULL;
 		if ([self linkProgram:&theError] == NO)
 		    {
@@ -74,12 +54,13 @@
 
 {% for uniform in uniforms %}\
         // ${uniform.propertyName}
-        ${uniform.propertyName} = ${uniform.initialValue};
-        ${uniform.propertyName}Uniform = -1;
+        _${uniform.propertyName} = ${uniform.initialValue};
+        _${uniform.propertyName}Uniform = -1;
 {% if uniform.usesTextureUnit %}\
-        ${uniform.propertyName}Index = ${uniform.textureUnitIndex};
+        _${uniform.propertyName}Index = ${uniform.textureUnitIndex};
 {% end %}\
 {% end %}\
+
         }
     return self;
     }
@@ -92,13 +73,13 @@
 
 {% for uniform in uniforms %}\
     // ${uniform.propertyName}
-    if (${uniform.propertyName}Uniform == -1)
+    if (_${uniform.propertyName}Uniform == -1)
         {
-        ${uniform.propertyName}Uniform = glGetUniformLocation(self.name, "${uniform.GLSLName}");
+        _${uniform.propertyName}Uniform = glGetUniformLocation(self.name, "${uniform.GLSLName}");
         }
 
 {% if 'resetter' in uniform %}\
-    if (${uniform.propertyName})
+    if (_${uniform.propertyName})
         {
         ${uniform.setter};
         AssertOpenGLNoError_();
@@ -116,11 +97,13 @@
 {% end %}\
 
 {% for attribute in attributes %}\
-    // ${attribute.propertyName}
-    if (${attribute.propertyName})
+
+    if (_${attribute.propertyName})
         {
-        [${attribute.propertyName} use:k${attribute.propertyName}AttributeIndex];
-        glEnableVertexAttribArray(k${attribute.propertyName}AttributeIndex);
+        _${attribute.propertyName}Index = glGetAttribLocation(self.name, "${attribute.GLSLName}");
+
+        [_${attribute.propertyName} use:_${attribute.propertyName}Index];
+        glEnableVertexAttribArray(_${attribute.propertyName}Index);
 
         AssertOpenGLNoError_();
         }

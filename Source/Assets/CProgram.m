@@ -66,6 +66,11 @@
     return(self);
     }
 
+- (NSString *)description
+    {
+    return([NSString stringWithFormat:@"%@ %@", [super description], self.shaders]);
+    }
+
 - (void)invalidate
     {
     if (self.named && glIsProgram(self.name))
@@ -81,7 +86,11 @@
 
 - (void)bindAttribute:(NSString *)inName location:(GLuint)inLocation;
 	{
+    #if TOUCH_OPENGL_GLES == 1
+    AssertOpenGLNoError_();
 	glBindAttribLocation(self.name, inLocation, [inName UTF8String]);
+    AssertOpenGLNoError_();
+    #endif
 	}
 
 - (void)attachShader:(CShader *)inShader
@@ -210,6 +219,17 @@
         {
         return([[self.uniformsByName objectForKey:inName] unsignedIntValue]);
         }
+    }
+
+- (GLuint)locationForAttribute:(NSString *)inName
+    {
+    AssertOpenGLNoError_();
+
+    GLuint theLocation = glGetAttribLocation(self.name, [inName UTF8String]);
+
+    AssertOpenGLNoError_();
+
+    return(theLocation);
     }
 
 #pragma mark -

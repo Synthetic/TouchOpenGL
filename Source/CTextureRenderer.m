@@ -1,3 +1,4 @@
+
 //
 //  CTextureRenderer.m
 //  VideoFilterToy_OSX
@@ -16,17 +17,11 @@
 #import "CTexture_Utilities.h"
 
 @interface CTextureRenderer ()
-@property (readwrite, nonatomic, strong) CBlitRectangleProgram *rectangleProgram;
 @end
 
 #pragma mark -
 
 @implementation CTextureRenderer
-
-@synthesize rectangleProgram = _rectangleProgram;
-@synthesize projectionMatrix = _projectionMatrix;
-@synthesize textureBlock = _textureBlock;
-@synthesize program = _program;
 
 - (id)init
     {
@@ -42,61 +37,53 @@
 	[super setup];
 	//
 	AssertOpenGLNoError_();
-    //
-	if (self.rectangleProgram == NULL)
-		{
-		self.rectangleProgram = [[CBlitRectangleProgram alloc] init];
-		}
 
 	if (self.program == NULL)
 		{
 		self.program = [[CBlitProgram alloc] init];
-		}
 
+        [self.program use];
 
-	AssertOpenGLNoError_();
-	}
+        self.program.texCoords = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ .size = { 1, 1 } }];
+        self.program.positions = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ -1, -1, 2, 2 }];
+        self.program.projectionMatrix = self.projectionMatrix;
+        self.program.modelViewMatrix = Matrix4Identity;
+        }
+    }
 
 - (void)render
     {
 	[super render];
 	
+    NSLog(@"DRAW BEGIN");
+
 	AssertOpenGLNoError_();
 	
-	CTexture *theTexture = NULL;
-	if (self.textureBlock != NULL)
-		{
-		theTexture = self.textureBlock();
-		}
+    CTexture *theTexture = NULL;
 
-	AssertOpenGLNoError_();
+    if (self.textureBlock != NULL)
+        {
+        theTexture = self.textureBlock();
+        }
 
-	if (theTexture != NULL)
-		{
-		#if TARGET_OS_IPHONE == 0
-		if (theTexture.target == GL_TEXTURE_RECTANGLE_ARB)
-			{
-			[self.rectangleProgram use];
-			self.rectangleProgram.texCoords = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ .size = { theTexture.size.width, theTexture.size.height } }];
-			self.rectangleProgram.positions = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ -1, -1, 2, 2 }];
-			self.rectangleProgram.texture0 = theTexture;
-			self.rectangleProgram.projectionMatrix = self.projectionMatrix;
-			[self.rectangleProgram update];
-			}
-		else
-		#endif /* TARGET_OS_IPHONE == 0 */
-			{
-			[self.program use];
-			self.program.texture0 = theTexture;
-			self.program.texCoords = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ .size = { 1, 1 } }];
-			self.program.positions = [CVertexBufferReference vertexBufferReferenceWithRect:(CGRect){ -1, -1, 2, 2 }];
-			self.program.projectionMatrix = self.projectionMatrix;
-			self.program.modelViewMatrix = Matrix4Identity;
-			[self.program update];
-			}
+	if (theTexture == NULL)
+        {
+        return;
+        }
 
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-		}
+    self.program.texture0 = theTexture;
+
+    AssertOpenGLNoError_();
+
+    [self.program update];
+
+    AssertOpenGLNoError_();
+
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+    AssertOpenGLNoError_();
+
+    NSLog(@"DRAW DONE");
 	}
 
 @end

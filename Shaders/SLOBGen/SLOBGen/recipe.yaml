@@ -2,59 +2,59 @@ bool:
     initialValue: 'NO'
     ownership: 'assign'
     propertyType: 'GLboolean'
-    setter: 'glUniform1i(${uniform.propertyName}Uniform, ${uniform.propertyName})'
+    setter: 'glUniform1i(_${uniform.propertyName}Uniform, _${uniform.propertyName})'
 float:
     initialValue: 0.0
     ownership: 'assign'
     propertyType: 'GLfloat'
-    setter: 'glUniform1f(${uniform.propertyName}Uniform, ${uniform.propertyName})'
+    setter: 'glUniform1f(_${uniform.propertyName}Uniform, _${uniform.propertyName})'
 int:
     initialValue: 0
     ownership: 'assign'
     propertyType: 'GLint'
-    setter: 'glUniform1i(${uniform.propertyName}Uniform, ${uniform.propertyName})'
+    setter: 'glUniform1i(_${uniform.propertyName}Uniform, _${uniform.propertyName})'
 mat4:
     initialValue: 'Matrix4Identity'
     ownership: 'assign'
     propertyType: 'Matrix4'
-    setter: 'glUniformMatrix4fv(${uniform.propertyName}Uniform, 1, NO, &${uniform.propertyName}.m[0][0])'
+    setter: 'glUniformMatrix4fv(_${uniform.propertyName}Uniform, 1, NO, &_${uniform.propertyName}.m[0][0])'
 sampler1D:
     initialValue: 'NULL'
     ownership: 'strong'
     propertyType: 'CTexture *'
-    setter: '[${uniform.propertyName} use:${uniform.propertyName}Uniform index:${uniform.propertyName}Index]'
+    setter: '[_${uniform.propertyName} use:_${uniform.propertyName}Uniform index:_${uniform.propertyName}Index]'
     resetter: 'glBindTexture(GL_TEXTURE_1D, 0)'
     usesTextureUnit: true
 sampler2D:
     initialValue: 'NULL'
     ownership: 'strong'
     propertyType: 'CTexture *'
-    setter: '[${uniform.propertyName} use:${uniform.propertyName}Uniform index:${uniform.propertyName}Index]'
+    setter: '[_${uniform.propertyName} use:_${uniform.propertyName}Uniform index:_${uniform.propertyName}Index]'
     resetter: 'glBindTexture(GL_TEXTURE_2D, 0)'
     usesTextureUnit: true
 sampler2DRect:
     initialValue: 'NULL'
     ownership: 'strong'
     propertyType: 'CTexture *'
-    setter: '[${uniform.propertyName} use:${uniform.propertyName}Uniform index:${uniform.propertyName}Index]'
+    setter: '[_${uniform.propertyName} use:_${uniform.propertyName}Uniform index:_${uniform.propertyName}Index]'
     usesTextureUnit: true
 vec2:
     initialValue: '(Vector2){}'
     ownership: 'assign'
     propertyType: 'Vector2'
-    setter: 'glUniform2fv(${uniform.propertyName}Uniform, 1, &${uniform.propertyName}.x)'
+    setter: 'glUniform2fv(_${uniform.propertyName}Uniform, 1, &_${uniform.propertyName}.x)'
 vec3:
     initialValue: '(Vector3){}'
     ownership: 'assign'
     propertyType: 'Vector3'
-    setter: 'glUniform3fv(${uniform.propertyName}Uniform, 1, &${uniform.propertyName}.x)'
+    setter: 'glUniform3fv(_${uniform.propertyName}Uniform, 1, &_${uniform.propertyName}.x)'
 vec4:
     initialValue: '(Vector4){}'
     ownership: 'assign'
     propertyType: 'Vector4'
-    setter: 'glUniform4fv(${uniform.propertyName}Uniform, 1, &${uniform.propertyName}.x)'
+    setter: 'glUniform4fv(_${uniform.propertyName}Uniform, 1, &_${uniform.propertyName}.x)'
 vec4/color:
     initialValue: '(Color4f){ 0.0, 0.0, 0.0, 0.0 }'
     ownership: 'assign'
     propertyType: 'Color4f'
-    setter: 'glUniform4fv(${uniform.propertyName}Uniform, 1, &${uniform.propertyName}.r)'
+    setter: 'glUniform4fv(_${uniform.propertyName}Uniform, 1, &_${uniform.propertyName}.r)'

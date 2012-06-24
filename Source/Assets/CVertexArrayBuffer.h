@@ -34,9 +34,8 @@
 #import "OpenGLTypes.h"
 #import "COpenGLAsset.h"
 
-@interface CVertexArrayBuffer : NSObject <COpenGLAsset> {
-    
-}
+/// VAO
+@interface CVertexArrayBuffer : COpenGLAsset
 
 @property (readonly, nonatomic, assign) GLuint name;
 @property (readwrite, nonatomic, assign) BOOL populated;

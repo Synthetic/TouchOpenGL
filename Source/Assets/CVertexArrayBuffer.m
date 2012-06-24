@@ -38,61 +38,57 @@
 @synthesize name;
 @synthesize populated;
 
-- (id)init
-	{
-#if TARGET_OS_IPHONE == 1
-	if ((self = [super init]) != NULL)
-		{
-		}
-	return(self);
-#else
-    self = NULL;
-    return(self);
-#endif
-	}
-
-- (void)dealloc
+- (void)invalidate
     {
-    if (name != 0)
-        {
+	if (self.named == YES)
+		{
+        AssertOpenGLNoError_();
         #if TARGET_OS_IPHONE
-        AssertOpenGLNoError_();
-        glDeleteVertexArraysOES(1, &name);
-        AssertOpenGLNoError_();
+            glDeleteVertexArraysOES(1, &name);
+        #else
+            glDeleteVertexArrays(1, &name);
         #endif /* TARGET_OS_IPHONE */
-        name = 0;
+        AssertOpenGLNoError_();
         }
+
+    [super invalidate];
     }
 
 - (GLuint)name
     {
     if (name == 0)
         {
+        AssertOpenGLNoError_();
         #if TARGET_OS_IPHONE
-        AssertOpenGLNoError_();
-        glGenVertexArraysOES(1, &name);
-        AssertOpenGLNoError_();
+            glGenVertexArraysOES(1, &name);
+        #else
+            glGenVertexArrays(1, &name);
         #endif /* TARGET_OS_IPHONE */
+        AssertOpenGLNoError_();
         }
     return(name);
     }
 
 - (void)bind
     {
+    AssertOpenGLNoError_();
     #if TARGET_OS_IPHONE
-    AssertOpenGLNoError_();
-    glBindVertexArrayOES(self.name);
-    AssertOpenGLNoError_();
+        glBindVertexArrayOES(self.name);
+    #else
+        glBindVertexArray(self.name);
     #endif /* TARGET_OS_IPHONE */
+    AssertOpenGLNoError_();
     }
 
 - (void)unbind
     {
+    AssertOpenGLNoError_();
     #if TARGET_OS_IPHONE
-    AssertOpenGLNoError_();
-    glBindVertexArrayOES(0);
-    AssertOpenGLNoError_();
+        glBindVertexArrayOES(0);
+    #else
+        glBindVertexArray(0);
     #endif /* TARGET_OS_IPHONE */
+    AssertOpenGLNoError_();
     }
 
 @end

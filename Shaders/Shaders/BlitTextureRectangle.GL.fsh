@@ -6,16 +6,16 @@
 //  Copyright 2010 toxicsoftware.com. All rights reserved.
 //
 
-#ifdef GL_ES
-precision lowp float;
-#endif
+#version 150
 
-varying vec2 v_texture0;
+in vec2 v_texture0;
 
 uniform sampler2DRect u_texture0; //@ name:texture0
 uniform vec4 u_color; //@ name:color, usage:color
 
+out vec4 FragColor;
+
 void main()
     {
-    gl_FragColor = texture2DRect(u_texture0, v_texture0) + u_color;
+    FragColor = texture(u_texture0, v_texture0) + u_color;
     }

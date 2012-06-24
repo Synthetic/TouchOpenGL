@@ -47,6 +47,15 @@
 	return(self);
 	}
 
+- (id)initWithInternalFormat:(GLenum)inInternalFormat size:(SIntSize)inSize;
+    {
+    if ((self = [self init]) != NULL)
+        {
+        [self storage:inInternalFormat size:inSize];
+        }
+    return self;
+    }
+
 - (void)dealloc
     {
     if (glIsRenderbuffer(name))

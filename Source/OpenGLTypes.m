@@ -266,8 +266,10 @@ NSString *NSStringFromGLenum(GLenum inEnum)
 			return(@"GL_TEXTURE_WRAP_T");
 		case GL_CLAMP_TO_EDGE:
 			return(@"GL_CLAMP_TO_EDGE");
-
-		
+        case GL_VERTEX_SHADER:
+            return(@"GL_VERTEX_SHADER");
+        case GL_FRAGMENT_SHADER:
+            return(@"GL_FRAGMENT_SHADER");
         }
     return([NSString stringWithFormat:@"%X", inEnum]);
     }

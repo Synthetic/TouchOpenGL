@@ -8,14 +8,19 @@
 
 #import "CAppDelegate.h"
 
+#import "COpenGLRendererView.h"
 #import "CSceneRendererView.h"
 #import "CTextureRenderer.h"
 #import "CTexture_Utilities.h"
+#import "COffscreenOpenGLContext.h"
+#import "COpenGLContext+Debugging.h"
 
 @interface CAppDelegate ()
-@property (readwrite, nonatomic, assign) IBOutlet CSceneRendererView *rendererView;
+@property (readwrite, nonatomic, assign) IBOutlet COpenGLRendererView *rendererView;
 @property (readwrite, nonatomic, strong) IBOutlet CTextureRenderer *renderer;
 @end
+
+#pragma mark -
 
 @implementation CAppDelegate
 
@@ -26,7 +31,21 @@
         CTexture *theTexture = [CTexture textureNamed:@"lena_std.tiff" error:NULL];
         return(theTexture);
         };
+
+#if 1
     self.rendererView.renderer = self.renderer;
+#else
+
+    COffscreenOpenGLContext *theContext = [[COffscreenOpenGLContext alloc] initWithSize:(SIntSize){ 1024, 1024 }];
+    [theContext dump];
+    [theContext render:self.renderer];
+
+    CTexture *theTexture = [theContext readTextureSize:theContext.size];
+
+    [theTexture writeToFile:@"/Users/schwa/Desktop/test.png"];
+    [theContext dump];
+
+#endif
     }
 
 @end
