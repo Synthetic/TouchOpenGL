@@ -41,6 +41,8 @@
 	{
 	[super setup];
 	//
+	AssertOpenGLNoError_();
+    //
 	if (self.rectangleProgram == NULL)
 		{
 		self.rectangleProgram = [[CBlitRectangleProgram alloc] init];
@@ -50,6 +52,9 @@
 		{
 		self.program = [[CBlitProgram alloc] init];
 		}
+
+
+	AssertOpenGLNoError_();
 	}
 
 - (void)render

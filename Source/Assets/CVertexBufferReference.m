@@ -112,7 +112,11 @@
     
 - (void)use:(GLuint)inAttributeIndex
     {
+    AssertOpenGLNoError_();
+
     glBindBuffer(self.vertexBuffer.target, self.vertexBuffer.name);
+
+    AssertOpenGLNoError_();
 
     glVertexAttribPointer(inAttributeIndex, self.size, self.type, self.normalized, self.stride, (const GLvoid *)self.offset);
 

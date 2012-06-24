@@ -114,12 +114,18 @@
 
 - (void)prerender
     {
+	AssertOpenGLNoError_();
+
     if (self.needsSetup == YES)
         {
         [self setup];
         }
 
+	AssertOpenGLNoError_();
+
     [self clear];
+
+	AssertOpenGLNoError_();
     }
 
 - (void)render
