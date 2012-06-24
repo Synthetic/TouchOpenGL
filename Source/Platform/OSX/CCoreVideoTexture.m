@@ -52,7 +52,7 @@
 
 	AssertOpenGLNoError_();
 
-	#warning TODO - do not assume.
+//	#warning TODO - do not assume.
 	GLenum theFormat = GL_RGBA;
 	GLenum theType = GL_UNSIGNED_BYTE;
 	

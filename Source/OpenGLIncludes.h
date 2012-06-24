@@ -33,8 +33,15 @@
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 #import <QuartzCore/QuartzCore.h>
+
+#define TOUCH_OPENGL_GL 0
+#define TOUCH_OPENGL_GLES 1
+
 #else
 #import <OpenGL/OpenGL.h>
 #include <OpenGL/gl.h>
 #include <OpenGL/glext.h>
+
+#define TOUCH_OPENGL_GL 1
+#define TOUCH_OPENGL_GLES 0
 #endif

@@ -1304,6 +1304,7 @@
 					<string key="NSFrameSize">{480, 360}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
+					<reference key="NSNextKeyView"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
@@ -3071,7 +3072,7 @@
 				<string key="371.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="371.IBWindowTemplateEditedContentRect">{{380, 496}, {480, 360}}</string>
 				<integer value="1" key="371.NSWindowTemplate.visibleAtLaunch"/>
-				<string key="372.CustomClassName">COpenGLRendererView</string>
+				<string key="372.CustomClassName">CSceneRendererView</string>
 				<string key="372.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="375.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="376.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3176,13 +3177,18 @@
 					<string key="className">CAppDelegate</string>
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="rendererView">COpenGLRendererView</string>
+						<string key="renderer">CTextureRenderer</string>
+						<string key="rendererView">CSceneRendererView</string>
 						<string key="window">NSWindow</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="renderer">
+							<string key="name">renderer</string>
+							<string key="candidateClassName">CTextureRenderer</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="rendererView">
 							<string key="name">rendererView</string>
-							<string key="candidateClassName">COpenGLRendererView</string>
+							<string key="candidateClassName">CSceneRendererView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="window">
 							<string key="name">window</string>
@@ -3195,11 +3201,35 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">COpenGLRendererView</string>
-					<string key="superclassName">NSOpenGLView</string>
+					<string key="className">CBlockRenderer</string>
+					<string key="superclassName">CSceneRenderer</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/COpenGLRendererView.h</string>
+						<string key="minorKey">./Classes/CBlockRenderer.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">CSceneRenderer</string>
+					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/CSceneRenderer.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">CSceneRendererView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/CSceneRendererView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">CTextureRenderer</string>
+					<string key="superclassName">CBlockRenderer</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/CTextureRenderer.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

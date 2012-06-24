@@ -106,6 +106,12 @@
 	
 - (CShader *)shaderNamed:(NSString *)inName error:(NSError **)outError;
 	{
+#if TOUCH_OPENGL_GL == 1
+    inName = [NSString stringWithFormat:@"%@.GL.%@", [inName stringByDeletingPathExtension], [inName pathExtension]];
+#elif TOUCH_OPENGL_GLES == 1
+    inName = [NSString stringWithFormat:@"%@.GLES.%@", [inName stringByDeletingPathExtension], [inName pathExtension]];
+#endif
+
 	NSURL *theURL = [self URLForFileNamed:inName];
 	CShader *theShader = [[CShader alloc] initWithURL:theURL error:outError];
 	return(theShader);

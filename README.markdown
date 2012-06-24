@@ -35,3 +35,9 @@ or implied, of Jonathan Wight.
 ### Automatic Reference Counting (ARC)
 
 The source code in this repository uses Automatic Reference Counting. Older, non-ARC source code may exist in a "feature/nonARC" maintenance branch.
+
+### Roadmap
+
+* Update Mac OS X code to use 3.2 profile, this will mean updating shaders to use GLSL 150.
+* Use GLKit for texture loading and math.
+* All 'assets' should be attached to a context.

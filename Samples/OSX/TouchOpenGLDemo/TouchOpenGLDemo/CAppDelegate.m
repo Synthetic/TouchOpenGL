@@ -8,12 +8,12 @@
 
 #import "CAppDelegate.h"
 
-#import "COpenGLRendererView.h"
+#import "CSceneRendererView.h"
 #import "CTextureRenderer.h"
 #import "CTexture_Utilities.h"
 
 @interface CAppDelegate ()
-@property (readwrite, nonatomic, assign) IBOutlet COpenGLRendererView *rendererView;
+@property (readwrite, nonatomic, assign) IBOutlet CSceneRendererView *rendererView;
 @property (readwrite, nonatomic, strong) IBOutlet CTextureRenderer *renderer;
 @end
 
