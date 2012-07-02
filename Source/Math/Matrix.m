@@ -40,7 +40,7 @@
 // Matrix4 code based on code from http://sunflow.sourceforge.net/
 
 const Matrix4 Matrix4Identity = {
-    .m = {
+    .mm = {
         { 1.0, 0.0, 0.0, 0.0 },
         { 0.0, 1.0, 0.0, 0.0 },
         { 0.0, 0.0, 1.0, 0.0 },
@@ -61,7 +61,7 @@ BOOL Matrix4EqualToTransform(Matrix4 a, Matrix4 b)
 Matrix4 Matrix4MakeTranslation(GLfloat tx, GLfloat ty, GLfloat tz)
     {
     const Matrix4 theMatrix = {
-        .m = {
+        .mm = {
             { 1.0, 0.0, 0.0, 0.0 },
             { 0.0, 1.0, 0.0, 0.0 },
             { 0.0, 0.0, 1.0, 0.0 },
@@ -74,7 +74,7 @@ Matrix4 Matrix4MakeTranslation(GLfloat tx, GLfloat ty, GLfloat tz)
 Matrix4 Matrix4MakeScale(GLfloat sx, GLfloat sy, GLfloat sz)
     {
     const Matrix4 theMatrix = {
-        .m = {
+        .mm = {
             { sx, 0.0, 0.0, 0.0 },
             { 0.0, sy, 0.0, 0.0 },
             { 0.0, 0.0, sz, 0.0 },
@@ -94,22 +94,22 @@ Matrix4 Matrix4MakeRotation(GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
     const GLfloat s = sin(angle);
     const GLfloat c = cos(angle);
     const GLfloat t = 1.0f - c;
-    m.m[0][0] = t * x * x + c;
-    m.m[1][1] = t * y * y + c;
-    m.m[2][2] = t * z * z + c;
+    m.mm[0][0] = t * x * x + c;
+    m.mm[1][1] = t * y * y + c;
+    m.mm[2][2] = t * z * z + c;
     const GLfloat txy = t * x * y;
     const GLfloat sz = s * z;
-    m.m[0][1] = txy - sz;
-    m.m[1][0] = txy + sz;
+    m.mm[0][1] = txy - sz;
+    m.mm[1][0] = txy + sz;
     const GLfloat txz = t * x * z;
     const GLfloat sy = s * y;
-    m.m[0][2] = txz + sy;
-    m.m[2][0] = txz - sy;
+    m.mm[0][2] = txz + sy;
+    m.mm[2][0] = txz - sy;
     const GLfloat tyz = t * y * z;
     const GLfloat sx = s * x;
-    m.m[1][2] = tyz - sx;
-    m.m[2][1] = tyz + sx;
-    m.m[3][3] = 1.0;
+    m.mm[1][2] = tyz - sx;
+    m.mm[2][1] = tyz + sx;
+    m.mm[3][3] = 1.0;
     return m;
     }
     
@@ -131,30 +131,30 @@ Matrix4 Matrix4Rotate(Matrix4 t, GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
 Matrix4 Matrix4Concat(Matrix4 LHS, Matrix4 RHS)
     {
     Matrix4 theMatrix = { 
-        .m = { 
+        .mm = {
             {
-            LHS.m[0][0] * RHS.m[0][0] + LHS.m[0][1] * RHS.m[1][0] + LHS.m[0][2] * RHS.m[2][0] + LHS.m[0][3] * RHS.m[3][0],
-            LHS.m[0][0] * RHS.m[0][1] + LHS.m[0][1] * RHS.m[1][1] + LHS.m[0][2] * RHS.m[2][1] + LHS.m[0][3] * RHS.m[3][1],
-            LHS.m[0][0] * RHS.m[0][2] + LHS.m[0][1] * RHS.m[1][2] + LHS.m[0][2] * RHS.m[2][2] + LHS.m[0][3] * RHS.m[3][2],
-            LHS.m[0][0] * RHS.m[0][3] + LHS.m[0][1] * RHS.m[1][3] + LHS.m[0][2] * RHS.m[2][3] + LHS.m[0][3] * RHS.m[3][3],
+            LHS.mm[0][0] * RHS.mm[0][0] + LHS.mm[0][1] * RHS.mm[1][0] + LHS.mm[0][2] * RHS.mm[2][0] + LHS.mm[0][3] * RHS.mm[3][0],
+            LHS.mm[0][0] * RHS.mm[0][1] + LHS.mm[0][1] * RHS.mm[1][1] + LHS.mm[0][2] * RHS.mm[2][1] + LHS.mm[0][3] * RHS.mm[3][1],
+            LHS.mm[0][0] * RHS.mm[0][2] + LHS.mm[0][1] * RHS.mm[1][2] + LHS.mm[0][2] * RHS.mm[2][2] + LHS.mm[0][3] * RHS.mm[3][2],
+            LHS.mm[0][0] * RHS.mm[0][3] + LHS.mm[0][1] * RHS.mm[1][3] + LHS.mm[0][2] * RHS.mm[2][3] + LHS.mm[0][3] * RHS.mm[3][3],
             },
             {
-            LHS.m[1][0] * RHS.m[0][0] + LHS.m[1][1] * RHS.m[1][0] + LHS.m[1][2] * RHS.m[2][0] + LHS.m[1][3] * RHS.m[3][0],
-            LHS.m[1][0] * RHS.m[0][1] + LHS.m[1][1] * RHS.m[1][1] + LHS.m[1][2] * RHS.m[2][1] + LHS.m[1][3] * RHS.m[3][1],
-            LHS.m[1][0] * RHS.m[0][2] + LHS.m[1][1] * RHS.m[1][2] + LHS.m[1][2] * RHS.m[2][2] + LHS.m[1][3] * RHS.m[3][2],
-            LHS.m[1][0] * RHS.m[0][3] + LHS.m[1][1] * RHS.m[1][3] + LHS.m[1][2] * RHS.m[2][3] + LHS.m[1][3] * RHS.m[3][3],
+            LHS.mm[1][0] * RHS.mm[0][0] + LHS.mm[1][1] * RHS.mm[1][0] + LHS.mm[1][2] * RHS.mm[2][0] + LHS.mm[1][3] * RHS.mm[3][0],
+            LHS.mm[1][0] * RHS.mm[0][1] + LHS.mm[1][1] * RHS.mm[1][1] + LHS.mm[1][2] * RHS.mm[2][1] + LHS.mm[1][3] * RHS.mm[3][1],
+            LHS.mm[1][0] * RHS.mm[0][2] + LHS.mm[1][1] * RHS.mm[1][2] + LHS.mm[1][2] * RHS.mm[2][2] + LHS.mm[1][3] * RHS.mm[3][2],
+            LHS.mm[1][0] * RHS.mm[0][3] + LHS.mm[1][1] * RHS.mm[1][3] + LHS.mm[1][2] * RHS.mm[2][3] + LHS.mm[1][3] * RHS.mm[3][3],
             },
             {
-            LHS.m[2][0] * RHS.m[0][0] + LHS.m[2][1] * RHS.m[1][0] + LHS.m[2][2] * RHS.m[2][0] + LHS.m[2][3] * RHS.m[3][0],
-            LHS.m[2][0] * RHS.m[0][1] + LHS.m[2][1] * RHS.m[1][1] + LHS.m[2][2] * RHS.m[2][1] + LHS.m[2][3] * RHS.m[3][1],
-            LHS.m[2][0] * RHS.m[0][2] + LHS.m[2][1] * RHS.m[1][2] + LHS.m[2][2] * RHS.m[2][2] + LHS.m[2][3] * RHS.m[3][2],
-            LHS.m[2][0] * RHS.m[0][3] + LHS.m[2][1] * RHS.m[1][3] + LHS.m[2][2] * RHS.m[2][3] + LHS.m[2][3] * RHS.m[3][3],
+            LHS.mm[2][0] * RHS.mm[0][0] + LHS.mm[2][1] * RHS.mm[1][0] + LHS.mm[2][2] * RHS.mm[2][0] + LHS.mm[2][3] * RHS.mm[3][0],
+            LHS.mm[2][0] * RHS.mm[0][1] + LHS.mm[2][1] * RHS.mm[1][1] + LHS.mm[2][2] * RHS.mm[2][1] + LHS.mm[2][3] * RHS.mm[3][1],
+            LHS.mm[2][0] * RHS.mm[0][2] + LHS.mm[2][1] * RHS.mm[1][2] + LHS.mm[2][2] * RHS.mm[2][2] + LHS.mm[2][3] * RHS.mm[3][2],
+            LHS.mm[2][0] * RHS.mm[0][3] + LHS.mm[2][1] * RHS.mm[1][3] + LHS.mm[2][2] * RHS.mm[2][3] + LHS.mm[2][3] * RHS.mm[3][3],
             },
             {
-            LHS.m[3][0] * RHS.m[0][0] + LHS.m[3][1] * RHS.m[1][0] + LHS.m[3][2] * RHS.m[2][0] + LHS.m[3][3] * RHS.m[3][0],
-            LHS.m[3][0] * RHS.m[0][1] + LHS.m[3][1] * RHS.m[1][1] + LHS.m[3][2] * RHS.m[2][1] + LHS.m[3][3] * RHS.m[3][1],
-            LHS.m[3][0] * RHS.m[0][2] + LHS.m[3][1] * RHS.m[1][2] + LHS.m[3][2] * RHS.m[2][2] + LHS.m[3][3] * RHS.m[3][2],
-            LHS.m[3][0] * RHS.m[0][3] + LHS.m[3][1] * RHS.m[1][3] + LHS.m[3][2] * RHS.m[2][3] + LHS.m[3][3] * RHS.m[3][3],
+            LHS.mm[3][0] * RHS.mm[0][0] + LHS.mm[3][1] * RHS.mm[1][0] + LHS.mm[3][2] * RHS.mm[2][0] + LHS.mm[3][3] * RHS.mm[3][0],
+            LHS.mm[3][0] * RHS.mm[0][1] + LHS.mm[3][1] * RHS.mm[1][1] + LHS.mm[3][2] * RHS.mm[2][1] + LHS.mm[3][3] * RHS.mm[3][1],
+            LHS.mm[3][0] * RHS.mm[0][2] + LHS.mm[3][1] * RHS.mm[1][2] + LHS.mm[3][2] * RHS.mm[2][2] + LHS.mm[3][3] * RHS.mm[3][2],
+            LHS.mm[3][0] * RHS.mm[0][3] + LHS.mm[3][1] * RHS.mm[1][3] + LHS.mm[3][2] * RHS.mm[2][3] + LHS.mm[3][3] * RHS.mm[3][3],
             },
         }
     };
@@ -182,7 +182,7 @@ Matrix4 Matrix4Concat(Matrix4 LHS, Matrix4 RHS)
 //Matrix4 Matrix4Concat(Matrix4 LHS, Matrix4 RHS)
 //    {
 //    Matrix4 theMatrix;
-//    __gluMultMatricesf(&LHS.m[0][0], &RHS.m[0][0], &theMatrix.m[0][0]);
+//    __gluMultMatricesf(&LHS.mm[0][0], &RHS.mm[0][0], &theMatrix.mm[0][0]);
 //    return(theMatrix);
 //    }
 
@@ -192,48 +192,48 @@ Matrix4 Matrix4Concat(Matrix4 LHS, Matrix4 RHS)
     
 Matrix4 Matrix4Invert(Matrix4 t)
     {
-    const GLfloat A0 = t.m[0][0] * t.m[1][1] - t.m[0][1] * t.m[1][0];
-    const GLfloat A1 = t.m[0][0] * t.m[1][2] - t.m[0][2] * t.m[1][0];
-    const GLfloat A2 = t.m[0][0] * t.m[1][3] - t.m[0][3] * t.m[1][0];
-    const GLfloat A3 = t.m[0][1] * t.m[1][2] - t.m[0][2] * t.m[1][1];
-    const GLfloat A4 = t.m[0][1] * t.m[1][3] - t.m[0][3] * t.m[1][1];
-    const GLfloat A5 = t.m[0][2] * t.m[1][3] - t.m[0][3] * t.m[1][2];
+    const GLfloat A0 = t.mm[0][0] * t.mm[1][1] - t.mm[0][1] * t.mm[1][0];
+    const GLfloat A1 = t.mm[0][0] * t.mm[1][2] - t.mm[0][2] * t.mm[1][0];
+    const GLfloat A2 = t.mm[0][0] * t.mm[1][3] - t.mm[0][3] * t.mm[1][0];
+    const GLfloat A3 = t.mm[0][1] * t.mm[1][2] - t.mm[0][2] * t.mm[1][1];
+    const GLfloat A4 = t.mm[0][1] * t.mm[1][3] - t.mm[0][3] * t.mm[1][1];
+    const GLfloat A5 = t.mm[0][2] * t.mm[1][3] - t.mm[0][3] * t.mm[1][2];
 
-    const GLfloat B0 = t.m[2][0] * t.m[3][1] - t.m[2][1] * t.m[3][0];
-    const GLfloat B1 = t.m[2][0] * t.m[3][2] - t.m[2][2] * t.m[3][0];
-    const GLfloat B2 = t.m[2][0] * t.m[3][3] - t.m[2][3] * t.m[3][0];
-    const GLfloat B3 = t.m[2][1] * t.m[3][2] - t.m[2][2] * t.m[3][1];
-    const GLfloat B4 = t.m[2][1] * t.m[3][3] - t.m[2][3] * t.m[3][1];
-    const GLfloat B5 = t.m[2][2] * t.m[3][3] - t.m[2][3] * t.m[3][2];
+    const GLfloat B0 = t.mm[2][0] * t.mm[3][1] - t.mm[2][1] * t.mm[3][0];
+    const GLfloat B1 = t.mm[2][0] * t.mm[3][2] - t.mm[2][2] * t.mm[3][0];
+    const GLfloat B2 = t.mm[2][0] * t.mm[3][3] - t.mm[2][3] * t.mm[3][0];
+    const GLfloat B3 = t.mm[2][1] * t.mm[3][2] - t.mm[2][2] * t.mm[3][1];
+    const GLfloat B4 = t.mm[2][1] * t.mm[3][3] - t.mm[2][3] * t.mm[3][1];
+    const GLfloat B5 = t.mm[2][2] * t.mm[3][3] - t.mm[2][3] * t.mm[3][2];
 
     const GLfloat det = A0 * B5 - A1 * B4 + A2 * B3 + A3 * B2 - A4 * B1 + A5 * B0;
     NSCAssert(fabs(det) >= 1e-12f, @"Not invertable");
     const GLfloat invDet = 1.0 / det;
     Matrix4 m = {
-        .m = {
+        .mm = {
             {
-            (+t.m[1][1] * B5 - t.m[1][2] * B4 + t.m[1][3] * B3) * invDet,
-            (-t.m[1][0] * B5 + t.m[1][2] * B2 - t.m[1][3] * B1) * invDet,
-            (+t.m[1][0] * B4 - t.m[1][1] * B2 + t.m[1][3] * B0) * invDet,
-            (-t.m[1][0] * B3 + t.m[1][1] * B1 - t.m[1][2] * B0) * invDet,
+            (+t.mm[1][1] * B5 - t.mm[1][2] * B4 + t.mm[1][3] * B3) * invDet,
+            (-t.mm[1][0] * B5 + t.mm[1][2] * B2 - t.mm[1][3] * B1) * invDet,
+            (+t.mm[1][0] * B4 - t.mm[1][1] * B2 + t.mm[1][3] * B0) * invDet,
+            (-t.mm[1][0] * B3 + t.mm[1][1] * B1 - t.mm[1][2] * B0) * invDet,
             },
             {
-            (-t.m[0][1] * B5 + t.m[0][2] * B4 - t.m[0][3] * B3) * invDet,
-            (+t.m[0][0] * B5 - t.m[0][2] * B2 + t.m[0][3] * B1) * invDet,
-            (-t.m[0][0] * B4 + t.m[0][1] * B2 - t.m[0][3] * B0) * invDet,
-            (+t.m[0][0] * B3 - t.m[0][1] * B1 + t.m[0][2] * B0) * invDet,
+            (-t.mm[0][1] * B5 + t.mm[0][2] * B4 - t.mm[0][3] * B3) * invDet,
+            (+t.mm[0][0] * B5 - t.mm[0][2] * B2 + t.mm[0][3] * B1) * invDet,
+            (-t.mm[0][0] * B4 + t.mm[0][1] * B2 - t.mm[0][3] * B0) * invDet,
+            (+t.mm[0][0] * B3 - t.mm[0][1] * B1 + t.mm[0][2] * B0) * invDet,
             },
             {
-            (+t.m[3][1] * A5 - t.m[3][2] * A4 + t.m[3][3] * A3) * invDet,
-            (-t.m[3][0] * A5 + t.m[3][2] * A2 - t.m[3][3] * A1) * invDet,
-            (+t.m[3][0] * A4 - t.m[3][1] * A2 + t.m[3][3] * A0) * invDet,
-            (-t.m[3][0] * A3 + t.m[3][1] * A1 - t.m[3][2] * A0) * invDet,
+            (+t.mm[3][1] * A5 - t.mm[3][2] * A4 + t.mm[3][3] * A3) * invDet,
+            (-t.mm[3][0] * A5 + t.mm[3][2] * A2 - t.mm[3][3] * A1) * invDet,
+            (+t.mm[3][0] * A4 - t.mm[3][1] * A2 + t.mm[3][3] * A0) * invDet,
+            (-t.mm[3][0] * A3 + t.mm[3][1] * A1 - t.mm[3][2] * A0) * invDet,
             },
             {
-            (-t.m[2][1] * A5 + t.m[2][2] * A4 - t.m[2][3] * A3) * invDet,
-            (+t.m[2][0] * A5 - t.m[2][2] * A2 + t.m[2][3] * A1) * invDet,
-            (-t.m[2][0] * A4 + t.m[2][1] * A2 - t.m[2][3] * A0) * invDet,
-            (+t.m[2][0] * A3 - t.m[2][1] * A1 + t.m[2][2] * A0) * invDet,
+            (-t.mm[2][1] * A5 + t.mm[2][2] * A4 - t.mm[2][3] * A3) * invDet,
+            (+t.mm[2][0] * A5 - t.mm[2][2] * A2 + t.mm[2][3] * A1) * invDet,
+            (-t.mm[2][0] * A4 + t.mm[2][1] * A2 - t.mm[2][3] * A0) * invDet,
+            (+t.mm[2][0] * A3 - t.mm[2][1] * A1 + t.mm[2][2] * A0) * invDet,
             },
             }
         };
@@ -247,7 +247,7 @@ Matrix4 Matrix4Transpose(Matrix4 t)
         {
         for (int Y = 0; Y != 4; ++Y)
             {
-            m.m[X][Y] = t.m[Y][X];
+            m.mm[X][Y] = t.mm[Y][X];
             }
         }
     return(m);
@@ -256,10 +256,10 @@ Matrix4 Matrix4Transpose(Matrix4 t)
 NSString *NSStringFromMatrix4(Matrix4 t)
     {
     return([NSString stringWithFormat:@"{ %g, %g, %g, %g,\n%g, %g, %g, %g,\n%g, %g, %g, %g,\n%g, %g, %g, %g }",
-        t.m[0][0], t.m[0][1], t.m[0][2], t.m[0][3],
-        t.m[1][0], t.m[1][1], t.m[1][2], t.m[1][3],
-        t.m[2][0], t.m[2][1], t.m[2][2], t.m[2][3],
-        t.m[3][0], t.m[3][1], t.m[3][2], t.m[3][3]]);
+        t.mm[0][0], t.mm[0][1], t.mm[0][2], t.mm[0][3],
+        t.mm[1][0], t.mm[1][1], t.mm[1][2], t.mm[1][3],
+        t.mm[2][0], t.mm[2][1], t.mm[2][2], t.mm[2][3],
+        t.mm[3][0], t.mm[3][1], t.mm[3][2], t.mm[3][3]]);
     }
 
 Matrix4 Matrix4FromPropertyListRepresentation(id inPropertyListRepresentation)
@@ -272,25 +272,25 @@ Matrix4 Matrix4FromPropertyListRepresentation(id inPropertyListRepresentation)
 		}
 	else if ([inPropertyListRepresentation isKindOfClass:[NSArray class]])
 		{
-		theMatrix.m[0][0] = [[[inPropertyListRepresentation objectAtIndex:0] objectAtIndex:0] doubleValue];
-		theMatrix.m[0][1] = [[[inPropertyListRepresentation objectAtIndex:0] objectAtIndex:1] doubleValue];
-		theMatrix.m[0][2] = [[[inPropertyListRepresentation objectAtIndex:0] objectAtIndex:2] doubleValue];
-		theMatrix.m[0][3] = [[[inPropertyListRepresentation objectAtIndex:0] objectAtIndex:3] doubleValue];
+		theMatrix.mm[0][0] = [[[inPropertyListRepresentation objectAtIndex:0] objectAtIndex:0] doubleValue];
+		theMatrix.mm[0][1] = [[[inPropertyListRepresentation objectAtIndex:0] objectAtIndex:1] doubleValue];
+		theMatrix.mm[0][2] = [[[inPropertyListRepresentation objectAtIndex:0] objectAtIndex:2] doubleValue];
+		theMatrix.mm[0][3] = [[[inPropertyListRepresentation objectAtIndex:0] objectAtIndex:3] doubleValue];
 
-		theMatrix.m[1][0] = [[[inPropertyListRepresentation objectAtIndex:1] objectAtIndex:0] doubleValue];
-		theMatrix.m[1][1] = [[[inPropertyListRepresentation objectAtIndex:1] objectAtIndex:1] doubleValue];
-		theMatrix.m[1][2] = [[[inPropertyListRepresentation objectAtIndex:1] objectAtIndex:2] doubleValue];
-		theMatrix.m[1][3] = [[[inPropertyListRepresentation objectAtIndex:1] objectAtIndex:3] doubleValue];
+		theMatrix.mm[1][0] = [[[inPropertyListRepresentation objectAtIndex:1] objectAtIndex:0] doubleValue];
+		theMatrix.mm[1][1] = [[[inPropertyListRepresentation objectAtIndex:1] objectAtIndex:1] doubleValue];
+		theMatrix.mm[1][2] = [[[inPropertyListRepresentation objectAtIndex:1] objectAtIndex:2] doubleValue];
+		theMatrix.mm[1][3] = [[[inPropertyListRepresentation objectAtIndex:1] objectAtIndex:3] doubleValue];
 
-		theMatrix.m[2][0] = [[[inPropertyListRepresentation objectAtIndex:2] objectAtIndex:0] doubleValue];
-		theMatrix.m[2][1] = [[[inPropertyListRepresentation objectAtIndex:2] objectAtIndex:1] doubleValue];
-		theMatrix.m[2][2] = [[[inPropertyListRepresentation objectAtIndex:2] objectAtIndex:2] doubleValue];
-		theMatrix.m[2][3] = [[[inPropertyListRepresentation objectAtIndex:2] objectAtIndex:3] doubleValue];
+		theMatrix.mm[2][0] = [[[inPropertyListRepresentation objectAtIndex:2] objectAtIndex:0] doubleValue];
+		theMatrix.mm[2][1] = [[[inPropertyListRepresentation objectAtIndex:2] objectAtIndex:1] doubleValue];
+		theMatrix.mm[2][2] = [[[inPropertyListRepresentation objectAtIndex:2] objectAtIndex:2] doubleValue];
+		theMatrix.mm[2][3] = [[[inPropertyListRepresentation objectAtIndex:2] objectAtIndex:3] doubleValue];
 
-		theMatrix.m[3][0] = [[[inPropertyListRepresentation objectAtIndex:3] objectAtIndex:0] doubleValue];
-		theMatrix.m[3][1] = [[[inPropertyListRepresentation objectAtIndex:3] objectAtIndex:1] doubleValue];
-		theMatrix.m[3][2] = [[[inPropertyListRepresentation objectAtIndex:3] objectAtIndex:2] doubleValue];
-		theMatrix.m[3][3] = [[[inPropertyListRepresentation objectAtIndex:3] objectAtIndex:3] doubleValue];
+		theMatrix.mm[3][0] = [[[inPropertyListRepresentation objectAtIndex:3] objectAtIndex:0] doubleValue];
+		theMatrix.mm[3][1] = [[[inPropertyListRepresentation objectAtIndex:3] objectAtIndex:1] doubleValue];
+		theMatrix.mm[3][2] = [[[inPropertyListRepresentation objectAtIndex:3] objectAtIndex:2] doubleValue];
+		theMatrix.mm[3][3] = [[[inPropertyListRepresentation objectAtIndex:3] objectAtIndex:3] doubleValue];
 		}
 
 	return(theMatrix);
@@ -318,7 +318,7 @@ Matrix4 Matrix4FromPropertyListRepresentation(id inPropertyListRepresentation)
 //
 //    Matrix4 theMatrix;
 //
-//    float *m = &theMatrix.m[0][0];
+//    float *m = &theMatrix.mm[0][0];
 //  m[0]  = w;
 //  m[1]  = 0;
 //  m[2]  = 0;
@@ -357,12 +357,12 @@ Matrix4 Matrix4Perspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat 
         }
     cotangent = cos(radians) / sine;
 
-    m.m[0][0] = cotangent / aspect;
-    m.m[1][1] = cotangent;
-    m.m[2][2] = -(zFar + zNear) / deltaZ;
-    m.m[2][3] = -1;
-    m.m[3][2] = -2 * zNear * zFar / deltaZ;
-    m.m[3][3] = 0;
+    m.mm[0][0] = cotangent / aspect;
+    m.mm[1][1] = cotangent;
+    m.mm[2][2] = -(zFar + zNear) / deltaZ;
+    m.mm[2][3] = -1;
+    m.mm[3][2] = -2 * zNear * zFar / deltaZ;
+    m.mm[3][3] = 0;
     return(m);
     }
 
@@ -377,12 +377,12 @@ Matrix4 Matrix4Ortho(float left, float right, float bottom, float top, float nea
     if ( (deltaX == 0.0f) || (deltaY == 0.0f) || (deltaZ == 0.0f) )
         return(ortho);
 
-    ortho.m[0][0] = 2.0f / deltaX;
-    ortho.m[3][0] = -(right + left) / deltaX;
-    ortho.m[1][1] = 2.0f / deltaY;
-    ortho.m[3][1] = -(top + bottom) / deltaY;
-    ortho.m[2][2] = -2.0f / deltaZ;
-    ortho.m[3][2] = -(nearZ + farZ) / deltaZ;
+    ortho.mm[0][0] = 2.0f / deltaX;
+    ortho.mm[3][0] = -(right + left) / deltaX;
+    ortho.mm[1][1] = 2.0f / deltaY;
+    ortho.mm[3][1] = -(top + bottom) / deltaY;
+    ortho.mm[2][2] = -2.0f / deltaZ;
+    ortho.mm[3][2] = -(nearZ + farZ) / deltaZ;
 
     
     return(ortho);
@@ -405,12 +405,12 @@ Matrix4 Matrix4WithNSValue(NSValue *inValue)
 extern CGAffineTransform CGAffineTransformFromMatrix4(Matrix4 inMatrix)
     {
     CGAffineTransform theTransform = {
-        .a = inMatrix.m[0][0],
-        .b = inMatrix.m[1][0],
-        .c = inMatrix.m[0][1],
-        .d = inMatrix.m[1][1],
-        .tx = inMatrix.m[3][0],
-        .ty = inMatrix.m[3][1],
+        .a = inMatrix.mm[0][0],
+        .b = inMatrix.mm[1][0],
+        .c = inMatrix.mm[0][1],
+        .d = inMatrix.mm[1][1],
+        .tx = inMatrix.mm[3][0],
+        .ty = inMatrix.mm[3][1],
         };
     return(theTransform);
     }

@@ -33,14 +33,12 @@
 #import "OpenGLIncludes.h"
 
 typedef struct Matrix4 {
-    GLfloat m[4][4];
+    GLfloat mm[4][4];
 } Matrix4;
 
 typedef struct Matrix3 {
-    GLfloat m[3][3];
+    GLfloat mm[3][3];
 } Matrix3;
-
-
 
 extern const Matrix4 Matrix4Identity;
 

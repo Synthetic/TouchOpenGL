@@ -120,7 +120,7 @@
         _modelViewMatrixUniform = glGetUniformLocation(self.name, "u_modelViewMatrix");
         }
 
-    glUniformMatrix4fv(_modelViewMatrixUniform, 1, NO, &_modelViewMatrix.m[0][0]);
+    glUniformMatrix4fv(_modelViewMatrixUniform, 1, NO, &_modelViewMatrix.mm[0][0]);
     AssertOpenGLNoError_();
 
     // projectionMatrix
@@ -129,7 +129,7 @@
         _projectionMatrixUniform = glGetUniformLocation(self.name, "u_projectionMatrix");
         }
 
-    glUniformMatrix4fv(_projectionMatrixUniform, 1, NO, &_projectionMatrix.m[0][0]);
+    glUniformMatrix4fv(_projectionMatrixUniform, 1, NO, &_projectionMatrix.mm[0][0]);
     AssertOpenGLNoError_();
 
 
