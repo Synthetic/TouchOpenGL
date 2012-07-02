@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		45354F6A15A2563C004C6BDB /* Vector.m in Sources */ = {isa = PBXBuildFile; fileRef = 45354F6915A2563C004C6BDB /* Vector.m */; };
 		45B7C87C15966055002F70F8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B7C87B15966055002F70F8 /* Cocoa.framework */; };
 		45B7C88615966055002F70F8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 45B7C88415966055002F70F8 /* InfoPlist.strings */; };
 		45B7C88815966055002F70F8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B7C88715966055002F70F8 /* main.m */; };
@@ -57,6 +58,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		45354F6815A2563C004C6BDB /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
+		45354F6915A2563C004C6BDB /* Vector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector.m; sourceTree = "<group>"; };
 		45B7C87715966055002F70F8 /* TouchOpenGLDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TouchOpenGLDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45B7C87B15966055002F70F8 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		45B7C87E15966055002F70F8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -327,6 +330,8 @@
 				45D694C9159660680095B9A0 /* Matrix.m */,
 				45D694CA159660680095B9A0 /* Quaternion.h */,
 				45D694CB159660680095B9A0 /* Quaternion.m */,
+				45354F6815A2563C004C6BDB /* Vector.h */,
+				45354F6915A2563C004C6BDB /* Vector.m */,
 			);
 			path = Math;
 			sourceTree = "<group>";
@@ -507,6 +512,7 @@
 				45D49E781597C0110064F2DB /* CDumper.m in Sources */,
 				45FF13D6159CD0920041B22D /* COffscreenOpenGLContext.m in Sources */,
 				45FF13DE159CF9D60041B22D /* COpenGLContext+Debugging.m in Sources */,
+				45354F6A15A2563C004C6BDB /* Vector.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
