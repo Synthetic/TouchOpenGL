@@ -3,7 +3,7 @@
 //  TouchOpenGL
 //
 //  Created by Jonathan Wight on 1/1/2000.
-//  Copyright 2011 toxicsoftware.com. All rights reserved.
+//  Copyright 2012 Jonathan Wight. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without modification, are
 //  permitted provided that the following conditions are met:
@@ -27,7 +27,7 @@
 //
 //  The views and conclusions contained in the software and documentation are those of the
 //  authors and should not be interpreted as representing official policies, either expressed
-//  or implied, of toxicsoftware.com.
+//  or implied, of Jonathan Wight.
 
 #import "Matrix.h"
 
