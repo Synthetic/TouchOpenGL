@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		45354F6A15A2563C004C6BDB /* Vector.m in Sources */ = {isa = PBXBuildFile; fileRef = 45354F6915A2563C004C6BDB /* Vector.m */; };
+		45354F6D15A259B7004C6BDB /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45354F6C15A259B7004C6BDB /* GLKit.framework */; };
+		457F693815A394B400321DE1 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457F693715A394B400321DE1 /* SenTestingKit.framework */; };
+		457F693915A394B400321DE1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B7C87B15966055002F70F8 /* Cocoa.framework */; };
+		457F693F15A394B400321DE1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 457F693D15A394B400321DE1 /* InfoPlist.strings */; };
+		457F694215A394B400321DE1 /* UnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 457F694115A394B400321DE1 /* UnitTests.m */; };
 		45B7C87C15966055002F70F8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B7C87B15966055002F70F8 /* Cocoa.framework */; };
 		45B7C88615966055002F70F8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 45B7C88415966055002F70F8 /* InfoPlist.strings */; };
 		45B7C88815966055002F70F8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B7C88715966055002F70F8 /* main.m */; };
@@ -60,6 +65,14 @@
 /* Begin PBXFileReference section */
 		45354F6815A2563C004C6BDB /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
 		45354F6915A2563C004C6BDB /* Vector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector.m; sourceTree = "<group>"; };
+		45354F6C15A259B7004C6BDB /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		457F693615A394B400321DE1 /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		457F693715A394B400321DE1 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		457F693C15A394B400321DE1 /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
+		457F693E15A394B400321DE1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		457F694015A394B400321DE1 /* UnitTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnitTests.h; sourceTree = "<group>"; };
+		457F694115A394B400321DE1 /* UnitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnitTests.m; sourceTree = "<group>"; };
+		457F694315A394B400321DE1 /* UnitTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UnitTests-Prefix.pch"; sourceTree = "<group>"; };
 		45B7C87715966055002F70F8 /* TouchOpenGLDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TouchOpenGLDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45B7C87B15966055002F70F8 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		45B7C87E15966055002F70F8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -155,10 +168,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		457F693215A394B400321DE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				457F693815A394B400321DE1 /* SenTestingKit.framework in Frameworks */,
+				457F693915A394B400321DE1 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		45B7C87415966055002F70F8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45354F6D15A259B7004C6BDB /* GLKit.framework in Frameworks */,
 				45D695BA159660730095B9A0 /* QuartzCore.framework in Frameworks */,
 				45D695B8159660700095B9A0 /* OpenGL.framework in Frameworks */,
 				45B7C87C15966055002F70F8 /* Cocoa.framework in Frameworks */,
@@ -168,11 +191,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		457F693A15A394B400321DE1 /* UnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				457F694015A394B400321DE1 /* UnitTests.h */,
+				457F694115A394B400321DE1 /* UnitTests.m */,
+				457F693B15A394B400321DE1 /* Supporting Files */,
+			);
+			path = UnitTests;
+			sourceTree = "<group>";
+		};
+		457F693B15A394B400321DE1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				457F693C15A394B400321DE1 /* UnitTests-Info.plist */,
+				457F693D15A394B400321DE1 /* InfoPlist.strings */,
+				457F694315A394B400321DE1 /* UnitTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		45B7C86C15966055002F70F8 = {
 			isa = PBXGroup;
 			children = (
 				45B7C88115966055002F70F8 /* TouchOpenGLDemo */,
 				45D693D4159660680095B9A0 /* TouchOpenGL */,
+				457F693A15A394B400321DE1 /* UnitTests */,
 				45B7C87A15966055002F70F8 /* Frameworks */,
 				45B7C87815966055002F70F8 /* Products */,
 			);
@@ -182,6 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				45B7C87715966055002F70F8 /* TouchOpenGLDemo.app */,
+				457F693615A394B400321DE1 /* UnitTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -189,9 +234,11 @@
 		45B7C87A15966055002F70F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				45354F6C15A259B7004C6BDB /* GLKit.framework */,
 				45D695B9159660730095B9A0 /* QuartzCore.framework */,
 				45D695B7159660700095B9A0 /* OpenGL.framework */,
 				45B7C87B15966055002F70F8 /* Cocoa.framework */,
+				457F693715A394B400321DE1 /* SenTestingKit.framework */,
 				45B7C87D15966055002F70F8 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -409,6 +456,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		457F693515A394B400321DE1 /* UnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 457F694615A394B400321DE1 /* Build configuration list for PBXNativeTarget "UnitTests" */;
+			buildPhases = (
+				457F693115A394B400321DE1 /* Sources */,
+				457F693215A394B400321DE1 /* Frameworks */,
+				457F693315A394B400321DE1 /* Resources */,
+				457F693415A394B400321DE1 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UnitTests;
+			productName = UnitTests;
+			productReference = 457F693615A394B400321DE1 /* UnitTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 		45B7C87615966055002F70F8 /* TouchOpenGLDemo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 45B7C89515966055002F70F8 /* Build configuration list for PBXNativeTarget "TouchOpenGLDemo" */;
@@ -449,11 +514,20 @@
 			projectRoot = "";
 			targets = (
 				45B7C87615966055002F70F8 /* TouchOpenGLDemo */,
+				457F693515A394B400321DE1 /* UnitTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		457F693315A394B400321DE1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				457F693F15A394B400321DE1 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		45B7C87515966055002F70F8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -468,7 +542,31 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		457F693415A394B400321DE1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		457F693115A394B400321DE1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				457F694215A394B400321DE1 /* UnitTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		45B7C87315966055002F70F8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -519,6 +617,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		457F693D15A394B400321DE1 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				457F693E15A394B400321DE1 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		45B7C88415966055002F70F8 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -546,6 +652,32 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		457F694415A394B400321DE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
+				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		457F694515A394B400321DE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
+				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 		45B7C89315966055002F70F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -624,6 +756,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		457F694615A394B400321DE1 /* Build configuration list for PBXNativeTarget "UnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				457F694415A394B400321DE1 /* Debug */,
+				457F694515A394B400321DE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		45B7C87115966055002F70F8 /* Build configuration list for PBXProject "TouchOpenGLDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
