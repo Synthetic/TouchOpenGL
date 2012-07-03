@@ -33,8 +33,7 @@
 #import "OpenGLIncludes.h"
 
 typedef union Matrix4 {
-    struct
-    {
+    struct {
         GLfloat m00, m01, m02, m03;
         GLfloat m10, m11, m12, m13;
         GLfloat m20, m21, m22, m23;
@@ -44,10 +43,8 @@ typedef union Matrix4 {
     GLfloat mm[4][4];
 } Matrix4;
 
-typedef union Matrix3
-{
-    struct
-    {
+typedef union Matrix3 {
+    struct {
         GLfloat m00, m01, m02;
         GLfloat m10, m11, m12;
         GLfloat m20, m21, m22;
@@ -55,7 +52,6 @@ typedef union Matrix3
     GLfloat m[9];
     GLfloat mm[3][3];
 } Matrix3;
-
 
 extern const Matrix4 Matrix4Identity;
 
