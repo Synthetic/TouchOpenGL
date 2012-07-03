@@ -10,15 +10,23 @@
 #import "OpenGLIncludes.h"
 
 typedef struct Vector2 {
-    GLfloat x, y;
+    struct { GLfloat x, y; };
+    struct { GLfloat s, t; };
+    GLfloat v[2];
     } Vector2;
 
 typedef struct Vector3 {
-    GLfloat x, y, z;
+    struct { GLfloat x, y, z; };
+    struct { GLfloat r, g, b; };
+    struct { GLfloat s, t, p; };
+    GLfloat v[3];
     } Vector3;
 
 typedef struct Vector4 {
-    GLfloat x, y, z, w;
+    struct { GLfloat x, y, z, w; };
+    struct { GLfloat r, g, b, a; };
+    struct { GLfloat s, t, p, q; };
+    GLfloat v[4];
     } Vector4;
 
 typedef struct Color4ub {
