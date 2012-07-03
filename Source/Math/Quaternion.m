@@ -45,7 +45,7 @@ Quaternion QuaternionIdentity = { .x = 0.0, .y = 0.0, .z = 0.0, .w = 1.0 };
 
 Quaternion QuaternionNormalize(Quaternion q);
 
-Quaternion QuaternionSetAxisAngle(Vector3 inAxis, GLfloat inAngle)
+Quaternion QuaternionSetAxisAngle(Vector3f inAxis, GLfloat inAngle)
     {
     const GLfloat l_sin = sin(inAngle * 0.5);
     const GLfloat l_cos = cos(inAngle * 0.5);
@@ -134,7 +134,7 @@ Quaternion QuaternionMultiply(Quaternion inLHS, Quaternion inRHS)
     return(theResult);
     }
 
-Matrix4 Matrix4FromQuaternion(Quaternion q)
+Matrix4f Matrix4FromQuaternion(Quaternion q)
     {
     const GLfloat xx = q.x * q.x;
     const GLfloat xy = q.x * q.y;
@@ -146,7 +146,7 @@ Matrix4 Matrix4FromQuaternion(Quaternion q)
     const GLfloat zz = q.z * q.z;
     const GLfloat zw = q.z * q.w;
 
-    Matrix4 theMatrix = {
+    Matrix4f theMatrix = {
         .mm[0][0] = 1.0 - 2.0 * (yy + zz),
         .mm[0][1] = 2.0 * (xy - zw),
         .mm[0][2] = 2.0 * (xz + yw),
@@ -172,20 +172,20 @@ extern NSString *NSStringFromQuaternion(Quaternion q)
     return([NSString stringWithFormat:@"(%g, %g, %g, %g)", q.x, q.y, q.z, q.w]);
     }
 
-extern Quaternion QuaternionConstrainedToAxis(Quaternion q, Vector3 axis)
+extern Quaternion QuaternionConstrainedToAxis(Quaternion q, Vector3f axis)
 {
     if ((axis.x == 0.0f && axis.y == 0.0f && axis.z == 0.0f) || (q.x == 0.0f && q.y == 0.0f && q.z == 0.0f)) {
         return q;
     }
 
-    Vector3 curl;
+    Vector3f curl;
     curl.x = q.x;
     curl.y = q.y;
     curl.z = q.z;
-    curl = Vector3Normalize(curl);
+    curl = Vector3fNormalize(curl);
 
-    axis = Vector3Normalize(axis);
-    GLfloat dot = Vector3DotProduct(axis, curl);
+    axis = Vector3fNormalize(axis);
+    GLfloat dot = Vector3fDotProduct(axis, curl);
     Quaternion r;
     if (dot != 0.0f) {
         GLfloat angle = 2.0f * acosf(q.w);

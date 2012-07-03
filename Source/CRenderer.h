@@ -40,7 +40,7 @@
 
 @property (readwrite, nonatomic, assign) CGSize size;
 @property (readwrite, nonatomic, assign) Color4f clearColor;
-@property (readwrite, nonatomic, assign) Matrix4 projectionTransform;
+@property (readwrite, nonatomic, assign) Matrix4f projectionTransform;
 @property (readwrite, nonatomic, strong) COpenGLContext *context;
 @property (readonly, nonatomic, assign) double frameRate;
 

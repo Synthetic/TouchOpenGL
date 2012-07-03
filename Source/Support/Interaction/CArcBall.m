@@ -38,12 +38,12 @@
 
 static GLfloat Epsilon = 1.0e-5f;
 
-static Vector3 MapToSphere(CGPoint inPoint);
+static Vector3f MapToSphere(CGPoint inPoint);
 
 @interface CArcBall ()
 
-@property (readwrite, nonatomic, assign) Vector3 startVector;          //Saved click vector
-@property (readwrite, nonatomic, assign) Vector3 endVector;          //Saved drag vector
+@property (readwrite, nonatomic, assign) Vector3f startVector;          //Saved click vector
+@property (readwrite, nonatomic, assign) Vector3f endVector;          //Saved drag vector
 @property (readwrite, nonatomic, assign) Quaternion rotation;          //Saved drag vector
 
 @end
@@ -65,7 +65,7 @@ static Vector3 MapToSphere(CGPoint inPoint);
 	return(self);
 	}
 
-- (Matrix4)rotationMatrix
+- (Matrix4f)rotationMatrix
     {
     return(Matrix4FromQuaternion(self.rotation));
     }
@@ -85,17 +85,17 @@ static Vector3 MapToSphere(CGPoint inPoint);
     // Map the point to the sphere
     self.endVector = MapToSphere(inPoint);
 
-    Vector3 Perp = Vector3CrossProduct(self.startVector, self.endVector);
+    Vector3f Perp = Vector3fCrossProduct(self.startVector, self.endVector);
 
     // Compute the length of the perpendicular vector
-    if (Vector3Length(Perp) > Epsilon)    //if its non-zero
+    if (Vector3fLength(Perp) > Epsilon)    //if its non-zero
         {
         // We're ok, so return the perpendicular vector as the transform after all
         theRotation.x = Perp.x;
         theRotation.y = Perp.y;
         theRotation.z = Perp.z;
         // In the quaternion values, w is cosine (theta / 2), where theta is rotation angle
-        theRotation.w = Vector3DotProduct(self.startVector, self.endVector);
+        theRotation.w = Vector3fDotProduct(self.startVector, self.endVector);
         }
     else                                    //if its zero
         {
@@ -108,12 +108,12 @@ static Vector3 MapToSphere(CGPoint inPoint);
 
 @end
 
-static Vector3 MapToSphere(CGPoint inPoint)
+static Vector3f MapToSphere(CGPoint inPoint)
     {
     // Compute the square of the length of the vector to the point from the center
     const GLfloat theLength = (inPoint.x * inPoint.x) + (inPoint.y * inPoint.y);
 
-    Vector3 theVector;
+    Vector3f theVector;
 
     // If the point is mapped outside of the sphere... (length > radius squared)
     if (theLength > 1.0f)

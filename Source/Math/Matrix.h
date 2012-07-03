@@ -32,7 +32,7 @@
 
 #import "OpenGLIncludes.h"
 
-typedef union Matrix4 {
+typedef union Matrix4f {
     struct {
         GLfloat m00, m01, m02, m03;
         GLfloat m10, m11, m12, m13;
@@ -41,9 +41,9 @@ typedef union Matrix4 {
     };
     GLfloat m[16];
     GLfloat mm[4][4];
-} Matrix4;
+} Matrix4f;
 
-typedef union Matrix3 {
+typedef union Matrix3f {
     struct {
         GLfloat m00, m01, m02;
         GLfloat m10, m11, m12;
@@ -51,29 +51,29 @@ typedef union Matrix3 {
     };
     GLfloat m[9];
     GLfloat mm[3][3];
-} Matrix3;
+} Matrix3f;
 
-extern const Matrix4 Matrix4Identity;
+extern const Matrix4f Matrix4Identity;
 
-extern BOOL Matrix4IsIdentity(Matrix4 t);
-extern BOOL Matrix4EqualToTransform(Matrix4 a, Matrix4 b);
-extern Matrix4 Matrix4MakeTranslation(GLfloat tx, GLfloat ty, GLfloat tz);
-extern Matrix4 Matrix4MakeScale(GLfloat sx, GLfloat sy, GLfloat sz);
-extern Matrix4 Matrix4MakeRotation(GLfloat angle, GLfloat x, GLfloat y, GLfloat z);
-extern Matrix4 Matrix4Translate(Matrix4 t, GLfloat tx, GLfloat ty, GLfloat tz);
-extern Matrix4 Matrix4Scale(Matrix4 t, GLfloat sx, GLfloat sy, GLfloat sz);
-extern Matrix4 Matrix4Rotate(Matrix4 t, GLfloat angle, GLfloat x, GLfloat y, GLfloat z);
-extern Matrix4 Matrix4Concat(Matrix4 a, Matrix4 b);
-extern Matrix4 Matrix4Invert(Matrix4 t);
-extern Matrix4 Matrix4Transpose(Matrix4 t);
-extern NSString *NSStringFromMatrix4(Matrix4 t);
+extern BOOL Matrix4IsIdentity(Matrix4f t);
+extern BOOL Matrix4EqualToTransform(Matrix4f a, Matrix4f b);
+extern Matrix4f Matrix4MakeTranslation(GLfloat tx, GLfloat ty, GLfloat tz);
+extern Matrix4f Matrix4MakeScale(GLfloat sx, GLfloat sy, GLfloat sz);
+extern Matrix4f Matrix4MakeRotation(GLfloat angle, GLfloat x, GLfloat y, GLfloat z);
+extern Matrix4f Matrix4Translate(Matrix4f t, GLfloat tx, GLfloat ty, GLfloat tz);
+extern Matrix4f Matrix4Scale(Matrix4f t, GLfloat sx, GLfloat sy, GLfloat sz);
+extern Matrix4f Matrix4Rotate(Matrix4f t, GLfloat angle, GLfloat x, GLfloat y, GLfloat z);
+extern Matrix4f Matrix4Concat(Matrix4f a, Matrix4f b);
+extern Matrix4f Matrix4Invert(Matrix4f t);
+extern Matrix4f Matrix4Transpose(Matrix4f t);
+extern NSString *NSStringFromMatrix4(Matrix4f t);
 
-extern Matrix4 Matrix4FromPropertyListRepresentation(id inPropertyListRepresentation);
+extern Matrix4f Matrix4FromPropertyListRepresentation(id inPropertyListRepresentation);
 
-extern Matrix4 Matrix4Perspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat zFar);
-extern Matrix4 Matrix4Ortho(float left, float right, float bottom, float top, float nearZ, float farZ);
+extern Matrix4f Matrix4Perspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat zFar);
+extern Matrix4f Matrix4Ortho(float left, float right, float bottom, float top, float nearZ, float farZ);
 
-extern NSValue *NSValueWithMatrix4(Matrix4 inM4);
-Matrix4 Matrix4WithNSValue(NSValue *inValue);
+extern NSValue *NSValueWithMatrix4(Matrix4f inM4);
+Matrix4f Matrix4WithNSValue(NSValue *inValue);
 
-extern CGAffineTransform CGAffineTransformFromMatrix4(Matrix4 inMatrix);
+extern CGAffineTransform CGAffineTransformFromMatrix4(Matrix4f inMatrix);

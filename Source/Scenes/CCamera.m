@@ -69,9 +69,9 @@
 - (void)update
     {
 #if USE_PERSPECTIVE
-    Vector4 theCameraVector = self.position;
-    Matrix4 theCameraTransform = Matrix4MakeTranslation(theCameraVector.x, theCameraVector.y, theCameraVector.z);
-    Matrix4 theProjectionTransform = Matrix4Perspective(90, theAspectRatio, 0.1, 100);
+    Vector4f theCameraVector = self.position;
+    Matrix4f theCameraTransform = Matrix4MakeTranslation(theCameraVector.x, theCameraVector.y, theCameraVector.z);
+    Matrix4f theProjectionTransform = Matrix4Perspective(90, theAspectRatio, 0.1, 100);
     self.transform = Matrix4Concat(theCameraTransform, theProjectionTransform);
 #else
     self.transform = Matrix4Ortho(-self.xSize, self.xSize, -self.ySize, self.ySize, -self.zSize, self.zSize);

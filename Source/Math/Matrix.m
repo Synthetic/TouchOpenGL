@@ -37,9 +37,9 @@
 
 #include <tgmath.h>
 
-// Matrix4 code based on code from http://sunflow.sourceforge.net/
+// Matrix4f code based on code from http://sunflow.sourceforge.net/
 
-const Matrix4 Matrix4Identity = {
+const Matrix4f Matrix4Identity = {
     .mm = {
         { 1.0, 0.0, 0.0, 0.0 },
         { 0.0, 1.0, 0.0, 0.0 },
@@ -48,19 +48,19 @@ const Matrix4 Matrix4Identity = {
         }
     };
 
-BOOL Matrix4IsIdentity(Matrix4 t)
+BOOL Matrix4IsIdentity(Matrix4f t)
     {
     return(Matrix4EqualToTransform(t, Matrix4Identity));
     }
 
-BOOL Matrix4EqualToTransform(Matrix4 a, Matrix4 b)
+BOOL Matrix4EqualToTransform(Matrix4f a, Matrix4f b)
     {
-    return(memcmp(&a, &b, sizeof(Matrix4)) == 0);
+    return(memcmp(&a, &b, sizeof(Matrix4f)) == 0);
     }
     
-Matrix4 Matrix4MakeTranslation(GLfloat tx, GLfloat ty, GLfloat tz)
+Matrix4f Matrix4MakeTranslation(GLfloat tx, GLfloat ty, GLfloat tz)
     {
-    const Matrix4 theMatrix = {
+    const Matrix4f theMatrix = {
         .mm = {
             { 1.0, 0.0, 0.0, 0.0 },
             { 0.0, 1.0, 0.0, 0.0 },
@@ -71,9 +71,9 @@ Matrix4 Matrix4MakeTranslation(GLfloat tx, GLfloat ty, GLfloat tz)
     return(theMatrix);
     }
     
-Matrix4 Matrix4MakeScale(GLfloat sx, GLfloat sy, GLfloat sz)
+Matrix4f Matrix4MakeScale(GLfloat sx, GLfloat sy, GLfloat sz)
     {
-    const Matrix4 theMatrix = {
+    const Matrix4f theMatrix = {
         .mm = {
             { sx, 0.0, 0.0, 0.0 },
             { 0.0, sy, 0.0, 0.0 },
@@ -84,9 +84,9 @@ Matrix4 Matrix4MakeScale(GLfloat sx, GLfloat sy, GLfloat sz)
     return(theMatrix);
     }
     
-Matrix4 Matrix4MakeRotation(GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
+Matrix4f Matrix4MakeRotation(GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
     {
-    Matrix4 m = {};
+    Matrix4f m = {};
     const GLfloat invLen = 1.0f / sqrt(x * x + y * y + z * z);
     x *= invLen;
     y *= invLen;
@@ -113,24 +113,24 @@ Matrix4 Matrix4MakeRotation(GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
     return m;
     }
     
-Matrix4 Matrix4Translate(Matrix4 t, GLfloat tx, GLfloat ty, GLfloat tz)
+Matrix4f Matrix4Translate(Matrix4f t, GLfloat tx, GLfloat ty, GLfloat tz)
     {
     return(Matrix4Concat(t, Matrix4MakeTranslation(tx, ty, tz)));
     }
     
-Matrix4 Matrix4Scale(Matrix4 t, GLfloat sx, GLfloat sy, GLfloat sz)
+Matrix4f Matrix4Scale(Matrix4f t, GLfloat sx, GLfloat sy, GLfloat sz)
     {
     return(Matrix4Concat(t, Matrix4MakeScale(sx, sy, sz)));
     }
     
-Matrix4 Matrix4Rotate(Matrix4 t, GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
+Matrix4f Matrix4Rotate(Matrix4f t, GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
     {
     return(Matrix4Concat(t, Matrix4MakeRotation(angle, x, y, z)));
     }
     
-Matrix4 Matrix4Concat(Matrix4 LHS, Matrix4 RHS)
+Matrix4f Matrix4Concat(Matrix4f LHS, Matrix4f RHS)
     {
-    Matrix4 theMatrix = { 
+    Matrix4f theMatrix = { 
         .mm = {
             {
             LHS.mm[0][0] * RHS.mm[0][0] + LHS.mm[0][1] * RHS.mm[1][0] + LHS.mm[0][2] * RHS.mm[2][0] + LHS.mm[0][3] * RHS.mm[3][0],
@@ -179,9 +179,9 @@ Matrix4 Matrix4Concat(Matrix4 LHS, Matrix4 RHS)
 //}
 //
 //
-//Matrix4 Matrix4Concat(Matrix4 LHS, Matrix4 RHS)
+//Matrix4f Matrix4Concat(Matrix4f LHS, Matrix4f RHS)
 //    {
-//    Matrix4 theMatrix;
+//    Matrix4f theMatrix;
 //    __gluMultMatricesf(&LHS.mm[0][0], &RHS.mm[0][0], &theMatrix.mm[0][0]);
 //    return(theMatrix);
 //    }
@@ -190,7 +190,7 @@ Matrix4 Matrix4Concat(Matrix4 LHS, Matrix4 RHS)
 
 
     
-Matrix4 Matrix4Invert(Matrix4 t)
+Matrix4f Matrix4Invert(Matrix4f t)
     {
     const GLfloat A0 = t.mm[0][0] * t.mm[1][1] - t.mm[0][1] * t.mm[1][0];
     const GLfloat A1 = t.mm[0][0] * t.mm[1][2] - t.mm[0][2] * t.mm[1][0];
@@ -209,7 +209,7 @@ Matrix4 Matrix4Invert(Matrix4 t)
     const GLfloat det = A0 * B5 - A1 * B4 + A2 * B3 + A3 * B2 - A4 * B1 + A5 * B0;
     NSCAssert(fabs(det) >= 1e-12f, @"Not invertable");
     const GLfloat invDet = 1.0 / det;
-    Matrix4 m = {
+    Matrix4f m = {
         .mm = {
             {
             (+t.mm[1][1] * B5 - t.mm[1][2] * B4 + t.mm[1][3] * B3) * invDet,
@@ -240,9 +240,9 @@ Matrix4 Matrix4Invert(Matrix4 t)
     return(m);
     }
 
-Matrix4 Matrix4Transpose(Matrix4 t)
+Matrix4f Matrix4Transpose(Matrix4f t)
     {
-    Matrix4 m;
+    Matrix4f m;
     for (int X = 0; X != 4; ++X)
         {
         for (int Y = 0; Y != 4; ++Y)
@@ -253,7 +253,7 @@ Matrix4 Matrix4Transpose(Matrix4 t)
     return(m);
     }
     
-NSString *NSStringFromMatrix4(Matrix4 t)
+NSString *NSStringFromMatrix4(Matrix4f t)
     {
     return([NSString stringWithFormat:@"{ %g, %g, %g, %g,\n%g, %g, %g, %g,\n%g, %g, %g, %g,\n%g, %g, %g, %g }",
         t.mm[0][0], t.mm[0][1], t.mm[0][2], t.mm[0][3],
@@ -262,9 +262,9 @@ NSString *NSStringFromMatrix4(Matrix4 t)
         t.mm[3][0], t.mm[3][1], t.mm[3][2], t.mm[3][3]]);
     }
 
-Matrix4 Matrix4FromPropertyListRepresentation(id inPropertyListRepresentation)
+Matrix4f Matrix4FromPropertyListRepresentation(id inPropertyListRepresentation)
 	{
-	Matrix4 theMatrix = Matrix4Identity;
+	Matrix4f theMatrix = Matrix4Identity;
 	
 	if ([inPropertyListRepresentation isKindOfClass:[NSString class]])
 		{
@@ -298,7 +298,7 @@ Matrix4 Matrix4FromPropertyListRepresentation(id inPropertyListRepresentation)
 
 #pragma mark -
 
-//Matrix4 Matrix4Perspective(GLfloat fov, GLfloat aspect, GLfloat znear, GLfloat zfar)
+//Matrix4f Matrix4Perspective(GLfloat fov, GLfloat aspect, GLfloat znear, GLfloat zfar)
 // {
 //  float ymax = znear * tan(fov * M_PI / 180.0);
 //  float ymin = -ymax;
@@ -316,7 +316,7 @@ Matrix4 Matrix4FromPropertyListRepresentation(id inPropertyListRepresentation)
 //  w = w / aspect;
 //  float h = 2 * znear / height;
 //
-//    Matrix4 theMatrix;
+//    Matrix4f theMatrix;
 //
 //    float *m = &theMatrix.mm[0][0];
 //  m[0]  = w;
@@ -342,9 +342,9 @@ Matrix4 Matrix4FromPropertyListRepresentation(id inPropertyListRepresentation)
 // }
 
 
-Matrix4 Matrix4Perspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat zFar)
+Matrix4f Matrix4Perspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat zFar)
     {
-    Matrix4 m = Matrix4Identity;
+    Matrix4f m = Matrix4Identity;
 
     GLfloat sine, cotangent, deltaZ;
     GLfloat radians = fovy / 2 * M_PI / 180;
@@ -367,12 +367,12 @@ Matrix4 Matrix4Perspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat 
     }
 
 
-Matrix4 Matrix4Ortho(float left, float right, float bottom, float top, float nearZ, float farZ)
+Matrix4f Matrix4Ortho(float left, float right, float bottom, float top, float nearZ, float farZ)
     {
     float       deltaX = right - left;
     float       deltaY = top - bottom;
     float       deltaZ = farZ - nearZ;
-    Matrix4    ortho = Matrix4Identity;
+    Matrix4f    ortho = Matrix4Identity;
 
     if ( (deltaX == 0.0f) || (deltaY == 0.0f) || (deltaZ == 0.0f) )
         return(ortho);
@@ -390,19 +390,19 @@ Matrix4 Matrix4Ortho(float left, float right, float bottom, float top, float nea
 
 #pragma mark -
 
-NSValue *NSValueWithMatrix4(Matrix4 inM4)
+NSValue *NSValueWithMatrix4(Matrix4f inM4)
     {
-    return([NSValue valueWithBytes:&inM4 objCType:@encode(Matrix4)]);
+    return([NSValue valueWithBytes:&inM4 objCType:@encode(Matrix4f)]);
     }
 
-Matrix4 Matrix4WithNSValue(NSValue *inValue)
+Matrix4f Matrix4WithNSValue(NSValue *inValue)
     {
-    Matrix4 theMatrix;
+    Matrix4f theMatrix;
     [inValue getValue:&theMatrix];
     return(theMatrix);
     }
 
-extern CGAffineTransform CGAffineTransformFromMatrix4(Matrix4 inMatrix)
+extern CGAffineTransform CGAffineTransformFromMatrix4(Matrix4f inMatrix)
     {
     CGAffineTransform theTransform = {
         .a = inMatrix.mm[0][0],

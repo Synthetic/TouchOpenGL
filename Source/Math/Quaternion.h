@@ -39,7 +39,7 @@ typedef struct {
 
 extern Quaternion QuaternionIdentity;
 
-extern Quaternion QuaternionSetAxisAngle(Vector3 inAxis, GLfloat inAngle);
+extern Quaternion QuaternionSetAxisAngle(Vector3f inAxis, GLfloat inAngle);
 
 extern GLfloat QuaternionLength2(Quaternion inQuat);
         
@@ -53,8 +53,8 @@ extern Quaternion QuaternionConjugate(Quaternion q);
         
 extern Quaternion QuaternionMultiply(Quaternion inLHS, Quaternion inRHS);
     
-extern Matrix4 Matrix4FromQuaternion(Quaternion q);
+extern Matrix4f Matrix4FromQuaternion(Quaternion q);
 
 extern NSString *NSStringFromQuaternion(Quaternion q);
 
-extern Quaternion QuaternionConstrainedToAxis(Quaternion q, Vector3 axis);
+extern Quaternion QuaternionConstrainedToAxis(Quaternion q, Vector3f axis);

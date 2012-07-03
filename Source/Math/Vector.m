@@ -8,14 +8,14 @@
 
 #import "Vector.h"
 
-GLfloat Vector3Length(Vector3 inVector)
+GLfloat Vector3fLength(Vector3f inVector)
     {
     return(sqrt(inVector.x * inVector.x + inVector.y * inVector.y + inVector.z * inVector.z));
     }
 
-Vector3 Vector3CrossProduct(Vector3 inLHS, Vector3 inRHS)
+Vector3f Vector3fCrossProduct(Vector3f inLHS, Vector3f inRHS)
     {
-    Vector3 theCrossProduct = {
+    Vector3f theCrossProduct = {
         .x = inLHS.y * inRHS.z - inLHS.z * inRHS.y,
         .y = inLHS.z * inRHS.x - inLHS.x * inRHS.z,
         .z = inLHS.x * inRHS.y - inLHS.y * inRHS.x,
@@ -23,9 +23,9 @@ Vector3 Vector3CrossProduct(Vector3 inLHS, Vector3 inRHS)
     return(theCrossProduct);
     }
 
-Vector3 Vector3Add(Vector3 inLHS, Vector3 inRHS)
+Vector3f Vector3fAdd(Vector3f inLHS, Vector3f inRHS)
     {
-    Vector3 theVector = {
+    Vector3f theVector = {
         .x = inLHS.x + inRHS.x,
         .y = inLHS.y + inRHS.y,
         .z = inLHS.z + inRHS.z,
@@ -33,9 +33,9 @@ Vector3 Vector3Add(Vector3 inLHS, Vector3 inRHS)
     return(theVector);
     }
     
-Vector3 Vector3FromVector4(Vector4 inVector)
+Vector3f Vector3fFromVector4f(Vector4f inVector)
     {
-    Vector3 theVector = {
+    Vector3f theVector = {
         .x = inVector.x,
         .y = inVector.y,
         .z = inVector.z
@@ -43,27 +43,27 @@ Vector3 Vector3FromVector4(Vector4 inVector)
     return(theVector);
     }
     
-GLfloat Vector3DotProduct(Vector3 inLHS, Vector3 inRHS)
+GLfloat Vector3fDotProduct(Vector3f inLHS, Vector3f inRHS)
     {
     return(inLHS.x * inRHS.x + inLHS.y * inRHS.y + inLHS.z * inRHS.z);
     }
 
-Vector3 Vector3Normalize(Vector3 inVector)
+Vector3f Vector3fNormalize(Vector3f inVector)
     {
-    const GLfloat theLength = Vector3Length(inVector);
-    return((Vector3){
+    const GLfloat theLength = Vector3fLength(inVector);
+    return((Vector3f){
         .x = inVector.x / theLength, 
         .y = inVector.y / theLength, 
         .z = inVector.z / theLength, 
         });
     }
     
-NSString *NSStringFromVector3(Vector3 inVector)
+NSString *NSStringFromVector3f(Vector3f inVector)
 	{
 	return([NSString stringWithFormat:@"(%g, %g, %g)", inVector.x, inVector.y, inVector.z]);
 	}
     
-NSString *NSStringFromVector4(Vector4 inVector)
+NSString *NSStringFromVector4f(Vector4f inVector)
 	{
 	return([NSString stringWithFormat:@"(%g, %g, %g, %g)", inVector.x, inVector.y, inVector.z, inVector.w]);
 	}
@@ -98,9 +98,9 @@ Color4f Color4fFromPropertyListRepresentation(id inPropertyListRepresentation)
     return(theColor);
     }
         
-Vector3 Vector3FromPropertyListRepresentation(id inPropertyListRepresentation)
+Vector3f Vector3fFromPropertyListRepresentation(id inPropertyListRepresentation)
     {
-	Vector3 theVector;
+	Vector3f theVector;
 	NSArray *theArray = NULL;
 	
 	if ([inPropertyListRepresentation isKindOfClass:[NSString class]])

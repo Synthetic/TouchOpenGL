@@ -40,6 +40,6 @@
 @property (readwrite, nonatomic, assign) Color4f ambientColor;
 @property (readwrite, nonatomic, assign) Color4f diffuseColor;
 @property (readwrite, nonatomic, assign) Color4f specularColor;
-@property (readwrite, nonatomic, assign) Vector4 position;
+@property (readwrite, nonatomic, assign) Vector4f position;
 
 @end

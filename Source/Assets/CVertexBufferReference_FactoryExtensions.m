@@ -60,7 +60,7 @@
 
 + (CVertexBufferReference *)vertexBufferReferenceWithRect:(CGRect)inRect
     {
-    const Vector3 theVertices[] = {
+    const Vector3f theVertices[] = {
         { CGRectGetMinX(inRect), CGRectGetMinY(inRect), 0 },
         { CGRectGetMaxX(inRect), CGRectGetMinY(inRect), 0 },
         { CGRectGetMinX(inRect), CGRectGetMaxY(inRect), 0 },
@@ -91,21 +91,21 @@
 
 + (CVertexBufferReference *)vertexBufferReferenceWithCircleWithRadius:(GLfloat)inRadius center:(CGPoint)inCenter points:(NSInteger)inPoints
     {
-    NSMutableData *theData = [NSMutableData dataWithLength:sizeof(Vector2) * (inPoints + 2)];
+    NSMutableData *theData = [NSMutableData dataWithLength:sizeof(Vector2f) * (inPoints + 2)];
 
-    Vector2 *V = theData.mutableBytes;
+    Vector2f *V = theData.mutableBytes;
     
-    *V++ = (Vector2){ inCenter.x, inCenter.y };
+    *V++ = (Vector2f){ inCenter.x, inCenter.y };
 
     for (NSInteger N = 0; N != inPoints + 1; ++N)
         {
         double theta = (double)N / (double)inPoints * 2 * M_PI;
         
-        *V++ = (Vector2){ cos(theta) * inRadius + inCenter.x, sin(theta) * inRadius + inCenter.y };
+        *V++ = (Vector2f){ cos(theta) * inRadius + inCenter.x, sin(theta) * inRadius + inCenter.y };
         }
 
     CVertexBuffer *theBuffer = [[CVertexBuffer alloc] initWithTarget:GL_ARRAY_BUFFER usage:GL_STATIC_DRAW data:theData];
-    CVertexBufferReference *theReference = [[CVertexBufferReference alloc] initWithVertexBuffer:theBuffer cellEncoding:@encode(Vector2) normalized:NO];
+    CVertexBufferReference *theReference = [[CVertexBufferReference alloc] initWithVertexBuffer:theBuffer cellEncoding:@encode(Vector2f) normalized:NO];
     return(theReference);
     }
 

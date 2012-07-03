@@ -39,7 +39,7 @@
 }
 
 @property (readonly, nonatomic, assign) Quaternion rotation;
-@property (readonly, nonatomic, assign) Matrix4 rotationMatrix;
+@property (readonly, nonatomic, assign) Matrix4f rotationMatrix;
 
 - (void)start:(CGPoint)inPoint;
 - (void)dragTo:(CGPoint)inPoint;

@@ -40,6 +40,6 @@
 
 @property (readwrite, nonatomic, copy) CTexture *(^textureBlock)(void);
 @property (readwrite, nonatomic, strong) CBlitProgram *program;
-@property (readwrite, nonatomic, assign) Matrix4 projectionMatrix;
+@property (readwrite, nonatomic, assign) Matrix4f projectionMatrix;
 
 @end
