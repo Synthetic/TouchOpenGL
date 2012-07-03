@@ -29,21 +29,33 @@ typedef struct Vector4 {
     GLfloat v[4];
     } Vector4;
 
-typedef struct Color4ub {
-    GLubyte r,g,b,a;
-    } Color4ub;
+#pragma mark -
 
-typedef struct Color4f {
-    GLfloat r,g,b,a;
-    } Color4f;
+typedef struct Vector3ub {
+    struct { GLubyte x, y, z; };
+    struct { GLubyte r, g, b; };
+    struct { GLubyte s, t, p; };
+    GLubyte v[3];
+    } Vector3ub;
 
-typedef struct Color3ub {
-    GLubyte r,g,b;
-    } Color3ub;
+typedef struct Vector4ub {
+    struct { GLubyte x, y, z, w; };
+    struct { GLubyte r, g, b, a; };
+    struct { GLubyte s, t, p, q; };
+    GLubyte v[4];
+    } Vector4ub;
 
-typedef struct Color3f {
-    GLfloat r,g,b;
-    } Color3f;
+#pragma mark -
+
+typedef Vector3ub Color3ub;
+
+typedef Vector3 Color3f;
+
+typedef Vector4ub Color4ub;
+
+typedef Vector4 Color4f;
+
+#pragma mark -
 
 extern GLfloat Vector3Length(Vector3 inVector);
 extern Vector3 Vector3CrossProduct(Vector3 inLHS, Vector3 inRHS);
@@ -56,7 +68,6 @@ extern NSString *NSStringFromVector3(Vector3 inVector);
 extern NSString *NSStringFromVector4(Vector4 inVector);
 
 extern NSString *NSStringFromColor4f(Color4f inColor);
-
 
 extern Color4f Color4fFromPropertyListRepresentation(id inPropertyListRepresentation);
 
