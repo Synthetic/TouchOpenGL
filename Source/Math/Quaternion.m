@@ -43,15 +43,9 @@
 
 Quaternion QuaternionIdentity = { .x = 0.0, .y = 0.0, .z = 0.0, .w = 1.0 };
 
-Quaternion QuaternionNormalize(Quaternion q);
-
 Quaternion QuaternionSetAxisAngle(Vector3f inAxis, GLfloat inAngle)
     {
-    const GLfloat l_sin = sin(inAngle * 0.5);
-    const GLfloat l_cos = cos(inAngle * 0.5);
-    Quaternion theQuat = { .x = inAxis.x * l_sin, .y = inAxis.y * l_sin, .z = inAxis.z * l_sin, .w = l_cos };
-    theQuat = QuaternionNormalize(theQuat);
-    return(theQuat);
+    return(GLKQuaternionMakeWithAngleAndVector3Axis(inAngle, inAxis));
     }
 
 GLfloat QuaternionLength2(Quaternion inQuat)
@@ -61,16 +55,7 @@ GLfloat QuaternionLength2(Quaternion inQuat)
 
 Quaternion QuaternionNormalize(Quaternion inQuat)
     {
-    GLfloat len = QuaternionLength2(inQuat);
-    if (len != 0.0f && fabs(len - 1.0f) > NORMALIZATION_TOLERANCE)
-        {
-        len = sqrt(len);
-        inQuat.w /= len;
-        inQuat.x /= len;
-        inQuat.y /= len;
-        inQuat.z /= len;
-        }
-    return(inQuat);
+    return(GLKQuaternionNormalize(inQuat));
     }
 
 Quaternion QuaternionSetEuler(GLfloat inYaw, GLfloat inPitch, GLfloat inRoll)
@@ -117,21 +102,12 @@ void QuaternionGetEuler(Quaternion q, GLfloat *outYaw, GLfloat *outPitch, GLfloa
 
 Quaternion QuaternionConjugate(Quaternion q)
     {
-    q.x *= -1;
-    q.y *= -1;
-    q.z *= -1;
-    return(q);
+    return(GLKQuaternionConjugate(q));
     }
 
 Quaternion QuaternionMultiply(Quaternion inLHS, Quaternion inRHS)
     {
-    Quaternion theResult = {
-        .x = inLHS.w * inRHS.x + inLHS.x * inRHS.w + inLHS.y * inRHS.z - inLHS.z * inRHS.y,
-        .y = inLHS.w * inRHS.y + inLHS.y * inRHS.w + inLHS.z * inRHS.x - inLHS.x * inRHS.z,
-        .z = inLHS.w * inRHS.z + inLHS.z * inRHS.w + inLHS.x * inRHS.y - inLHS.y * inRHS.x,
-        .w = inLHS.w * inRHS.w - inLHS.x * inRHS.x - inLHS.y * inRHS.y - inLHS.z * inRHS.z,
-        };
-    return(theResult);
+    return(GLKQuaternionMultiply(inLHS, inRHS));
     }
 
 Matrix4f Matrix4FromQuaternion(Quaternion q)
@@ -147,22 +123,22 @@ Matrix4f Matrix4FromQuaternion(Quaternion q)
     const GLfloat zw = q.z * q.w;
 
     Matrix4f theMatrix = {
-        .mm[0][0] = 1.0 - 2.0 * (yy + zz),
-        .mm[0][1] = 2.0 * (xy - zw),
-        .mm[0][2] = 2.0 * (xz + yw),
-        .mm[0][3] = 0.0,
-        .mm[1][0] = 2.0 * (xy + zw),
-        .mm[1][1] = 1.0 - 2.0 * (xx + zz),
-        .mm[1][2] = 2.0 * (yz - xw),
-        .mm[1][3] = 0.0,
-        .mm[2][0] = 2.0 * (xz - yw),
-        .mm[2][1] = 2.0 * (yz + xw),
-        .mm[2][2] = 1.0 - 2.0 * (xx + yy),
-        .mm[2][3] = 0.0,
-        .mm[3][0] = 0.0,
-        .mm[3][1] = 0.0,
-        .mm[3][2] = 0.0,
-        .mm[3][3] = 1.0,
+        .m00 = 1.0 - 2.0 * (yy + zz),
+        .m01 = 2.0 * (xy - zw),
+        .m02 = 2.0 * (xz + yw),
+        .m03 = 0.0,
+        .m10 = 2.0 * (xy + zw),
+        .m11 = 1.0 - 2.0 * (xx + zz),
+        .m12 = 2.0 * (yz - xw),
+        .m13 = 0.0,
+        .m20 = 2.0 * (xz - yw),
+        .m21 = 2.0 * (yz + xw),
+        .m22 = 1.0 - 2.0 * (xx + yy),
+        .m23 = 0.0,
+        .m30 = 0.0,
+        .m31 = 0.0,
+        .m32 = 0.0,
+        .m33 = 1.0,
         };
     return(theMatrix);
     }

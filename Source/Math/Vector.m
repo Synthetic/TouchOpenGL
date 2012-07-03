@@ -8,29 +8,21 @@
 
 #import "Vector.h"
 
+#import <GLKit/GLKit.h>
+
 GLfloat Vector3fLength(Vector3f inVector)
     {
-    return(sqrt(inVector.x * inVector.x + inVector.y * inVector.y + inVector.z * inVector.z));
+    return(GLKVector3Length(inVector));
     }
 
 Vector3f Vector3fCrossProduct(Vector3f inLHS, Vector3f inRHS)
     {
-    Vector3f theCrossProduct = {
-        .x = inLHS.y * inRHS.z - inLHS.z * inRHS.y,
-        .y = inLHS.z * inRHS.x - inLHS.x * inRHS.z,
-        .z = inLHS.x * inRHS.y - inLHS.y * inRHS.x,
-        };
-    return(theCrossProduct);
+    return(GLKVector3CrossProduct(inLHS, inRHS));
     }
 
-Vector3f Vector3fAdd(Vector3f inLHS, Vector3f inRHS)
+Vector3f Vector3fAdd(const Vector3f inLHS, const Vector3f inRHS)
     {
-    Vector3f theVector = {
-        .x = inLHS.x + inRHS.x,
-        .y = inLHS.y + inRHS.y,
-        .z = inLHS.z + inRHS.z,
-        };
-    return(theVector);
+    return(GLKVector3Add(inLHS, inRHS));
     }
     
 Vector3f Vector3fFromVector4f(Vector4f inVector)
@@ -45,17 +37,12 @@ Vector3f Vector3fFromVector4f(Vector4f inVector)
     
 GLfloat Vector3fDotProduct(Vector3f inLHS, Vector3f inRHS)
     {
-    return(inLHS.x * inRHS.x + inLHS.y * inRHS.y + inLHS.z * inRHS.z);
+    return(GLKVector3DotProduct(inLHS, inRHS));
     }
 
 Vector3f Vector3fNormalize(Vector3f inVector)
     {
-    const GLfloat theLength = Vector3fLength(inVector);
-    return((Vector3f){
-        .x = inVector.x / theLength, 
-        .y = inVector.y / theLength, 
-        .z = inVector.z / theLength, 
-        });
+    return(GLKVector3Normalize(inVector));
     }
     
 NSString *NSStringFromVector3f(Vector3f inVector)

@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#import <GLKit/GLKit.h>
+
 #import "OpenGLIncludes.h"
 
 typedef struct Vector3ub {
@@ -25,25 +28,9 @@ typedef struct Vector4ub {
 
 #pragma mark -
 
-typedef struct Vector2f {
-    struct { GLfloat x, y; };
-    struct { GLfloat s, t; };
-    GLfloat v[2];
-    } Vector2f;
-
-typedef struct Vector3f {
-    struct { GLfloat x, y, z; };
-    struct { GLfloat r, g, b; };
-    struct { GLfloat s, t, p; };
-    GLfloat v[3];
-    } Vector3f;
-
-typedef struct Vector4f {
-    struct { GLfloat x, y, z, w; };
-    struct { GLfloat r, g, b, a; };
-    struct { GLfloat s, t, p, q; };
-    GLfloat v[4];
-    } Vector4f;
+typedef GLKVector2 Vector2f;
+typedef GLKVector3 Vector3f;
+typedef GLKVector4 Vector4f;
 
 #pragma mark -
 

@@ -31,11 +31,11 @@
 
 #import "OpenGLTypes.h"
 
+#import <GLKit/GLKit.h>
+
 #import "Matrix.h"
 
-typedef struct {
-    GLfloat x, y, z, w;
-} Quaternion;
+typedef GLKQuaternion Quaternion;
 
 extern Quaternion QuaternionIdentity;
 

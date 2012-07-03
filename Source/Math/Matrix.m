@@ -40,11 +40,11 @@
 // Matrix4f code based on code from http://sunflow.sourceforge.net/
 
 const Matrix4f Matrix4Identity = {
-    .mm = {
-        { 1.0, 0.0, 0.0, 0.0 },
-        { 0.0, 1.0, 0.0, 0.0 },
-        { 0.0, 0.0, 1.0, 0.0 },
-        { 0.0, 0.0, 0.0, 1.0 },
+    .m = {
+       1.0, 0.0, 0.0, 0.0,
+       0.0, 1.0, 0.0, 0.0,
+       0.0, 0.0, 1.0, 0.0,
+       0.0, 0.0, 0.0, 1.0,
         }
     };
 
@@ -60,105 +60,37 @@ BOOL Matrix4EqualToTransform(Matrix4f a, Matrix4f b)
     
 Matrix4f Matrix4MakeTranslation(GLfloat tx, GLfloat ty, GLfloat tz)
     {
-    const Matrix4f theMatrix = {
-        .mm = {
-            { 1.0, 0.0, 0.0, 0.0 },
-            { 0.0, 1.0, 0.0, 0.0 },
-            { 0.0, 0.0, 1.0, 0.0 },
-            { tx,  ty,  tz,  1.0 },
-            }
-        };
-    return(theMatrix);
+    return(GLKMatrix4MakeTranslation(tx, ty, tz));
     }
     
 Matrix4f Matrix4MakeScale(GLfloat sx, GLfloat sy, GLfloat sz)
     {
-    const Matrix4f theMatrix = {
-        .mm = {
-            { sx, 0.0, 0.0, 0.0 },
-            { 0.0, sy, 0.0, 0.0 },
-            { 0.0, 0.0, sz, 0.0 },
-            { 0.0, 0.0, 0.0, 1.0 },
-            }
-        };
-    return(theMatrix);
+    return(GLKMatrix4MakeScale(sx, sy, sz));
     }
     
 Matrix4f Matrix4MakeRotation(GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
     {
-    Matrix4f m = {};
-    const GLfloat invLen = 1.0f / sqrt(x * x + y * y + z * z);
-    x *= invLen;
-    y *= invLen;
-    z *= invLen;
-    const GLfloat s = sin(angle);
-    const GLfloat c = cos(angle);
-    const GLfloat t = 1.0f - c;
-    m.mm[0][0] = t * x * x + c;
-    m.mm[1][1] = t * y * y + c;
-    m.mm[2][2] = t * z * z + c;
-    const GLfloat txy = t * x * y;
-    const GLfloat sz = s * z;
-    m.mm[0][1] = txy - sz;
-    m.mm[1][0] = txy + sz;
-    const GLfloat txz = t * x * z;
-    const GLfloat sy = s * y;
-    m.mm[0][2] = txz + sy;
-    m.mm[2][0] = txz - sy;
-    const GLfloat tyz = t * y * z;
-    const GLfloat sx = s * x;
-    m.mm[1][2] = tyz - sx;
-    m.mm[2][1] = tyz + sx;
-    m.mm[3][3] = 1.0;
-    return m;
+    return(GLKMatrix4MakeRotation(angle, x, y, z));
     }
     
 Matrix4f Matrix4Translate(Matrix4f t, GLfloat tx, GLfloat ty, GLfloat tz)
     {
-    return(Matrix4Concat(t, Matrix4MakeTranslation(tx, ty, tz)));
+    return(GLKMatrix4Translate(t, tx, ty, tz));
     }
     
 Matrix4f Matrix4Scale(Matrix4f t, GLfloat sx, GLfloat sy, GLfloat sz)
     {
-    return(Matrix4Concat(t, Matrix4MakeScale(sx, sy, sz)));
+    return(GLKMatrix4Scale(t, sx, sy, sz));
     }
     
 Matrix4f Matrix4Rotate(Matrix4f t, GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
     {
-    return(Matrix4Concat(t, Matrix4MakeRotation(angle, x, y, z)));
+    return(Matrix4Rotate(t, angle, x, y, z));
     }
     
 Matrix4f Matrix4Concat(Matrix4f LHS, Matrix4f RHS)
     {
-    Matrix4f theMatrix = { 
-        .mm = {
-            {
-            LHS.mm[0][0] * RHS.mm[0][0] + LHS.mm[0][1] * RHS.mm[1][0] + LHS.mm[0][2] * RHS.mm[2][0] + LHS.mm[0][3] * RHS.mm[3][0],
-            LHS.mm[0][0] * RHS.mm[0][1] + LHS.mm[0][1] * RHS.mm[1][1] + LHS.mm[0][2] * RHS.mm[2][1] + LHS.mm[0][3] * RHS.mm[3][1],
-            LHS.mm[0][0] * RHS.mm[0][2] + LHS.mm[0][1] * RHS.mm[1][2] + LHS.mm[0][2] * RHS.mm[2][2] + LHS.mm[0][3] * RHS.mm[3][2],
-            LHS.mm[0][0] * RHS.mm[0][3] + LHS.mm[0][1] * RHS.mm[1][3] + LHS.mm[0][2] * RHS.mm[2][3] + LHS.mm[0][3] * RHS.mm[3][3],
-            },
-            {
-            LHS.mm[1][0] * RHS.mm[0][0] + LHS.mm[1][1] * RHS.mm[1][0] + LHS.mm[1][2] * RHS.mm[2][0] + LHS.mm[1][3] * RHS.mm[3][0],
-            LHS.mm[1][0] * RHS.mm[0][1] + LHS.mm[1][1] * RHS.mm[1][1] + LHS.mm[1][2] * RHS.mm[2][1] + LHS.mm[1][3] * RHS.mm[3][1],
-            LHS.mm[1][0] * RHS.mm[0][2] + LHS.mm[1][1] * RHS.mm[1][2] + LHS.mm[1][2] * RHS.mm[2][2] + LHS.mm[1][3] * RHS.mm[3][2],
-            LHS.mm[1][0] * RHS.mm[0][3] + LHS.mm[1][1] * RHS.mm[1][3] + LHS.mm[1][2] * RHS.mm[2][3] + LHS.mm[1][3] * RHS.mm[3][3],
-            },
-            {
-            LHS.mm[2][0] * RHS.mm[0][0] + LHS.mm[2][1] * RHS.mm[1][0] + LHS.mm[2][2] * RHS.mm[2][0] + LHS.mm[2][3] * RHS.mm[3][0],
-            LHS.mm[2][0] * RHS.mm[0][1] + LHS.mm[2][1] * RHS.mm[1][1] + LHS.mm[2][2] * RHS.mm[2][1] + LHS.mm[2][3] * RHS.mm[3][1],
-            LHS.mm[2][0] * RHS.mm[0][2] + LHS.mm[2][1] * RHS.mm[1][2] + LHS.mm[2][2] * RHS.mm[2][2] + LHS.mm[2][3] * RHS.mm[3][2],
-            LHS.mm[2][0] * RHS.mm[0][3] + LHS.mm[2][1] * RHS.mm[1][3] + LHS.mm[2][2] * RHS.mm[2][3] + LHS.mm[2][3] * RHS.mm[3][3],
-            },
-            {
-            LHS.mm[3][0] * RHS.mm[0][0] + LHS.mm[3][1] * RHS.mm[1][0] + LHS.mm[3][2] * RHS.mm[2][0] + LHS.mm[3][3] * RHS.mm[3][0],
-            LHS.mm[3][0] * RHS.mm[0][1] + LHS.mm[3][1] * RHS.mm[1][1] + LHS.mm[3][2] * RHS.mm[2][1] + LHS.mm[3][3] * RHS.mm[3][1],
-            LHS.mm[3][0] * RHS.mm[0][2] + LHS.mm[3][1] * RHS.mm[1][2] + LHS.mm[3][2] * RHS.mm[2][2] + LHS.mm[3][3] * RHS.mm[3][2],
-            LHS.mm[3][0] * RHS.mm[0][3] + LHS.mm[3][1] * RHS.mm[1][3] + LHS.mm[3][2] * RHS.mm[2][3] + LHS.mm[3][3] * RHS.mm[3][3],
-            },
-        }
-    };
-    return(theMatrix);
+    return(GLKMatrix4Add(LHS, RHS));
     }
 
 //static void __gluMultMatricesf(const GLfloat a[16], const GLfloat b[16],
@@ -182,7 +114,7 @@ Matrix4f Matrix4Concat(Matrix4f LHS, Matrix4f RHS)
 //Matrix4f Matrix4Concat(Matrix4f LHS, Matrix4f RHS)
 //    {
 //    Matrix4f theMatrix;
-//    __gluMultMatricesf(&LHS.mm[0][0], &RHS.mm[0][0], &theMatrix.mm[0][0]);
+//    __gluMultMatricesf(&LHS.m00, &RHS.m00, &theMatrix.m00);
 //    return(theMatrix);
 //    }
 
@@ -192,74 +124,22 @@ Matrix4f Matrix4Concat(Matrix4f LHS, Matrix4f RHS)
     
 Matrix4f Matrix4Invert(Matrix4f t)
     {
-    const GLfloat A0 = t.mm[0][0] * t.mm[1][1] - t.mm[0][1] * t.mm[1][0];
-    const GLfloat A1 = t.mm[0][0] * t.mm[1][2] - t.mm[0][2] * t.mm[1][0];
-    const GLfloat A2 = t.mm[0][0] * t.mm[1][3] - t.mm[0][3] * t.mm[1][0];
-    const GLfloat A3 = t.mm[0][1] * t.mm[1][2] - t.mm[0][2] * t.mm[1][1];
-    const GLfloat A4 = t.mm[0][1] * t.mm[1][3] - t.mm[0][3] * t.mm[1][1];
-    const GLfloat A5 = t.mm[0][2] * t.mm[1][3] - t.mm[0][3] * t.mm[1][2];
-
-    const GLfloat B0 = t.mm[2][0] * t.mm[3][1] - t.mm[2][1] * t.mm[3][0];
-    const GLfloat B1 = t.mm[2][0] * t.mm[3][2] - t.mm[2][2] * t.mm[3][0];
-    const GLfloat B2 = t.mm[2][0] * t.mm[3][3] - t.mm[2][3] * t.mm[3][0];
-    const GLfloat B3 = t.mm[2][1] * t.mm[3][2] - t.mm[2][2] * t.mm[3][1];
-    const GLfloat B4 = t.mm[2][1] * t.mm[3][3] - t.mm[2][3] * t.mm[3][1];
-    const GLfloat B5 = t.mm[2][2] * t.mm[3][3] - t.mm[2][3] * t.mm[3][2];
-
-    const GLfloat det = A0 * B5 - A1 * B4 + A2 * B3 + A3 * B2 - A4 * B1 + A5 * B0;
-    NSCAssert(fabs(det) >= 1e-12f, @"Not invertable");
-    const GLfloat invDet = 1.0 / det;
-    Matrix4f m = {
-        .mm = {
-            {
-            (+t.mm[1][1] * B5 - t.mm[1][2] * B4 + t.mm[1][3] * B3) * invDet,
-            (-t.mm[1][0] * B5 + t.mm[1][2] * B2 - t.mm[1][3] * B1) * invDet,
-            (+t.mm[1][0] * B4 - t.mm[1][1] * B2 + t.mm[1][3] * B0) * invDet,
-            (-t.mm[1][0] * B3 + t.mm[1][1] * B1 - t.mm[1][2] * B0) * invDet,
-            },
-            {
-            (-t.mm[0][1] * B5 + t.mm[0][2] * B4 - t.mm[0][3] * B3) * invDet,
-            (+t.mm[0][0] * B5 - t.mm[0][2] * B2 + t.mm[0][3] * B1) * invDet,
-            (-t.mm[0][0] * B4 + t.mm[0][1] * B2 - t.mm[0][3] * B0) * invDet,
-            (+t.mm[0][0] * B3 - t.mm[0][1] * B1 + t.mm[0][2] * B0) * invDet,
-            },
-            {
-            (+t.mm[3][1] * A5 - t.mm[3][2] * A4 + t.mm[3][3] * A3) * invDet,
-            (-t.mm[3][0] * A5 + t.mm[3][2] * A2 - t.mm[3][3] * A1) * invDet,
-            (+t.mm[3][0] * A4 - t.mm[3][1] * A2 + t.mm[3][3] * A0) * invDet,
-            (-t.mm[3][0] * A3 + t.mm[3][1] * A1 - t.mm[3][2] * A0) * invDet,
-            },
-            {
-            (-t.mm[2][1] * A5 + t.mm[2][2] * A4 - t.mm[2][3] * A3) * invDet,
-            (+t.mm[2][0] * A5 - t.mm[2][2] * A2 + t.mm[2][3] * A1) * invDet,
-            (-t.mm[2][0] * A4 + t.mm[2][1] * A2 - t.mm[2][3] * A0) * invDet,
-            (+t.mm[2][0] * A3 - t.mm[2][1] * A1 + t.mm[2][2] * A0) * invDet,
-            },
-            }
-        };
-    return(m);
+    bool isInvertible = NO;
+    return(GLKMatrix4Invert(t, &isInvertible));
     }
 
 Matrix4f Matrix4Transpose(Matrix4f t)
     {
-    Matrix4f m;
-    for (int X = 0; X != 4; ++X)
-        {
-        for (int Y = 0; Y != 4; ++Y)
-            {
-            m.mm[X][Y] = t.mm[Y][X];
-            }
-        }
-    return(m);
+    return(GLKMatrix4Transpose(t));
     }
     
 NSString *NSStringFromMatrix4(Matrix4f t)
     {
     return([NSString stringWithFormat:@"{ %g, %g, %g, %g,\n%g, %g, %g, %g,\n%g, %g, %g, %g,\n%g, %g, %g, %g }",
-        t.mm[0][0], t.mm[0][1], t.mm[0][2], t.mm[0][3],
-        t.mm[1][0], t.mm[1][1], t.mm[1][2], t.mm[1][3],
-        t.mm[2][0], t.mm[2][1], t.mm[2][2], t.mm[2][3],
-        t.mm[3][0], t.mm[3][1], t.mm[3][2], t.mm[3][3]]);
+        t.m00, t.m01, t.m02, t.m03,
+        t.m10, t.m11, t.m12, t.m13,
+        t.m20, t.m21, t.m22, t.m23,
+        t.m30, t.m31, t.m32, t.m33]);
     }
 
 Matrix4f Matrix4FromPropertyListRepresentation(id inPropertyListRepresentation)
@@ -272,25 +152,25 @@ Matrix4f Matrix4FromPropertyListRepresentation(id inPropertyListRepresentation)
 		}
 	else if ([inPropertyListRepresentation isKindOfClass:[NSArray class]])
 		{
-		theMatrix.mm[0][0] = [[[inPropertyListRepresentation objectAtIndex:0] objectAtIndex:0] doubleValue];
-		theMatrix.mm[0][1] = [[[inPropertyListRepresentation objectAtIndex:0] objectAtIndex:1] doubleValue];
-		theMatrix.mm[0][2] = [[[inPropertyListRepresentation objectAtIndex:0] objectAtIndex:2] doubleValue];
-		theMatrix.mm[0][3] = [[[inPropertyListRepresentation objectAtIndex:0] objectAtIndex:3] doubleValue];
+		theMatrix.m00 = [[[inPropertyListRepresentation objectAtIndex:0] objectAtIndex:0] doubleValue];
+		theMatrix.m01 = [[[inPropertyListRepresentation objectAtIndex:0] objectAtIndex:1] doubleValue];
+		theMatrix.m02 = [[[inPropertyListRepresentation objectAtIndex:0] objectAtIndex:2] doubleValue];
+		theMatrix.m03 = [[[inPropertyListRepresentation objectAtIndex:0] objectAtIndex:3] doubleValue];
 
-		theMatrix.mm[1][0] = [[[inPropertyListRepresentation objectAtIndex:1] objectAtIndex:0] doubleValue];
-		theMatrix.mm[1][1] = [[[inPropertyListRepresentation objectAtIndex:1] objectAtIndex:1] doubleValue];
-		theMatrix.mm[1][2] = [[[inPropertyListRepresentation objectAtIndex:1] objectAtIndex:2] doubleValue];
-		theMatrix.mm[1][3] = [[[inPropertyListRepresentation objectAtIndex:1] objectAtIndex:3] doubleValue];
+		theMatrix.m10 = [[[inPropertyListRepresentation objectAtIndex:1] objectAtIndex:0] doubleValue];
+		theMatrix.m11 = [[[inPropertyListRepresentation objectAtIndex:1] objectAtIndex:1] doubleValue];
+		theMatrix.m12 = [[[inPropertyListRepresentation objectAtIndex:1] objectAtIndex:2] doubleValue];
+		theMatrix.m13 = [[[inPropertyListRepresentation objectAtIndex:1] objectAtIndex:3] doubleValue];
 
-		theMatrix.mm[2][0] = [[[inPropertyListRepresentation objectAtIndex:2] objectAtIndex:0] doubleValue];
-		theMatrix.mm[2][1] = [[[inPropertyListRepresentation objectAtIndex:2] objectAtIndex:1] doubleValue];
-		theMatrix.mm[2][2] = [[[inPropertyListRepresentation objectAtIndex:2] objectAtIndex:2] doubleValue];
-		theMatrix.mm[2][3] = [[[inPropertyListRepresentation objectAtIndex:2] objectAtIndex:3] doubleValue];
+		theMatrix.m20 = [[[inPropertyListRepresentation objectAtIndex:2] objectAtIndex:0] doubleValue];
+		theMatrix.m21 = [[[inPropertyListRepresentation objectAtIndex:2] objectAtIndex:1] doubleValue];
+		theMatrix.m22 = [[[inPropertyListRepresentation objectAtIndex:2] objectAtIndex:2] doubleValue];
+		theMatrix.m23 = [[[inPropertyListRepresentation objectAtIndex:2] objectAtIndex:3] doubleValue];
 
-		theMatrix.mm[3][0] = [[[inPropertyListRepresentation objectAtIndex:3] objectAtIndex:0] doubleValue];
-		theMatrix.mm[3][1] = [[[inPropertyListRepresentation objectAtIndex:3] objectAtIndex:1] doubleValue];
-		theMatrix.mm[3][2] = [[[inPropertyListRepresentation objectAtIndex:3] objectAtIndex:2] doubleValue];
-		theMatrix.mm[3][3] = [[[inPropertyListRepresentation objectAtIndex:3] objectAtIndex:3] doubleValue];
+		theMatrix.m30 = [[[inPropertyListRepresentation objectAtIndex:3] objectAtIndex:0] doubleValue];
+		theMatrix.m31 = [[[inPropertyListRepresentation objectAtIndex:3] objectAtIndex:1] doubleValue];
+		theMatrix.m32 = [[[inPropertyListRepresentation objectAtIndex:3] objectAtIndex:2] doubleValue];
+		theMatrix.m33 = [[[inPropertyListRepresentation objectAtIndex:3] objectAtIndex:3] doubleValue];
 		}
 
 	return(theMatrix);
@@ -318,7 +198,7 @@ Matrix4f Matrix4FromPropertyListRepresentation(id inPropertyListRepresentation)
 //
 //    Matrix4f theMatrix;
 //
-//    float *m = &theMatrix.mm[0][0];
+//    float *m = &theMatrix.m00;
 //  m[0]  = w;
 //  m[1]  = 0;
 //  m[2]  = 0;
@@ -357,12 +237,12 @@ Matrix4f Matrix4Perspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat
         }
     cotangent = cos(radians) / sine;
 
-    m.mm[0][0] = cotangent / aspect;
-    m.mm[1][1] = cotangent;
-    m.mm[2][2] = -(zFar + zNear) / deltaZ;
-    m.mm[2][3] = -1;
-    m.mm[3][2] = -2 * zNear * zFar / deltaZ;
-    m.mm[3][3] = 0;
+    m.m00 = cotangent / aspect;
+    m.m11 = cotangent;
+    m.m22 = -(zFar + zNear) / deltaZ;
+    m.m23 = -1;
+    m.m32 = -2 * zNear * zFar / deltaZ;
+    m.m33 = 0;
     return(m);
     }
 
@@ -377,12 +257,12 @@ Matrix4f Matrix4Ortho(float left, float right, float bottom, float top, float ne
     if ( (deltaX == 0.0f) || (deltaY == 0.0f) || (deltaZ == 0.0f) )
         return(ortho);
 
-    ortho.mm[0][0] = 2.0f / deltaX;
-    ortho.mm[3][0] = -(right + left) / deltaX;
-    ortho.mm[1][1] = 2.0f / deltaY;
-    ortho.mm[3][1] = -(top + bottom) / deltaY;
-    ortho.mm[2][2] = -2.0f / deltaZ;
-    ortho.mm[3][2] = -(nearZ + farZ) / deltaZ;
+    ortho.m00 = 2.0f / deltaX;
+    ortho.m30 = -(right + left) / deltaX;
+    ortho.m11 = 2.0f / deltaY;
+    ortho.m31 = -(top + bottom) / deltaY;
+    ortho.m22 = -2.0f / deltaZ;
+    ortho.m32 = -(nearZ + farZ) / deltaZ;
 
     
     return(ortho);
@@ -405,12 +285,12 @@ Matrix4f Matrix4WithNSValue(NSValue *inValue)
 extern CGAffineTransform CGAffineTransformFromMatrix4(Matrix4f inMatrix)
     {
     CGAffineTransform theTransform = {
-        .a = inMatrix.mm[0][0],
-        .b = inMatrix.mm[1][0],
-        .c = inMatrix.mm[0][1],
-        .d = inMatrix.mm[1][1],
-        .tx = inMatrix.mm[3][0],
-        .ty = inMatrix.mm[3][1],
+        .a = inMatrix.m00,
+        .b = inMatrix.m10,
+        .c = inMatrix.m01,
+        .d = inMatrix.m11,
+        .tx = inMatrix.m30,
+        .ty = inMatrix.m31,
         };
     return(theTransform);
     }
