@@ -36,7 +36,6 @@
 @property (readwrite, nonatomic, strong) id userInfo;
 
 @property (readwrite, nonatomic, copy) void (^setupBlock)(void);
-@property (readwrite, nonatomic, copy) void (^clearBlock)(void);
 @property (readwrite, nonatomic, copy) void (^prerenderBlock)(void);
 @property (readwrite, nonatomic, copy) void (^renderBlock)(void);
 @property (readwrite, nonatomic, copy) void (^postrenderBlock)(void);

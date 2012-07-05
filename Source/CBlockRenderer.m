@@ -35,7 +35,6 @@
 
 @synthesize userInfo = _userInfo;
 @synthesize setupBlock = _setupBlock;
-@synthesize clearBlock = _clearBlock;
 @synthesize prerenderBlock = _prerenderBlock;
 @synthesize renderBlock = _renderBlock;
 @synthesize postrenderBlock = _postrenderBlock;
@@ -54,20 +53,7 @@
 		}
 	}
 	
-- (void)clear
-	{
-	[super clear];
 
-	if (self.clearBlock)
-		{
-        AssertOpenGLNoError_();
-
-		self.clearBlock();
-
-        AssertOpenGLNoError_();
-		}
-	}
-	
 - (void)prerender
 	{
 	[super prerender];

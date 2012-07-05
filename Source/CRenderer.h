@@ -39,13 +39,11 @@
 @interface CRenderer : NSObject <NSCopying>
 
 @property (readwrite, nonatomic, assign) CGSize size;
-@property (readwrite, nonatomic, assign) Color4f clearColor;
 @property (readwrite, nonatomic, assign) Matrix4f projectionTransform;
 @property (readwrite, nonatomic, strong) COpenGLContext *context;
 @property (readonly, nonatomic, assign) double frameRate;
 
 - (void)setup;
-- (void)clear;  // TODO - should a renderer be clearing?
 - (void)prerender;
 - (void)render;
 - (void)postrender;
