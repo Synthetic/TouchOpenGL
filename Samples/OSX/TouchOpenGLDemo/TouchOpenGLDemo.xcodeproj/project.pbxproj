@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		45354F6A15A2563C004C6BDB /* Vector.m in Sources */ = {isa = PBXBuildFile; fileRef = 45354F6915A2563C004C6BDB /* Vector.m */; };
 		45354F6D15A259B7004C6BDB /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45354F6C15A259B7004C6BDB /* GLKit.framework */; };
+		453F09F615A62ED000B7FD02 /* COpenGLContext+Drawing.m in Sources */ = {isa = PBXBuildFile; fileRef = 453F09F515A62ED000B7FD02 /* COpenGLContext+Drawing.m */; };
 		457F693815A394B400321DE1 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457F693715A394B400321DE1 /* SenTestingKit.framework */; };
 		457F693915A394B400321DE1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B7C87B15966055002F70F8 /* Cocoa.framework */; };
 		457F693F15A394B400321DE1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 457F693D15A394B400321DE1 /* InfoPlist.strings */; };
@@ -63,6 +64,8 @@
 		45354F6815A2563C004C6BDB /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
 		45354F6915A2563C004C6BDB /* Vector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector.m; sourceTree = "<group>"; };
 		45354F6C15A259B7004C6BDB /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		453F09F415A62ED000B7FD02 /* COpenGLContext+Drawing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "COpenGLContext+Drawing.h"; sourceTree = "<group>"; };
+		453F09F515A62ED000B7FD02 /* COpenGLContext+Drawing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "COpenGLContext+Drawing.m"; sourceTree = "<group>"; };
 		457F693615A394B400321DE1 /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		457F693715A394B400321DE1 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		457F693C15A394B400321DE1 /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
@@ -321,6 +324,8 @@
 				45D694CE159660680095B9A0 /* OpenGLIncludes.h */,
 				45D694CF159660680095B9A0 /* OpenGLTypes.h */,
 				45D694D0159660680095B9A0 /* OpenGLTypes.m */,
+				453F09F415A62ED000B7FD02 /* COpenGLContext+Drawing.h */,
+				453F09F515A62ED000B7FD02 /* COpenGLContext+Drawing.m */,
 				45D694D1159660680095B9A0 /* Platform */,
 				45D694EE159660680095B9A0 /* Scenes */,
 				45D694F3159660680095B9A0 /* Support */,
@@ -593,6 +598,7 @@
 				45FF13D6159CD0920041B22D /* COffscreenOpenGLContext.m in Sources */,
 				45FF13DE159CF9D60041B22D /* COpenGLContext+Debugging.m in Sources */,
 				45354F6A15A2563C004C6BDB /* Vector.m in Sources */,
+				453F09F615A62ED000B7FD02 /* COpenGLContext+Drawing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
