@@ -37,10 +37,12 @@
 #import "COffscreenOpenGLContext.h"
 #import "COpenGLContext+Debugging.h"
 #import "CTexture.h"
+#import "CBlockRenderer.h"
+#import "COpenGLContext+Drawing.h"
+#import "NSColor_OpenGLExtensions.h"
 
 @interface CAppDelegate ()
 @property (readwrite, nonatomic, assign) IBOutlet COpenGLRendererView *rendererView;
-@property (readwrite, nonatomic, strong) IBOutlet CTextureRenderer *renderer;
 @end
 
 #pragma mark -
@@ -49,25 +51,29 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
     {
-    self.renderer = [[CTextureRenderer alloc] init];
-    self.renderer.textureBlock = ^(void) {
+    CTextureRenderer *theTextureRenderer = [[CTextureRenderer alloc] init];
+    theTextureRenderer.textureBlock = ^(void) {
         CTexture *theTexture = [CTexture textureNamed:@"lena_std.tiff" error:NULL];
         return(theTexture);
         };
 
-#if 1
-    self.rendererView.renderer = self.renderer;
-#else
+//    CBlockRenderer *theBlockRenderer = [[CBlockRenderer alloc] init];
+//    theBlockRenderer.renderBlock = ^(void) {
+//        [theBlockRenderer.context strokeRect:(CGRect){ .size = { 20, 20 } } color:[NSColor redColor].color4f];
+//        };
 
+#if 1
+    [self.rendererView addRenderer:theTextureRenderer];
+//    [self.rendererView addRenderer:theBlockRenderer];
+#else
     COffscreenOpenGLContext *theContext = [[COffscreenOpenGLContext alloc] initWithSize:(SIntSize){ 1024, 1024 }];
     [theContext dump];
-    [theContext render:self.renderer];
+    [theContext render:theRenderer];
 
     CTexture *theTexture = [theContext readTextureSize:theContext.size];
 
     [theTexture writeToFile:@"/Users/schwa/Desktop/test.png"];
     [theContext dump];
-
 #endif
     }
 

@@ -38,6 +38,8 @@
 static CVReturn MyCVDisplayLinkOutputCallback(CVDisplayLinkRef displayLink,  const CVTimeStamp *inNow, const CVTimeStamp *inOutputTime, CVOptionFlags flagsIn, CVOptionFlags *flagsOut, void *displayLinkContext);
 
 @interface COpenGLRendererView ()
+@property (readwrite, nonatomic, strong) NSArray *renderers;
+
 @property (readwrite, nonatomic, assign) BOOL setup;
 @property (readwrite, nonatomic, assign) CVDisplayLinkRef displayLink;
 @end
@@ -50,16 +52,15 @@ static CVReturn MyCVDisplayLinkOutputCallback(CVDisplayLinkRef displayLink,  con
     {
     if ((self = [super initWithCoder:inCoder]) != NULL)
         {
-        #if 1
+        _renderers = [NSArray array];
+
         NSOpenGLPixelFormatAttribute pixelFormatAttributes[] = {
             NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
             0
             };
-
         NSOpenGLPixelFormat *pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:pixelFormatAttributes];
         NSOpenGLContext *theOpenGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
         self.openGLContext = theOpenGLContext;
-        #endif
 
 		void *theNativeContext = self.openGLContext.CGLContextObj;
 		_context = [[COpenGLContext alloc] initWithNativeContext:theNativeContext];
@@ -112,39 +113,53 @@ static CVReturn MyCVDisplayLinkOutputCallback(CVDisplayLinkRef displayLink,  con
 
 	AssertOpenGLNoError_();
 
-	if (self.renderer != NULL)
-		{
-		if (self.renderer.context == NULL)
-			{
-			self.renderer.context = self.context;
-			}
-		
-		AssertOpenGLNoError_();
+    // TODO: we should clear here!
 
-		if (self.setup == NO)
-			{
-			[self.renderer setup];
-			//
-			self.setup = YES;
-			}
+    for (CRenderer *theRenderer in self.renderers)
+        {
+        if (theRenderer.context == NULL)
+            {
+            theRenderer.context = self.context;
+            }
+        
+        AssertOpenGLNoError_();
 
-		AssertOpenGLNoError_();
+        if (self.setup == NO)
+            {
+            [theRenderer setup];
+            //
+            self.setup = YES;
+            }
 
-		[self.renderer prerender];
+        AssertOpenGLNoError_();
 
-		AssertOpenGLNoError_();
+        [theRenderer prerender];
 
-		[self.renderer render];
+        AssertOpenGLNoError_();
 
-		AssertOpenGLNoError_();
+        [theRenderer render];
 
-		[self.renderer postrender];
+        AssertOpenGLNoError_();
 
-		AssertOpenGLNoError_();
-		}
+        [theRenderer postrender];
+
+        AssertOpenGLNoError_();
+        }
 
 	glFlush();
 	}
+
+- (void)addRenderer:(CRenderer *)inRenderer
+    {
+    self.renderers = [self.renderers arrayByAddingObject:inRenderer];
+    }
+
+- (void)removeRenderer:(CRenderer *)inRenderer
+    {
+    NSMutableArray *theRenderers = [self.renderers mutableCopy];
+    [theRenderers removeObject:inRenderer];
+    self.renderers = [theRenderers copy];
+    }
 
 @end
 

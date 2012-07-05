@@ -36,7 +36,10 @@
 
 @interface COpenGLRendererView : NSOpenGLView
 
-@property (readwrite, nonatomic, strong) CRenderer *renderer;
 @property (readwrite, nonatomic, strong) COpenGLContext *context;
+@property (readonly, nonatomic, strong) NSArray *renderers;
+
+- (void)addRenderer:(CRenderer *)inRenderer;
+- (void)removeRenderer:(CRenderer *)inRenderer;
 
 @end
