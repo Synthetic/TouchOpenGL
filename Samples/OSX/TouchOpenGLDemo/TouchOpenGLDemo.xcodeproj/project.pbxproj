@@ -10,6 +10,8 @@
 		45354F6A15A2563C004C6BDB /* Vector.m in Sources */ = {isa = PBXBuildFile; fileRef = 45354F6915A2563C004C6BDB /* Vector.m */; };
 		45354F6D15A259B7004C6BDB /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45354F6C15A259B7004C6BDB /* GLKit.framework */; };
 		453F09F615A62ED000B7FD02 /* COpenGLContext+Drawing.m in Sources */ = {isa = PBXBuildFile; fileRef = 453F09F515A62ED000B7FD02 /* COpenGLContext+Drawing.m */; };
+		453F09FE15A6388800B7FD02 /* CFrameCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = 453F09FD15A6388800B7FD02 /* CFrameCounter.m */; };
+		453F0A2215A656C800B7FD02 /* CMyOpenGLRendererView.m in Sources */ = {isa = PBXBuildFile; fileRef = 453F0A2115A656C800B7FD02 /* CMyOpenGLRendererView.m */; };
 		457F693815A394B400321DE1 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457F693715A394B400321DE1 /* SenTestingKit.framework */; };
 		457F693915A394B400321DE1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B7C87B15966055002F70F8 /* Cocoa.framework */; };
 		457F693F15A394B400321DE1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 457F693D15A394B400321DE1 /* InfoPlist.strings */; };
@@ -66,6 +68,10 @@
 		45354F6C15A259B7004C6BDB /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		453F09F415A62ED000B7FD02 /* COpenGLContext+Drawing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "COpenGLContext+Drawing.h"; sourceTree = "<group>"; };
 		453F09F515A62ED000B7FD02 /* COpenGLContext+Drawing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "COpenGLContext+Drawing.m"; sourceTree = "<group>"; };
+		453F09FC15A6388800B7FD02 /* CFrameCounter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFrameCounter.h; sourceTree = "<group>"; };
+		453F09FD15A6388800B7FD02 /* CFrameCounter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CFrameCounter.m; sourceTree = "<group>"; };
+		453F0A2015A656C800B7FD02 /* CMyOpenGLRendererView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMyOpenGLRendererView.h; sourceTree = "<group>"; };
+		453F0A2115A656C800B7FD02 /* CMyOpenGLRendererView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMyOpenGLRendererView.m; sourceTree = "<group>"; };
 		457F693615A394B400321DE1 /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		457F693715A394B400321DE1 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		457F693C15A394B400321DE1 /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
@@ -258,6 +264,8 @@
 				45B7C88215966055002F70F8 /* Supporting Files */,
 				45D49E761597C0110064F2DB /* CDumper.h */,
 				45D49E771597C0110064F2DB /* CDumper.m */,
+				453F0A2015A656C800B7FD02 /* CMyOpenGLRendererView.h */,
+				453F0A2115A656C800B7FD02 /* CMyOpenGLRendererView.m */,
 			);
 			path = TouchOpenGLDemo;
 			sourceTree = "<group>";
@@ -421,6 +429,8 @@
 				45D694F8159660680095B9A0 /* Interaction */,
 				45D694FB159660680095B9A0 /* NSData_NumberExtensions.h */,
 				45D694FC159660680095B9A0 /* NSData_NumberExtensions.m */,
+				453F09FC15A6388800B7FD02 /* CFrameCounter.h */,
+				453F09FD15A6388800B7FD02 /* CFrameCounter.m */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -599,6 +609,8 @@
 				45FF13DE159CF9D60041B22D /* COpenGLContext+Debugging.m in Sources */,
 				45354F6A15A2563C004C6BDB /* Vector.m in Sources */,
 				453F09F615A62ED000B7FD02 /* COpenGLContext+Drawing.m in Sources */,
+				453F09FE15A6388800B7FD02 /* CFrameCounter.m in Sources */,
+				453F0A2215A656C800B7FD02 /* CMyOpenGLRendererView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
