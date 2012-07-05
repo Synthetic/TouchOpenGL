@@ -36,6 +36,5 @@
 @interface CSceneRendererOpenGLLayer : CAOpenGLLayer 
 
 @property (readwrite, nonatomic, strong) CRenderer *renderer;
-@property (readonly, nonatomic, assign) NSUInteger frameCount;
 
 @end

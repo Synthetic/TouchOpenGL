@@ -35,7 +35,6 @@
 #import "COpenGLContext.h"
 
 @interface CSceneRendererOpenGLLayer ()
-@property (readwrite, nonatomic, assign) NSUInteger frameCount;
 @property (readwrite, nonatomic, assign) BOOL setup;
 @property (readwrite, nonatomic, strong) COpenGLContext *context;
 @end
@@ -51,7 +50,6 @@
         self.asynchronous = YES;
         
         _renderer = [[CRenderer alloc] init];
-        _frameCount = 0;
         }
     return(self);
     }
@@ -84,8 +82,6 @@
 
 - (void)drawInCGLContext:(CGLContextObj)ctx pixelFormat:(CGLPixelFormatObj)pf forLayerTime:(CFTimeInterval)t displayTime:(const CVTimeStamp *)ts
     {
-    self.frameCount++;
-
 	if (self.context == NULL)
 		{
 		self.context = [[COpenGLContext alloc] initWithNativeContext:ctx];

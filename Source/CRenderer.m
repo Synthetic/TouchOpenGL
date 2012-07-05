@@ -37,7 +37,6 @@
 
 @interface CRenderer ()
 @property (readwrite, nonatomic, assign) BOOL needsSetup;
-@property (readwrite, nonatomic, assign) NSUInteger frameCount;
 @property (readwrite, nonatomic, assign) CFAbsoluteTime startTime;
 
 @property (readwrite, nonatomic, assign) double frameRate;
@@ -53,7 +52,6 @@
 @synthesize frameRate = _frameRate;
 
 @synthesize needsSetup = _needsSetup;
-@synthesize frameCount = _frameCount;
 @synthesize startTime = _startTime;
 
 - (id)init
@@ -111,17 +109,6 @@
 
 - (void)postrender
     {
-	const CFAbsoluteTime theTime = CFAbsoluteTimeGetCurrent();
-	if (_frameCount++ == 0)
-		{
-//		NSLog(@"START");
-		_startTime = theTime;
-		}
-	else
-		{
-//		NSLog(@"%f %f", theTime, _startTime);
-		self.frameRate = 1.0 / ((theTime - _startTime) / (double)_frameCount);
-		}
     }
 
 - (void)setNeedsSetup
