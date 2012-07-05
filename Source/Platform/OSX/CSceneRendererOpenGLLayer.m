@@ -57,7 +57,6 @@
 - (CGLPixelFormatObj)copyCGLPixelFormatForDisplayMask:(uint32_t)mask
     {
     CGLPixelFormatAttribute thePixelFormatAttributes[] = {
-//		kCGLPFAOpenGLProfile, kCGLOGLPVersion_Legacy,
 		kCGLPFAOpenGLProfile, kCGLOGLPVersion_3_2_Core,
         kCGLPFADisplayMask, mask,
         kCGLPFAAccelerated,
