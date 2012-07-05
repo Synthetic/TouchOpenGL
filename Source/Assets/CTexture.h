@@ -55,3 +55,26 @@
 - (void)set:(Color4f)inColor;
 
 @end
+
+#pragma mark -
+
+@interface CTexture (CTexture_Utilities)
+
++ (id)textureWithCGImage:(CGImageRef)inImage size:(SIntSize)inSize target:(GLenum)inTarget format:(GLint)inFormat type:(GLint)inType error:(NSError **)outError;
++ (id)textureWithCGImage:(CGImageRef)inImage error:(NSError **)outError;
+
++ (id)textureNamed:(NSString *)inName error:(NSError **)outError;
+
++ (id)textureWithContentsOfURL:(NSURL *)inURL size:(SIntSize)inSize target:(GLenum)inTarget format:(GLint)inFormat type:(GLint)inType error:(NSError **)outError;
++ (id)textureWithContentsOfURL:(NSURL *)inURL error:(NSError **)outError;
+
+- (CGImageRef)fetchImageViaFrameBuffer CF_RETURNS_RETAINED;
+- (CGImageRef)fetchImage CF_RETURNS_RETAINED;
+
+- (void)writeToFile:(NSString *)inPath;
+
+#if TARGET_OS_IPHONE == 0
+- (void)open;
+#endif
+
+@end

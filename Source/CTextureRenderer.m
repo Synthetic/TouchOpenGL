@@ -34,9 +34,8 @@
 #import "CBlitProgram.h"
 #import "CBlitRectangleProgram.h"
 #import "CAssetLibrary.h"
-#import "CVertexBufferReference_FactoryExtensions.h"
+#import "CVertexBufferReference.h"
 #import "CTexture.h"
-#import "CTexture_Utilities.h"
 
 @interface CTextureRenderer ()
 @end

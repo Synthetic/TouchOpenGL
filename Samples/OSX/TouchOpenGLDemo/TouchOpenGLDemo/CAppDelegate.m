@@ -34,9 +34,9 @@
 #import "COpenGLRendererView.h"
 #import "CSceneRendererView.h"
 #import "CTextureRenderer.h"
-#import "CTexture_Utilities.h"
 #import "COffscreenOpenGLContext.h"
 #import "COpenGLContext+Debugging.h"
+#import "CTexture.h"
 
 @interface CAppDelegate ()
 @property (readwrite, nonatomic, assign) IBOutlet COpenGLRendererView *rendererView;

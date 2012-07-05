@@ -64,3 +64,14 @@
 - (id)initWithVertexBuffer:(CVertexBuffer *)inVertexBuffer cellEncoding:(char *)inEncoding normalized:(GLboolean)inNormalized;
 
 @end
+
+#pragma mark -
+
+@interface CVertexBufferReference (CVertexBufferReference_FactoryExtensions)
+
++ (CVertexBufferReference *)vertexBufferReferenceWithIndices:(NSArray *)inIndices;
++ (CVertexBufferReference *)vertexBufferReferenceWithRect:(CGRect)inRect;
++ (CVertexBufferReference *)vertexBufferReferenceWithColors:(NSArray *)inColors;
++ (CVertexBufferReference *)vertexBufferReferenceWithCircleWithRadius:(GLfloat)inRadius center:(CGPoint)inCenter points:(NSInteger)inPoints;
+
+@end

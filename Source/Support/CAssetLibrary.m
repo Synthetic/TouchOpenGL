@@ -33,7 +33,7 @@
 
 #import <objc/runtime.h>
 
-#import "CTexture_Utilities.h"
+#import "CTexture.h"
 #import "CProgram.h"
 #import "CShader.h"
 

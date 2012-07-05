@@ -29,11 +29,9 @@
 		45D69584159660680095B9A0 /* CRenderBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D694B0159660680095B9A0 /* CRenderBuffer.m */; };
 		45D69585159660680095B9A0 /* CShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D694B2159660680095B9A0 /* CShader.m */; };
 		45D69586159660680095B9A0 /* CTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D694B4159660680095B9A0 /* CTexture.m */; };
-		45D69587159660680095B9A0 /* CTexture_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D694B6159660680095B9A0 /* CTexture_Utilities.m */; };
 		45D69588159660680095B9A0 /* CVertexArrayBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D694B8159660680095B9A0 /* CVertexArrayBuffer.m */; };
 		45D69589159660680095B9A0 /* CVertexBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D694BA159660680095B9A0 /* CVertexBuffer.m */; };
 		45D6958A159660680095B9A0 /* CVertexBufferReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D694BC159660680095B9A0 /* CVertexBufferReference.m */; };
-		45D6958B159660680095B9A0 /* CVertexBufferReference_FactoryExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D694BE159660680095B9A0 /* CVertexBufferReference_FactoryExtensions.m */; };
 		45D6958C159660680095B9A0 /* CBlockRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D694C0159660680095B9A0 /* CBlockRenderer.m */; };
 		45D6958D159660680095B9A0 /* COpenGLContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D694C2159660680095B9A0 /* COpenGLContext.m */; };
 		45D6958E159660680095B9A0 /* CRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D694C4159660680095B9A0 /* CRenderer.m */; };
@@ -106,16 +104,12 @@
 		45D694B2159660680095B9A0 /* CShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CShader.m; sourceTree = "<group>"; };
 		45D694B3159660680095B9A0 /* CTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTexture.h; sourceTree = "<group>"; };
 		45D694B4159660680095B9A0 /* CTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTexture.m; sourceTree = "<group>"; };
-		45D694B5159660680095B9A0 /* CTexture_Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTexture_Utilities.h; sourceTree = "<group>"; };
-		45D694B6159660680095B9A0 /* CTexture_Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTexture_Utilities.m; sourceTree = "<group>"; };
 		45D694B7159660680095B9A0 /* CVertexArrayBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVertexArrayBuffer.h; sourceTree = "<group>"; };
 		45D694B8159660680095B9A0 /* CVertexArrayBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CVertexArrayBuffer.m; sourceTree = "<group>"; };
 		45D694B9159660680095B9A0 /* CVertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVertexBuffer.h; sourceTree = "<group>"; };
 		45D694BA159660680095B9A0 /* CVertexBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CVertexBuffer.m; sourceTree = "<group>"; };
 		45D694BB159660680095B9A0 /* CVertexBufferReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVertexBufferReference.h; sourceTree = "<group>"; };
 		45D694BC159660680095B9A0 /* CVertexBufferReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CVertexBufferReference.m; sourceTree = "<group>"; };
-		45D694BD159660680095B9A0 /* CVertexBufferReference_FactoryExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVertexBufferReference_FactoryExtensions.h; sourceTree = "<group>"; };
-		45D694BE159660680095B9A0 /* CVertexBufferReference_FactoryExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CVertexBufferReference_FactoryExtensions.m; sourceTree = "<group>"; };
 		45D694BF159660680095B9A0 /* CBlockRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBlockRenderer.h; sourceTree = "<group>"; };
 		45D694C0159660680095B9A0 /* CBlockRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBlockRenderer.m; sourceTree = "<group>"; };
 		45D694C1159660680095B9A0 /* COpenGLContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COpenGLContext.h; sourceTree = "<group>"; };
@@ -356,16 +350,12 @@
 				45D694B2159660680095B9A0 /* CShader.m */,
 				45D694B3159660680095B9A0 /* CTexture.h */,
 				45D694B4159660680095B9A0 /* CTexture.m */,
-				45D694B5159660680095B9A0 /* CTexture_Utilities.h */,
-				45D694B6159660680095B9A0 /* CTexture_Utilities.m */,
 				45D694B7159660680095B9A0 /* CVertexArrayBuffer.h */,
 				45D694B8159660680095B9A0 /* CVertexArrayBuffer.m */,
 				45D694B9159660680095B9A0 /* CVertexBuffer.h */,
 				45D694BA159660680095B9A0 /* CVertexBuffer.m */,
 				45D694BB159660680095B9A0 /* CVertexBufferReference.h */,
 				45D694BC159660680095B9A0 /* CVertexBufferReference.m */,
-				45D694BD159660680095B9A0 /* CVertexBufferReference_FactoryExtensions.h */,
-				45D694BE159660680095B9A0 /* CVertexBufferReference_FactoryExtensions.m */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -582,11 +572,9 @@
 				45D69584159660680095B9A0 /* CRenderBuffer.m in Sources */,
 				45D69585159660680095B9A0 /* CShader.m in Sources */,
 				45D69586159660680095B9A0 /* CTexture.m in Sources */,
-				45D69587159660680095B9A0 /* CTexture_Utilities.m in Sources */,
 				45D69588159660680095B9A0 /* CVertexArrayBuffer.m in Sources */,
 				45D69589159660680095B9A0 /* CVertexBuffer.m in Sources */,
 				45D6958A159660680095B9A0 /* CVertexBufferReference.m in Sources */,
-				45D6958B159660680095B9A0 /* CVertexBufferReference_FactoryExtensions.m in Sources */,
 				45D6958C159660680095B9A0 /* CBlockRenderer.m in Sources */,
 				45D6958D159660680095B9A0 /* COpenGLContext.m in Sources */,
 				45D6958E159660680095B9A0 /* CRenderer.m in Sources */,
@@ -763,6 +751,7 @@
 				457F694515A394B400321DE1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		45B7C87115966055002F70F8 /* Build configuration list for PBXProject "TouchOpenGLDemo" */ = {
 			isa = XCConfigurationList;
