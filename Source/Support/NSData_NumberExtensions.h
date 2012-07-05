@@ -31,7 +31,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 @interface NSData (NSData_NumberExtensions)
 
 + (NSData *)dataWithNumbersInString:(NSString *)inString type:(CFNumberType)inType error:(NSError **)outError;

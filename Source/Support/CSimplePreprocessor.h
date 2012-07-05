@@ -33,7 +33,7 @@
 
 @interface CSimplePreprocessor : NSObject
 
-@property (readwrite, nonatomic, copy) NSString *(^loader)(NSString *name);
+@property (readwrite, nonatomic, copy) NSString *(^loader)(NSString *filename);
 
 - (NSString *)preprocess:(NSString *)inSource error:(NSError **)outError;
 

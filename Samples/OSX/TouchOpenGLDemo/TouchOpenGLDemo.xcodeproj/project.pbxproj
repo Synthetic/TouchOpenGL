@@ -38,7 +38,6 @@
 		45D6958F159660680095B9A0 /* CTextureRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D694C6159660680095B9A0 /* CTextureRenderer.m */; };
 		45D69590159660680095B9A0 /* Matrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D694C9159660680095B9A0 /* Matrix.m */; };
 		45D69591159660680095B9A0 /* Quaternion.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D694CB159660680095B9A0 /* Quaternion.m */; };
-		45D69592159660680095B9A0 /* OpenGLDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D694CD159660680095B9A0 /* OpenGLDebugging.m */; };
 		45D69593159660680095B9A0 /* OpenGLTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D694D0159660680095B9A0 /* OpenGLTypes.m */; };
 		45D6959B159660680095B9A0 /* CCoreVideoTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D694E3159660680095B9A0 /* CCoreVideoTexture.m */; };
 		45D6959C159660680095B9A0 /* COpenGLContext_CoreVideoExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D694E5159660680095B9A0 /* COpenGLContext_CoreVideoExtensions.m */; };
@@ -122,8 +121,6 @@
 		45D694C9159660680095B9A0 /* Matrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Matrix.m; sourceTree = "<group>"; };
 		45D694CA159660680095B9A0 /* Quaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quaternion.h; sourceTree = "<group>"; };
 		45D694CB159660680095B9A0 /* Quaternion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quaternion.m; sourceTree = "<group>"; };
-		45D694CC159660680095B9A0 /* OpenGLDebugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLDebugging.h; sourceTree = "<group>"; };
-		45D694CD159660680095B9A0 /* OpenGLDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGLDebugging.m; sourceTree = "<group>"; };
 		45D694CE159660680095B9A0 /* OpenGLIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLIncludes.h; sourceTree = "<group>"; };
 		45D694CF159660680095B9A0 /* OpenGLTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLTypes.h; sourceTree = "<group>"; };
 		45D694D0159660680095B9A0 /* OpenGLTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGLTypes.m; sourceTree = "<group>"; };
@@ -321,8 +318,6 @@
 				45D694C5159660680095B9A0 /* CTextureRenderer.h */,
 				45D694C6159660680095B9A0 /* CTextureRenderer.m */,
 				45D694C7159660680095B9A0 /* Math */,
-				45D694CC159660680095B9A0 /* OpenGLDebugging.h */,
-				45D694CD159660680095B9A0 /* OpenGLDebugging.m */,
 				45D694CE159660680095B9A0 /* OpenGLIncludes.h */,
 				45D694CF159660680095B9A0 /* OpenGLTypes.h */,
 				45D694D0159660680095B9A0 /* OpenGLTypes.m */,
@@ -581,7 +576,6 @@
 				45D6958F159660680095B9A0 /* CTextureRenderer.m in Sources */,
 				45D69590159660680095B9A0 /* Matrix.m in Sources */,
 				45D69591159660680095B9A0 /* Quaternion.m in Sources */,
-				45D69592159660680095B9A0 /* OpenGLDebugging.m in Sources */,
 				45D69593159660680095B9A0 /* OpenGLTypes.m in Sources */,
 				45D6959B159660680095B9A0 /* CCoreVideoTexture.m in Sources */,
 				45D6959C159660680095B9A0 /* COpenGLContext_CoreVideoExtensions.m in Sources */,

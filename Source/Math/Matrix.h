@@ -34,17 +34,6 @@
 
 #import "OpenGLIncludes.h"
 
-//typedef union Matrix4f {
-//    struct {
-//        GLfloat m00, m01, m02, m03;
-//        GLfloat m10, m11, m12, m13;
-//        GLfloat m20, m21, m22, m23;
-//        GLfloat m30, m31, m32, m33;
-//    };
-//    GLfloat m[16];
-//    GLfloat mm[4][4];
-//} Matrix4f;
-
 typedef GLKMatrix4 Matrix4f;
 
 typedef union Matrix3f {

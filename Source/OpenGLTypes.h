@@ -35,20 +35,35 @@
 #import "Matrix.h"
 #import "Quaternion.h"
 
-typedef struct SIntPoint {
-    GLint x, y;
+typedef union SIntPoint {
+    struct {
+        GLint x, y;
+        };
+    GLint v[2];
     } SIntPoint;
 
-typedef struct SIntSize {
-    GLint width, height;
+typedef union SIntSize {
+    struct {
+        GLint width, height;
+        };
+    struct {
+        GLint w, h;
+        };
+    GLint v[2];
     } SIntSize;
 
-typedef struct SIntPoint3 {
-    GLint x, y, z;
+typedef union SIntPoint3 {
+    struct {
+        GLint x, y, z;
+        };
+    GLint v[3];
     } SIntPoint3;
 
-typedef struct SIntSize3 {
-    GLint width, height, depth;
+typedef union SIntSize3 {
+    struct {
+        GLint width, height, depth;
+        };
+    GLint v[3];
     } SIntSize3;
 
 // TODO -- inline these suckers.

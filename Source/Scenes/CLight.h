@@ -33,9 +33,7 @@
 
 #import "OpenGLTypes.h"
 
-@interface CLight : NSObject {
-
-}
+@interface CLight : NSObject
 
 @property (readwrite, nonatomic, assign) Color4f ambientColor;
 @property (readwrite, nonatomic, assign) Color4f diffuseColor;

@@ -34,9 +34,7 @@
 #import "OpenGLTypes.h"
 #import "Matrix.h"
 
-@interface CCamera : NSObject {
-    
-}
+@interface CCamera : NSObject
 
 @property (readwrite, nonatomic, assign) Vector4f position;
 @property (readwrite, nonatomic, assign) GLfloat xSize;

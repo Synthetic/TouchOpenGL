@@ -31,9 +31,7 @@
 
 #import "CVertexBuffer.h"
 
-@interface CMutableVertexBuffer : CVertexBuffer {
-
-}
+@interface CMutableVertexBuffer : CVertexBuffer
 
 @property (readonly, nonatomic, strong) NSMutableData *mutableData;
 

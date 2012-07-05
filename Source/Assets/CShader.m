@@ -55,8 +55,6 @@ static BOOL gAbortsOnCompilationFailure = NO;
 
 - (id)initWithURL:(NSURL *)inURL error:(NSError **)outError
     {
-    NSLog(@"LOADING: %@", [inURL lastPathComponent]);
-
     if ([inURL isFileURL] == YES)
         {
         if ([[NSFileManager defaultManager] fileExistsAtPath:inURL.path] == NO)

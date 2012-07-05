@@ -34,9 +34,7 @@
 #import "Quaternion.h"
 #import "Matrix.h"
 
-@interface CArcBall : NSObject {
-    
-}
+@interface CArcBall : NSObject
 
 @property (readonly, nonatomic, assign) Quaternion rotation;
 @property (readonly, nonatomic, assign) Matrix4f rotationMatrix;

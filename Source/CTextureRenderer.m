@@ -76,8 +76,6 @@
     {
 	[super render];
 	
-    NSLog(@"DRAW BEGIN");
-
 	AssertOpenGLNoError_();
 	
     CTexture *theTexture = NULL;
@@ -103,8 +101,6 @@
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
     AssertOpenGLNoError_();
-
-    NSLog(@"DRAW DONE");
 	}
 
 @end
