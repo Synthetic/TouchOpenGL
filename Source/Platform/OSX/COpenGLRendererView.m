@@ -39,7 +39,6 @@ static CVReturn MyCVDisplayLinkOutputCallback(CVDisplayLinkRef displayLink,  con
 
 @interface COpenGLRendererView ()
 @property (readwrite, nonatomic, strong) NSArray *renderers;
-
 @property (readwrite, nonatomic, assign) BOOL setup;
 @property (readwrite, nonatomic, assign) CVDisplayLinkRef displayLink;
 @end
@@ -113,7 +112,7 @@ static CVReturn MyCVDisplayLinkOutputCallback(CVDisplayLinkRef displayLink,  con
 
 	AssertOpenGLNoError_();
 
-    // TODO: we should clear here!
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     for (CRenderer *theRenderer in self.renderers)
         {

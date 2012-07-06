@@ -42,4 +42,6 @@
 @property (readwrite, nonatomic, strong) CBlitProgram *program;
 @property (readwrite, nonatomic, assign) Matrix4f projectionMatrix;
 
+- (id)initFlipped:(BOOL)inFlipped;
+
 @end

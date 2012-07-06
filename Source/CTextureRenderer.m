@@ -53,6 +53,22 @@
     return self;
     }
 
+- (id)initFlipped:(BOOL)inFlipped;
+    {
+    if ((self = [self init]) != NULL)
+        {
+        if (inFlipped == YES)
+            {
+            _projectionMatrix = Matrix4MakeScale(1.0, -1.0, 1.0);
+            }
+        else
+            {
+            _projectionMatrix = Matrix4Identity;
+            }
+        }
+    return self;
+    }
+
 - (void)setup
 	{
 	[super setup];

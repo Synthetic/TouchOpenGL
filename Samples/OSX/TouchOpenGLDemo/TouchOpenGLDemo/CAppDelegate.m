@@ -51,7 +51,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
     {
-    CTextureRenderer *theTextureRenderer = [[CTextureRenderer alloc] init];
+    CTextureRenderer *theTextureRenderer = [[CTextureRenderer alloc] initFlipped:YES];
     theTextureRenderer.textureBlock = ^(void) {
         CTexture *theTexture = [CTexture textureNamed:@"lena_std.tiff" error:NULL];
         return(theTexture);
