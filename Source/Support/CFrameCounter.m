@@ -25,20 +25,23 @@
     return([NSSet setWithObject:@"frameCount"]);
     }
 
-+ (NSSet *)keyPathsForValuesAffectingSmoothedFramesPerSecond
+- (id)init
     {
-    return([NSSet setWithObject:@"frameCount"]);
+    if ((self = [super init]) != NULL)
+        {
+        _weight = 0.1;
+        }
+    return self;
     }
 
 - (NSString *)description
     {
     NSArray *theComponents = @[
+        [NSString stringWithFormat:@"started: %@", self.started ? @"YES" : @"NO"],
         [NSString stringWithFormat:@"frame count: %ld", self.frameCount],
         [NSString stringWithFormat:@"Δ (previous): %0.3f", self.previousFrameDuration],
         [NSString stringWithFormat:@"Δ (current): %0.3f", self.currentFrameDuration],
-        [NSString stringWithFormat:@"Δ (smoothed): %0.3f", self.smoothedFrameDuration],
         [NSString stringWithFormat:@"fps: %0.3f", self.framesPerSecond],
-        [NSString stringWithFormat:@"fps (smoothed): %0.3f", self.smoothedFramesPerSecond],
         ];
 
     return([NSString stringWithFormat:@"%@ (%@)", [super description], [theComponents componentsJoinedByString:@", "]]);
@@ -47,24 +50,6 @@
 - (double)framesPerSecond
     {
     return(_currentFrameDuration != 0.0 ? 1.0 / _currentFrameDuration : INFINITY);
-    }
-
-- (double)smoothedFramesPerSecond
-    {
-    const CFTimeInterval theSmoothedFrameDuration = self.smoothedFrameDuration;
-    return(theSmoothedFrameDuration != 0.0 ? 1.0 / self.smoothedFrameDuration : INFINITY);
-    }
-
-- (CFTimeInterval)smoothedFrameDuration
-    {
-    if (_previousFrameDuration > 0.0)
-        {
-        return(0.1 * _currentFrameDuration + 0.9 * _previousFrameDuration);
-        }
-    else
-        {
-        return(_currentFrameDuration);
-        }
     }
 
 - (void)start
@@ -100,7 +85,15 @@
     NSParameterAssert(self.started == YES);
 
     _previousFrameDuration = _currentFrameDuration;
-    _currentFrameDuration = _currentAbsoluteTime - _previousFrameAbsoluteTime;
+    if (_previousFrameDuration != 0.0)
+        {
+        _currentFrameDuration = _weight * (_currentAbsoluteTime - _previousFrameAbsoluteTime) + (1.0 - _weight) * _previousFrameDuration;
+        }
+    else
+        {
+        _currentFrameDuration = _currentAbsoluteTime - _previousFrameAbsoluteTime;
+        }
+
     self.frameCount++;
 
     _previousFrameAbsoluteTime = _currentAbsoluteTime;
