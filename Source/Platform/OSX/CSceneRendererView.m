@@ -47,7 +47,6 @@
         self.wantsLayer = YES;
         self.layer = [[CSceneRendererOpenGLLayer alloc] init];
         }
-
     return self;
     }
 
@@ -58,27 +57,29 @@
         self.wantsLayer = YES;
         self.layer = [[CSceneRendererOpenGLLayer alloc] init];
         }
-
     return self;
     }
     
 #pragma mark -
 
-- (CRenderer *)renderer
-    {
-    return(self.rendererLayer.renderer);
-    }
-
-- (void)setRenderer:(CRenderer *)inRenderer
-    {
-    self.rendererLayer.renderer = inRenderer;
-    }
-
-#pragma mark -
-
 - (CSceneRendererOpenGLLayer *)rendererLayer
     {
     return((CSceneRendererOpenGLLayer *)self.layer);
+    }
+
+- (NSArray *)renderers
+    {
+    return(self.rendererLayer.renderers);
+    }
+
+- (void)addRenderer:(CRenderer *)inRenderer
+    {
+    [self.rendererLayer addRenderer:inRenderer];
+    }
+
+- (void)removeRenderer:(CRenderer *)inRenderer
+    {
+    [self.rendererLayer removeRenderer:inRenderer];
     }
 
 @end

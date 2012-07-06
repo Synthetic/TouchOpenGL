@@ -37,6 +37,7 @@
 @interface CSceneRendererOpenGLLayer ()
 @property (readwrite, nonatomic, assign) BOOL setup;
 @property (readwrite, nonatomic, strong) COpenGLContext *context;
+@property (readwrite, nonatomic, strong) NSArray *renderers;
 @end
 
 #pragma mark -
@@ -48,8 +49,6 @@
     if ((self = [super init]) != NULL)
         {
         self.asynchronous = YES;
-        
-        _renderer = [[CRenderer alloc] init];
         }
     return(self);
     }
@@ -86,48 +85,59 @@
 		self.context = [[COpenGLContext alloc] initWithNativeContext:ctx];
 		}
 
-	if (self.renderer == NULL)
-		{
-		return;
-		}
-		
-	if (self.renderer.context == NULL)
-		{
-		NSParameterAssert(self.context != NULL);
-		self.renderer.context = self.context;
-		}
-
-	NSParameterAssert(self.context.nativeContext == ctx);
-
-    AssertOpenGLNoError_();
+	NSParameterAssert(self.context != NULL);
 
 	[self.context use];
 
-    AssertOpenGLNoError_();
+	AssertOpenGLNoError_();
 
-    if (self.setup == NO)
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    for (CRenderer *theRenderer in self.renderers)
         {
-		[self.renderer setup];
-        self.setup = YES;
+        if (theRenderer.context == NULL)
+            {
+            theRenderer.context = self.context;
+            }
+        
+        AssertOpenGLNoError_();
+
+        if (self.setup == NO)
+            {
+            [theRenderer setup];
+            //
+            self.setup = YES;
+            }
+
+        AssertOpenGLNoError_();
+
+        [theRenderer prerender];
+
+        AssertOpenGLNoError_();
+
+        [theRenderer render];
+
+        AssertOpenGLNoError_();
+
+        [theRenderer postrender];
+
+        AssertOpenGLNoError_();
         }
 
-    AssertOpenGLNoError_();
-
-    AssertOpenGLNoError_();
-
-    [self.renderer prerender];
-
-    AssertOpenGLNoError_();
-
-    [self.renderer render];
-
-    AssertOpenGLNoError_();
-
-    [self.renderer postrender];
-
-//    [super drawInCGLContext:ctx pixelFormat:pf forLayerTime:t displayTime:ts];
-
-    AssertOpenGLNoError_();
+	glFlush();
     }
+
+- (void)addRenderer:(CRenderer *)inRenderer
+    {
+    self.renderers = [self.renderers arrayByAddingObject:inRenderer];
+    }
+
+- (void)removeRenderer:(CRenderer *)inRenderer
+    {
+    NSMutableArray *theRenderers = [self.renderers mutableCopy];
+    [theRenderers removeObject:inRenderer];
+    self.renderers = [theRenderers copy];
+    }
+
 
 @end

@@ -32,9 +32,15 @@
 #import <QuartzCore/QuartzCore.h>
 
 @class CRenderer;
+@class COpenGLContext;
 
 @interface CSceneRendererOpenGLLayer : CAOpenGLLayer 
 
-@property (readwrite, nonatomic, strong) CRenderer *renderer;
+@property (readonly, nonatomic, strong) COpenGLContext *context;
+@property (readonly, nonatomic, strong) NSArray *renderers;
+
+- (void)addRenderer:(CRenderer *)inRenderer;
+- (void)removeRenderer:(CRenderer *)inRenderer;
+
 
 @end

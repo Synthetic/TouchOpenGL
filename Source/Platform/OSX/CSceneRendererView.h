@@ -37,6 +37,9 @@
 @interface CSceneRendererView : NSView
 
 @property (readonly, nonatomic, strong) CSceneRendererOpenGLLayer *rendererLayer;
-@property (readwrite, nonatomic, strong) CRenderer *renderer;
+@property (readonly, nonatomic, strong) NSArray *renderers;
+
+- (void)addRenderer:(CRenderer *)inRenderer;
+- (void)removeRenderer:(CRenderer *)inRenderer;
 
 @end
